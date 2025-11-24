@@ -2,23 +2,23 @@
 
 layout: default
 
-title: Statistical Analysis
+title: Test mean length of Iris sepal petal lengths (T-Test)
 
 permalink: /statistical-analysis/
 
 ---
 
+## Project Overview:
 
-## Project Overview: Example Data Science statistical analysis
+Statistical analysis of 150 sepal petal lenghts to test the hypothesis that the mean length is 6.0mm.   
 
-This project contains example statistical analysis of data.
 
 ### Goals and objectives
 
-Add text
+This project contains example statistical analysis of a set of data containing measurements of iris sepal petal lengths.  The hypothesis is that the average length is 6.0mm, and this shows how a T-Test can be used to assess this hythpothesis using the data available.  This tests a sample of the population against a hypothesised mean of the population.
 
 ### Results and conclusions
 
-The histogram and KDE of the iris petal lengths was created to visually inspect the distibution.  This casual inspection lead us to believe that the hypothesis may well not be true.  
+The histogram and KDE of the iris petal lengths was created to visually inspect the distibution.  A casual inspection of this lead us to believe that the hypothesis may well not be true.  
 ![Histogram of petal length](/ttest_histogram.png)
 
