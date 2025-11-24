@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: home
 title: Marc Grover's Data Science Portfolio
 ---
 
