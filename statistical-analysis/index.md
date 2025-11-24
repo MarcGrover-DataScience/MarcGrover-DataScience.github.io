@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Test mean length of Iris sepal petal lengths (T-Test)
+title: Test hypothesised mean length of Iris sepal petals (T-Test)
 
 permalink: /statistical-analysis/
 
@@ -19,12 +19,18 @@ This project contains example statistical analysis of a set of data containing m
 ### Methodology:  
 
 Python was used including packages Scipy, Pandas and Numpy.  The data came from a publically available dataset of iris measurements from the library scikit-learn.  
-The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0mm.
+The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0mm.  
+
+Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
 ### Results and conclusions
 
-The histogram and KDE of the iris petal lengths was created to visually inspect the distibution.  A casual inspection of this lead us to believe that the hypothesis may well not be true.  
-![Histogram of petal length](/ttest_histogram.png)
+Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distibution.  A casual inspection of this lead us to believe that the hypothesis may well not be true.  
+![Histogram of petal length](/ttest_histogram.png)  
+
+Descriptive analysis of the data showed that it has a mean 5.843mm with a standard deviation of 0.828mm.  
+
+The T-Test was applied to the data as a whole and 
 
 ### Next steps
 
