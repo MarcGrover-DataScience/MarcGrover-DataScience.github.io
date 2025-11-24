@@ -10,7 +10,7 @@ permalink: /statistical-analysis/
 
 
 
-\## Project Overview: Example Data Science statistical analysis
+## Project Overview: Example Data Science statistical analysis
 
 
 
@@ -18,7 +18,7 @@ This project contains example statistical analysis of data.
 
 
 
-\### Goals and objectives
+### Goals and objectives
 
 
 
@@ -26,7 +26,7 @@ Add text
 
 
 
-\### Results and conclusions
+### Results and conclusions
 
 
 
