@@ -19,3 +19,20 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
 * ### Two-Way ANOVA with replication
 * ### Two-Way ANOVA without replication
 * ### A/B Testing (Chi-squared test)
+* ### Multi-linear regression
+* ### Logisitic regression
+* ### Time-series analysis (moving averages)
+* ### Time-series analysis (ARIMA)
+* ### K-Means clustering
+* ### K-Nearest Neighbours
+* ### Decision Trees
+* ### Random Forests
+* ### PCA
+* ### Association Rule
+* ### Causal Impact Analysis
+* ### Text preprocessing (NLP)
+* ### Sentiment Analysis (NLP)
+* ### Review classification (NLP)
+* ### Category Classification Prediction (Neural Network)
+* ### Text Classification (Neural Network)
+* ### Topic Modelling (Neural Network)
