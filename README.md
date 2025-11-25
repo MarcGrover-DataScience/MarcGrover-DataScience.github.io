@@ -13,3 +13,4 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
   
 ## Featured Projects  
 * ### [Statistical Analysis - One-Sample T-Test](/statistical-analysis/)
+* ### [Statistical Analysis - Two-Sample T-Test](/2-sample-independent-t-test/)
