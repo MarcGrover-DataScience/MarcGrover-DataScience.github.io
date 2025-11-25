@@ -88,3 +88,7 @@ Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, t
 It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal petal lengths are different by species of iris, and determine the likely range for each species.  
 
 Additional data would likely be gathered to support further analysis, and expand the species included, based on the business objectives.  2-way T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
+
+## Python code:
+You can view the full Python script used for the analysis here: 
+[View the Python Script](/T-Test.py)
