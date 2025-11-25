@@ -28,6 +28,10 @@ A workflow in Python was developed using packages Scipy, Pandas and Numpy, using
 
 The 2-sample T-Test was used to test the null hypothesis that the mean sepal petal lengths are the same.  
 
+The assumption of independence of observations is assumed due to design of the experiment.
+
+Because there is no replication there can be no estimates of interaction effects.  The model assumes the effects of the two factors are additive.
+
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
 ## Results and conclusions:
