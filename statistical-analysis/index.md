@@ -26,7 +26,7 @@ The One-Sample T-Test is a statistical tool used to determine if the mean of a s
 
 A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn.  
 
-The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0mm.  
+The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0cm.  
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
@@ -41,9 +41,9 @@ A boxplot of the values was also produced, to provide more understanding of the 
 
 ![Boxplot of petal length](/ttest_boxplot.png)  
 
-Simple calcualtions mean 5.843mm with a standard deviation of 0.828mm.  
+Simple calcualtions mean 5.843cm with a standard deviation of 0.828cm.  
 
-A casual inspection of the lead us to believe that the hypothesis may well be true, as 6.0mm is towards the center of the distribution, but we can be more scientific that that.  
+A casual inspection of the lead us to believe that the hypothesis may well be true, as 6.0cm is towards the center of the distribution, but we can be more scientific that that.  
 
 It is noted that the histogram looks broadly normal, but there appear to be three peaks of 'bins' which may require closer inspection.
 
@@ -53,10 +53,10 @@ The One-Sample T-Test was applied to the data as a whol, where the alpha was set
 
 T-Statistic: -2.3172  
 P-Value: 0.0219  
-As such we can reject the null hypothesis (H₀) and conclude that the mean significantly differs from 6.0
+As 0.0219 < 0.05 we can reject the null hypothesis (H₀) and conclude that the mean significantly differs from 6.0
 
 Taking this further, we can further conclude that: 
-95% Confidence Interval (CI) of the mean is: (5.710mm, 5.977mm) - noting 6.00mm is not within this range.
+95% Confidence Interval (CI) of the mean is: (5.710cm, 5.977cm) - noting 6.00mm is not within this range.
 
 ### Further investigation by species:
 
@@ -67,6 +67,20 @@ First we will produce the histograms (with associated KDE plots), and boxplots f
 ![Histogram of petal length by species](/ttest_histogram_species.png) 
 
 ![Boxplot of petal length](/ttest_boxplot_species.png)
+
+Visually these plots suggest that the sepal petal length varies by species, so lets do some basic descriptive analysis by species, which shows that the mean sepal length by species, within one standard deviation is:  
+Setosa: 5.006 ± 0.352 cm  
+Versicolor: 5.936 ± 0.516 cm  
+Virginica: 6.588 ± 0.636 cm  
+
+From a simple assessment of these plots and results, it looks like the 'versicolor' species may have a sepal petal length mean of 6.0cm (the original hypothesised mean), so lets run a One-Sample T-Test for the data for that species, again with a 95% confidence interval set.  The results were: 
+
+T-Statistic: -0.8767  
+P-Value: 0.3849  
+As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that the supports the hypothesis that the mean is 6.0.
+
+Taking this further, we can further conclude that: 
+95% Confidence Interval (CI) of the mean of sepal petal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00mm is within this range.
 
 ## Next steps:
 
