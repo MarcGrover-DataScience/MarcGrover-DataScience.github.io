@@ -77,7 +77,7 @@ From a simple assessment of these plots and results, it looks like the 'versicol
 
 T-Statistic: -0.8767  
 P-Value: 0.3849  
-As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that the supports the hypothesis that the mean is 6.0.
+As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that the data supports the hypothesis that the mean is 6.0cm.
 
 Taking this further, we can further conclude that: 
 95% Confidence Interval (CI) of the mean of sepal petal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00mm is within this range.
