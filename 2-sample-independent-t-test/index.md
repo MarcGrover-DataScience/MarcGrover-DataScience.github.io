@@ -30,8 +30,6 @@ The 2-sample T-Test was used to test the null hypothesis that the mean sepal pet
 
 The assumption of independence of observations is assumed due to design of the experiment.
 
-Because there is no replication there can be no estimates of interaction effects.  The model assumes the effects of the two factors are additive.
-
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
 ## Results and conclusions:
