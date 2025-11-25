@@ -2,9 +2,9 @@
 
 layout: default
 
-title: Iris sepal petal lengths (One Sample T-Test)
+title: Iris sepal petal lengths (2-Sample Independent T-Test)
 
-permalink: /statistical-analysis/
+permalink: /2-sample-independent-t-test/
 
 ---
 
@@ -24,9 +24,9 @@ The One-Sample T-Test is a statistical tool used to determine if the mean of a s
 
 ## Methodology:  
 
-A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publicly available dataset of iris measurements from the library scikit-learn.  
+A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn.  
 
-The one-sample T-Test was used to test the null hypothesis that the mean sepal petal length is 6.0cm.  
+The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0cm.  
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
@@ -34,12 +34,12 @@ Data preparation:  Minor transformation of data into a pandas dataframe for anal
 
 ### Descriptive statistics:  
 
-Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distribution.    
-![Histogram of petal length](/ttest_histogram.png)  
+Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distibution.    
+
 
 A boxplot of the values was also produced, to provide more understanding of the values.
 
-![Boxplot of petal length](/ttest_boxplot.png)  
+
 
 Simple calcualtions mean 5.843cm with a standard deviation of 0.828cm.  
 
@@ -60,13 +60,11 @@ Taking this further, we can further conclude that:
 
 ### Further investigation by species:
 
-While analysing the data it was noted that there was a column stating the species of iris, so lets be inquisitive and see if there are any patterns or insights from comparing the data for the species.
+While analysing the data it was noted that there was a column stating the species of iris, so lets be inquisative and see if there are any patterns or insights from comparing the data for the species.
 
 First we will produce the histograms (with associated KDE plots), and boxplots for each species:
 
-![Histogram of petal length by species](/ttest_histogram_species.png) 
 
-![Boxplot of petal length](/ttest_boxplot_species.png)
 
 Visually these plots suggest that the sepal petal length varies by species, so lets do some basic descriptive analysis by species, which shows that the mean sepal length by species, within one standard deviation is:  
 Setosa: 5.006 ± 0.352 cm  
@@ -85,6 +83,6 @@ Taking this further, we can further conclude that:
 ## Next steps:
 Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, there is evidence to support that one species 'versicolor' does have a mean sepal length of 6.0cm, whereas setosa and virginica species do not.  
 
-It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal petal lengths are different by species of iris, and determine the likely range for each species.  
+It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal petal lengths are dirrent by species of iris, and determine the likely range for each species.  
 
-Additional data would likely be gathered to support further analysis, and expand the species included, based on the business objectives.  2-way T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
+Additional data would likley be gathered to support further analysis, and expand the species included, based on the business objectives.  2-way T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
