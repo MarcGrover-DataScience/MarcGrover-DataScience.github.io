@@ -14,19 +14,19 @@ To test the sepal petal lengths of iris plants grown under 2 separate conditions
 
 ## Application:  
 
-The Two-Sample Independent T-Test is a statistical tool used to determine if the mean of a single sample is significantly different from a known population mean or a hypothesized value. This is a core function in various business sectors for quality control, performance benchmarking, and validating assumptions.  
+The Two-Sample Independent T-Test is a powerful statistical tool used to determine if there is a statistically significant difference between the means of two completely separate (independent) groups. In a business context, this is essential for A/B testing, competitive analysis, and comparing performance between different segments or strategies.  
 
-* An investment firm wants to know if the average annual return of a specific fund portfolio (the sample) is significantly different from a target benchmark like a market index (the hypothesized value)
-* A bank needs to verify if its average loan approval time meets an internal service level agreement (SLA) target or a competitor's advertised time.
-* A retailer sets a goal for the average customer satisfaction score (on a 1-5 scale) to be 4.5. They survey a sample of customers and use the test to see if the sample mean is statistically below that target.
-* A tech company develops a new API and wants to ensure the average response time (latency) for a sample of API calls is less than a certain service performance standard (e.g., 50 milliseconds).
-* A steel producer tests the tensile strength of a sample of a new alloy batch to determine if its mean strength differs from the specified standard for that grade of steel.
+* An asset management firm tests two different portfolio construction strategies (A and B). They use the t-test to determine if the mean annual return of a sample of portfolios managed under Strategy A is significantly different from the mean annual return of a sample managed under Strategy B.
+* Comparing the average credit score of applicants who default on loans versus those who do not default to validate a credit scoring model's predictive power.
+* A retailer launches two different website layouts or email promotions (Version A and Version B) to two random, independent groups of customers. They use the t-test to compare the mean conversion rate or mean revenue per user between the two groups.
+* A software company tests two different application workflows (Workflow 1 vs. Workflow 2) and measures the mean task completion time for two independent groups of new users to see which design is more efficient.
+* After implementing a change to a production line process, a manufacturer compares the mean defect rate of products produced before the change to the mean defect rate of products produced after the change to quantify the improvement.
 
 ## Methodology:  
 
-A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn.  
+A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn, which was then extended to produce interesting statistical findings.  
 
-The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0cm.  
+The 2-sample T-Test was used to test the null hypothesis that the mean sepal petal lengths are the same.  
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
