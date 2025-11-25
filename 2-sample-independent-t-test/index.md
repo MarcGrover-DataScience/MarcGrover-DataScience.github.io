@@ -10,11 +10,11 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-To undertake statistical analysis of a set measurements of iris sepal petal lengths, to test the hypothesis that the average length is 6.0mm.  This project demonstrates how a T-Test can be used to assess this null hypothesis using the data available.  This tests the sample of 150 sepal petal length measurements against a hypothesised mean of the population.  
+To test the sepal petal lengths of iris plants grown under 2 separate conditions to determine if the lengths are the same. This project demonstrates how a 2-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  This tests a sample of 50 sepal petal length measurements from each of the 2 groups grown in different conditions.  
 
 ## Application:  
 
-The One-Sample T-Test is a statistical tool used to determine if the mean of a single sample is significantly different from a known population mean or a hypothesized value. This is a core function in various business sectors for quality control, performance benchmarking, and validating assumptions.  
+The Two-Sample Independent T-Test is a statistical tool used to determine if the mean of a single sample is significantly different from a known population mean or a hypothesized value. This is a core function in various business sectors for quality control, performance benchmarking, and validating assumptions.  
 
 * An investment firm wants to know if the average annual return of a specific fund portfolio (the sample) is significantly different from a target benchmark like a market index (the hypothesized value)
 * A bank needs to verify if its average loan approval time meets an internal service level agreement (SLA) target or a competitor's advertised time.
