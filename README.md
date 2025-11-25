@@ -14,3 +14,8 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
 ## Featured Projects  
 * ### [Statistical Analysis - One-Sample T-Test](/statistical-analysis/)
 * ### [Statistical Analysis - Two-Sample T-Test](/2-sample-independent-t-test/)
+* ### Paired Sample T-Test
+* ### One-Way ANOVA
+* ### Two-Way ANOVA with replication
+* ### Two-Way ANOVA without replication
+* ### A/B Testing (Chi-squared test)
