@@ -27,7 +27,7 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
 * ### K-Nearest Neighbours
 * ### Decision Trees
 * ### Random Forests
-* ### PCA
+* ### Principal Component Analysis (PCA)
 * ### Association Rule
 * ### Causal Impact Analysis
 * ### Text preprocessing (NLP)
