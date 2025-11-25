@@ -39,11 +39,22 @@ Initially a histogram and KDE of the iris petal lengths was created to visually 
 
 A boxplot of the values was also produced, to provide more understanding of the values.
 
+![Boxplot of petal length](/ttest_boxplot.png)  
+
 Simple calcualtions mean 5.843mm with a standard deviation of 0.828mm.  
 
-A casual inspection of this lead us to believe that the hypothesis may well be true, as 6.0mm is towards the center of the distribution, but we can be more scientific that that.
+A casual inspection of the lead us to believe that the hypothesis may well be true, as 6.0mm is towards the center of the distribution, but we can be more scientific that that.  
+It is noted that the histogram looks broadly normal, but there appear to be three peaks of 'bins' which may require closer inspection.
+
+### Hypothesis Test:
 
 The T-Test was applied to the data as a whole and 
+
+### Further investigation by species:
+
+![Histogram of petal length by species](/ttest_histogram_species.png) 
+
+![Boxplot of petal length](/ttest_boxplot_species.png)
 
 ## Next steps:
 
