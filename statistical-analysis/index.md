@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Test hypothesised mean length of Iris sepal petals (T-Test)
+title: Iris sepal petal lengths (T-Test)
 
 permalink: /statistical-analysis/
 
@@ -10,7 +10,7 @@ permalink: /statistical-analysis/
 
 ## Project Overview:
 
-Statistical analysis of 150 sepal petal lenghts to test the hypothesis that the mean length is 6.0mm.    
+Statistical analysis of 150 sepal petal lengths to test the hypothesis that the mean length is 6.0mm.    
 
 ### Goals and objectives
 
