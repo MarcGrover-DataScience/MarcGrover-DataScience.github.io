@@ -44,13 +44,25 @@ A boxplot of the values was also produced, to provide more understanding of the 
 Simple calcualtions mean 5.843mm with a standard deviation of 0.828mm.  
 
 A casual inspection of the lead us to believe that the hypothesis may well be true, as 6.0mm is towards the center of the distribution, but we can be more scientific that that.  
+
 It is noted that the histogram looks broadly normal, but there appear to be three peaks of 'bins' which may require closer inspection.
 
 ### Hypothesis Test:
 
-The T-Test was applied to the data as a whole and 
+The One-Sample T-Test was applied to the data as a whol, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
+
+T-Statistic: -2.3172
+P-Value: 0.0219
+As such we can reject the null hypothesis (H₀) and conclude that the mean significantly differs from 6.0
+
+Taking this further, we can further conclude that: 
+95% Confidence Interval (CI) of the mean is: (5.710mm, 5.977mm) - noting 6.00mm is not within this range.
 
 ### Further investigation by species:
+
+While analysing the data it was noted that there was a column stating the species of iris, so lets be inquisative and see if there are any patterns or insights from comparing the data for the species.
+
+First we will produce the histograms (with associated KDE plots), and boxplots for each species:
 
 ![Histogram of petal length by species](/ttest_histogram_species.png) 
 
