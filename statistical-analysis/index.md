@@ -8,11 +8,11 @@ permalink: /statistical-analysis/
 
 ---
 
-### Goals and objectives:
+## Goals and objectives:
 
 To undertake statistical analysis of a set measurements of iris sepal petal lengths, to test the hypothesis that the average length is 6.0mm.  This project demonstrates how a T-Test can be used to assess this null hypothesis using the data available.  This tests the sample of 150 sepal petal length measurements against a hypothesised mean of the population.  
 
-### Application:  
+## Application:  
 
 The One-Sample T-Test is a statistical tool used to determine if the mean of a single sample is significantly different from a known population mean or a hypothesized value. This is a core function in various business sectors for quality control, performance benchmarking, and validating assumptions.  
 
@@ -22,21 +22,28 @@ The One-Sample T-Test is a statistical tool used to determine if the mean of a s
 * A tech company develops a new API and wants to ensure the average response time (latency) for a sample of API calls is less than a certain service performance standard (e.g., 50 milliseconds).
 * A steel producer tests the tensile strength of a sample of a new alloy batch to determine if its mean strength differs from the specified standard for that grade of steel.
 
-### Methodology:  
+## Methodology:  
 
-Python was used including packages Scipy, Pandas and Numpy.  The data came from a publically available dataset of iris measurements from the library scikit-learn.  
+A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn.  
+
 The one-sample T-Test was used to test the null hypothesis that the mean sepal petal lenght is 6.0mm.  
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
-### Results and conclusions:
+## Results and conclusions:
 
-Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distibution.  A casual inspection of this lead us to believe that the hypothesis may well not be true.  
+### Descriptive statistics:  
+
+Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distibution.    
 ![Histogram of petal length](/ttest_histogram.png)  
 
-Descriptive analysis of the data showed that it has a mean 5.843mm with a standard deviation of 0.828mm.  
+A boxplot of the values was also produced, to provide more understanding of the values.
+
+Simple calcualtions mean 5.843mm with a standard deviation of 0.828mm.  
+
+A casual inspection of this lead us to believe that the hypothesis may well be true, as 6.0mm is towards the center of the distribution, but we can be more scientific that that.
 
 The T-Test was applied to the data as a whole and 
 
-### Next steps:
+## Next steps:
 
