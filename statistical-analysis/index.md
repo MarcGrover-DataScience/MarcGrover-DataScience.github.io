@@ -51,8 +51,8 @@ It is noted that the histogram looks broadly normal, but there appear to be thre
 
 The One-Sample T-Test was applied to the data as a whol, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
 
-T-Statistic: -2.3172
-P-Value: 0.0219
+T-Statistic: -2.3172  
+P-Value: 0.0219  
 As such we can reject the null hypothesis (H₀) and conclude that the mean significantly differs from 6.0
 
 Taking this further, we can further conclude that: 
