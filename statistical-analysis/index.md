@@ -49,7 +49,7 @@ It is noted that the histogram looks broadly normal, but there appear to be thre
 
 ### Hypothesis Test:
 
-The One-Sample T-Test was applied to the data as a whol, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
+The One-Sample T-Test was applied to the data as a whole, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
 
 T-Statistic: -2.3172  
 P-Value: 0.0219  
