@@ -38,21 +38,21 @@ Data preparation:  Minor transformation of data into a pandas dataframe for anal
 
 Initially a histogram and KDE of the iris petal lengths for each group of observations was created to visually inspect the distibution.    
 
-![Histogram of petal length by group](/2s_ttest_histogram.png) 
+![Histogram of petal length by group](/2s_ttest_hist.png) 
 
 Boxplot and violin plots of the values for each group were also produced, to provide more understanding of the values, as initial visual inspection implies the means are different, but of similar values.
 
 ![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
 ![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
-Simple descriptive statistics or each group:
-Group 1 (Ensata Group 1):  n=50, Mean=8.159cm, SD=0.381
-Group 2 (Ensata Group 2):  n=50, Mean=8.333cm, SD=0.401
-Difference in Means:  0.174
+Simple descriptive statistics or each group:  
+Group 1 (Ensata Group 1):  n=50, Mean=8.159cm, SD=0.381  
+Group 2 (Ensata Group 2):  n=50, Mean=8.333cm, SD=0.401  
+Difference in Means:  0.174cm
 
-A casual inspection of the lead us to believe that the hypothesis may well be true, as 6.0cm is towards the center of the distribution, but we can be more scientific that that.  
+A casual inspection of the lead us to believe that the null hypothesis may well be true, as the mean values and distributions are 'similar', but we can be more scientific that that.  
 
-It is noted that the histogram looks broadly normal, but there appear to be three peaks of 'bins' which may require closer inspection.
+It is noted that the histograms / KDEs look normal for each group, but we need to test that also.
 
 ### Hypothesis Test:
 
