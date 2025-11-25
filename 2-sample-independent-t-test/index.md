@@ -10,7 +10,7 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-To test the sepal petal lengths of iris plants grown under 2 separate conditions to determine if the lengths are the same. This project demonstrates how a 2-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  This tests a sample of 50 sepal petal length measurements from each of the 2 groups grown in different conditions.  
+To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions to determine if the lengths are the same. This project demonstrates how a 2-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  This tests a sample of 50 sepal petal length measurements from each of the 2 groups of ensata iris plants grown in different conditions.  
 
 ## Application:  
 
@@ -36,14 +36,19 @@ Data preparation:  Minor transformation of data into a pandas dataframe for anal
 
 ### Descriptive statistics:  
 
-Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distibution.    
+Initially a histogram and KDE of the iris petal lengths for each group of observations was created to visually inspect the distibution.    
 
+![Histogram of petal length by group](/2s_ttest_histogram.png) 
 
-A boxplot of the values was also produced, to provide more understanding of the values.
+Boxplot and violin plots of the values for each group were also produced, to provide more understanding of the values, as initial visual inspection implies the means are different, but of similar values.
 
+![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
+![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
-
-Simple calcualtions mean 5.843cm with a standard deviation of 0.828cm.  
+Simple descriptive statistics or each group:
+Group 1 (Ensata Group 1):  n=50, Mean=8.159cm, SD=0.381
+Group 2 (Ensata Group 2):  n=50, Mean=8.333cm, SD=0.401
+Difference in Means:  0.174
 
 A casual inspection of the lead us to believe that the hypothesis may well be true, as 6.0cm is towards the center of the distribution, but we can be more scientific that that.  
 
