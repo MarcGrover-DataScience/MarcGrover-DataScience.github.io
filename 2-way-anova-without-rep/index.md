@@ -10,51 +10,58 @@ permalink: /2-way-anova-without-rep/
 
 ## Goals and objectives:
 
-To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions (group 1 and group 2) to determine if the lengths have a statistically significant difference, and hence understand if the growing conditions is a factor in the length of the sepal petal length. The business wants to grow the biggest plants as they can be sold at a higher price.  This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
+To test and analyse the relationship between 2 independent variable, wine quality ratings (5, 6, 7) and pH levels (Low, Medium, High), on alcohol content in wine, where there is a single measure of alcohol content for each combination of quality and pH level - hence there being no repitition of dependent variable values.  The business wants understand the relationship between quailty and pH level on the alcohol content, to be used to guide further development, research and new product strategy.    
 
-This test provided evidence that the mean length of sepal petals on iris plants in group 2 are statistically longer. 
+This test provided evidence that the model explains 95% of variance of alcohol content using both factors (quality and pH level), and that both factors should be considered when analyzing wine characteristics.
 
 ## Application:  
 
-The Two-Sample Independent T-Test is a powerful statistical tool used to determine if there is a statistically significant difference between the means of two completely separate (independent) groups. In a business context, this is essential for A/B testing, competitive analysis, and comparing performance between different segments or strategies.  
+The Two-Way ANOVA Without Replication (also known as a Randomized Block Design or a two-factor ANOVA with one observation per cell) is a statistical test used to assess the main effects of two categorical factors on a single continuous dependent variable, while assuming there is no interaction between the two factors.  This design is often used when one factor is a "nuisance factor" or a blocking variable that is included primarily to account for variability, thus increasing the power of the test for the other factor.
 
-* An asset management firm tests two different portfolio construction strategies (A and B). They use the t-test to determine if the mean annual return of a sample of portfolios managed under Strategy A is significantly different from the mean annual return of a sample managed under Strategy B.
-* Comparing the average credit score of applicants who default on loans versus those who do not default to validate a credit scoring model's predictive power.
-* A retailer launches two different website layouts or email promotions (Version A and Version B) to two random, independent groups of customers. They use the t-test to compare the mean conversion rate or mean revenue per user between the two groups.
-* A software company tests two different application workflows (Workflow 1 vs. Workflow 2) and measures the mean task completion time for two independent groups of new users to see which design is more efficient.
-* After implementing a change to a production line process, a manufacturer compares the mean defect rate of products produced before the change to the mean defect rate of products produced after the change to quantify the improvement.
+* Used in manufacturing where resources (materials, machines, time) are limited, and one observation per condition is practical for quality audits.
+* In development, it's used to efficiently evaluate the main performance effects of two variables (e.g. software versions and server regions)
+* Retail often uses this to compare key performance indicators (KPIs) across stores or channels, e.g. sales based on factors of store locations and promotional offers.
+* In finance, it's used for comparative analysis where confounding variables need to be controlled (e.g. investment strategies and time periods)
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scipy, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn, which was then extended to produce interesting statistical findings.  
+A workflow in Python was developed using libraries Scipy, statsmodels, scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of wine data from the library scikit-learn, which was then extended to produce interesting statistical findings.  
 
-The Two-Sample T-Test was used to test the null hypothesis that the mean sepal petal lengths are the same.  
+The Two-way ANOVA without replication test was used to test the null hypothesis that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content).  
 
-The assumption of independence of observations is assumed due to design of the experiment.
+Assumptions are tested regarding both the normality of the residuals using the Shapiro-Wilk test, and the homogeneity of Variances (Homoscedasticity) using Levene's test
 
-Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
+The assumption of independence of observations is assumed due to design of the experiment, as well as the assumption of additivity or no interaction between the two independent factors..
+
+Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes, where there is a single value of alcohol content for each quaility and pH combination.
 
 ## Results and conclusions:
 
 ### Descriptive statistics:  
 
-Initially a histogram and KDE of the iris petal lengths for each group of observations was created to visually inspect the distibution.    
+The data being used for the Two-way ANOVA without replication test is:
 
-![Histogram of petal length by group](/2s_ttest_hist.png) 
+![Input_data](/2w_anova_without_ph_df.png/)
+
+Initially boxplots of alcohol content by each factor are created:  
+
+![Boxplot_by_ph](/2w_anova_without_ph_boxplot.png/)
+![Boxplot_by_quality](/2w_anova_without_qual_boxplot.png/)
+
+A heatmap of the values is also produced as provides a useful visualisation of the data:  
+
+![Heatmap](/2w_anova_without_ph_heat.png/)
+
+An interactive plot also enhances understanding of the data: 
+
+![interaction_plot](2w_anova_without_interaction.png)
 
 Boxplot and violin plots of the values for each group were also produced, to further understand the distributions. 
 
 ![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
 ![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
-An initial visual inspection shows the means are different, but we need to investigate further the statistical significance of the difference of means.
-
-Simple descriptive statistics for each group:  
-Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381  
-Ensata Group 2:  n=50, Mean=8.333cm, SD=0.401  
-Difference in Means:  0.174cm 
-
-It is noted that the histograms / KDEs look normal for each group, but we shall test that also.
+An initial visual inspection of these charts can lead to the assumption that the factors have a strong relationship to the alcohol content, but lets test that hypothesis and understand more about any relationships. 
 
 ### Hypothesis Test:
 
