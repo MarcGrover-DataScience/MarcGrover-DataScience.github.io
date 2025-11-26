@@ -64,7 +64,7 @@ First we test the data for normality, using the Shapiro-Wilk Normality Test:
 
 Test Statistic: 0.921433  
 P-value: 0.404236  
-As the p_value > 0.05 - we can conclude that the data appears normally distributed  
+As the p_value > 0.05 - we can assume that the data is normally distributed  
 
 Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, the results being:
 
@@ -100,10 +100,10 @@ Assessing the overall model the R-squared = 0.9485, which can be interpreted as 
 
 We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are, which are interpretted using Cohen's D values for effect size:
 
-Quality effect size (η²): 0.5774 - i.e. 57.7% of the variance of alcohol content can be explained by the quality 
+Quality effect size (η²): 0.5774 - i.e. 57.7% of the variance of alcohol content can be explained by the quality  
 Cohen's D: Large effect
 
-pH Level effect size (η²): 0.3711 - i.e. 37.1% of the variance of alcohol content can be explained by the pH level 
+pH Level effect size (η²): 0.3711 - i.e. 37.1% of the variance of alcohol content can be explained by the pH level  
 Cohen's D: Large effect
 
 In summary the conclusions are that:
@@ -116,13 +116,8 @@ It should be noted that there are important limitations with this test:
  - sample represents single values (no replication within cells)
  - Results specific to the limited samples of wine
 
-6. RECOMMENDATIONS:
-   - For wine production: Monitor both quality targets and pH levels
-   - For further research: Consider interaction effects with replication
-   - Validate findings with additional data sources
-
 ## Next steps:
-Given the findings and limitation, and the limited number of measurements, it would be recommended to take more measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
+Given the findings and limitations, and the limited number of measurements, it would be recommended to take more measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
