@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Iris sepal petal lengths (2-Sample Independent T-Test)
+title: Iris sepal petal lengths (Two-Sample Independent T-Test)
 
 permalink: /2-sample-independent-t-test/
 
@@ -10,7 +10,7 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions to determine if the lengths are the same. This project demonstrates how a 2-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  This tests a sample of 50 sepal petal length measurements from each of the 2 groups of ensata iris plants grown in different conditions.  
+To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions to determine if the lengths have a statistically significant difference, and hence if the growing conditions is a factor in the length of the sepal petal length. This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
 
 ## Application:  
 
@@ -24,9 +24,9 @@ The Two-Sample Independent T-Test is a powerful statistical tool used to determi
 
 ## Methodology:  
 
-A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn, which was then extended to produce interesting statistical findings.  
+A workflow in Python was developed using libraries Scipy, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data came from a publically available dataset of iris measurements from the library scikit-learn, which was then extended to produce interesting statistical findings.  
 
-The 2-sample T-Test was used to test the null hypothesis that the mean sepal petal lengths are the same.  
+The Two-Sample T-Test was used to test the null hypothesis that the mean sepal petal lengths are the same.  
 
 The assumption of independence of observations is assumed due to design of the experiment.
 
@@ -40,23 +40,23 @@ Initially a histogram and KDE of the iris petal lengths for each group of observ
 
 ![Histogram of petal length by group](/2s_ttest_hist.png) 
 
-Boxplot and violin plots of the values for each group were also produced, to provide more understanding of the values, as initial visual inspection implies the means are different, but of similar values.
+Boxplot and violin plots of the values for each group were also produced, to further understand the distributions. 
 
 ![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
 ![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
-Simple descriptive statistics or each group:  
-Group 1 (Ensata Group 1):  n=50, Mean=8.159cm, SD=0.381  
-Group 2 (Ensata Group 2):  n=50, Mean=8.333cm, SD=0.401  
-Difference in Means:  0.174cm
+As initial visual inspection shows the means are different, but of we need to investigate further the statistical significance of the difference of means.
 
-A casual inspection of the lead us to believe that the null hypothesis may well be true, as the mean values and distributions are 'similar', but we can be more scientific that that.  
+Simple descriptive statistics for each group:  
+Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381  
+Ensata Group 2:  n=50, Mean=8.333cm, SD=0.401  
+Difference in Means:  0.174cm 
 
-It is noted that the histograms / KDEs look normal for each group, but we need to test that also.
+It is noted that the histograms / KDEs look normal for each group, but we shall test that also.
 
 ### Hypothesis Test:
 
-The One-Sample T-Test was applied to the data as a whole, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
+The Two-Sample T-Test was applied to the data as a whole, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
 
 T-Statistic: -2.3172  
 P-Value: 0.0219  
