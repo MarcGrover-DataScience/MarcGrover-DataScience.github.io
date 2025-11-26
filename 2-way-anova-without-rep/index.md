@@ -84,63 +84,45 @@ The Two-Way ANOVA without replication test was applied to the data for the two f
 
 MAIN EFFECT: QUALITY  
 F-statistic: 22.4012  
-P-value: 0.006718  
-Degrees of freedom: 2  
-
-SIGNIFICANT EFFECT (p < 0.05)  
+P-value: 0.006718  - compared to the alpha = 0.05, i.e. p_value < 0.05  
+ 
 Wine quality has a statistically significant effect on alcohol content, and we reject the null hypothesis that quality levels have equal mean alcohol content.
 
 MAIN EFFECT: pH LEVEL  
 F-statistic: 14.3968  
-P-value: 0.014878  
-Degrees of freedom: 2  
+P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05  
 
-SIGNIFICANT EFFECT (p < 0.05)  
 pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
 
-So in combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.
+So in combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.  
 
-MODEL SUMMARY:
-R-squared: 0.9485
-Adjusted R-squared: 0.8969
-F-statistic: 18.3990
-P-value (overall model): 0.007698
+Assessing the overall model the R-squared = 0.9485, which can be interpreted as 94.85% of the variance in alcohol content is explained by the two factors (Quality and pH Level) combined.  The p-value of the overall model is 0.007698, which is less than the aplha = 0.05, therefore we can reject the hypothesis that the model isn't any good, i.e. we can conclude that the model is good.
 
-EFFECT SIZES (η² - Eta-squared)
-Quality effect size (η²): 0.5774
-Large effect
+We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are, which are interpretted using Cohen's D values for effect size:
 
-pH Level effect size (η²): 0.3711
-Large effect
+Quality effect size (η²): 0.5774 - i.e. 57.7% of the variance of alcohol content can be explained by the quality 
+Cohen's D: Large effect
 
-Quality Factor: SIGNIFICANT (p = 0.006718)
- - Higher quality wines tend to have different alcohol levels
- - Effect size (η²) = 0.5774
+pH Level effect size (η²): 0.3711 - i.e. 37.1% of the variance of alcohol content can be explained by the pH level 
+Cohen's D: Large effect
 
-pH Level Factor: SIGNIFICANT (p = 0.014878)
- - Different pH levels are associated with varying alcohol content
- - Effect size (η²) = 0.3711
+In summary the conclusions are that:
+ - The model explains 94.85% of variance in alcohol content
+ - Both factors should be considered when analyzing wine characteristics
+ - Results suggest that wine quality and pH chemistry relate to alcohol levels
 
-4. PRACTICAL IMPLICATIONS:
-   - The model explains 94.85% of variance in alcohol content
-   - Both factors should be considered when analyzing wine characteristics
-   - Results suggest that wine quality and pH chemistry relate to alcohol levels
+It should be noted that there are important limitations with this test:
+ - this is considered an observational study, and as such causation cannot be inferred.  
+ - sample represents single values (no replication within cells)
+ - Results specific to the limited samples of wine
 
-
-
-
-T-Statistic: -2.2317  
-P-Value: 0.0279  
-As 0.0279 < 0.05 we can reject the null hypothesis (H₀) and conclude that the means of the two groups are statitically significantly different, i.e. the sepal petals from group 2 have a statistically significant longer length.
-
-We wish to further understand the differences in mean lengths: 
-
-Effect size:  The Cohen's D measure is used to quantify the difference between the two group means, the value is: Cohen's d = 0.4463.  Using standard interpretation of Cohen's D this is considered a 'Small to Medium' effect size.
-
-95% Confidence Interval (CI) of the difference in means is: (0.019cm, 0.330cm), with the mean difference 0.174cm - noting that these are all positive, i.e. confirming that the group 2 mean is greater than the group 1 mean.
+6. RECOMMENDATIONS:
+   - For wine production: Monitor both quality targets and pH levels
+   - For further research: Consider interaction effects with replication
+   - Validate findings with additional data sources
 
 ## Next steps:
-Having concluded that the mean iris sepal length for group 2 is longer, with the effect being considered small to medium, it is recommended to make additional measurements in the future to further test the findings, as well as trying to grow ensata iris plants other growing conditions to allow additional tests to determine if they result in even longer sepal lengths.
+Given the findings and limitation, and the limited number of measurements, it would be recommended to take more measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
