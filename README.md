@@ -37,3 +37,6 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
 * ### Category Classification Prediction (Neural Network)
 * ### Text Classification (Neural Network)
 * ### Topic Modelling (Neural Network)
+* ### Named Entity Recognition (Deep Learning)
+* ### Text Summarisation (Deep Learning)
+* ### Zero-shot Classification (Deep Learning)
