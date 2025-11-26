@@ -60,17 +60,25 @@ An initial visual inspection of these charts can lead to the assumption that the
 
 ### Hypothesis Test:
 
-First we test the data for normality, adressing both groups separately, using the Shapiro-Wilk Normality Test.  It should be noted that as there are 50 values for each group, the Central Limit Theorem (CLT) ensures robustness to non-normality anyway.
+First we test the data for normality, using the Shapiro-Wilk Normality Test:  
 
-Shapiro-Wilk Normality Test results:  
-Ensata Group1: p=0.9173 (Normal)  
-Ensata Group2: p=0.6300 (Normal)  
-As both p-values are greater than 0.05, then both samples are considered to be normally distributed.  
+Test Statistic: 0.921433  
+P-value: 0.404236  
+As the p_value > 0.05 - we can conclude that the data appears normally distributed  
 
-Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, the results being:
+Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, the results being:
 
-F-statistic = 0.5494, p-value = 0.4604  
-Conclusion:  Variances are approximately equal, therefore use Student's t-test to test the null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
+Levene's Test (by Quality):  
+Test Statistic: 0.396240  
+P-value: 0.689237  
+As the p_value > 0.05 - Equal variances assumed
+
+Levene's Test (by pH Level):
+Test Statistic: 0.460375
+P-value: 0.651620
+As the p_value > 0.05 - Equal variances assumed
+
+As such it can be considered that there is homogeneity of variances.
 
 The Two-Sample T-Test was applied to the data for the two groups, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
 
