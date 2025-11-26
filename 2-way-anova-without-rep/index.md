@@ -4,7 +4,7 @@ layout: default
 
 title: Wine quality and alcohol content (Two-Way ANOVA without Replication)
 
-permalink: /2-way-anova-without-replication/
+permalink: /2-way-anova-without-rep/
 
 ---
 
