@@ -18,7 +18,7 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
 * ### One-Way ANOVA
 * ### Two-Way ANOVA with replication
 * ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
-* ### A/B Testing (Chi-squared test)
+* ### [A/B Testing (Chi-squared test)](/ab-test/)
 * ### Chi-squared goodness-of-fit test
 * ### Multi-linear regression
 * ### Logisitic regression
