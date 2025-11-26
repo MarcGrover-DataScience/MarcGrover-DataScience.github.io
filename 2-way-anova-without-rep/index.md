@@ -41,25 +41,20 @@ Data preparation:  Minor transformation of data into a pandas dataframe for anal
 
 The data being used for the Two-way ANOVA without replication test is:
 
-![Input_data](/2w_anova_without_ph_df.png/)
+![input_data](2w_anova_without_ph_df.png)
 
 Initially boxplots of alcohol content by each factor are created:  
 
-![Boxplot_by_ph](/2w_anova_without_ph_boxplot.png/)
-![Boxplot_by_quality](/2w_anova_without_qual_boxplot.png/)
+![boxplot_by_ph](2w_anova_without_ph_boxplot.png)
+![boxplot_by_quality](2w_anova_without_qual_boxplot.png)
 
 A heatmap of the values is also produced as provides a useful visualisation of the data:  
 
-![Heatmap](/2w_anova_without_ph_heat.png/)
+![heatmap](2w_anova_without_ph_heat.png)
 
 An interactive plot also enhances understanding of the data: 
 
 ![interaction_plot](2w_anova_without_interaction.png)
-
-Boxplot and violin plots of the values for each group were also produced, to further understand the distributions. 
-
-![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
-![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
 An initial visual inspection of these charts can lead to the assumption that the factors have a strong relationship to the alcohol content, but lets test that hypothesis and understand more about any relationships. 
 
