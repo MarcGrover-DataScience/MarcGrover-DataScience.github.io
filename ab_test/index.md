@@ -2,19 +2,25 @@
 
 layout: default
 
-title: Wine quality and alcohol content (Two-Way ANOVA without Replication)
+title: Web conversion rates  (A/B test)
 
-permalink: /2-way-anova-without-rep/
+permalink: /ab-test/
 
 ---
 
 ## Goals and objectives:
 
-To test and analyse the relationship between 2 independent variables, wine quality ratings (5, 6, 7) and pH levels (Low, Medium, High), on alcohol content in wine, where there is a single measure of alcohol content for each combination of quality and pH level - hence there being no repetition of dependent variable values.  The business wants understand the relationship between quality and pH level on the alcohol content, to be used to guide further development, research and new product strategy.    
+To test and analyse the conversion rates for users signing up for membership via a new webpage (treatment group) compared to the old webpage (control group).  The business wants to understand if there are any statistically significant differences.
 
-The Two-Way ANOVA without replication test provided evidence that the model explains 95% of variance of alcohol content using both factors (quality and pH level), and that both factors should be considered when analysing wine characteristics.
+The AB test (using the chi-squared test) provided evidence that there is a statistically significant difference in conversions between the two versions of the website, of XXX, and provides the business with evidence to support the decision to migrate to the new version of the website.  <<Explain the expected benefits>>
 
 ## Application:  
+
+Why use the chi-squared test? The chi-squared t-test and the 2-sample test can be used in A/B testing, but they are appropriate for different types of metrics and research questions.  The best test depends entirely on the type of data you are analysing.  
+
+The chi-squared test of independence is used to compare the proportions or frequencies of a categorical variable between two groups.  As such it is applicable to cases such as this project where the data categorical/discrete, i.e. testing if the conversion rate (proportion of users who converted) is significantly different between the Control (A) and Variant (B).
+
+The independent 2-sample t-test is used to compare the means (averages) of a continuous variable between two independent groups (A and B).
 
 The Two-Way ANOVA Without Replication (also known as a Randomized Block Design or a two-factor ANOVA with one observation per cell) is a statistical test used to assess the main effects of two categorical factors on a single continuous dependent variable, while assuming there is no interaction between the two factors.  This design is often used when one factor is a "nuisance factor" or a blocking variable that is included primarily to account for variability, thus increasing the power of the test for the other factor.
 
@@ -33,7 +39,7 @@ Assumptions are tested regarding both the normality of the residuals using the S
 
 The assumption of independence of observations is assumed due to design of the experiment, as well as the assumption of additivity or no interaction between the two independent factors..
 
-Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes, where there is a single value of alcohol content for each quality and pH combination.
+Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes, where there is a single value of alcohol content for each quaility and pH combination.
 
 ## Results and conclusions:
 
@@ -96,9 +102,9 @@ pH level has a statistically significant effect on alcohol content, we reject th
 
 So in combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.  
 
-Assessing the overall model the R-squared = 0.9485, which can be interpreted as 94.85% of the variance in alcohol content is explained by the two factors (Quality and pH Level) combined.  The p-value of the overall model is 0.007698, which is less than the alpha = 0.05, therefore we can reject the hypothesis that the model isn't any good, i.e. we can conclude that the model is good.
+Assessing the overall model the R-squared = 0.9485, which can be interpreted as 94.85% of the variance in alcohol content is explained by the two factors (Quality and pH Level) combined.  The p-value of the overall model is 0.007698, which is less than the aplha = 0.05, therefore we can reject the hypothesis that the model isn't any good, i.e. we can conclude that the model is good.
 
-We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are, which are interpreted using Cohen's D values for effect size:
+We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are, which are interpretted using Cohen's D values for effect size:
 
 Quality effect size (η²): 0.5774 - i.e. 57.7% of the variance of alcohol content can be explained by the quality  
 Cohen's D: Large effect
@@ -108,7 +114,7 @@ Cohen's D: Large effect
 
 In summary the conclusions are that:
  - The model explains 94.85% of variance in alcohol content
- - Both factors should be considered when analysing wine characteristics
+ - Both factors should be considered when analyzing wine characteristics
  - Results suggest that wine quality and pH chemistry relate to alcohol levels
 
 It should be noted that there are important limitations with this test:
