@@ -10,7 +10,7 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions to determine if the lengths have a statistically significant difference, and hence if the growing conditions is a factor in the length of the sepal petal length. This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
+To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions to determine if the lengths have a statistically significant difference, and hence understand if the growing conditions is a factor in the length of the sepal petal length. The business wants to grow the biggest plants as they can be sold at a higher price.  This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
 
 ## Application:  
 
@@ -45,7 +45,7 @@ Boxplot and violin plots of the values for each group were also produced, to fur
 ![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
 ![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
-As initial visual inspection shows the means are different, but of we need to investigate further the statistical significance of the difference of means.
+An initial visual inspection shows the means are different, but we need to investigate further the statistical significance of the difference of means.
 
 Simple descriptive statistics for each group:  
 Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381  
@@ -56,14 +56,42 @@ It is noted that the histograms / KDEs look normal for each group, but we shall 
 
 ### Hypothesis Test:
 
-The Two-Sample T-Test was applied to the data as a whole, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
+First we test the data for normality, adressing both groups separately, using the Shapiro-Wilk Normality Test.  It should be noted that as there are 50 values for each group, the Central Limit Theorem (CLT) ensures robustness to non-normality anyway.
 
-T-Statistic: -2.3172  
-P-Value: 0.0219  
-As 0.0219 < 0.05 we can reject the null hypothesis (H₀) and conclude that the mean significantly differs from 6.0
+Shapiro-Wilk Normality Test results:  
+Ensata Group1: p=0.9173 (Normal)  
+Ensata Group2: p=0.6300 (Normal)  
+As both p-values are greater than 0.05, then both samples are considered to be normally distributed.  
 
-Taking this further, we can further conclude that: 
+Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, the results being:
+
+F-statistic = 0.5494, p-value = 0.4604
+Conclusion:  Variances are approximately equal, therefore use Student's t-test to test the null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
+
+The Two-Sample T-Test was applied to the data for the two groups, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
+
+T-Statistic: -2.2317  
+P-Value: 0.0279  
+As 0.0279 < 0.05 we can reject the null hypothesis (H₀) and conclude that the means of the two groups are statitically significantly different, i.e. the sepal petals from group 2 have a statistically significant longer length.
+
+We wish to further understand the differences in mean lenghts: 
+
+The Cohen's D measure is used to quantify 
+
+EFFECT SIZE
+Cohen's d = 0.4463
+Effect Size: Small to Medium
+
+CONFIDENCE INTERVAL FOR DIFFERENCE IN MEANS
+Mean Difference: 0.1744
+Standard Error: 0.0781
+95% Confidence Interval: [0.0193, 0.3295]
+
+
+
 95% Confidence Interval (CI) of the mean is: (5.710cm, 5.977cm) - noting 6.00mm is not within this range.
+
+
 
 ### Further investigation by species:
 
