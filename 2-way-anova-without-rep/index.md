@@ -82,11 +82,49 @@ As such it can be considered that there is homogeneity of variances.
 
 The Two-Way ANOVA without replication test was applied to the data for the two factors, where the alpha was set to 0.05 - i.e. 95% confidence, and the null hypothesis being that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content). The results for each factor were: 
 
+MAIN EFFECT: QUALITY  
+F-statistic: 22.4012  
+P-value: 0.006718  
+Degrees of freedom: 2  
 
+SIGNIFICANT EFFECT (p < 0.05)  
+Wine quality has a statistically significant effect on alcohol content, and we reject the null hypothesis that quality levels have equal mean alcohol content.
 
+MAIN EFFECT: pH LEVEL  
+F-statistic: 14.3968  
+P-value: 0.014878  
+Degrees of freedom: 2  
 
+SIGNIFICANT EFFECT (p < 0.05)  
+pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
 
+So in combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.
 
+MODEL SUMMARY:
+R-squared: 0.9485
+Adjusted R-squared: 0.8969
+F-statistic: 18.3990
+P-value (overall model): 0.007698
+
+EFFECT SIZES (η² - Eta-squared)
+Quality effect size (η²): 0.5774
+Large effect
+
+pH Level effect size (η²): 0.3711
+Large effect
+
+Quality Factor: SIGNIFICANT (p = 0.006718)
+ - Higher quality wines tend to have different alcohol levels
+ - Effect size (η²) = 0.5774
+
+pH Level Factor: SIGNIFICANT (p = 0.014878)
+ - Different pH levels are associated with varying alcohol content
+ - Effect size (η²) = 0.3711
+
+4. PRACTICAL IMPLICATIONS:
+   - The model explains 94.85% of variance in alcohol content
+   - Both factors should be considered when analyzing wine characteristics
+   - Results suggest that wine quality and pH chemistry relate to alcohol levels
 
 
 
