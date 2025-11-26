@@ -65,8 +65,8 @@ else:
 _, p_ensata1 = stats.shapiro(ensata_1)
 _, p_ensata2 = stats.shapiro(ensata_2)
 print(f"\nShapiro-Wilk Normality Test:")
-print(f"Setosa: p={p_ensata1:.4f} {'(Normal)' if p_ensata1 > 0.05 else '(Non-normal)'}")
-print(f"Virginica: p={p_ensata2:.4f} {'(Normal)' if p_ensata2 > 0.05 else '(Non-normal)'}")
+print(f"Ensata Group1: p={p_ensata1:.4f} {'(Normal)' if p_ensata1 > 0.05 else '(Non-normal)'}")
+print(f"Ensata Group2: p={p_ensata2:.4f} {'(Normal)' if p_ensata2 > 0.05 else '(Non-normal)'}")
 print(f"Note: With n=50 each, CLT ensures robustness to non-normality")
 
 # PERFORM T-TEST
