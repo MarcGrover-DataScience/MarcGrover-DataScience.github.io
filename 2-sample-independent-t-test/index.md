@@ -67,7 +67,7 @@ As both p-values are greater than 0.05, then both samples are considered to be n
 
 Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, the results being:
 
-F-statistic = 0.5494, p-value = 0.4604
+F-statistic = 0.5494, p-value = 0.4604  
 Conclusion:  Variances are approximately equal, therefore use Student's t-test to test the null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
 
 The Two-Sample T-Test was applied to the data for the two groups, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
@@ -83,7 +83,7 @@ Effect size:  The Cohen's D measure is used to quantify the difference between t
 95% Confidence Interval (CI) of the difference in means is: (0.019cm, 0.330cm), with the mean difference 0.174cm - noting that these are all positive, i.e. confirming that the group 2 mean is greater than the group 1 mean.
 
 ## Next steps:
-Having concluded that the mean iris sepal length for group 2 is longer, it is recommended to make additional measurements in the future to further test the findings, as well as trying other growing conditions to allow additional tests to determine if they result in even longer sepal lengths.
+Having concluded that the mean iris sepal length for group 2 is longer, with the effect being considered small to medium, it is recommended to make additional measurements in the future to further test the findings, as well as trying to grow ensata iris plants other growing conditions to allow additional tests to determine if they result in even longer sepal lengths.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
