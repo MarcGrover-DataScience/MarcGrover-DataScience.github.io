@@ -10,7 +10,9 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions to determine if the lengths have a statistically significant difference, and hence understand if the growing conditions is a factor in the length of the sepal petal length. The business wants to grow the biggest plants as they can be sold at a higher price.  This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
+To test the sepal petal lengths of iris plants (species = enstata) grown under 2 separate conditions (group 1 and group 2) to determine if the lengths have a statistically significant difference, and hence understand if the growing conditions is a factor in the length of the sepal petal length. The business wants to grow the biggest plants as they can be sold at a higher price.  This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
+
+This test provided evidence that the mean length of sepal petals on iris plants in group 2 are statistically longer. 
 
 ## Application:  
 
@@ -74,53 +76,14 @@ T-Statistic: -2.2317
 P-Value: 0.0279  
 As 0.0279 < 0.05 we can reject the null hypothesis (H₀) and conclude that the means of the two groups are statitically significantly different, i.e. the sepal petals from group 2 have a statistically significant longer length.
 
-We wish to further understand the differences in mean lenghts: 
+We wish to further understand the differences in mean lengths: 
 
-The Cohen's D measure is used to quantify 
+Effect size:  The Cohen's D measure is used to quantify the difference between the two group means, the value is: Cohen's d = 0.4463.  Using standard interpretation of Cohen's D this is considered a 'Small to Medium' effect size.
 
-EFFECT SIZE
-Cohen's d = 0.4463
-Effect Size: Small to Medium
-
-CONFIDENCE INTERVAL FOR DIFFERENCE IN MEANS
-Mean Difference: 0.1744
-Standard Error: 0.0781
-95% Confidence Interval: [0.0193, 0.3295]
-
-
-
-95% Confidence Interval (CI) of the mean is: (5.710cm, 5.977cm) - noting 6.00mm is not within this range.
-
-
-
-### Further investigation by species:
-
-While analysing the data it was noted that there was a column stating the species of iris, so lets be inquisative and see if there are any patterns or insights from comparing the data for the species.
-
-First we will produce the histograms (with associated KDE plots), and boxplots for each species:
-
-
-
-Visually these plots suggest that the sepal petal length varies by species, so lets do some basic descriptive analysis by species, which shows that the mean sepal length by species, within one standard deviation is:  
-Setosa: 5.006 ± 0.352 cm  
-Versicolor: 5.936 ± 0.516 cm  
-Virginica: 6.588 ± 0.636 cm  
-
-From a simple assessment of these plots and results, it looks like the 'versicolor' species may have a sepal petal length mean of 6.0cm (the original hypothesised mean), so lets run a One-Sample T-Test for the data for that species, again with a 95% confidence interval set.  The results were: 
-
-T-Statistic: -0.8767  
-P-Value: 0.3849  
-As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that the supports the hypothesis that the mean is 6.0.
-
-Taking this further, we can further conclude that: 
-95% Confidence Interval (CI) of the mean of sepal petal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00mm is within this range.
+95% Confidence Interval (CI) of the difference in means is: (0.019cm, 0.330cm), with the mean difference 0.174cm - noting that these are all positive, i.e. confirming that the group 2 mean is greater than the group 1 mean.
 
 ## Next steps:
-Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, there is evidence to support that one species 'versicolor' does have a mean sepal length of 6.0cm, whereas setosa and virginica species do not.  
-
-It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal petal lengths are dirrent by species of iris, and determine the likely range for each species.  
-
-Additional data would likley be gathered to support further analysis, and expand the species included, based on the business objectives.  2-way T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
+Having concluded that the mean iris sepal length for group 2 is longer, it is recommended to make additional measurements in the future to further test the findings, as well as trying other growing conditions to allow additional tests to determine if they result in even longer sepal lengths.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
