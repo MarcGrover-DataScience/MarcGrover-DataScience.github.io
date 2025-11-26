@@ -58,6 +58,8 @@ As 0.0219 < 0.05 we can reject the null hypothesis (H₀) and conclude that the 
 Taking this further, we can further conclude that: 
 95% Confidence Interval (CI) of the mean is: (5.710cm, 5.977cm) - noting 6.00mm is not within this range.
 
+Please note that a test for normality was not undertaken in this example (this is covered in multiple other projects however), due to the Central Limit Theorem (CLT) and the size of population being above the common CLT threshold of 30.  Also, the histogram showed that the distribution was broadly normal with no significant outliers.  The T-Test is considered a robust test against deviations from a normal distribution.  Should the sample size be less than 30, then a test for normality would be more meaningful. 
+
 ### Further investigation by species:
 
 While analysing the data it was noted that there was a column stating the species of iris, so lets be inquisitive and see if there are any patterns or insights from comparing the data for the species.
