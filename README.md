@@ -19,6 +19,7 @@ While the examples are simple for the sake of clarity, they demonstrate the powe
 * ### Two-Way ANOVA with replication
 * ### Two-Way ANOVA without replication
 * ### A/B Testing (Chi-squared test)
+* ### Chi-squared goodness-of-fit test
 * ### Multi-linear regression
 * ### Logisitic regression
 * ### Time-series analysis (moving averages)
