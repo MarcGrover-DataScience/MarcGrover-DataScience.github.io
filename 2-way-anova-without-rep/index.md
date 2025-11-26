@@ -10,9 +10,9 @@ permalink: /2-way-anova-without-rep/
 
 ## Goals and objectives:
 
-To test and analyse the relationship between 2 independent variable, wine quality ratings (5, 6, 7) and pH levels (Low, Medium, High), on alcohol content in wine, where there is a single measure of alcohol content for each combination of quality and pH level - hence there being no repitition of dependent variable values.  The business wants understand the relationship between quailty and pH level on the alcohol content, to be used to guide further development, research and new product strategy.    
+To test and analyse the relationship between 2 independent variables, wine quality ratings (5, 6, 7) and pH levels (Low, Medium, High), on alcohol content in wine, where there is a single measure of alcohol content for each combination of quality and pH level - hence there being no repitition of dependent variable values.  The business wants understand the relationship between quailty and pH level on the alcohol content, to be used to guide further development, research and new product strategy.    
 
-This test provided evidence that the model explains 95% of variance of alcohol content using both factors (quality and pH level), and that both factors should be considered when analyzing wine characteristics.
+The Two-Way ANOVA without replication test provided evidence that the model explains 95% of variance of alcohol content using both factors (quality and pH level), and that both factors should be considered when analyzing wine characteristics.
 
 ## Application:  
 
@@ -39,7 +39,7 @@ Data preparation:  Minor transformation of data into a pandas dataframe for anal
 
 ### Descriptive statistics:  
 
-The data being used for the Two-way ANOVA without replication test is:
+The data being used for the Two-Way ANOVA without replication test is:
 
 ![input_data](2w_anova_without_ph_df.png)
 
@@ -73,14 +73,23 @@ Test Statistic: 0.396240
 P-value: 0.689237  
 As the p_value > 0.05 - Equal variances assumed
 
-Levene's Test (by pH Level):
-Test Statistic: 0.460375
-P-value: 0.651620
-As the p_value > 0.05 - Equal variances assumed
+Levene's Test (by pH Level):  
+Test Statistic: 0.460375  
+P-value: 0.651620  
+As the p_value > 0.05 - Equal variances assumed  
 
 As such it can be considered that there is homogeneity of variances.
 
-The Two-Sample T-Test was applied to the data for the two groups, where the alpha was set to 0.05 - i.e. 95% confidence. The results were: 
+The Two-Way ANOVA without replication test was applied to the data for the two factors, where the alpha was set to 0.05 - i.e. 95% confidence, and the null hypothesis being that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content). The results for each factor were: 
+
+
+
+
+
+
+
+
+
 
 T-Statistic: -2.2317  
 P-Value: 0.0279  
@@ -97,7 +106,4 @@ Having concluded that the mean iris sepal length for group 2 is longer, with the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/2Sample_Independent_T-Test_Pt2.py)
-
-The original data used for the analysis is here:
-[Access input data](/Iris_ensata.xlsx)
+[View the Python Script](/ANOVA_2-way_withoutRep.py)
