@@ -20,7 +20,7 @@ The examples are purposely simple for the sake of clarity, they demonstrate the 
 * ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
 * ### [A/B Testing (Chi-squared test)](/ab-test/)
 * ### Chi-squared goodness-of-fit test
-* ### Multi-linear regression
+* ### [Multiple linear regression](/multi-linear-regression/)
 * ### Logisitic regression
 * ### Time-series analysis (moving averages)
 * ### Time-series analysis (ARIMA)
