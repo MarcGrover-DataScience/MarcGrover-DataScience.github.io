@@ -35,7 +35,7 @@ A/B testing used to compare proportions or frequencies of a categorical variable
 
 A workflow in Python was developed using libraries Scipy, Pandas and Numpy, utilising Matplotlib for visualisations.  The data was created in the script, with the intention of producing interesting statistical findings.  
 
-The A/B test was used to test the null hypothesis that There is no variance between the control and treatment groups.  Further analysis determined the high-confidence range of conversion percentages, to support business planning and expectations.
+The A/B test was used to test the null hypothesis that there is no variance between the control and treatment groups.  Further analysis determined the high-confidence range of conversion percentages, to support business planning and expectations.
 
 Tests were also undertaken to determine if the sample size was sufficient to detect a real difference given the expected conversion rates.
 
@@ -49,9 +49,16 @@ The data being used for the A/B test contains 1,000 data points for each group, 
 
 ![conversion](ab_conversion.png)
 
-This was used to create the contingency table:
+This data was used to create the contingency table:
 
 ![cont_table](ab_cont_tab.png)
+
+The chi-squared test was applied to the data, with the null hypothesis that there is no variance between the control and treatment groups, with the significance level (alpha) equal to 0.05.  
+The result was a p_value of 0.00022, and as this is > 0.05 we can reject the null hypothesis and have evidence that there is a statistically significant difference in conversion rates between the 2 groups.
+
+![exp_freq](ab_exp_freq.png)
+![conversion_ci](ab_conversion_ci.png)
+
 
 Two-Way ANOVA without replication test is:
 
@@ -59,16 +66,15 @@ Two-Way ANOVA without replication test is:
 
 Initially boxplots of alcohol content by each factor are created:  
 
-![boxplot_by_ph](2w_anova_without_ph_boxplot.png)
-![boxplot_by_quality](2w_anova_without_qual_boxplot.png)
+
 
 A heatmap of the values is also produced as provides a useful visualisation of the data:  
 
-![heatmap](2w_anova_without_ph_heat.png)
+
 
 An interactive plot also enhances understanding of the data: 
 
-![interaction_plot](2w_anova_without_interaction.png)
+
 
 An initial visual inspection of these charts can lead to the assumption that the factors have a strong relationship to the alcohol content, but lets test that hypothesis and understand more about any relationships. 
 
