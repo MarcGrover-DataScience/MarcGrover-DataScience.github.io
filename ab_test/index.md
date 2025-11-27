@@ -43,7 +43,7 @@ Data preparation:  Minor transformation of data into a pandas dataframe and cont
 
 ## Results and conclusions:
 
-### Descriptive statistics:  
+### Hypothesis Test:  
 
 The data being used for the A/B test contains 1,000 data points for each group, where 18% converted in the treatment group and 12% converted in the control group.
 
@@ -54,90 +54,41 @@ This data was used to create the contingency table:
 ![cont_table](ab_cont_tab.png)
 
 The chi-squared test was applied to the data, with the null hypothesis that there is no variance between the control and treatment groups, with the significance level (alpha) equal to 0.05.  
-The result was a p_value of 0.00022, and as this is > 0.05 we can reject the null hypothesis and have evidence that there is a statistically significant difference in conversion rates between the 2 groups.
 
-![exp_freq](ab_exp_freq.png)
+The result of the chi-squared test was a p_value of 0.00022, and as this is > 0.05 we can reject the null hypothesis and have evidence that there is a statistically significant difference in conversion rates between the 2 groups.
+
+An output of the chi-squared test was the expected frequencies table, which represents the expected number of conversions should there be no difference in conversion rates between groups.
+
+![exp_freq](ab_exp_freq.png)  
+
+Using Cramér's V which is a measure of association between two nominal variables, returning a number between 0 and 1 that indicates how strongly two categorical variables are associated.  The calculated Cramér's V was 0.0826, which is interpretted as being a 'small' effect, i.e. moving from the control to treatment group will return a statistically significant difference but the scale of that effect is small.  It should be noted that this is a subjective effect 'size', and may well produce a meaningful and positive business improvement, and as such the Cramér's V is to be interpretted within the business context.  As an example, increasing conversion rates by a few percent may have significant business benefit and meet the goals of the development.
+
+Given the data available, we want to determine the range of values that the true conversion rates are in, with 95% confidence.  From the data we cannot be sure that the true conversion rate via the new web page is eqactly 18%.
+
+It was determined that the 95% confidence intervals for true conversion rates are:  
+
+Control Group: 95% Confidence Interval of Conversion Rate: (9.99%, 14.01%)
+
+Treatment Group: 95% Confidence Interval of Conversion Rate: (15.62%, 20.38%)
+
+Visualising these ranges on a chart to support interpretation:  
+
 ![conversion_ci](ab_conversion_ci.png)
 
+### Sample size and power analysis:  
 
-Two-Way ANOVA without replication test is:
+When setting up tests, and taking measurements it is important to determine the sample size required to meaningfully determine if there is a difference between the groups.  
+Power refers to the probability that your test will detect an effect when there actually is one.  Typically, this is 80% i.e. 80% chance of detecting a real effect should one exist.  More formally:  
 
+Power = Probability of rejecting the null hypothesis when it's actually false
 
+Note that it is common to set alpha to 5%, which is the chance of a false positive.
 
-Initially boxplots of alcohol content by each factor are created:  
+Taking the example above, the business had data to imply that the conversion rate on the old website was 11%, and was hoping for a conversion rate up to 16%.  Using these values, it was determined that a sample size of at least 733 per group was required.  The data analysed has 1,000 and as such we can be confident that the sample size was sufficiently large to detect the approxmated difference between websites.
 
-
-
-A heatmap of the values is also produced as provides a useful visualisation of the data:  
-
-
-
-An interactive plot also enhances understanding of the data: 
-
-
-
-An initial visual inspection of these charts can lead to the assumption that the factors have a strong relationship to the alcohol content, but lets test that hypothesis and understand more about any relationships. 
-
-### Hypothesis Test:
-
-First we test the data for normality, using the Shapiro-Wilk Normality Test:  
-
-Test Statistic: 0.921433  
-P-value: 0.404236  
-As the p_value > 0.05 - we can assume that the data is normally distributed  
-
-Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, the results being:
-
-Levene's Test (by Quality):  
-Test Statistic: 0.396240  
-P-value: 0.689237  
-As the p_value > 0.05 - Equal variances assumed
-
-Levene's Test (by pH Level):  
-Test Statistic: 0.460375  
-P-value: 0.651620  
-As the p_value > 0.05 - Equal variances assumed  
-
-As such it can be considered that there is homogeneity of variances.
-
-The Two-Way ANOVA without replication test was applied to the data for the two factors, where the alpha was set to 0.05 - i.e. 95% confidence, and the null hypothesis being that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content). The results for each factor were: 
-
-MAIN EFFECT: QUALITY  
-F-statistic: 22.4012  
-P-value: 0.006718  - compared to the alpha = 0.05, i.e. p_value < 0.05  
- 
-Wine quality has a statistically significant effect on alcohol content, and we reject the null hypothesis that quality levels have equal mean alcohol content.
-
-MAIN EFFECT: pH LEVEL  
-F-statistic: 14.3968  
-P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05  
-
-pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
-
-So in combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.  
-
-Assessing the overall model the R-squared = 0.9485, which can be interpreted as 94.85% of the variance in alcohol content is explained by the two factors (Quality and pH Level) combined.  The p-value of the overall model is 0.007698, which is less than the aplha = 0.05, therefore we can reject the hypothesis that the model isn't any good, i.e. we can conclude that the model is good.
-
-We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are, which are interpretted using Cohen's D values for effect size:
-
-Quality effect size (η²): 0.5774 - i.e. 57.7% of the variance of alcohol content can be explained by the quality  
-Cohen's D: Large effect
-
-pH Level effect size (η²): 0.3711 - i.e. 37.1% of the variance of alcohol content can be explained by the pH level  
-Cohen's D: Large effect
-
-In summary the conclusions are that:
- - The model explains 94.85% of variance in alcohol content
- - Both factors should be considered when analyzing wine characteristics
- - Results suggest that wine quality and pH chemistry relate to alcohol levels
-
-It should be noted that there are important limitations with this test:
- - this is considered an observational study, and as such causation cannot be inferred.  
- - sample represents single values (no replication within cells)
- - Results specific to the limited samples of wine
 
 ## Next steps:
-Given the findings and limitations, and the limited number of measurements, it would be recommended to take more measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
+The primary recommendations would be that the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken.  It was also be recommended to constantly track the conversion rates of the new website to understand if the rate achieved in the test is reflected going forward, and understand any changes or trends over time, using a range of analytical techniques, potentially including time-series analysis and comparative analysis methods.  It would also be suggested that other website designs are tested to see if they produce even greater conversion rates.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
