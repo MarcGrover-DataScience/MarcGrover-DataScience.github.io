@@ -16,6 +16,7 @@
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency, chi2
+from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -46,8 +47,23 @@ print(f"\nTotal observations: {len(df)}")
 print("\nConversion Rates by Group:")
 conversion_rates = df.groupby('Group')['Converted'].apply(
     lambda x: (x == 'Yes').sum() / len(x) * 100
-)
+).reset_index()
+conversion_rates.columns = ['Group', 'Conversion_Rate']
 print(conversion_rates)
+
+# Prepare data for statistical test
+control_conversions = (df[df['Group'] == 'Control']['Converted'] == 'Yes').sum()
+control_total = len(df[df['Group'] == 'Control'])
+treatment_conversions = (df[df['Group'] == 'Treatment']['Converted'] == 'Yes').sum()
+treatment_total = len(df[df['Group'] == 'Treatment'])
+
+# Calculate additional metrics
+lift = ((treatment_conversions / treatment_total) - (control_conversions / control_total)) / (control_conversions / control_total) * 100
+absolute_diff = (treatment_conversions / treatment_total - control_conversions / control_total) * 100
+
+print(f"\nPerformance Improvement:")
+print(f"  Absolute Difference: {absolute_diff:.2f} percentage points")
+print(f"  Relative Lift: {lift:.2f}%")
 
 # Create contingency table
 contingency_table = pd.crosstab(df['Group'], df['Converted'])
@@ -57,7 +73,7 @@ print(contingency_table)
 # Perform chi-squared test
 chi2_stat, p_value, dof, expected_freq = chi2_contingency(contingency_table)
 
-print("Chi-Squared Test Results:")
+print("\nChi-Squared Test Results:")
 print(f"Chi-squared statistic: {chi2_stat:.4f}")
 print(f"P-value: {p_value:.6f}")
 print(f"Degrees of freedom: {dof}")
@@ -80,8 +96,8 @@ else:
 n = contingency_table.sum().sum()              # Total number of observations
 k = min(contingency_table.shape)               # Minimum of rows or columns
 cramers_v = (chi2_stat / (n * (k - 1))) ** 0.5
-print(f"Chi-squared statistic: {chi2_stat:.4f}")
-print(f"Cramér's V: {cramers_v:.4f}")
+# print(f"Chi-squared statistic: {chi2_stat:.4f}")
+print(f"\nCramér's V: {cramers_v:.4f}")
 
 print("Interpretation: ", end="")
 if cramers_v < 0.1:
@@ -90,6 +106,24 @@ elif cramers_v < 0.3:
     print("Medium effect")
 else:
     print("Large effect")
+
+# Calculate confidence intervals (95%)
+def proportion_ci(successes, total, confidence=0.95):
+    p = successes / total
+    z = stats.norm.ppf((1 + confidence) / 2)
+    se = np.sqrt(p * (1 - p) / total)
+    margin = z * se
+    return (p - margin) * 100, (p + margin) * 100
+
+control_ci = proportion_ci(control_conversions, control_total)
+treatment_ci = proportion_ci(treatment_conversions, treatment_total)
+
+print(f"\nControl Group:")
+print(f"  Conversion Rate: {control_conversions/control_total*100:.2f}%")
+print(f"  95% CI: [{control_ci[0]:.2f}%, {control_ci[1]:.2f}%]")
+print(f"\nTreatment Group:")
+print(f"  Conversion Rate: {treatment_conversions/treatment_total*100:.2f}%")
+print(f"  95% CI: [{treatment_ci[0]:.2f}%, {treatment_ci[1]:.2f}%]")
 
 # Visualization 1: Conversion Rate Comparison
 fig, ax = plt.subplots(figsize=(8, 6))
@@ -119,7 +153,31 @@ for bar in bars:
 plt.tight_layout()
 plt.show()
 
+# Visualization 2: Confidence interval plot
+plt.figure(figsize=(10, 6))
+groups = ['Control', 'Treatment']
+rates = [conversion_rates['Conversion_Rate'].iloc[0],
+         conversion_rates['Conversion_Rate'].iloc[1]]
+ci_lower = [control_ci[0], treatment_ci[0]]
+ci_upper = [control_ci[1], treatment_ci[1]]
 
+y_pos = np.arange(len(groups))
+plt.barh(y_pos, rates, color=['#3498db', '#e74c3c'], alpha=0.8,
+         edgecolor='black', linewidth=1)
+plt.errorbar(rates, y_pos,
+             xerr=[[rates[0] - ci_lower[0], rates[1] - ci_lower[1]],
+                   [ci_upper[0] - rates[0], ci_upper[1] - rates[1]]],
+             fmt='none', color='black', capsize=5, capthick=2, alpha=0.7)
+plt.yticks(y_pos, groups)
+plt.xlabel('Conversion Rate (%) with 95% CI', fontsize=12, fontweight='bold')
+plt.title('Conversion Rates with Confidence Intervals', fontsize=14, fontweight='bold', pad=20)
+
+# Add value labels
+for i, (rate, lower, upper) in enumerate(zip(rates, ci_lower, ci_upper)):
+    plt.text(rate + 0.5, i, f'{rate:.1f}%\n({lower:.1f}%-{upper:.1f}%)',
+             va='center', fontsize=9)
+plt.tight_layout()
+plt.show()
 
 
 # ============================================================================
@@ -245,7 +303,7 @@ else:
 # Typically, this is 80% i.e. 80% chance of detecting a real effect should one exist.
 # Power = Probability of rejecting the null hypothesis when it's actually false
 # Note, alpha is 5% chance of false positive
-print("\n \nEXAMPLE 5: Sample Size and Power Analysis")
+print("\n \nEXAMPLE 4: Sample Size and Power Analysis")
 
 def minimum_sample_size(p1, p2, alpha=0.05, power=0.80):
     """
@@ -286,8 +344,8 @@ def minimum_sample_size(p1, p2, alpha=0.05, power=0.80):
 
 
 # Example calculation
-baseline_rate = 0.10  # 10% conversion rate
-target_rate = 0.12  # 12% conversion rate (20% relative lift)
+baseline_rate = 0.11  # 11% conversion rate
+target_rate = 0.16  # 16% conversion rate
 
 min_n = minimum_sample_size(baseline_rate, target_rate)
 

@@ -2,34 +2,24 @@
 
 layout: default
 
-title: Web conversion rates  (A/B test)
+title: Restaurant tips (Multi Linear Regression)
 
-permalink: /ab-test/
+permalink: /multi-linear-regression/
 
 ---
 
 ## Goals and objectives:
 
-To test and analyse the conversion rates for users signing up for membership via a new webpage (treatment group) compared to the old webpage (control group).  The business wants to understand if there are any statistically significant differences.
-
-1,000 data points were collected from both the new and old webpage, which showed 180 took out membership via the new web page, and 120 took out membership via the old web page.  This data is analysed to determine if any significant difference can be assumed, and identify other insight from the data.
-
-The A/B test (using the chi-squared test) provided evidence that there is a statistically significant difference in conversions between the two versions of the website, and provided the business with evidence to support the decision to migrate to the new version of the website.  This allowed the business to model expected increases in membership volumes and associated revenue.
+A restaurant wishes to understand how accurately it is possible to predict tip amount based on total bill value, party size, and time of day.  Multi linear regression modelling was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
 
 ## Application:  
 
-Why use the chi-squared test? The chi-squared t-test and the 2-sample test can both be used in A/B testing, but they are appropriate for different types of metrics and research questions.  The best test depends entirely on the type of data you are analysing.  
+The business application of MLR is centred on forecasting (predicting future values) and causal analysis (quantifying the impact of multiple factors on a single outcome).  Examples of uses across different sectors include (though this is a far from complete list)
 
-The chi-squared test of independence is used to compare the proportions or frequencies of a categorical variable between two groups.  As such it is applicable to cases such as this project where the data categorical/discrete, i.e. testing if the conversion rate (proportion of users who converted) is significantly different between the Control (A) and Variant (B).
-
-By contrast, the independent 2-sample t-test is used to compare the means (averages) of a continuous variable between two independent groups (A and B).
-
-A/B testing used to compare proportions or frequencies of a categorical variable is foundational to modern data-driven decision-making, particularly in optimizing digital experiences and quality control.
-
-* In the technology sector, this is the most common use of A/B testing, focusing on user behavior that results in a binary outcome (success/failure).  Examples include, conversion, click-through rates, email-open rates.
-* Retail uses these tests to optimize both online and in-store campaign effectiveness - offer redemption rates, cart abandonment rate, packing preference.
-* In finance, these tests are crucial for improving the efficiency of lead generation and customer onboarding - Application Submission Rate, Lead-to-Client Conversion.
-* In manufacturing, this A/B testing framework is used offline to compare the effectiveness of two production conditions on a binary quality outcome - Defect Rate Comparison, Pass/Fail Inspection Rates.
+* In finance, MLR is essential for risk modelling, asset valuation, financial forecasting, and understanding market drivers.
+* Retail leverages MLR primarily for sophisticated demand forecasting, pricing strategies, customer life valuations and marketing budget allocation.
+* In technology, MLR is vital for optimizing product performance, user retention, and managing infrastructure costs.  .
+* MLR is fundamental to Quality Control (QC) and Predictive Maintenance by modelling the complex interplay of process variables..
 
 ## Methodology:  
 
@@ -96,4 +86,4 @@ The primary recommendations would include:
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/AB Testing.py)
+[View the Python Script](/Multi-Linear-Regression-Tips.py)
