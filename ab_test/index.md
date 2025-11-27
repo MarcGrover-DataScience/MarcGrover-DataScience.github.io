@@ -88,7 +88,11 @@ Taking the example above, the business had data to imply that the conversion rat
 
 
 ## Next steps:
-The primary recommendations would be that the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken.  It was also be recommended to constantly track the conversion rates of the new website to understand if the rate achieved in the test is reflected going forward, and understand any changes or trends over time, using a range of analytical techniques, potentially including time-series analysis and comparative analysis methods.  It would also be suggested that other website designs are tested to see if they produce even greater conversion rates.
+The primary recommendations would include:
+* the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken.
+* constantly track the conversion rates of the new website to understand if the rate achieved in the test is reflected going forward, and understand any changes or trends over time
+* use a range of analytical techniques, potentially including time-series analysis and comparative analysis methods on nwely collected data
+* other website designs are tested to see if they produce even greater conversion rates
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
