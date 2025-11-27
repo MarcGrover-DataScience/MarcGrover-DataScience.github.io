@@ -24,32 +24,38 @@ The chi-squared test of independence is used to compare the proportions or frequ
 
 By contrast, the independent 2-sample t-test is used to compare the means (averages) of a continuous variable between two independent groups (A and B).
 
-The Two-Way ANOVA Without Replication (also known as a Randomized Block Design or a two-factor ANOVA with one observation per cell) is a statistical test used to assess the main effects of two categorical factors on a single continuous dependent variable, while assuming there is no interaction between the two factors.  This design is often used when one factor is a "nuisance factor" or a blocking variable that is included primarily to account for variability, thus increasing the power of the test for the other factor.
+A/B testing used to compare proportions or frequencies of a categorical variable is foundational to modern data-driven decision-making, particularly in optimizing digital experiences and quality control.
 
-* Used in manufacturing where resources (materials, machines, time) are limited, and one observation per condition is practical for quality audits.
-* In development, it's used to efficiently evaluate the main performance effects of two variables (e.g. software versions and server regions)
-* Retail often uses this to compare key performance indicators (KPIs) across stores or channels, e.g. sales based on factors of store locations and promotional offers.
-* In finance, it's used for comparative analysis where confounding variables need to be controlled (e.g. investment strategies and time periods)
+* In the technology sector, this is the most common use of A/B testing, focusing on user behavior that results in a binary outcome (success/failure).  Examples include, conversion, click-through rates, email-open rates.
+* Retail uses these tests to optimize both online and in-store campaign effectiveness - offer redemption rates, cart abandonment rate, packing preference.
+* In finance, these tests are crucial for improving the efficiency of lead generation and customer onboarding - Application Submission Rate, Lead-to-Client Conversion.
+* In manufacturing, this A/B testing framework is used offline to compare the effectiveness of two production conditions on a binary quality outcome - Defect Rate Comparison, Pass/Fail Inspection Rates.
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scipy, statsmodels, scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data came from a publicly available dataset of wine data from the library scikit-learn, which was then extended to produce interesting statistical findings.  
+A workflow in Python was developed using libraries Scipy, Pandas and Numpy, utilising Matplotlib for visualisations.  The data was created in the script, with the intention of producing interesting statistical findings.  
 
-The Two-way ANOVA without replication test was used to test the null hypothesis that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content).  
+The A/B test was used to test the null hypothesis that There is no variance between the control and treatment groups.  Further analysis determined the high-confidence range of conversion percentages, to support business planning and expectations.
 
-Assumptions are tested regarding both the normality of the residuals using the Shapiro-Wilk test, and the homogeneity of Variances (Homoscedasticity) using Levene's test
+Tests were also undertaken to determine if the sample size was sufficient to detect a real difference given the expected conversion rates.
 
-The assumption of independence of observations is assumed due to design of the experiment, as well as the assumption of additivity or no interaction between the two independent factors..
-
-Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes, where there is a single value of alcohol content for each quaility and pH combination.
+Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.
 
 ## Results and conclusions:
 
 ### Descriptive statistics:  
 
-The data being used for the Two-Way ANOVA without replication test is:
+The data being used for the A/B test contains 1,000 data points for each group, where 18% converted in the treatment group and 12% converted in the control group.
 
-![input_data](2w_anova_without_ph_df.png)
+![conversion](ab_conversion.png)
+
+This was used to create the contingency table:
+
+![cont_table](ab_cont_tab.png)
+
+Two-Way ANOVA without replication test is:
+
+
 
 Initially boxplots of alcohol content by each factor are created:  
 
@@ -129,4 +135,4 @@ Given the findings and limitations, and the limited number of measurements, it w
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/ANOVA_2-way_withoutRep.py)
+[View the Python Script](/AB Testing.py)
