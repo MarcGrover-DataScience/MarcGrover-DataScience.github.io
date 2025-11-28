@@ -40,3 +40,5 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Named Entity Recognition (Deep Learning)
 * ### Text Summarisation (Deep Learning)
 <!-- * ### Zero-shot Classification (Deep Learning) -->
+
+![logo](Data Scientist Logo_small.png)
