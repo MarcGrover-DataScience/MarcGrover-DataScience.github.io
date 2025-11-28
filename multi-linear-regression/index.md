@@ -65,10 +65,12 @@ The most common method for detecting multicollinearity is by calculating the Var
 
 Variance Inflation Factor (VIF):  
 
-  Feature    VIF
- total_bill  9.216
-       size  9.271
+```
+  Feature    VIF  
+ total_bill  9.216  
+       size  9.271  
 time_dinner  3.170
+```
 
 The general guidance states that a VIF > 10 is considered 'High multicollinearity', which is not the case here, but with two values greater than 9.2 this should be noted.
 
@@ -80,11 +82,13 @@ Feature scaling was undertaken, where the independent varaible (X) data was also
 
 Feature scaling is important, as the different features have different ranges (e.g., bill: $3-50, size: 1-6).  Scaling puts all features on the same scale, which makes the coefficients directly comparable, and also improves the model training and interpretation.
 
-Note that before scaling, the mean and standard deviation for each IV were:
+Note that before scaling, the mean and standard deviation for each IV were:  
 
-      total_bill   size  time_dinner
-mean      20.218  2.574        0.728
-std        8.771  0.941        0.446
+```
+        total_bill     size  time_dinner  
+mean        20.218    2.574        0.728  
+std          8.771    0.941        0.446
+```
 
 The MLR model was fitted with the scaled IV data, producing a model:
 
