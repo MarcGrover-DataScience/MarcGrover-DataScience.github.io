@@ -1,15 +1,15 @@
 # Marc Grover - Data Science Portfolio 
 Hello, I'm Marc Grover, and welcome to my collection of Data Science analytical projects built in Python demonstrating key Data Science techniques to solve business problems and provide insights and evidence to support business decisions.  
 
-These demonstrate key techniques using a range of machine learning and artificial intelligence methods and capabilities, utilising leading python libraries.  
+These demonstrate key techniques using a range of machine learning and artificial intelligence techniques, utilising leading python libraries.  
 
-Each project describes the insights and knowledge gained, and the applicability of the analytical method to a range of business situations and real-world scenarios across sectors, where valuable insight and conclusions can be generated to support business decision-making, yielding tangible benefits. 
+Each project describes a fictional but realistic business scenario, where key information is required or insights and knowledge are collected to answer a business question.  The applicability of the analytical method to a range of business situations and real-world scenarios across sectors is described, to highlight to power and flexibility of each.  These demonstrate how valuable insight, recommendations and conclusions can be generated to support business decision-making, yielding tangible benefits. 
 
-The data used is either freely available or generated as part of the project.  None of the projects are actual business solutions and analysis that I have build, but demonstrate the techniques and applicability.
+The data used in each project is either freely available or generated as part of the project.  None of the projects are actual business solutions and analysis that I have built, but demonstrate the techniques and applicability.
 
-The projects are not just a collection of techniques, but walk through a mind-set that a Data Scientist must go through, including exploratory data exploration (EDA), data preparation, analysis, interpreting results, reaching conclusions, and providing recommendations.  These reflect real-world implementation, including suggested next steps.
+The projects are not just a collection of techniques, but walk through of a process and mind-set that a Data Scientist must go through when applying to real-world scenarios, including exploratory data exploration (EDA), data preparation, analysis, interpreting results, reaching conclusions, and providing recommendations, as well as considered what to do next to further validate the outputs and derive additional information.  These reflect real-world implementation, including suggested next steps.
 
-The examples are purposely simple for the sake of clarity, they demonstrate the power, flexibility and scalability of analytical techniques and solutions.
+The examples are purposely simple for the sake of clarity, to focus on demonstrating the power, flexibility and scalability of analytical techniques and solutions, and how they can be beneficial to many businesses in many scanarios.
   
 ## Featured Projects  
 * ### [Statistical Analysis - One-Sample T-Test](/statistical-analysis/)
@@ -21,7 +21,7 @@ The examples are purposely simple for the sake of clarity, they demonstrate the 
 * ### [A/B Testing (Chi-squared test)](/ab-test/)
 * ### Chi-squared goodness-of-fit test
 * ### [Multiple linear regression](/multi-linear-regression/)
-* ### Logisitic regression
+* ### Logistic regression
 * ### Time-series analysis (moving averages)
 * ### Time-series analysis (ARIMA)
 * ### K-Means clustering
