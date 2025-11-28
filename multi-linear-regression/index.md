@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Restaurant tips (Multi Linear Regression)
+title: Restaurant tips (Multiple Linear Regression)
 
 permalink: /multi-linear-regression/
 
@@ -10,7 +10,7 @@ permalink: /multi-linear-regression/
 
 ## Goals and objectives:
 
-A restaurant wishes to understand how accurately it is possible to predict tip amount based on total bill value, party size, and time of day.  Multi linear regression modelling was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
+A restaurant wishes to understand how accurately it is possible to predict tip amount based on total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
 
 ## Application:  
 
@@ -37,11 +37,27 @@ Data preparation:  Minor transformation of data into a pandas dataframe and cont
 
 The data being used for the A/B test contains 1,000 data points for each group, where 18% converted in the treatment group and 12% converted in the control group.
 
-![conversion](ab_conversion.png)
+![correlation_matrix](mlr_corr_mat.png)
+
+
+![scatter_billing](mlr_scat_bill.png)
+
+![boxplot_time](mlr_boxplot_time.png)
+
+
+![predictions_scatter](mlr_scatter_pred_act.png)
+
+
+![residuals_scatter](mlr_scatter_res.png)
+
+![residuals_histogram](mlr_hist_res.png)
+
+![feature importance](mlr_feat_imp.png)
+
 
 This data was used to create the contingency table:
 
-![cont_table](ab_cont_tab.png)
+
 
 The chi-squared test was applied to the data, with the null hypothesis that there is no variance between the control and treatment groups, with the significance level (alpha) equal to 0.05.  
 
@@ -49,7 +65,7 @@ The result of the chi-squared test was a p_value of 0.00022, and as this is > 0.
 
 An output of the chi-squared test was the expected frequencies table, which represents the expected number of conversions should there be no difference in conversion rates between groups.
 
-![exp_freq](ab_exp_freq.png)  
+
 
 Using Cramér's V which is a measure of association between two nominal variables, returning a number between 0 and 1 that indicates how strongly two categorical variables are associated.  The calculated Cramér's V was 0.0826, which is interpretted as being a 'small' effect, i.e. moving from the control to treatment group will return a statistically significant difference but the scale of that effect is small.  It should be noted that this is a subjective effect 'size', and may well produce a meaningful and positive business improvement, and as such the Cramér's V is to be interpretted within the business context.  As an example, increasing conversion rates by a few percent may have significant business benefit and meet the goals of the development.
 
@@ -63,7 +79,7 @@ Treatment Group: 95% Confidence Interval of Conversion Rate: (15.62%, 20.38%)
 
 Visualising these ranges on a chart to support interpretation:  
 
-![conversion_ci](ab_conversion_ci.png)
+
 
 ### Sample size and power analysis:  
 
