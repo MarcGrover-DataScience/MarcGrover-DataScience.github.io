@@ -49,7 +49,7 @@ The following boxplot visualises the tip distribution for both lunch and dinner 
 
 ### Correlation Analysis
 
-The correlation matrix (for the 3 independent variables and depeandent variable) shows the correlation between each variable.  
+The correlation matrix (for the 3 independent variables and dependent variable) shows the correlation between each variable.  
 
 Values close to 1 or -1 indicate strong relationships, and values close to 0 indicate weak relationships.
 
@@ -57,11 +57,42 @@ Values close to 1 or -1 indicate strong relationships, and values close to 0 ind
 
 ### Multicollinearity test:
 
+Multicollinearity needs to be tested in multiple linear regression because it can significantly distort the results and make the model unreliable and difficult to interpret.
 
+Multicollinearity occurs when two or more independent variables (predictors) in a regression model are highly correlated with each other.
+
+The most common method for detecting multicollinearity is by calculating the Variance Inflation Factor (VIF) for each independent variable.
+
+Variance Inflation Factor (VIF):  
+
+  Feature    VIF
+ total_bill  9.216
+       size  9.271
+time_dinner  3.170
+
+The general guidance states that a VIF > 10 is considered 'High multicollinearity', which is not the case here, but with two values greater than 9.2 this should be noted.
 
 ### Hypothesis Test:  
 
+The data was split into training and test sets using the standard 80/20 ratio.
 
+Feature scaling was undertaken, where the independent varaible (X) data was also scaled so within each IV the mean = 0 and standard deviation = 1.
+
+Feature scaling is important, as the different features have different ranges (e.g., bill: $3-50, size: 1-6).  Scaling puts all features on the same scale, which makes the coefficients directly comparable, and also improves the model training and interpretation.
+
+Note that before scaling, the mean and standard deviation for each IV were:
+
+      total_bill   size  time_dinner
+mean      20.218  2.574        0.728
+std        8.771  0.941        0.446
+
+The MLR model was fitted with the scaled IV data, producing a model:
+
+Tip = 3.088 + (0.801×total_bill) + (0.248×size)  - (0.024×time_dinner)
+
+The model was applied to the test data so that there was both predicted and actual tips for those observations, enabling a calculation for the residual for each test observation (actual tip - predicted tip).
+
+### Model Performance:
 
 ![predictions_scatter](mlr_scatter_pred_act.png)
 
