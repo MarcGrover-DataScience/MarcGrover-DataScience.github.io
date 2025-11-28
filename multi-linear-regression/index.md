@@ -10,7 +10,7 @@ permalink: /multi-linear-regression/
 
 ## Goals and objectives:
 
-A restaurant wishes to understand how accurately it is possible to predict tip amount based on total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
+A restaurant wishes to understand how accurately can predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
 
 ## Application:  
 
@@ -29,20 +29,38 @@ The A/B test was used to test the null hypothesis that there is no variance betw
 
 Tests were also undertaken to determine if the sample size was sufficient to detect a real difference given the expected conversion rates.
 
-Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.
+Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  
 
 ## Results and conclusions:
 
-### Hypothesis Test:  
+### Descriptive Statistics:
 
-The data being used for the A/B test contains 1,000 data points for each group, where 18% converted in the treatment group and 12% converted in the control group.
+There are 244 observations recorded, covering a period of 4 consecutive days.
 
-![correlation_matrix](mlr_corr_mat.png)
+The mean tip is 2.998, with a standard deviation of 1.384 (currency is ignored in this example for simplicity)
 
+The following scatter plot shows the mapping of tip value to total bill value:
 
 ![scatter_billing](mlr_scat_bill.png)
 
+The following boxplot visualises the tip distribution for both lunch and dinner sittings:
+
 ![boxplot_time](mlr_boxplot_time.png)
+
+### Correlation Analysis
+
+The correlation matrix (for the 3 independent variables and depeandent variable) shows the correlation between each variable.  
+
+Values close to 1 or -1 indicate strong relationships, and values close to 0 indicate weak relationships.
+
+![correlation_matrix](mlr_corr_mat.png)
+
+### Multicollinearity test:
+
+
+
+### Hypothesis Test:  
+
 
 
 ![predictions_scatter](mlr_scatter_pred_act.png)
