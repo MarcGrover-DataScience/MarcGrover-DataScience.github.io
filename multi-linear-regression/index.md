@@ -10,7 +10,7 @@ permalink: /multi-linear-regression/
 
 ## Goals and objectives:
 
-A restaurant wishes to understand how accurately can predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
+A restaurant wishes to understand how accurately can we predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
 
 ## Application:  
 
@@ -120,7 +120,7 @@ The residuals, where each Residual = Actual Value - Predicted Value , are plotte
 
 The analysis of the residuals show that the mean = -0.2446 (where this should be close to 0), and the standard deviation = 0.78 (where a value close to zero represents a good model).
 
-The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good.
+The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good, however further, more accruate, analysis is detailed in the next section.
 
 ![residuals_scatter](mlr_scatter_res.png)
 
@@ -130,17 +130,17 @@ The residual plots look random, and without pattern, and also does not look funn
 
 Linear regression requires these assumptions to be tested:
 
-# Test 1 - Residual normality - where the null hypothesis is that residuals are normally distributed.
+#### Test 1 - Residual normality - where the null hypothesis is that residuals are normally distributed.
 
 Using the Shapiro-Wilk Test the results returned a P-value: 0.4930, and as p > 0.05, this is evidence that the residuals are normally distributed as required.
 
-# Test 2 - Homoscedasticity (constant variance of residuals)
+#### Test 2 - Homoscedasticity (constant variance of residuals)
 
 Using the Spearman Correlation test on the predicted values and the absolute residuals, the P-value was equal to 0.0000 , the Spearman Correlation value was 0.6063.
 
 As such p < 0.05 this is evidence of heteroscedasticity (p ≤ 0.05), therefore we should consider transforming the target variable accordingly.
 
-# Test 3 - No multicollinearity among features
+#### Test 3 - No multicollinearity among features
 
 We already tested this with VIF, see above, where the result that there is moderate multicollinearity present.
 
@@ -148,15 +148,47 @@ We already tested this with VIF, see above, where the result that there is moder
 
 Understanding the importance of each feature (Independent Variable) is an important finding from Multiple Linear Regression, as it allows further understanding of the model and output, as well as guiding any further improvements to be made to the model.
 
+The bar chhart below visualises the importance of each feature, showing that, perhaps unsuprisingly, total bill value is the strongest predictor of tip size
+
 ![feature importance](mlr_feat_imp.png)
 
+### Conclusions:
 
+Thinking back to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
+
+Model Performance:
+* The model works reasonably well for a simple dataset (47.7% of variance explained)
+* The average prediction error is 0.67
+
+Keyfindings:
+* Total bill amount is the strongest predictor of tip size, the higher the bill amount the higher the tip tends to be
+* Larger parties tend to leave larger tips
+* Lunch time sittings decreases expected tips
+
+Assumption testing:
+* Normality: Satisfied
+* Constant Variance: Some heteroscedasticity
+* Multicollinearity: Moderate
+
+Practical interpretation:
+  For every $ increase in the total bill, we expect the tip to increase by
+  approximately 0.12, 
+  holding other factors constant.
+
+Limitations:
+* Model doesn't account for service quality or customer satisfaction
+* R² of 0.477 means 52.3% of variation is unexplained
+* Limited to the patterns in this restaurant's data
 
 
 ## Next steps:  
 
 Rerun test with transformed DV
 Add more IVs
+* Collect additional features (e.g., day of week, server ID, meal type)
+* Increase sample size for better generalization
+* Consider non-linear relationships (polynomial features)
+* Explore interaction effects between features
 Consider removing one IV due to moderate multicollinearity
 The primary recommendations would include:
 * the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken.
