@@ -96,7 +96,21 @@ Tip = 3.088 + (0.801×total_bill) + (0.248×size)  - (0.024×time_dinner)
 
 The model was applied to the test data so that there was both predicted and actual tips for those observations, enabling a calculation for the residual for each test observation (actual tip - predicted tip).
 
-### Model Performance:
+### Model Evaluation:
+
+First the model was evaluated against the training set, returning: 
+R² Score: 0.4519 (45.2% of variance explained by the model)  
+Root Mean Squared Error: 1.06  
+Mean Absolute Error: 0.76  
+
+The model was then evalauated against the test set, returning:
+R² Score: 0.4772 (47.7% of variance explained)  
+Root Mean Squared Error: 0.81
+Mean Absolute Error: 0.67
+
+Using the evaluation of the test set, this means that our model explains 47.7% of the variation in tips, and using MAE, on average the absolute error is 0.67
+
+The scatter plot below plots the predicted values against the actual values in the test set.
 
 ![predictions_scatter](mlr_scatter_pred_act.png)
 
@@ -134,16 +148,6 @@ Visualising these ranges on a chart to support interpretation:
 
 
 
-### Sample size and power analysis:  
-
-When setting up tests, and taking measurements it is important to determine the sample size required to meaningfully determine if there is a difference between the groups.  
-Power refers to the probability that your test will detect an effect when there actually is one.  Typically, this is 80% i.e. 80% chance of detecting a real effect should one exist.  More formally:  
-
-Power = Probability of rejecting the null hypothesis when it's actually false
-
-Note that it is common to set alpha to 5%, which is the chance of a false positive.
-
-Taking the example above, the business had data to imply that the conversion rate on the old website was 11%, and was hoping for a conversion rate up to 16%.  Using these values, it was determined that a sample size of at least 733 per group was required.  The data analysed has 1,000 and as such we can be confident that the sample size was sufficiently large to detect the approxmated difference between websites.
 
 
 ## Next steps:
