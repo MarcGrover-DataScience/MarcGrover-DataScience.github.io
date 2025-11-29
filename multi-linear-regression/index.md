@@ -105,52 +105,59 @@ Mean Absolute Error: 0.76
 
 The model was then evalauated against the test set, returning:
 R² Score: 0.4772 (47.7% of variance explained)  
-Root Mean Squared Error: 0.81
-Mean Absolute Error: 0.67
+Root Mean Squared Error: 0.81  
+Mean Absolute Error: 0.67  
 
 Using the evaluation of the test set, this means that our model explains 47.7% of the variation in tips, and using MAE, on average the absolute error is 0.67
 
-The scatter plot below plots the predicted values against the actual values in the test set.
+The scatter plot below plots the predicted values against the actual values in the test set.  Points close to the red line, equate to good predictions, and points far from the red line relate to less accurate prediction errors.  The random scatter around the line further implies a good model fit.
 
 ![predictions_scatter](mlr_scatter_pred_act.png)
 
+### Residual Analysis:
+
+The residuals, where each Residual = Actual Value - Predicted Value , are plotted below to visualise in a different way the predictions against the actuals.  The points near the red-line represent accurate predictions.
+
+The analysis of the residuals show that the mean = -0.2446 (where this should be close to 0), and the standard deviation = 0.78 (where a value close to zero represents a good model).
+
+The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good.
 
 ![residuals_scatter](mlr_scatter_res.png)
 
 ![residuals_histogram](mlr_hist_res.png)
 
+### Testing Assumptions:
+
+Linear regression requires these assumptions to be tested:
+
+# Test 1 - Residual normality - where the null hypothesis is that residuals are normally distributed.
+
+Using the Shapiro-Wilk Test the results returned a P-value: 0.4930, and as p > 0.05, this is evidence that the residuals are normally distributed as required.
+
+# Test 2 - Homoscedasticity (constant variance of residuals)
+
+Using the Spearman Correlation test on the predicted values and the absolute residuals, the P-value was equal to 0.0000 , the Spearman Correlation value was 0.6063.
+
+As such p < 0.05 this is evidence of heteroscedasticity (p ≤ 0.05), therefore we should consider transforming the target variable accordingly.
+
+# Test 3 - No multicollinearity among features
+
+We already tested this with VIF, see above, where the result that there is moderate multicollinearity present.
+
+### Feature importance:
+
+Understanding the importance of each feature (Independent Variable) is an important finding from Multiple Linear Regression, as it allows further understanding of the model and output, as well as guiding any further improvements to be made to the model.
+
 ![feature importance](mlr_feat_imp.png)
 
 
-This data was used to create the contingency table:
 
 
+## Next steps:  
 
-The chi-squared test was applied to the data, with the null hypothesis that there is no variance between the control and treatment groups, with the significance level (alpha) equal to 0.05.  
-
-The result of the chi-squared test was a p_value of 0.00022, and as this is > 0.05 we can reject the null hypothesis and have evidence that there is a statistically significant difference in conversion rates between the 2 groups.
-
-An output of the chi-squared test was the expected frequencies table, which represents the expected number of conversions should there be no difference in conversion rates between groups.
-
-
-
-Using Cramér's V which is a measure of association between two nominal variables, returning a number between 0 and 1 that indicates how strongly two categorical variables are associated.  The calculated Cramér's V was 0.0826, which is interpretted as being a 'small' effect, i.e. moving from the control to treatment group will return a statistically significant difference but the scale of that effect is small.  It should be noted that this is a subjective effect 'size', and may well produce a meaningful and positive business improvement, and as such the Cramér's V is to be interpretted within the business context.  As an example, increasing conversion rates by a few percent may have significant business benefit and meet the goals of the development.
-
-Given the data available, we want to determine the range of values that the true conversion rates are in, with 95% confidence.  From the data we cannot be sure that the true conversion rate via the new web page is eqactly 18%.
-
-It was determined that the 95% confidence intervals for true conversion rates are:  
-
-Control Group: 95% Confidence Interval of Conversion Rate: (9.99%, 14.01%)
-
-Treatment Group: 95% Confidence Interval of Conversion Rate: (15.62%, 20.38%)
-
-Visualising these ranges on a chart to support interpretation:  
-
-
-
-
-
-## Next steps:
+Rerun test with transformed DV
+Add more IVs
+Consider removing one IV due to moderate multicollinearity
 The primary recommendations would include:
 * the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken.
 * constantly track the conversion rates of the new website to understand if the rate achieved in the test is reflected going forward, and understand any changes or trends over time
