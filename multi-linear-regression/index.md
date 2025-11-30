@@ -90,7 +90,7 @@ mean        20.218    2.574        0.728
 std          8.771    0.941        0.446
 ```
 
-The MLR model was fitted with the scaled IV data, producing a model:
+The MLR model was fitted with the scaled IV data, producing a model, based on scaled versions of the factors:
 
 Tip = 3.088 + (0.801×total_bill) + (0.248×size)  - (0.024×time_dinner)
 
@@ -187,6 +187,7 @@ Recommendations include:
 * Increase sample size for better generalisation
 * Consider non-linear relationships (polynomial features)
 * Transform the dependent variable (to address the heteroscedasticity detected from the Spearman Correlation test)
+  * Note that a separate model using the square-root of the tip value increased the model accuracy slighty to account for 48.2% of the variance)
 * Explore interaction effects between features
 
 ## Python code:
