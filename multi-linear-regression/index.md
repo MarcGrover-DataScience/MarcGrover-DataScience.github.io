@@ -148,13 +148,13 @@ We already tested this with VIF, see above, where the result that there is moder
 
 Understanding the importance of each feature (Independent Variable) is an important finding from Multiple Linear Regression, as it allows further understanding of the model and output, as well as guiding any further improvements to be made to the model.
 
-The bar chhart below visualises the importance of each feature, showing that, perhaps unsuprisingly, total bill value is the strongest predictor of tip size
+The bar chart below visualises the importance of each feature, showing that, perhaps unsuprisingly, total bill value is the strongest predictor of tip size
 
 ![feature importance](mlr_feat_imp.png)
 
 ### Conclusions:
 
-Thinking back to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
+Lets address the conclusions in relation to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
 
 Model Performance:
 * The model works reasonably well for a simple dataset (47.7% of variance explained)
@@ -171,30 +171,23 @@ Assumption testing:
 * Multicollinearity: Moderate
 
 Practical interpretation:
-  For every $ increase in the total bill, we expect the tip to increase by
-  approximately 0.12, 
-  holding other factors constant.
+For every increase of 1 in the total bill, we expect the tip to increase by approximately 0.09, holding other factors constant.
 
-Limitations:
+Model and Analysis Limitations:
 * Model doesn't account for service quality or customer satisfaction
 * R² of 0.477 means 52.3% of variation is unexplained
 * Limited to the patterns in this restaurant's data
 
-
 ## Next steps:  
 
-Rerun test with transformed DV
-Add more IVs
-* Collect additional features (e.g., day of week, server ID, meal type)
-* Increase sample size for better generalization
+With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
+
+Recommendations include:
+* Collect additional features (e.g., day of week, server ID, meal type, customer satisfaction)
+* Increase sample size for better generalisation
 * Consider non-linear relationships (polynomial features)
+* Transform the dependent variable (to address the heteroscedasticity detected from the Spearman Correlation test)
 * Explore interaction effects between features
-Consider removing one IV due to moderate multicollinearity
-The primary recommendations would include:
-* the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken.
-* constantly track the conversion rates of the new website to understand if the rate achieved in the test is reflected going forward, and understand any changes or trends over time
-* use a range of analytical techniques, potentially including time-series analysis and comparative analysis methods on nwely collected data
-* other website designs are tested to see if they produce even greater conversion rates
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
