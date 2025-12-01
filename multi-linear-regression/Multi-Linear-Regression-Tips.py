@@ -42,11 +42,10 @@ print("\n1. DATA LOADING AND EXPLORATION")
 # Load the tips dataset
 df = sns.load_dataset('tips')
 
-print("\nDataset Shape:", df.shape)
 print(f"Number of observations: {df.shape[0]}")
 print(f"Number of variables: {df.shape[1]}")
 
-print("\nFirst few rows:")
+print("\nExample data:")
 print(df)
 
 print("\nDataset Information:")
@@ -63,6 +62,7 @@ print(f"Time: {df['time'].unique()}")
 
 print("\nMissing Values:")
 print(df.isnull().sum())
+print('There are no null values in this dataset, so no observations need to be removed.')
 
 print("\nRESEARCH QUESTION")
 print("Can we predict the tip amount based on:")
@@ -87,6 +87,7 @@ df_model['time_dinner'] = (df_model['time'] == 'Dinner').astype(int)
 features = ['total_bill', 'size', 'time_dinner']
 X = df_model[features]
 y = df_model['tip']
+# y = np.sqrt(df_model['tip'])
 
 print("\nFeature Statistics (independent variables):")
 print(X.describe())
@@ -133,8 +134,8 @@ print("\n4. SCATTER PLOTS - EXPLORING RELATIONSHIPS")
 plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df_model, x='total_bill', y='tip', alpha=0.6, s=80)
 plt.title('Total Bill vs Tip Amount', fontsize=14, fontweight='bold')
-plt.xlabel('Total Bill ($)', fontsize=12)
-plt.ylabel('Tip ($)', fontsize=12)
+plt.xlabel('Total Bill', fontsize=12)
+plt.ylabel('Tip', fontsize=12)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
@@ -144,7 +145,7 @@ plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df_model, x='size', y='tip', alpha=0.6, s=80)
 plt.title('Party Size vs Tip Amount', fontsize=14, fontweight='bold')
 plt.xlabel('Party Size (number of people)', fontsize=12)
-plt.ylabel('Tip ($)', fontsize=12)
+plt.ylabel('Tip', fontsize=12)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
@@ -154,7 +155,7 @@ plt.figure(figsize=(10, 6))
 sns.boxplot(data=df, x='time', y='tip', palette='Set2')
 plt.title('Tip Amount by Time of Day', fontsize=14, fontweight='bold')
 plt.xlabel('Time of Day', fontsize=12)
-plt.ylabel('Tip ($)', fontsize=12)
+plt.ylabel('Tip', fontsize=12)
 plt.grid(True, alpha=0.3, axis='y')
 plt.tight_layout()
 plt.show()
@@ -232,7 +233,7 @@ print("\nAfter scaling (Standardization):")
 print(X_train_scaled.describe().loc[['mean', 'std']])
 
 print("\nWhy scale features?")
-print("  - Different features have different ranges (e.g., bill: $3-50, size: 1-6)")
+print("  - Different features have different ranges (e.g., bill: 3-50, size: 1-6)")
 print("  - Scaling puts all features on the same scale")
 print("  - Makes coefficients directly comparable")
 print("  - Improves model training and interpretation")
@@ -243,12 +244,9 @@ print("  - Improves model training and interpretation")
 
 print("\n8. BUILDING THE LINEAR REGRESSION MODEL")
  
-
 # Create and train the model
 model = LinearRegression()
 model.fit(X_train_scaled, y_train)
-
-print("\n✓ Model trained successfully!")
 
 print(f"\nModel Equation:")
 print(f"Tip = {model.intercept_:.3f}", end="")
@@ -318,18 +316,18 @@ test_mae = mean_absolute_error(y_test, y_test_pred)
 
 print("\nTRAINING SET PERFORMANCE:")
 print(f"  R² Score: {train_r2:.4f} ({train_r2*100:.1f}% of variance explained)")
-print(f"  RMSE: ${train_rmse:.2f}")
-print(f"  MAE: ${train_mae:.2f}")
+print(f"  RMSE: {train_rmse:.2f}")
+print(f"  MAE: {train_mae:.2f}")
 
 print("\nTEST SET PERFORMANCE:")
 print(f"  R² Score: {test_r2:.4f} ({test_r2*100:.1f}% of variance explained)")
-print(f"  RMSE: ${test_rmse:.2f}")
-print(f"  MAE: ${test_mae:.2f}")
+print(f"  RMSE: {test_rmse:.2f}")
+print(f"  MAE: {test_mae:.2f}")
 
 print("\nWhat do these metrics mean?")
 print(f"  R² Score: Our model explains {test_r2*100:.1f}% of the variation in tips")
-print(f"  RMSE: On average, predictions are off by about ${test_rmse:.2f}")
-print(f"  MAE: On average, absolute error is ${test_mae:.2f}")
+print(f"  RMSE: On average, predictions are off by about {test_rmse:.2f}")
+print(f"  MAE: On average, absolute error is {test_mae:.2f}")
 
 # ============================================================================
 # 11. ACTUAL VS PREDICTED PLOTS
@@ -343,8 +341,8 @@ plt.figure(figsize=(10, 6))
 sns.scatterplot(x=y_train, y=y_train_pred, alpha=0.6, s=80)
 plt.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 
          'r--', lw=3, label='Perfect Prediction Line')
-plt.xlabel('Actual Tip ($)', fontsize=12)
-plt.ylabel('Predicted Tip ($)', fontsize=12)
+plt.xlabel('Actual Tip', fontsize=12)
+plt.ylabel('Predicted Tip', fontsize=12)
 plt.title(f'Training Set: Actual vs Predicted Tips (R² = {train_r2:.3f})', 
           fontsize=14, fontweight='bold')
 plt.legend(fontsize=11)
@@ -357,8 +355,8 @@ plt.figure(figsize=(10, 6))
 sns.scatterplot(x=y_test, y=y_test_pred, alpha=0.6, s=80, color='green')
 plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 
          'r--', lw=3, label='Perfect Prediction Line')
-plt.xlabel('Actual Tip ($)', fontsize=12)
-plt.ylabel('Predicted Tip ($)', fontsize=12)
+plt.xlabel('Actual Tip', fontsize=12)
+plt.ylabel('Predicted Tip', fontsize=12)
 plt.title(f'Test Set: Actual vs Predicted Tips (R² = {test_r2:.3f})', 
           fontsize=14, fontweight='bold')
 plt.legend(fontsize=11)
@@ -387,19 +385,19 @@ print("  Residual = Actual Value - Predicted Value")
 print("  Residuals tell us how far off our predictions are")
 
 print(f"\nTraining Residuals:")
-print(f"  Mean: ${train_residuals.mean():.4f} (should be close to 0)")
-print(f"  Std Dev: ${train_residuals.std():.2f}")
+print(f"  Mean: {train_residuals.mean():.4f} (should be close to 0)")
+print(f"  Std Dev: {train_residuals.std():.2f}")
 
 print(f"\nTest Residuals:")
-print(f"  Mean: ${test_residuals.mean():.4f} (should be close to 0)")
-print(f"  Std Dev: ${test_residuals.std():.2f}")
+print(f"  Mean: {test_residuals.mean():.4f} (should be close to 0)")
+print(f"  Std Dev: {test_residuals.std():.2f}")
 
 # Residuals vs Predicted Values (Training)
 plt.figure(figsize=(10, 6))
 sns.scatterplot(x=y_train_pred, y=train_residuals, alpha=0.6, s=80)
 plt.axhline(y=0, color='r', linestyle='--', linewidth=2, label='Zero Residual Line')
-plt.xlabel('Predicted Tip ($)', fontsize=12)
-plt.ylabel('Residuals ($)', fontsize=12)
+plt.xlabel('Predicted Tip', fontsize=12)
+plt.ylabel('Residuals', fontsize=12)
 plt.title('Training Set: Residual Plot', fontsize=14, fontweight='bold')
 plt.legend()
 plt.grid(True, alpha=0.3)
@@ -410,8 +408,8 @@ plt.show()
 plt.figure(figsize=(10, 6))
 sns.scatterplot(x=y_test_pred, y=test_residuals, alpha=0.6, s=80, color='green')
 plt.axhline(y=0, color='r', linestyle='--', linewidth=2, label='Zero Residual Line')
-plt.xlabel('Predicted Tip ($)', fontsize=12)
-plt.ylabel('Residuals ($)', fontsize=12)
+plt.xlabel('Predicted Tip', fontsize=12)
+plt.ylabel('Residuals', fontsize=12)
 plt.title('Test Set: Residual Plot', fontsize=14, fontweight='bold')
 plt.legend()
 plt.grid(True, alpha=0.3)
@@ -419,14 +417,14 @@ plt.tight_layout()
 plt.show()
 
 print("\nWhat to look for in residual plots:")
-print("  ✓ Points randomly scattered around zero = Good!")
-print("  ✗ Pattern or curve = Model missing something")
-print("  ✗ Funnel shape = Heteroscedasticity (variance not constant)")
+print(" Points randomly scattered around zero = Good!")
+print(" Pattern or curve = Model missing something")
+print(" Funnel shape = Heteroscedasticity (variance not constant)")
 
 # Distribution of Residuals (Training)
 plt.figure(figsize=(10, 6))
 sns.histplot(train_residuals, kde=True, bins=30, color='skyblue', edgecolor='black')
-plt.xlabel('Residuals ($)', fontsize=12)
+plt.xlabel('Residuals', fontsize=12)
 plt.ylabel('Frequency', fontsize=12)
 plt.title('Training Set: Distribution of Residuals', fontsize=14, fontweight='bold')
 plt.axvline(x=0, color='r', linestyle='--', linewidth=2, label='Zero')
@@ -438,7 +436,7 @@ plt.show()
 # Distribution of Residuals (Test)
 plt.figure(figsize=(10, 6))
 sns.histplot(test_residuals, kde=True, bins=30, color='lightgreen', edgecolor='black')
-plt.xlabel('Residuals ($)', fontsize=12)
+plt.xlabel('Residuals', fontsize=12)
 plt.ylabel('Frequency', fontsize=12)
 plt.title('Test Set: Distribution of Residuals', fontsize=14, fontweight='bold')
 plt.axvline(x=0, color='r', linestyle='--', linewidth=2, label='Zero')
@@ -464,9 +462,9 @@ plt.tight_layout()
 plt.show()
 
 print("\nHow to read Q-Q plots:")
-print("  - Points should fall along the diagonal red line")
-print("  - Deviations from the line indicate non-normality")
-print("  - This tests if residuals follow a normal distribution")
+print("- Points should fall along the diagonal red line")
+print("- Deviations from the line indicate non-normality")
+print("- This tests if residuals follow a normal distribution")
 
 # ============================================================================
 # 13. TESTING ASSUMPTIONS
@@ -494,10 +492,10 @@ print(f"  Test Statistic: {shapiro_stat:.4f}")
 print(f"  P-value: {shapiro_p:.4f}")
 
 if shapiro_p > 0.05:
-    print("  ✓ Result: Residuals are normally distributed (p > 0.05)")
+    print("  Result: Residuals are normally distributed (p > 0.05)")
     print("  Conclusion: Assumption satisfied!")
 else:
-    print("  ⚠ Result: Residuals may not be perfectly normal (p ≤ 0.05)")
+    print("  Result: Residuals may not be perfectly normal (p ≤ 0.05)")
     print("  Note: Linear regression is robust to small deviations from normality")
 
 # Test 2: Homoscedasticity
@@ -512,19 +510,19 @@ print(f"\nSpearman Correlation: {spearman_corr:.4f}")
 print(f"P-value: {spearman_p:.4f}")
 
 if spearman_p > 0.05:
-    print("  ✓ Result: Constant variance assumption satisfied (p > 0.05)")
+    print("  Result: Constant variance assumption satisfied (p > 0.05)")
     print("  Conclusion: Homoscedasticity confirmed!")
 else:
-    print("  ⚠ Result: Evidence of heteroscedasticity (p ≤ 0.05)")
+    print("  Result: Evidence of heteroscedasticity (p ≤ 0.05)")
     print("  Recommendation: Consider transforming the target variable")
 
 # Test 3: Multicollinearity (already done with VIF)
 print("\n--- ASSUMPTION 3: NO MULTICOLLINEARITY ---")
 print(f"We already tested this with VIF (see section 5)")
 if vif_data['VIF'].max() < 5:
-    print("  ✓ All VIF values < 5: No multicollinearity issues!")
+    print(" All VIF values < 5: No multicollinearity issues!")
 else:
-    print("  ⚠ Some VIF values > 5: Moderate multicollinearity present")
+    print(" Some VIF values > 5: Moderate multicollinearity present")
 
 # ============================================================================
 # 14. FEATURE IMPORTANCE SUMMARY
@@ -564,7 +562,7 @@ RESEARCH QUESTION:
 
 MODEL PERFORMANCE:
   • R² Score: {test_r2:.3f} ({test_r2*100:.1f}% of variance explained)
-  • Average Prediction Error: ${test_mae:.2f}
+  • Average Prediction Error: {test_mae:.2f}
   • The model works reasonably well for a simple dataset
 
 MOST IMPORTANT PREDICTORS:
@@ -578,13 +576,13 @@ KEY FINDINGS:
   • {'Dinner' if model.coef_[2] > 0 else 'Lunch'} time {'increases' if model.coef_[2] > 0 else 'decreases'} expected tips
 
 ASSUMPTION TESTING:
-  • Normality: {'✓ Satisfied' if shapiro_p > 0.05 else '⚠ Slight deviation'}
-  • Constant Variance: {'✓ Satisfied' if spearman_p > 0.05 else '⚠ Some heteroscedasticity'}
-  • Multicollinearity: {'✓ No issues' if vif_data['VIF'].max() < 5 else '⚠ Moderate'}
+  • Normality: {'Satisfied' if shapiro_p > 0.05 else 'Slight deviation'}
+  • Constant Variance: {'Satisfied' if spearman_p > 0.05 else 'Some heteroscedasticity'}
+  • Multicollinearity: {'No issues' if vif_data['VIF'].max() < 5 else 'Moderate'}
 
 PRACTICAL INTERPRETATION:
-  For every $1 increase in the total bill, we expect the tip to increase by
-  approximately ${model.coef_[0] * (df['tip'].std() / df['total_bill'].std()):.2f}, 
+  For every $ increase in the total bill, we expect the tip to increase by
+  approximately {model.coef_[0] / df['total_bill'].std():.2f}, 
   holding other factors constant.
 
 LIMITATIONS:
@@ -597,9 +595,4 @@ RECOMMENDATIONS FOR IMPROVEMENT:
   • Increase sample size for better generalization
   • Consider non-linear relationships (polynomial features)
   • Explore interaction effects between features
-
-STUDENT LEARNING OUTCOMES:
-  ✓ Understood the multiple linear regression process
-  ✓ Learned to check assumptions and interpret diagnostics
-  ✓ Practiced making predictions and evaluating model performance
-  ✓ Gained experience with real-world data analysis """)
+""")
