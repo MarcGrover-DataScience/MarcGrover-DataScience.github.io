@@ -34,7 +34,7 @@ A Multiple Linear Regression model was built, having processed and scaled the in
 * Multicollinearity of the independent variables using Variance Inflation Factors (VIF)
 * Feature Importance Ranking to determine the strongest predictors of tip value
 
-Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  
+Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  Scaling of the factors was undertaken as part of building the MLR model.
 
 ## Results and conclusions:
 
