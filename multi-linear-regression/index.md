@@ -12,6 +12,8 @@ permalink: /multi-linear-regression/
 
 A restaurant wishes to understand how accurately can we predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
 
+The model generated explained 47.7% of variance of the tip value, with a Mean Absolute Error of 0.67.  The model and data analysis provided key insights into how a model can be further developed to improve accurancy and business benefit.  It was confirmed that total bill amount is the strongest predictor of tip size.
+
 ## Application:  
 
 The business application of MLR is centred on forecasting (predicting future values) and causal analysis (quantifying the impact of multiple factors on a single outcome).  Examples of uses across different sectors include (though this is a far from complete list)
@@ -23,11 +25,14 @@ The business application of MLR is centred on forecasting (predicting future val
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scipy, Pandas and Numpy, utilising Matplotlib for visualisations.  The data was created in the script, with the intention of producing interesting statistical findings.  
+A workflow in Python was developed using libraries Scikit-learn, Scipy, Pandas and Numpy, utilising Matplotlib and Seabornfor visualisations.  The data used was the Tips dataset from within Seaborn.  
 
-The A/B test was used to test the null hypothesis that there is no variance between the control and treatment groups.  Further analysis determined the high-confidence range of conversion percentages, to support business planning and expectations.
-
-Tests were also undertaken to determine if the sample size was sufficient to detect a real difference given the expected conversion rates.
+A Multiple Linear Regression model was built, having processed and scaled the independent variable datasets.  Tests and analysis were performed on the data for:
+* Correlation of variables
+* Normality of the residuals (using Shaprio-Wilks)
+* Homoscedasticity of the predictions and absolute residuals (using the Spearman Correlation test)
+* Multicollinearity of the independent variables using Variance Inflation Factors (VIF)
+* Feature Importance Ranking to determine the strongest predictors of tip value
 
 Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  
 
@@ -184,10 +189,11 @@ With any analysis it is important to assess how the model and data collection ca
 
 Recommendations include:
 * Collect additional features (e.g., day of week, server ID, meal type, customer satisfaction)
+* Address the moderate multicollinearity identified in the variables
 * Increase sample size for better generalisation
 * Consider non-linear relationships (polynomial features)
 * Transform the dependent variable (to address the heteroscedasticity detected from the Spearman Correlation test)
-  * Note that a separate model using the square-root of the tip value increased the model accuracy slighty to account for 48.2% of the variance)
+  * Note that a separate model was generated in a second phase using the square-root of the tip value increased the model accuracy slighty to account for 48.2% of the variance)
 * Explore interaction effects between features
 
 ## Python code:
