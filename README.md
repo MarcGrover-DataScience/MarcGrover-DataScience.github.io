@@ -32,14 +32,17 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Principal Component Analysis (PCA)
 * ### Association Rule
 * ### Causal Impact Analysis
-* ### Text preprocessing (NLP)
-* ### Sentiment Analysis (NLP)
-* ### Review classification (NLP)
-* ### Category Classification Prediction (Neural Network)
-* ### Text Classification (Neural Network)
-* ### Topic Modelling (Neural Network)
-* ### Named Entity Recognition (Deep Learning)
+* ### Great Expectations (EDA)
+* ### Zero-shot Classification (Deep Learning)
 * ### Text Summarisation (Deep Learning)
-<!-- * ### Zero-shot Classification (Deep Learning) -->
+* ### Topic Modelling and Clustering (Deep Learning)
+* ### Image Classification (Deep Learning)
+<!-- * ### Text preprocessing (NLP) -->
+<!-- * ### Sentiment Analysis (NLP) -->
+<!-- * ### Review classification (NLP) -->
+<!-- * ### Category Classification Prediction (Neural Network) -->
+<!-- * ### Text Classification (Neural Network) -->
+<!-- * ### Named Entity Recognition (Deep Learning) -->
+<!-- * ### Text Summarisation (Deep Learning) -->
 
 ![logo](Data Scientist Logo_small.png)
