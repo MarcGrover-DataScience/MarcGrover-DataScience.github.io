@@ -28,6 +28,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### K-Nearest Neighbours
 * ### Decision Trees
 * ### Random Forests
+* ### Gradient Boosted Trees
 * ### Principal Component Analysis (PCA)
 * ### Association Rule
 * ### Causal Impact Analysis
