@@ -37,6 +37,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Text Summarisation (Deep Learning)
 * ### Topic Modelling and Clustering (Deep Learning)
 * ### Image Classification (Deep Learning)
+<!-- * ### Fine Tuning / RAG / Transfer Learning -->
 <!-- * ### Text preprocessing (NLP) -->
 <!-- * ### Sentiment Analysis (NLP) -->
 <!-- * ### Review classification (NLP) -->
