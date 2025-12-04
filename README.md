@@ -9,7 +9,7 @@ The data used in each project is either freely available or generated as part of
 
 The projects are not just a collection of techniques, but walk through of a process and mind-set that a Data Scientist must go through when applying to real-world scenarios, including exploratory data exploration (EDA), data preparation, analysis, interpreting results, reaching conclusions, and providing recommendations, as well as considered what to do next to further validate the outputs and derive additional information.  These reflect real-world implementation, including suggested next steps.
 
-The examples are purposely simple for the sake of clarity, to focus on demonstrating the power, flexibility and scalability of analytical techniques and solutions, and how they can be beneficial to many businesses in many scanarios.
+The examples are purposely simple for the sake of clarity, to focus on demonstrating the power, flexibility and scalability of analytical techniques and solutions, and how they can be beneficial to many businesses in many scenarios.
   
 ## Featured Projects  
 * ### [Statistical Analysis - One-Sample T-Test](/statistical-analysis/)
@@ -24,7 +24,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Logistic regression
 * ### Time-series analysis (moving averages)
 * ### Time-series analysis (ARIMA)
-* ### K-Means clustering
+* ### [K-Means Clustering](/k-means-clustering/)
 * ### K-Nearest Neighbours
 * ### Decision Trees
 * ### Random Forests

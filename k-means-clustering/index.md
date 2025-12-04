@@ -2,39 +2,44 @@
 
 layout: default
 
-title: Restaurant tips (Multiple Linear Regression)
+title: Wheat Seeds (K-Means Clustering)
 
-permalink: /multi-linear-regression/
+permalink: /k-means-clustering/
 
 ---
 
 ## Goals and objectives:
 
-A restaurant wishes to understand how accurately can we predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
+A botanical research facility wishes to understand the clustering of wheat seeds based on measurements of geometrical properties of kernels belonging to three different varieties of wheat; Kama, Rosa and Canadian.
 
-The model generated explained 47.7% of variance of the tip value, with a Mean Absolute Error of 0.67.  The model and data analysis provided key insights into how a model can be further developed to improve accuracy and business benefit.  It was confirmed that total bill amount is the strongest predictor of tip size.
+A soft X-ray technique was used to construct all seven, real-valued attributes, for each seed on which the clustering is based.
+
+<<Detail the results>>
+
 
 ## Application:  
 
-The business application of MLR is centred on forecasting (predicting future values) and causal analysis (quantifying the impact of multiple factors on a single outcome).  Examples of uses across different sectors include (though this is a far from complete list)
+K-Means Clustering is a versatile and widely used technique in many business sectors, the following is a subset of applications:
 
-* In finance, MLR is essential for risk modelling, asset valuation, financial forecasting, and understanding market drivers.
-* Retail leverages MLR primarily for sophisticated demand forecasting, pricing strategies, customer life valuations and marketing budget allocation.
-* In technology, MLR is vital for optimizing product performance, user retention, and managing infrastructure costs.  .
-* MLR is fundamental to Quality Control (QC) and Predictive Maintenance by modelling the complex interplay of process variables..
+* In the financial sector, K-Means is primarily used to group customers, transactions, or financial instruments based on similar attributes for risk management, fraud detection and marketing.
+* Retail businesses use K-Means to understand customer behaviour and optimize inventory and marketing strategies.
+* In manufacturing, K-Means helps in anomaly detection and process optimization using sensor and operational data, allowing preventative maintenance.
+* Technology companies use K-Means for everything from organizing content to optimizing complex systems.
+  * Helps in organising content, creating recommendation systems, and improving search results by grouping similar topics.
+  * Load balancing - Allows the system to intelligently distribute new workloads to the least utilized clusters, ensuring optimal resource allocation and preventing server overload.
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scikit-learn, Scipy, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was the Tips dataset from within Seaborn.  
+A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from Kaggle at: https://www.kaggle.com/datasets/dongeorge/seed-from-uci.  
 
 A Multiple Linear Regression model was built, having processed and scaled the independent variable datasets.  Tests and analysis were performed on the data for:
 * Correlation of variables
-* Normality of the residuals (using Shapiro-Wilks)
+* Normality of the residuals (using Shaprio-Wilks)
 * Homoscedasticity of the predictions and absolute residuals (using the Spearman Correlation test)
 * Multicollinearity of the independent variables using Variance Inflation Factors (VIF)
 * Feature Importance Ranking to determine the strongest predictors of tip value
 
-Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analytical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  Scaling of the factors was undertaken as part of building the MLR model. 
+Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  Scaling of the factors was undertaken as part of building the MLR model. 
 
 ## Results and conclusions:
 
@@ -83,7 +88,7 @@ The general guidance states that a VIF > 10 is considered 'High multicollinearit
 
 The data was split into training and test sets using the standard 80/20 ratio.
 
-Feature scaling was undertaken, where the independent variable (X) data was also scaled so within each IV the mean = 0 and standard deviation = 1.
+Feature scaling was undertaken, where the independent varaible (X) data was also scaled so within each IV the mean = 0 and standard deviation = 1.
 
 Feature scaling is important, as the different features have different ranges (e.g., bill: $3-50, size: 1-6).  Scaling puts all features on the same scale, which makes the coefficients directly comparable, and also improves the model training and interpretation.
 
@@ -108,7 +113,7 @@ R² Score: 0.4519 (45.2% of variance explained by the model)
 Root Mean Squared Error: 1.06  
 Mean Absolute Error: 0.76  
 
-The model was then evaluated against the test set, returning:
+The model was then evalauated against the test set, returning:
 R² Score: 0.4772 (47.7% of variance explained)  
 Root Mean Squared Error: 0.81  
 Mean Absolute Error: 0.67  
@@ -125,7 +130,7 @@ The residuals, where each Residual = Actual Value - Predicted Value , are plotte
 
 The analysis of the residuals show that the mean = -0.2446 (where this should be close to 0), and the standard deviation = 0.78 (where a value close to zero represents a good model).
 
-The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good, however further, more accurate, analysis is detailed in the next section.
+The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good, however further, more accruate, analysis is detailed in the next section.
 
 ![residuals_scatter](mlr_scatter_res.png)
 
@@ -198,4 +203,4 @@ Recommendations include:
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/Multi-Linear-Regression-Tips.py)
+[View the Python Script](/K-Mean_Clustering.py)
