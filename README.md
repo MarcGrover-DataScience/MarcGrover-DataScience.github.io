@@ -33,7 +33,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Association Rule
 * ### Causal Impact Analysis
 * ### Great Expectations (EDA)
-* ### Zero-shot Classification (Deep Learning)
+* ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
 * ### Text Summarisation (Deep Learning)
 * ### Topic Modelling and Clustering (Deep Learning)
 * ### Image Classification (Deep Learning)
