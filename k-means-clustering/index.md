@@ -34,7 +34,13 @@ A workflow in Python was developed using libraries Scikit-learn, Pandas and Nump
 
 The data contains 7 independent variables:  area (A), perimeter (P), compactness (C), length of kernel (LK), width of kernel (WK), asymmetry coefficient (A_Coef) and length of kernel groove (LKG), which are used to generate the clusters.
 
-The data was scaled, so that each IV has a mean of 0 and a standard deviation equal to 1.
+The overall method was to scale the data, determine the optimal number of clusters (i.e. the optimal value of K), and then generate the clusters, using the optimal K value, and assess the results to determine the quality of the clustering.
+
+Data preparation:  The data for the clustering did not undergo any transformation or preparation, other than scaling as part of the analytical process. 
+
+## Results and conclusions:
+
+Initially the data was scaled to support optimal clustering, and prevent single factors dominating the clustering process.  The clustering transformed the values, so that each IV has a mean of 0 and a standard deviation equal to 1.
 
 The K-Means Cluster model was run for each value of K in the inclusive range (2,11).
 
@@ -42,18 +48,15 @@ For each value of K, the WSS (Within-Cluster Sum of Squares) was calculated, whi
 
 For each value of K intrinsic measures were also measured and recorded; Silhouette Scores, Davies Bouldin Scores, and Calinski Harabasz Scores.  
 
+![WSS - Elbow](kmeans-wss.png)
+
+![Silhouette](kmeans-silh.png)
+
+![Davies_Bouldin](kmeans-dbi.png)
+
+![Calinski_Harabasz](kmeans-chi.png)
+
 The Elbow Method, which uses the WSS scores for each K value, along with the plots of the other intrinsic measures, was used to determine the optimal K value of 3, which was then used in the final K-Means Model.
-
-A Multiple Linear Regression model was built, having processed and scaled the independent variable datasets.  Tests and analysis were performed on the data for:
-* Correlation of variables
-* Normality of the residuals (using Shaprio-Wilks)
-* Homoscedasticity of the predictions and absolute residuals (using the Spearman Correlation test)
-* Multicollinearity of the independent variables using Variance Inflation Factors (VIF)
-* Feature Importance Ranking to determine the strongest predictors of tip value
-
-Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  Scaling of the factors was undertaken as part of building the MLR model. 
-
-## Results and conclusions:
 
 ### Descriptive Statistics:
 
