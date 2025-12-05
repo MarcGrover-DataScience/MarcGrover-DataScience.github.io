@@ -10,18 +10,17 @@ permalink: /zero-shot-classification/
 
 ## Goals and objectives:
 
-A book store wishes to categorise each book so support the lay-out of the physical store and to enable a better customer experience on their website.  The categories are:  Science Fiction, Romance, Mystery, Adventure, Fantasy, Historical, and Biography.  It also wishes to understand if it is possible to classify books as fiction or non-fiction based on the description, and if the target audience can be identified (children, young adults, or adults).
+A book store wishes to categorise each book in its inventory to support the physical layout of the store and also enable a better customer experience on their website.  The categories are:  Science Fiction, Romance, Mystery, Adventure, Fantasy, Historical, and Biography.  It also wishes to understand if it is possible to classify books as fiction or non-fiction based on the description, and if the target audience can similarly be identified (children, young adults, or adults).
 
-As well as classifying the back catalogue of books, the book store wishes to build a simple app where a user can add a description and a category is generated.
+As well as classifying the current inventory of books, the book store wishes to build a simple app where a user can add a description and a category is generated.
 
-Detail the results here!
+A simple classification model was built using zero-shot classification utilising a publicly available model from Hugging Face (facebook/bart-large-mnli).
 
-The classification model was build using zero-shot classification using a publicly available model from Hugging Face (facebook/bart-large-mnli, roberta-large-mnli)
+The model returned the most probable category for each book, with a high accuracy as determined from human validation, to a quality meeting the original business goal.
 
-It was determined that the model was not good at predicting if books are fiction or non-fiction from the description alone, based on human validation of the classifications.  As such this level of classification was not included in the model.  Based on the description alone it is logical that it the model cannot determine if the content is based on true events or fictional events.
+However, it was determined that the model was not good at predicting if books are fiction or non-fiction from the description alone, based on human validation of the classifications.  As such this level of classification was not included in the model.  Based on the description alone it is logical that it the model cannot determine if the content is based on true events or fictional events.
 
 Similarly, the research to apply classifications for the target audience produced results that weren't accurate.  The classifications are based on the content of the books including children, young adults or adults, rather than them being the target audience.
-
 
 ## Application:  
 
@@ -35,16 +34,13 @@ Zero-shot classification models allow AI systems to categorize inputs—such as 
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from Kaggle at: https://www.kaggle.com/datasets/dongeorge/seed-from-uci.  
+A workflow in Python was developed using libraries Pandas, Numpy and Transformers, connecting to a zero-shot classification model in Hugging Face.  The main test used the model 'facebook/bart-large-mnli', with tests also run using 'roberta-large-mnli'.
 
-A Multiple Linear Regression model was built, having processed and scaled the independent variable datasets.  Tests and analysis were performed on the data for:
-* Correlation of variables
-* Normality of the residuals (using Shaprio-Wilks)
-* Homoscedasticity of the predictions and absolute residuals (using the Spearman Correlation test)
-* Multicollinearity of the independent variables using Variance Inflation Factors (VIF)
-* Feature Importance Ranking to determine the strongest predictors of tip value
+The set of books and descriptions in the current inventory were applied to the classification model to produce the most likely category, based solely on the description.
 
-Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analyical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  Scaling of the factors was undertaken as part of building the MLR model. 
+A web app was developed using Gradio allowing a user to insert a book description and the app will use the Zero-Shot Classification model to generate the scores of the most likely category, where it lists the score for each of the 7 possible categories.
+
+Data preparation:  The original data was used without any text cleansing and preprocessing. 
 
 ## Results and conclusions:
 
@@ -62,7 +58,7 @@ Lets address the conclusions in relation to our research question:  Can we predi
 Model Performance:
 * The model works reasonably well for a simple dataset (47.7% of variance explained)
 * The average prediction error is 0.67
-
+roberta-large-mnli
 
 ## Next steps:  
 
