@@ -83,141 +83,53 @@ As such extrinsic validation metrics can be determined, by comparing the cluster
 
 First it should be noted that the intrinsic validation and elbow method determine the optimal clusters to be 3, which is correct, as there are three varieties of wheat seeds.
 
+Adjusted Rand Index (ARI): 0.773
+  Range: [-1, 1], 1 = perfect match, 0 = random labeling
+  Interpretation: 0.7733 indicates very good agreement with true labels
 
-  
-### Descriptive Statistics:
+Homogeneity Score: 0.728
+  Range: [0, 1], Higher is better - Measures if clusters contain only members of a single class
+  This score indicates that approximately 73% of the time, each cluster contains only samples from a single true class
 
-There are 244 observations recorded, covering a period of 4 consecutive days.
+Completeness Score: 0.728
+  Range: [0, 1], Higher is better - Measures if all members of a class are in the same cluster
+  This score shows that about 73% of samples belonging to the same true class are assigned to the same cluster
 
-The mean tip is 2.998, with a standard deviation of 1.384 (currency is ignored in this example for simplicity)
+V-Measure Score: 0.728
+  Range: [0, 1], Higher is better - Harmonic mean of homogeneity and completeness
+  Indicates a good performance of the clustering
 
-The following scatter plot shows the mapping of tip value to total bill value:
+### Visualising Clustering Results
 
-The following boxplot visualises the tip distribution for both lunch and dinner sittings:
+As the independent variables represent 7 dimensions, it is not possible to visualise the clusters in relation to these 7 dimensions.
+
+A technique commonly used for visualising clusters with 4+ dimensions is to utilise Princple Component Analysis (PCA), which won't be described fully within this project, but is covered in a separate project within this portfolio.
+
+In summary PCA (Principal Component Analysis) is a dimensionality reduction technique that:
+- Transforms the original 7 features into new uncorrelated variables (components)
+- Each principal component is a LINEAR COMBINATION of the original features
+- Components are ordered by the amount of variance they explain
+- PC1 captures the most variance, PC2 the second most, etc.
+
+Using PCA, the first 2 principle components were identified, which were used to produce a scatter plot of the observations, and the generated clusters:
 
 
-### Correlation Analysis
-
-The correlation matrix (for the 3 independent variables and dependent variable) shows the correlation between each variable.  
-
-Values close to 1 or -1 indicate strong relationships, and values close to 0 indicate weak relationships.
-
-
-
-### Multicollinearity test:
-
-Multicollinearity needs to be tested in multiple linear regression because it can significantly distort the results and make the model unreliable and difficult to interpret.
-
-Multicollinearity occurs when two or more independent variables (predictors) in a regression model are highly correlated with each other.
-
-The most common method for detecting multicollinearity is by calculating the Variance Inflation Factor (VIF) for each independent variable.
-
-Variance Inflation Factor (VIF):  
-
-```
-  Feature    VIF  
- total_bill  9.216  
-       size  9.271  
-time_dinner  3.170
-```
-
-The general guidance states that a VIF > 10 is considered 'High multicollinearity', which is not the case here, but with two values greater than 9.2 this should be noted.
-
-### Hypothesis Test:  
-
-The data was split into training and test sets using the standard 80/20 ratio.
-
-Feature scaling was undertaken, where the independent varaible (X) data was also scaled so within each IV the mean = 0 and standard deviation = 1.
-
-Feature scaling is important, as the different features have different ranges (e.g., bill: $3-50, size: 1-6).  Scaling puts all features on the same scale, which makes the coefficients directly comparable, and also improves the model training and interpretation.
-
-Note that before scaling, the mean and standard deviation for each IV were:  
-
-```
-        total_bill     size  time_dinner  
-mean        20.218    2.574        0.728  
-std          8.771    0.941        0.446
-```
-
-The MLR model was fitted with the scaled IV data, producing a model, based on scaled versions of the factors:
-
-Tip = 3.088 + (0.801×total_bill) + (0.248×size)  - (0.024×time_dinner)
-
-The model was applied to the test data so that there was both predicted and actual tips for those observations, enabling a calculation for the residual for each test observation (actual tip - predicted tip).
-
-### Model Evaluation:
-
-First the model was evaluated against the training set, returning: 
-R² Score: 0.4519 (45.2% of variance explained by the model)  
-Root Mean Squared Error: 1.06  
-Mean Absolute Error: 0.76  
-
-The model was then evalauated against the test set, returning:
-R² Score: 0.4772 (47.7% of variance explained)  
-Root Mean Squared Error: 0.81  
-Mean Absolute Error: 0.67  
-
-Using the evaluation of the test set, this means that our model explains 47.7% of the variation in tips, and using MAE, on average the absolute error is 0.67
-
-The scatter plot below plots the predicted values against the actual values in the test set.  Points close to the red line, equate to good predictions, and points far from the red line relate to less accurate prediction errors.  The random scatter around the line further implies a good model fit.
-
-![predictions_scatter](mlr_scatter_pred_act.png)
-
-### Residual Analysis:
-
-The residuals, where each Residual = Actual Value - Predicted Value , are plotted below to visualise in a different way the predictions against the actuals.  The points near the red-line represent accurate predictions.
-
-The analysis of the residuals show that the mean = -0.2446 (where this should be close to 0), and the standard deviation = 0.78 (where a value close to zero represents a good model).
-
-The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good, however further, more accruate, analysis is detailed in the next section.
-
-![residuals_scatter](mlr_scatter_res.png)
-
-![residuals_histogram](mlr_hist_res.png)
-
-### Testing Assumptions:
-
-Linear regression requires these assumptions to be tested:
-
-#### Test 1 - Residual normality - where the null hypothesis is that residuals are normally distributed.
-
-Using the Shapiro-Wilk Test the results returned a P-value: 0.4930, and as p > 0.05, this is evidence that the residuals are normally distributed as required.
-
-#### Test 2 - Homoscedasticity (constant variance of residuals)
-
-Using the Spearman Correlation test on the predicted values and the absolute residuals, the P-value was equal to 0.0000 , the Spearman Correlation value was 0.6063.
-
-As such p < 0.05 this is evidence of heteroscedasticity (p ≤ 0.05), therefore we should consider transforming the target variable accordingly.
-
-#### Test 3 - No multicollinearity among features
-
-We already tested this with VIF, see above, where the result that there is moderate multicollinearity present.
-
-### Feature importance:
-
-Understanding the importance of each feature (Independent Variable) is an important finding from Multiple Linear Regression, as it allows further understanding of the model and output, as well as guiding any further improvements to be made to the model.
-
-The bar chart below visualises the importance of each feature, showing that, perhaps unsuprisingly, total bill value is the strongest predictor of tip size
-
-![feature importance](mlr_feat_imp.png)
 
 ### Conclusions:
 
-Lets address the conclusions in relation to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
+The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277-0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
 
-Model Performance:
-* The model works reasonably well for a simple dataset (47.7% of variance explained)
-* The average prediction error is 0.67
+These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that:
 
-Keyfindings:
-* Total bill amount is the strongest predictor of tip size, the higher the bill amount the higher the tip tends to be
-* Larger parties tend to leave larger tips
-* Lunch time sittings decreases expected tips
+The features used are reasonably predictive of seed variety
+There may be some natural overlap between varieties in the feature space
+A small portion of seeds (~27%) are either misclassified or represent boundary cases that are difficult to distinguish
 
-Assumption testing:
-* Normality: Satisfied
-* Constant Variance: Some heteroscedasticity
-* Multicollinearity: Moderate
+This level of performance is quite respectable for unsupervised learning, especially considering K-Means had no knowledge of the true labels during training.
+
+
+
+
 
 Practical interpretation:
 For every increase of 1 in the total bill, we expect the tip to increase by approximately 0.09, holding other factors constant.
