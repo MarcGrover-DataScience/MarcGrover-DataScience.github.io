@@ -23,7 +23,7 @@ pd.set_option("display.precision", 3)                               # displays n
 
 # Set style for better visualizations
 sns.set_style("whitegrid")
-plt.rcParams['figure.figsize'] = (12, 8)
+plt.rcParams['figure.figsize'] = (10, 6)
 
 # ============================================================================
 # 1. LOAD AND EXPLORE DATA
@@ -62,94 +62,153 @@ X_scaled = scaler.fit_transform(X)
 print(f"\nScaled data - Mean: {X_scaled.mean(axis=0)}")
 print(f"Scaled data - Std: {X_scaled.std(axis=0)}")
 
-# # ============================================================================
-# # 3. ELBOW METHOD - FINDING OPTIMAL K
-# # ============================================================================
-# print("STEP 3: Elbow Method - Finding Optimal K")
-#
-# # Calculate WSS (Within-Cluster Sum of Squares) for different k values
-# k_range = range(2, 11)
-# wss = []
-# silhouette_scores = []
-# davies_bouldin_scores = []
-# calinski_harabasz_scores = []
-#
-# for k in k_range:
-#     kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-#     kmeans.fit(X_scaled)
-#     wss.append(kmeans.inertia_)
-#
-#     # Calculate intrinsic metrics
-#     labels = kmeans.labels_
-#     silhouette_scores.append(silhouette_score(X_scaled, labels))
-#     davies_bouldin_scores.append(davies_bouldin_score(X_scaled, labels))
-#     calinski_harabasz_scores.append(calinski_harabasz_score(X_scaled, labels))
-#
+# ============================================================================
+# 3. ELBOW METHOD - FINDING OPTIMAL K
+# ============================================================================
+print("STEP 3: Elbow Method - Finding Optimal K")
+
+# Calculate WSS (Within-Cluster Sum of Squares) for different k values
+k_range = range(2, 11)
+wss = []
+silhouette_scores = []
+davies_bouldin_scores = []
+calinski_harabasz_scores = []
+
+for k in k_range:
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans.fit(X_scaled)
+    wss.append(kmeans.inertia_)
+
+    # Calculate intrinsic metrics
+    labels = kmeans.labels_
+    silhouette_scores.append(silhouette_score(X_scaled, labels))
+    davies_bouldin_scores.append(davies_bouldin_score(X_scaled, labels))
+    calinski_harabasz_scores.append(calinski_harabasz_score(X_scaled, labels))
+
 # print("\nWSS values for different k:")
 # for k, wss_val in zip(k_range, wss):
 #     print(f"k={k}: WSS={wss_val:.2f}")
-#
-# # ============================================================================
-# # 4. VISUALIZE OPTIMIZATION METRICS
-# # ============================================================================
-# print("STEP 4: Visualizing Optimization Metrics")
-#
-# fig, axes = plt.subplots(2, 2, figsize=(15, 12))
-#
-# # Plot 1: Elbow Method (WSS)
-# axes[0, 0].plot(k_range, wss, 'bo-', linewidth=2, markersize=8)
-# axes[0, 0].set_xlabel('Number of Clusters (k)', fontsize=12)
-# axes[0, 0].set_ylabel('Within-Cluster Sum of Squares (WSS)', fontsize=12)
-# axes[0, 0].set_title('Elbow Method For Optimal k', fontsize=14, fontweight='bold')
-# axes[0, 0].grid(True, alpha=0.3)
-# axes[0, 0].set_xticks(k_range)
-#
-# # Plot 2: Silhouette Score (higher is better)
-# axes[0, 1].plot(k_range, silhouette_scores, 'go-', linewidth=2, markersize=8)
-# axes[0, 1].set_xlabel('Number of Clusters (k)', fontsize=12)
-# axes[0, 1].set_ylabel('Silhouette Score', fontsize=12)
-# axes[0, 1].set_title('Silhouette Score vs k (Higher is Better)', fontsize=14, fontweight='bold')
-# axes[0, 1].grid(True, alpha=0.3)
-# axes[0, 1].set_xticks(k_range)
-#
-# # Plot 3: Davies-Bouldin Index (lower is better)
-# axes[1, 0].plot(k_range, davies_bouldin_scores, 'ro-', linewidth=2, markersize=8)
-# axes[1, 0].set_xlabel('Number of Clusters (k)', fontsize=12)
-# axes[1, 0].set_ylabel('Davies-Bouldin Index', fontsize=12)
-# axes[1, 0].set_title('Davies-Bouldin Index vs k (Lower is Better)', fontsize=14, fontweight='bold')
-# axes[1, 0].grid(True, alpha=0.3)
-# axes[1, 0].set_xticks(k_range)
-#
-# # Plot 4: Calinski-Harabasz Index (higher is better)
-# axes[1, 1].plot(k_range, calinski_harabasz_scores, 'mo-', linewidth=2, markersize=8)
-# axes[1, 1].set_xlabel('Number of Clusters (k)', fontsize=12)
-# axes[1, 1].set_ylabel('Calinski-Harabasz Index', fontsize=12)
-# axes[1, 1].set_title('Calinski-Harabasz Index vs k (Higher is Better)', fontsize=14, fontweight='bold')
-# axes[1, 1].grid(True, alpha=0.3)
-# axes[1, 1].set_xticks(k_range)
-#
-# plt.tight_layout()
-# plt.savefig('optimization_metrics.png', dpi=300, bbox_inches='tight')
-# plt.show()
-#
-# # ============================================================================
-# # 5. TRAIN FINAL MODEL WITH OPTIMAL K
-# # ============================================================================
-# print("STEP 5: Training Final K-Means Model")
-#
-# # Based on the seed dataset, we expect 3 varieties
-# optimal_k = 3
-# print(f"\nUsing k={optimal_k} clusters (based on known varieties)")
-#
-# kmeans_final = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
-# cluster_labels = kmeans_final.fit_predict(X_scaled)
-#
-# print(f"\nCluster centers shape: {kmeans_final.cluster_centers_.shape}")
-# print(f"Cluster distribution:")
-# unique, counts = np.unique(cluster_labels, return_counts=True)
-# for cluster, count in zip(unique, counts):
-#     print(f"  Cluster {cluster}: {count} samples ({count / len(cluster_labels) * 100:.1f}%)")
-#
+
+# Dataframe of WSS values for Elbow method
+elbow_data = pd.DataFrame({
+    'Number of Clusters (k)': list(k_range),
+    'WSS': wss
+})
+print('\nTable of WSS scores, to be used for elbow method')
+print(elbow_data)
+
+# DataFrame for Silhouette Scores
+silhouette_data = pd.DataFrame({
+    'Number of Clusters (k)': list(k_range),
+    'Silhouette Score': silhouette_scores
+})
+
+# DataFrame for Davies-Bouldin Index
+dbi_data = pd.DataFrame({
+    'Number of Clusters (k)': list(k_range),
+    'Davies-Bouldin Index': davies_bouldin_scores
+})
+
+# DataFrame for Calinski-Harabasz Index
+calinski_data = pd.DataFrame({
+    'Number of Clusters (k)': list(k_range),
+    'Calinski-Harabasz Index': calinski_harabasz_scores
+})
+
+
+# ============================================================================
+# 4. VISUALIZE OPTIMIZATION METRICS
+# ============================================================================
+print("\nSTEP 4: Visualizing Optimization Metrics")
+
+# Plot 1: Elbow Method (WSS)
+ax = sns.lineplot(data=elbow_data, x='Number of Clusters (k)', y='WSS',
+                  marker='o', markersize=10, linewidth=2.5, color='#1f77b4')
+# Customize the plot
+ax.set_xlabel('Number of Clusters (k)', fontsize=13, fontweight='semibold')
+ax.set_ylabel('Within-Cluster Sum of Squares (WSS)', fontsize=13, fontweight='semibold')
+ax.set_title('Elbow Method For Optimal k', fontsize=15, fontweight='bold', pad=20)
+
+# Set x-axis ticks
+ax.set_xticks(k_range)
+
+# Enhance grid
+ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
+
+plt.tight_layout()
+plt.show()
+
+# Plot 2: Silhouette Score (higher is better)
+ax = sns.lineplot(data=silhouette_data, x='Number of Clusters (k)', y='Silhouette Score',
+                  marker='o', markersize=10, linewidth=2.5, color='#2ca02c')
+
+# Customize the plot
+ax.set_xlabel('Number of Clusters (k)', fontsize=13, fontweight='semibold')
+ax.set_ylabel('Silhouette Score', fontsize=13, fontweight='semibold')
+ax.set_title('Silhouette Score vs k (Higher is Better)', fontsize=15, fontweight='bold', pad=20)
+
+# Set x-axis ticks
+ax.set_xticks(k_range)
+
+# Enhance grid
+ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
+plt.tight_layout()
+plt.show()
+
+# Plot 3: Davies-Bouldin Index (lower is better)
+ax = sns.lineplot(data=dbi_data, x='Number of Clusters (k)', y='Davies-Bouldin Index',
+                  marker='o', markersize=10, linewidth=2.5, color='#d62728')
+
+# Customize the plot
+ax.set_xlabel('Number of Clusters (k)', fontsize=13, fontweight='semibold')
+ax.set_ylabel('Davies-Bouldin Index', fontsize=13, fontweight='semibold')
+ax.set_title('Davies-Bouldin Index vs k (Lower is Better)', fontsize=15, fontweight='bold', pad=20)
+
+# Set x-axis ticks
+ax.set_xticks(k_range)
+
+# Enhance grid
+ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
+
+plt.tight_layout()
+plt.show()
+
+# Plot 4: Calinski-Harabasz Index (higher is better)
+ax = sns.lineplot(data=calinski_data, x='Number of Clusters (k)', y='Calinski-Harabasz Index',
+                  marker='o', markersize=10, linewidth=2.5, color='#9467bd')
+
+# Customize the plot
+ax.set_xlabel('Number of Clusters (k)', fontsize=13, fontweight='semibold')
+ax.set_ylabel('Calinski-Harabasz Index', fontsize=13, fontweight='semibold')
+ax.set_title('Calinski-Harabasz Index vs k (Higher is Better)', fontsize=15, fontweight='bold', pad=20)
+
+# Set x-axis ticks
+ax.set_xticks(k_range)
+
+# Enhance grid
+ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
+
+plt.tight_layout()
+plt.show()
+
+# ============================================================================
+# 5. TRAIN FINAL MODEL WITH OPTIMAL K
+# ============================================================================
+print("STEP 5: Training Final K-Means Model")
+
+# Based on the seed dataset, we expect 3 varieties
+optimal_k = 3
+print(f"\nUsing k={optimal_k} clusters (based on known varieties)")
+
+kmeans_final = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
+cluster_labels = kmeans_final.fit_predict(X_scaled)
+
+print(f"\nCluster centers shape: {kmeans_final.cluster_centers_.shape}")
+print(f"Cluster distribution:")
+unique, counts = np.unique(cluster_labels, return_counts=True)
+for cluster, count in zip(unique, counts):
+    print(f"  Cluster {cluster}: {count} samples ({count / len(cluster_labels) * 100:.1f}%)")
+
 # # ============================================================================
 # # 6. INTRINSIC VALIDATION METRICS
 # # ============================================================================
@@ -300,11 +359,3 @@ print(f"Scaled data - Std: {X_scaled.std(axis=0)}")
 # """
 #
 # print(summary)
-#
-# 
-# print("PIPELINE COMPLETED SUCCESSFULLY")
-#
-# print("\nGenerated files:")
-# print("  - optimization_metrics.png")
-# print("  - clustering_visualization.png")
-# print("  - contingency_table.png")
