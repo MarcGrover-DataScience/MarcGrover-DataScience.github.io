@@ -113,7 +113,9 @@ In summary PCA (Principal Component Analysis) is a dimensionality reduction tech
 
 Using PCA, the first 2 principle components were identified, which were used to produce a scatter plot of the observations, and the generated clusters:
 
+![Pca_generated clusters](kmeans-pca.png)
 
+![Pca_actual_clusters](kmeans-truth.png)
 
 ### Conclusions:
 
