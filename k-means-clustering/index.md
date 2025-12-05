@@ -132,17 +132,7 @@ A small portion of seeds (~27%) are either misclassified or represent boundary c
 
 This level of performance is quite respectable for unsupervised learning, especially considering K-Means had no knowledge of the true labels during training.
 
-
-
-
-
-Practical interpretation:
-For every increase of 1 in the total bill, we expect the tip to increase by approximately 0.09, holding other factors constant.
-
-Model and Analysis Limitations:
-* Model doesn't account for service quality or customer satisfaction
-* R² of 0.477 means 52.3% of variation is unexplained
-* Limited to the patterns in this restaurant's data
+Overall the clustering is considered successful, given the evidence that there is natural overlap of observations in the feature space of the true varieties, i.e. there is not a clear separation of true clusters.
 
 ## Next steps:  
 
