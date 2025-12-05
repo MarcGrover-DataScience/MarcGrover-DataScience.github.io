@@ -167,7 +167,7 @@ Collect more samples while ensuring a balanced sampling of varieties.  Look to i
 * Feature Selection - Identify if redundant features exist
   * Test model performance with reduced feature sets
 
-### Try Alternative Clustering Methods
+#### Try Alternative Clustering Methods
 * Hierarchical Clustering
 * DBSCAN (Density-Based Clustering)
 * Gaussian Mixture Models (GMM)
