@@ -30,7 +30,19 @@ K-Means Clustering is a versatile and widely used technique in many business sec
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from Kaggle at: https://www.kaggle.com/datasets/dongeorge/seed-from-uci.  
+A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/dongeorge/seed-from-uci).  
+
+The data contains 7 independent variables:  area (A), perimeter (P), compactness (C), length of kernel (LK), width of kernel (WK), asymmetry coefficient (A_Coef) and length of kernel groove (LKG), which are used to generate the clusters.
+
+The data was scaled, so that each IV has a mean of 0 and a standard deviation equal to 1.
+
+The K-Means Cluster model was run for each value of K in the inclusive range (2,11).
+
+For each value of K, the WSS (Within-Cluster Sum of Squares) was calculated, which were used to determine the optimal value of K, i.e. the optimal number of clusters.  
+
+For each value of K intrinsic measures were also measured and recorded; Silhouette Scores, Davies Bouldin Scores, and Calinski Harabasz Scores.  
+
+The Elbow Method, which uses the WSS scores for each K value, along with the plots of the other intrinsic measures, was used to determine the optimal K value of 3, which was then used in the final K-Means Model.
 
 A Multiple Linear Regression model was built, having processed and scaled the independent variable datasets.  Tests and analysis were performed on the data for:
 * Correlation of variables
