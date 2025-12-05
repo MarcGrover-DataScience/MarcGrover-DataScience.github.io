@@ -50,6 +50,11 @@ There are 244 observations recorded, covering a period of 4 consecutive days.
 
 The mean tip is 2.998, with a standard deviation of 1.384 (currency is ignored in this example for simplicity)
 
+![Classification_Output](Classification_Zero-Shot-Classification.jpg)
+
+![Gradio_App](Gradio_Zero-Shot-Classification.jpg)
+
+
 
 ### Conclusions:
 
