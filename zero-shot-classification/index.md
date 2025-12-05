@@ -59,17 +59,21 @@ In summary, the classification model met the business requirements for classifyi
 The primary conclusion is that it is possible to create a model to classify books in an accurate and timely manner, which can be applied to mutliple records of book descriptions, which addresses the initial business objective.  
 
 The overall conclusions are:
-* A classification model can be generated relatively quickly and easily using python and associated libraries using freely avaialable resources.
+* A zero-shot classification model can categorise text without labelled data.  
+* A zero-shot classification model can be quickly deployed, with low upfront costs and time.  
+  * Utilising python and associated libraries using freely avaialable resources.  
 * It highlights the power of using Deep Learning models to solve business problems and provide tangible benefits, and the accessibility of such models.
+* Tangible operational efficiencies and savings can be made, freeing up staff for higher-value tasks
+* The outputs may not be 100% accurate but the designs are open to additional development and configuration to improve results.
 
 ## Next steps:  
 
-While the output of the model met the business requirements, there are recommendations for extending the model to increase accuracy, extend the information that is provided by the model, and making the model applicable to more business scenarios.  
+While the output of the model met the business requirements, there are recommendations for extending the model to increase accuracy, and extend the information that is provided by the model.
 
 Recommendations include:
 * Undertake data cleansing and preprocessing of the book descriptions prior to being applied to the classification model
 * Identify additional descriptions for each book from oher sources, potentially utilising the unique ISBN code for each book to map to other descriptions of each book
-* Implement RAG (Retrieval-Augmented Generation)
+* Implement RAG (Retrieval-Augmented Generation) to augment the descriptions with additional data, to allow better handling of vague or ambiguous descriptions.
 * Implement Fine-Tuning on the model using labelled datasets where descriptions are mapped to classifications.
 * Multi-category results, e.g. using the top 2 categories
 * Hierarchical categories, for example sub-categories of 'Adventure'
