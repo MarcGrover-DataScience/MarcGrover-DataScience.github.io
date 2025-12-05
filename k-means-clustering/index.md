@@ -119,6 +119,8 @@ Using PCA, the first 2 principle components were identified, which were used to 
 
 Finally the predicted clusters were compared to the actuals, noting that as this was an unsupervised learning method, the model was unaware of the true labels and hence the correct predictions are in the bottom-left to top-right diagonal.
 
+![contingency](kmeans-contingency.png)
+
 ### Conclusions:
 
 The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277, -0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
