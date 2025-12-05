@@ -121,7 +121,7 @@ Finally the predicted clusters were compared to the actuals, noting that as this
 
 ### Conclusions:
 
-The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277-0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
+The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277, -0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
 
 These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that:
 
