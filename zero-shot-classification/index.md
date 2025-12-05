@@ -38,17 +38,13 @@ A workflow in Python was developed using libraries Pandas, Numpy and Transformer
 
 The set of books and descriptions in the current inventory were applied to the classification model to produce the most likely category, based solely on the description.
 
-A web app was developed using Gradio allowing a user to insert a book description and the app will use the Zero-Shot Classification model to generate the scores of the most likely category, where it lists the score for each of the 7 possible categories.
+A web app was developed using Gradio allowing a user to insert a book description and the app will use the Zero-Shot Classification model to generate the scores of the most likely category, where it lists the confidence score for each of the 7 possible categories.
 
-Data preparation:  The original data was used without any text cleansing and preprocessing. 
+Data preparation:  The original data was the "Goodreads' Best Books Ever" dataset, available at [Kaggle](https://www.kaggle.com/datasets/arnabchaki/goodreads-best-books-ever) , which was used without any text cleansing and preprocessing. 
 
 ## Results and conclusions:
 
-### Descriptive Statistics:
-
-There are 244 observations recorded, covering a period of 4 consecutive days.
-
-The mean tip is 2.998, with a standard deviation of 1.384 (currency is ignored in this example for simplicity)
+A sample of the results of the inventory classification is below, which provided a category for each of the 50 thousand books in the inventory.  The accuracy was to a sufficiently high level noting that the definition of correct is subjective.  
 
 ![Classification_Output](Classification_Zero-Shot-Classification.jpg)
 
