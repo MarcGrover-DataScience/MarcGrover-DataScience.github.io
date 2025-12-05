@@ -111,11 +111,13 @@ In summary PCA (Principal Component Analysis) is a dimensionality reduction tech
 - Components are ordered by the amount of variance they explain
 - PC1 captures the most variance, PC2 the second most, etc.
 
-Using PCA, the first 2 principle components were identified, which were used to produce a scatter plot of the observations, and the generated clusters:
+Using PCA, the first 2 principle components were identified, which were used to produce a scatter plot of the K-Means generated clusters, as well as a scatter plot of the true groups (or clusters):
 
 ![Pca_generated clusters](kmeans-pca.png)
 
 ![Pca_actual_clusters](kmeans-truth.png)
+
+Finally the predicted clusters were compared to the actuals, noting that as this was an unsupervised learning method, the model was unaware of the true labels and hence the correct predictions are in the bottom-left to top-right diagonal.
 
 ### Conclusions:
 
@@ -123,8 +125,7 @@ The fact that all three scores extrinsic metrics (Homogeneity, Completeness and 
 
 These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that:
 
-The features used are reasonably predictive of seed variety
-There may be some natural overlap between varieties in the feature space
+The features used are reasonably predictive of seed variety, howevever, there may be some natural overlap between varieties in the feature space.  
 A small portion of seeds (~27%) are either misclassified or represent boundary cases that are difficult to distinguish
 
 This level of performance is quite respectable for unsupervised learning, especially considering K-Means had no knowledge of the true labels during training.
