@@ -16,7 +16,6 @@ A soft X-ray technique was used to construct all seven, real-valued attributes, 
 
 <<Detail the results>>
 
-
 ## Application:  
 
 K-Means Clustering is a versatile and widely used technique in many business sectors, the following is a subset of applications:
@@ -56,8 +55,36 @@ For each value of K intrinsic measures were also measured and recorded; Silhouet
 
 ![Calinski_Harabasz](kmeans-chi.png)
 
-The Elbow Method, which uses the WSS scores for each K value, along with the plots of the other intrinsic measures, was used to determine the optimal K value of 3, which was then used in the final K-Means Model.
+The Elbow Method, which uses the WSS scores for each K value, along with the plots of the other intrinsic measures, was used to determine the optimal K value of 3, which was then used to define the final K-Means Model, and apply the clustering to the observations.
 
+### Intrinsic Validation Metrics
+
+Where K=3 the K-Means Model generated the following metrics:
+
+WSS = 430.66
+
+Silhouette Score: 0.40  
+  Range: [-1, 1], Higher is better  
+  Interpretation: 0.40 indicates moderate separation  
+
+Davies-Bouldin Index: 0.9279  
+  Range: [0, ∞), Lower is better  
+  Interpretation: 0.93 indicates good cluster separation  
+
+Calinski-Harabasz Index: 249.78  
+  Range: [0, ∞), Higher is better  
+  Interpretation: Higher values indicate denser and better separated clusters
+
+### Extrinsic Validation Metrics
+
+This project is an unsupervised learning project as the model was generated unsing unlabelled data, however the data used did have labels (they just weren't presented to the K-Means Clustering model).
+
+As such extrinsic validation metrics can be determined, by comparing the clustering result to the grounded truth.
+
+First it should be noted that the intrinsic validation and elbow method determine the optimal clusters to be 3, which is correct, as there are three varieties of wheat seeds.
+
+
+  
 ### Descriptive Statistics:
 
 There are 244 observations recorded, covering a period of 4 consecutive days.
@@ -66,11 +93,8 @@ The mean tip is 2.998, with a standard deviation of 1.384 (currency is ignored i
 
 The following scatter plot shows the mapping of tip value to total bill value:
 
-![scatter_billing](mlr_scat_bill.png)
-
 The following boxplot visualises the tip distribution for both lunch and dinner sittings:
 
-![boxplot_time](mlr_boxplot_time.png)
 
 ### Correlation Analysis
 
@@ -78,7 +102,7 @@ The correlation matrix (for the 3 independent variables and dependent variable) 
 
 Values close to 1 or -1 indicate strong relationships, and values close to 0 indicate weak relationships.
 
-![correlation_matrix](mlr_corr_mat.png)
+
 
 ### Multicollinearity test:
 
