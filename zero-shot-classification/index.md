@@ -34,7 +34,7 @@ Zero-shot classification models allow AI systems to categorize inputs—such as 
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Pandas, Numpy and Transformers, connecting to a zero-shot classification model in Hugging Face.  The main test used the model 'facebook/bart-large-mnli', with tests also run using 'roberta-large-mnli'.
+A workflow in Python was developed using libraries Pandas, Numpy and Transformers, connecting to a zero-shot classification model in Hugging Face.  The main test used the model 'facebook/bart-large-mnli', with tests also run using 'roberta-large-mnli'.  The model was built to take the book description as an input to the model, which would produce confidence scores for each of the 7 categories, and the category with the highest confidence score was used as the classification applied to the book. To classify the whole inventory of approximately 50 thousand books, the pipeline was built to classify all the books as part of the same process.
 
 The set of books and descriptions in the current inventory were applied to the classification model to produce the most likely category, based solely on the description.
 
@@ -44,7 +44,7 @@ Data preparation:  The original data was the "Goodreads' Best Books Ever" datase
 
 ## Results and conclusions:
 
-A sample of the results of the inventory classification is below, which provided a category for each of the 50 thousand books in the inventory.  The accuracy was to a sufficiently high level noting that the definition of 'correct' is subjective.  
+A sample of the results of the inventory classification is below, which provided a category for each of the 50 thousand books in the inventory.  The accuracy was to a sufficiently high level noting that the definition of 'correct' is subjective.  Two separate models from Hugging Face were used for classifications with the results compared to determine the most accurate method.  The models used were 'facebook/bart-large-mnli' and 'roberta-large-mnli', where the results showed that the 'facebook/bart-large-mnli' was the more accurate of the two.
 
 ![Classification_Output](Classification_Zero-Shot-Classification.jpg)
 
@@ -56,23 +56,28 @@ In summary, the classification model met the business requirements for classifyi
 
 ### Conclusions:
 
-Lets address the conclusions in relation to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
+The primary conclusion is that it is possible to create a model to classify books in an accurate and timely manner, which can be applied to mutliple records of book descriptions, which addresses the initial business objective.  
 
-Model Performance:
-* The model works reasonably well for a simple dataset (47.7% of variance explained)
-* The average prediction error is 0.67
-roberta-large-mnli
+The overall conclusions are:
+* A classification model can be generated relatively quickly and easily using python and associated libraries using freely avaialable resources.
+* It highlights the power of using Deep Learning models to solve business problems and provide tangible benefits, and the accessibility of such models.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
+While the output of the model met the business requirements, there are recommendations for extending the model to increase accuracy, extend the information that is provided by the model, and making the model applicable to more business scenarios.  
 
 Recommendations include:
-* Collect additional features (e.g., day of week, server ID, meal type, customer satisfaction)
-* Address the moderate multicollinearity identified in the variables
+* Undertake data cleansing and preprocessing of the book descriptions prior to being applied to the classification model
+* Identify additional descriptions for each book from oher sources, potentially utilising the unique ISBN code for each book to map to other descriptions of each book
+* Implement RAG (Retrieval-Augmented Generation)
+* Implement Fine-Tuning on the model using labelled datasets where descriptions are mapped to classifications.
+* Multi-category results, e.g. using the top 2 categories
+* Hierarchical categories, for example sub-categories of 'Adventure'
+* Applying other classifications such as themes of the book
+* Experiment with other zero-shot classification models and determine if better results can be generated
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/Zero_Shot_Classification_Books.py)
+[View the Python Script](/Zero_Shot_Classification_Books.py)  
 [View the Python Script for Gradio application](/Zero_Shot_Classification_Books_Gradio.py)
 
