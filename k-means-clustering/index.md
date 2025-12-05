@@ -12,9 +12,9 @@ permalink: /k-means-clustering/
 
 A botanical research facility wishes to understand the clustering of wheat seeds based on measurements of geometrical properties of kernels belonging to three different varieties of wheat; Kama, Rosa and Canadian.
 
-A soft X-ray technique was used to construct all seven, real-valued attributes, for each seed on which the clustering is based.
+A soft X-ray technique was used to construct all seven, real-valued attributes (features), for each seed on which the clustering is based.
 
-<<Detail the results>>
+The results of the K-Means clustering produced good agreement with the known labels, with approximately 73% of seeds classified correctly, with three distinct clusters emerging.  It was also noted that ~85-90% of variance was explained by 2 Principle Components. 
 
 ## Application:  
 
@@ -125,27 +125,54 @@ Finally the predicted clusters were compared to the actuals, noting that as this
 
 The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277, -0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
 
-These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that:
+These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that the features used are reasonably predictive of seed variety, howevever, there may be some natural overlap between varieties in the feature space.  
 
-The features used are reasonably predictive of seed variety, howevever, there may be some natural overlap between varieties in the feature space.  
-A small portion of seeds (~27%) are either misclassified or represent boundary cases that are difficult to distinguish
+It also highlights that small portion of seeds (~27%) are either misclassified or represent boundary cases that are difficult to distinguish
 
 This level of performance is quite respectable for unsupervised learning, especially considering K-Means had no knowledge of the true labels during training.
 
 Overall the clustering is considered successful, given the evidence that there is natural overlap of observations in the feature space of the true varieties, i.e. there is not a clear separation of true clusters.
 
+Known limitations of this model:
+* K-Means assumes spherical clusters (may not match data geometry)
+* Unsupervised approach doesn't leverage available labels for training
+
 ## Next steps:  
 
 With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
 
-Recommendations include:
-* Collect additional features (e.g., day of week, server ID, meal type, customer satisfaction)
-* Address the moderate multicollinearity identified in the variables
-* Increase sample size for better generalisation
-* Consider non-linear relationships (polynomial features)
-* Transform the dependent variable (to address the heteroscedasticity detected from the Spearman Correlation test)
-  * Note that a separate model was generated in a second phase using the square-root of the tip value increased the model accuracy slighty to account for 48.2% of the variance)
-* Explore interaction effects between features
+Recommended next steps include:
+
+#### Transition to Supervised Learning
+Having labeled data enables supervised methods will significantly outperform unsupervised clustering, potentially providing higher accuracy and better handling of boundary cases.  This requires creating a dataset with labelled data.
+Recommended Algorithms:
+* Random Forest Classifier: Handles non-linear relationships, provides feature importance
+* Support Vector Machine (SVM): Excellent for finding complex decision boundaries
+* Gradient Boosting (XGBoost/LightGBM): State-of-the-art performance for tabular data
+* Neural Networks: If pattern complexity requires it, but  likely overkill for 7 features
+
+#### Increasing Sample Size
+Collect more samples while ensuring a balanced sampling of varieties.  Look to include boundary examples, and take samples from multiple conditions
+
+#### Feature Engineering
+* Feature Analysis
+  * Assess PCA loadings
+  * Which features have highest loadings on PC1/PC2?
+  * Are any features redundant (highly correlated)?
+  * Do any features have low variance or discriminatory power?
+* Create New Features - Consider Ratios and Interactions of dimensions, for example:
+  * Aspect Ratio: Length / Width
+  * Shape Index: 4π×Area / Perimeter²
+  * Volume Proxy: Area × Kernel Width
+* Feature Selection - Identify if redundant features exist
+  * Test model performance with reduced feature sets
+
+### Try Alternative Clustering Methods
+* Hierarchical Clustering
+* DBSCAN (Density-Based Clustering)
+* Gaussian Mixture Models (GMM)
+* Ensemble Clustering
+
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
