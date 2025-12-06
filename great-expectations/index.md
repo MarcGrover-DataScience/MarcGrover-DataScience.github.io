@@ -20,9 +20,13 @@ The primary purpose of Great Expectations is to ensure data quality and build tr
 
 ### Key Benefits:  
 
+Advantages of using Great Expectations include:
 
-
-Structure or content???????????
+* Automated Data Quality: Automated data validation against business logic and quality standards, significantly reducing manual effort and error risk. 
+* Data Structure (Schema) Validation - This type of validation focuses on the form and metadata of your data. It ensures that the data is organized exactly as expected, which is crucial for downstream systems and models that rely on a fixed schema. 
+* Prevents Downstream Errors: By validating data early in the pipeline (e.g. data ingestion), it helps catch issues quickly before bad data can corrupt production systems, models, or reports.  
+* Living Documentation: Automatically generated Data Docs serve as a continuously updated source of truth, documenting both the expected state of the data and the observed results from recent validation runs.  
+* Integration Flexibility: It integrates easily with popular data environments like Pandas, Spark, SQL databases, and workflow orchestrators.  
 
 ### Key Uses and Functionality:
 
@@ -30,6 +34,10 @@ Structure or content???????????
 * Expectation Suites: A collection of related Expectations, which can be easily reused and applied across different data batches or pipelines.  
 * Data Profiling: Great Expectations can automatically profile a dataset to infer basic statistics and suggest an initial set of Expectations based on the observed data.  
 * Data Documentation: It automatically generates human-readable, interactive Data Docs (HTML pages) from Expectations and Validation Results.  
+
+### Visualisation and Sharing of Output
+
+Detail
 
 ## Application:  
 
