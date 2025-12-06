@@ -32,7 +32,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Principal Component Analysis (PCA)
 * ### Association Rule
 * ### Causal Impact Analysis
-* ### Great Expectations (EDA)
+* ### [Great Expectations (EDA)](/great=expectations/)
 * ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
 * ### Text Summarisation (Deep Learning)
 * ### Topic Modelling and Clustering (Deep Learning)
