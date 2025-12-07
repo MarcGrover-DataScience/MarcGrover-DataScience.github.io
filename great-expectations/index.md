@@ -14,9 +14,18 @@ Detail
 
 ## About Great Expectations:
 
-Great Expectations provides a robust framework for data validation, data profiling, and data documentation. It allows data teams to define and manage explicit, declarative assertions about the acceptable state of their data, which are called Expectations.  
+Great Expectations provides a robust framework for data validation, data profiling, and data documentation. It allows data teams to define and manage explicit, declarative assertions about the acceptable state of their data, which are called Expectations.  It can be used for both data content validation and data structure (schema) validation, two critical dimensions of data quality.
 
-The primary purpose of Great Expectations is to ensure data quality and build trust in data assets throughout the data lifecycle, from ingestion to final analysis.  As such it can be implemented in different steps in the lifecycle, often in multiple steps within the same pipeline.
+Data structure validation examples include; column names, data types, column presence.
+
+Data content validation examples include; completeness, data range, uniqueness, consistency across fields.
+
+The primary purpose of Great Expectations is to ensure data quality and build trust in data assets throughout the data lifecycle, from ingestion to final analysis.  As such it can be implemented in different steps in the lifecycle, often in multiple steps within the same pipeline.  Example uses within the data pipeline include:
+
+* **Ingestion (Extract/Load):** Checking the integrity of raw data immediately after it is extracted from a source. For example, ensuring the schema is correct, no critical columns are missing, and no unexpected data types appear.
+* **Transformation (Transform):** Validating the data after key transformation steps to ensure the logic was applied correctly. For instance, checking that aggregated columns fall within a calculated range or that joins did not introduce nulls in key fields.
+* **Data Publication:** Performing a final validation check on the data before it is made available to data consumers (internal, external or other data processed). This is the final quality gate to prevent bad data from reaching production systems, or next steps in the pipeline.
+* **Exploratory Data Analysis (EDA) and Profiling:** Great Expectations plays a role in the EDA process by automating the discovery of data properties.  Automated profiling enables quick identification of data characteristics like column types, min/max values, unique values, and non-null ratios.
 
 ### Key Benefits:  
 
