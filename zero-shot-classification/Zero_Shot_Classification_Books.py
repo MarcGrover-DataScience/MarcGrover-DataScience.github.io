@@ -2,7 +2,6 @@
 
 import pandas as pd
 from transformers import pipeline
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 import numpy as np
 import time
 
@@ -20,7 +19,7 @@ pd.set_option("display.max_colwidth", 60)
 t0 = time.time()  # Add at start of process
 
 # 1. Load Dataset
-n_rows = 30                            # Define number of rows to import
+n_rows = 100                            # Define number of rows to import
 df = pd.read_csv("books_1.Best_Books_Ever.csv", nrows=n_rows)  # Replace with actual file path
 df = df[['title', 'author', 'description', 'genres']].dropna()
 print(df.info())
@@ -44,78 +43,29 @@ df['description'] = df['description'].str.strip()
 print(df)
 
 # 3. Candidate Labels
-level1_labels = ['Fiction', 'Non-Fiction']
-fiction_labels = ["Science Fiction", "Adventure", "Romance", "Mystery", "Fantasy", "Historical"]
-nonfiction_labels = ['Biography', 'History', 'Self-Help', 'Science', 'Business']
+# level1_labels = ['Fiction', 'Non-Fiction']
+# fiction_labels = ["Science Fiction", "Adventure", "Romance", "Mystery", "Fantasy", "Historical"]
+# nonfiction_labels = ['Biography', 'History', 'Self-Help', 'Science', 'Business']
+
+level1_labels = ["Science Fiction", "Adventure", "Romance", "Mystery", "Fantasy", "Historical", "Biography"]
+# level2_labels = ["Children", "Young Adult", "Adult"]
 
 
 # 4. Zero-Shot Classification
-classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=-1)
+classifier = pipeline("zero-shot-classification", model="roberta-large-mnli", device=-1)
+# facebook/bart-large-mnli    roberta-large-mnli
 
-# Apply the classifier and return the first label (which is that of highest probability
+# Apply the classifier predictor and return the first label (which is that of highest probability)
 df['category'] = df['description'].apply(lambda row: classifier(row, level1_labels,
                                                   )['labels'][0])
+# # The following line is to classify the target audience based on description
+# # This code was removed due to the poor output - based on human validation
+# df['category2'] = df['description'].apply(lambda row: classifier(row, level2_labels,
+#                                                   )['labels'][0])
 df_output = df[['author', 'title', 'description', 'category']]
 print(df_output)
-df_output.to_excel('Book_category_output.xlsx', index=False)
+df_output.to_excel('Book_category_output_roberta.xlsx', index=False)
 
-# # Define predicted genre
-
-# Define level 2 predicted genre
-def classify_subgenre(description, category):
-    if category == 'Fiction':
-        labels = fiction_labels
-    elif category == 'Non-Fiction':
-        labels = nonfiction_labels
-    else:
-        return None
-    result = classifier(description, labels)
-    return result['labels'][0]
-
-df['category_lv2'] = df.apply(lambda row: classify_subgenre(row['description'], row['category']), axis=1)
-df_output2 = df[['author', 'title', 'description', 'category', 'category_lv2']]
-print(df_output2)
-df_output2.to_excel('Book_category_output2.xlsx', index=False)
-
-# predictions = []
-# true_labels = []
-#
-# for _, row in df.iterrows():  # Sample for speed
-#     text = row['description']
-#     true_label = row['genres_top']
-#     result = classifier(text, candidate_labels)
-#     predicted_label = result['labels'][0]  # Top prediction
-#     predictions.append(predicted_label)
-#     true_labels.append(true_label)
-#
-# # 5. Evaluation
-# accuracy = accuracy_score(true_labels, predictions)
-# precision, recall, f1, _ = precision_recall_fscore_support(true_labels, predictions, average='weighted', zero_division=0.0)
-#
-# print(f"Accuracy: {accuracy:.2f}")
-#
-#
-# #
-# import streamlit as st
-# from transformers import pipeline
-#
-# # Load model
-# classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-# candidate_labels = ["Science Fiction", "Romance", "Mystery", "Fantasy", "Non-Fiction", "Historical"]
-#
-# st.title("Book Genre Predictor (Zero-Shot)")
-# st.write("Enter a book description and get predicted genres:")
-#
-# description = st.text_area("Book Description", "")
-# if st.button("Predict Genre"):
-#     if description.strip():
-#         result = classifier(description, candidate_labels)
-#         st.subheader("Predicted Genres:")
-#         for label, score in zip(result['labels'], result['scores']):
-#             st.write(f"{label}: {score:.2f}")
-#     else:
-#         st.warning("Please enter a description.")
-#
 
 # Track time to complete process
 t1 = time.time()  # Add at end of process

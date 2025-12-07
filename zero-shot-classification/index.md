@@ -40,7 +40,7 @@ The set of books and descriptions in the current inventory were applied to the c
 
 A web app was developed using Gradio allowing a user to insert a book description and the app will use the Zero-Shot Classification model to generate the scores of the most likely category, where it lists the confidence score for each of the 7 possible categories.
 
-Data preparation:  The original data was the "Goodreads' Best Books Ever" dataset, available at [Kaggle](https://www.kaggle.com/datasets/arnabchaki/goodreads-best-books-ever), which was used without any text cleansing and preprocessing. 
+Data preparation:  The original data was the "Goodreads' Best Books Ever" dataset, available at [Kaggle](https://www.kaggle.com/datasets/arnabchaki/goodreads-best-books-ever), which was used without any text cleansing and pre-processing. 
 
 ## Results and conclusions:
 
@@ -56,12 +56,12 @@ In summary, the classification model met the business requirements for classifyi
 
 ### Conclusions:
 
-The primary conclusion is that it is possible to create a model to classify books in an accurate and timely manner, which can be applied to mutliple records of book descriptions, which addresses the initial business objective.  
+The primary conclusion is that it is possible to create a model to classify books in an accurate and timely manner, which can be applied to multiple records of book descriptions, which addresses the initial business objective.  
 
 The overall conclusions are:
 * A zero-shot classification model can categorise text without labelled data.  
 * A zero-shot classification model can be quickly deployed, with low upfront costs and time.  
-  * Utilising python and associated libraries using freely avaialable resources.  
+  * Utilising python and associated libraries using freely available resources.  
 * It highlights the power of using Deep Learning models to solve business problems and provide tangible benefits, and the accessibility of such models.
 * Tangible operational efficiencies and savings can be made, freeing up staff for higher-value tasks
 * The outputs may not be 100% accurate but the designs are open to additional development and configuration to improve results.
@@ -71,8 +71,8 @@ The overall conclusions are:
 While the output of the model met the business requirements, there are recommendations for extending the model to increase accuracy, and extend the information that is provided by the model.
 
 Recommendations include:
-* Undertake data cleansing and preprocessing of the book descriptions prior to being applied to the classification model
-* Identify additional descriptions for each book from oher sources, potentially utilising the unique ISBN code for each book to map to other descriptions of each book
+* Undertake data cleansing and pre-processing of the book descriptions prior to being applied to the classification model
+* Identify additional descriptions for each book from other sources, potentially utilising the unique ISBN code for each book to map to other descriptions of each book
 * Implement RAG (Retrieval-Augmented Generation) to augment the descriptions with additional data, to allow better handling of vague or ambiguous descriptions.
 * Implement Fine-Tuning on the model using labelled datasets where descriptions are mapped to classifications.
 * Multi-category results, e.g. using the top 2 categories
