@@ -14,7 +14,7 @@ Detail
 
 ## About Great Expectations:
 
-Great Expectations provides a robust framework for data validation, data profiling, and data documentation. It allows data teams to define and manage explicit, declarative assertions about the acceptable state of their data, which they call Expectations.  
+Great Expectations provides a robust framework for data validation, data profiling, and data documentation. It allows data teams to define and manage explicit, declarative assertions about the acceptable state of their data, which are called Expectations.  
 
 The primary purpose of Great Expectations is to ensure data quality and build trust in data assets throughout the data lifecycle, from ingestion to final analysis.  As such it can be implemented in different steps in the lifecycle, often in multiple steps within the same pipeline.
 
@@ -22,11 +22,11 @@ The primary purpose of Great Expectations is to ensure data quality and build tr
 
 Advantages of using Great Expectations include:
 
-* Automated Data Quality: Automated data validation against business logic and quality standards, significantly reducing manual effort and error risk. 
-* Data Structure (Schema) Validation - This type of validation focuses on the form and metadata of your data. It ensures that the data is organized exactly as expected, which is crucial for downstream systems and models that rely on a fixed schema. 
-* Prevents Downstream Errors: By validating data early in the pipeline (e.g. data ingestion), it helps catch issues quickly before bad data can corrupt production systems, models, or reports.  
-* Living Documentation: Automatically generated Data Docs serve as a continuously updated source of truth, documenting both the expected state of the data and the observed results from recent validation runs.  
-* Integration Flexibility: It integrates easily with popular data environments like Pandas, Spark, SQL databases, and workflow orchestrators.  
+* **Automated Data Quality:** Automated data validation against business logic and quality standards, significantly reducing manual effort and error risk. 
+* **Data Structure (Schema) Validation** - This type of validation focuses on the form and metadata of your data. It ensures that the data is organized exactly as expected, which is crucial for downstream systems and models that rely on a fixed schema. 
+* **Prevents Downstream Errors:** By validating data early in the pipeline (e.g. data ingestion), it helps catch issues quickly before bad data can corrupt production systems, models, or reports.  
+* **Living Documentation:** Automatically generated Data Docs serve as a continuously updated source of truth, documenting both the expected state of the data and the observed results from recent validation runs.  
+* **Integration Flexibility:** It integrates easily with popular data environments like Pandas, Spark, SQL databases, and workflow orchestrators.  
 
 ### Key Uses and Functionality:
 
