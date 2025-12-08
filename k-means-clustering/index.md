@@ -41,7 +41,7 @@ Data preparation:  The data for the clustering did not undergo any transformatio
 
 Initially the data was scaled to support optimal clustering, and prevent single factors dominating the clustering process.  The clustering transformed the values, so that each IV has a mean of 0 and a standard deviation equal to 1.
 
-The K-Means Cluster model was run for each value of K in the inclusive range (2,11).
+The K-Means Cluster model was run for each value of K in the range [2, 11].
 
 For each value of K, the WSS (Within-Cluster Sum of Squares) was calculated, which were used to determine the optimal value of K, i.e. the optimal number of clusters.  
 
