@@ -83,23 +83,23 @@ As such extrinsic validation metrics can be determined, by comparing the cluster
 
 First it should be noted that the intrinsic validation and elbow method determine the optimal clusters to be 3, which is correct, as there are three varieties of wheat seeds.
 
-Adjusted Rand Index (ARI): 0.773
-  Range: [-1, 1], 1 = perfect match, 0 = random labeling
-  Interpretation: 0.7733 indicates very good agreement with true labels
+Adjusted Rand Index (ARI): 0.773  
+  Range: [-1, 1], 1 = perfect match, 0 = random labeling  
+  Interpretation: 0.7733 indicates very good agreement with true labels  
 
-Homogeneity Score: 0.728
-  Range: [0, 1], Higher is better - Measures if clusters contain only members of a single class
+Homogeneity Score: 0.728  
+  Range: [0, 1], Higher is better - Measures if clusters contain only members of a single class  
   This score indicates that approximately 73% of the time, each cluster contains only samples from a single true class
 
-Completeness Score: 0.728
-  Range: [0, 1], Higher is better - Measures if all members of a class are in the same cluster
-  This score shows that about 73% of samples belonging to the same true class are assigned to the same cluster
+Completeness Score: 0.728  
+  Range: [0, 1], Higher is better - Measures if all members of a class are in the same cluster  
+  This score shows that about 73% of samples belonging to the same true class are assigned to the same cluster  
 
-V-Measure Score: 0.728
-  Range: [0, 1], Higher is better - Harmonic mean of homogeneity and completeness
-  Indicates a good performance of the clustering
+V-Measure Score: 0.728  
+  Range: [0, 1], Higher is better - Harmonic mean of homogeneity and completeness  
+  Indicates a good performance of the clustering  
 
-### Visualising Clustering Results
+### Visualising Clustering Results  
 
 As the independent variables represent 7 dimensions, it is not possible to visualise the clusters in relation to these 7 dimensions.
 
