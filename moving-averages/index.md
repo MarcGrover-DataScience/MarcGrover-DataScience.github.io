@@ -44,23 +44,13 @@ Data preparation:  The data for the clustering did not undergo any transformatio
 
 ## Results and conclusions:
 
-Initially the data was scaled to support optimal clustering, and prevent single factors dominating the clustering process.  The clustering transformed the values, so that each IV has a mean of 0 and a standard deviation equal to 1.
-
-The K-Means Cluster model was run for each value of K in the range [2, 11].
-
-For each value of K, the WSS (Within-Cluster Sum of Squares) was calculated, which were used to determine the optimal value of K, i.e. the optimal number of clusters.  
-
-For each value of K intrinsic measures were also measured and recorded; Silhouette Scores, Davies Bouldin Scores, and Calinski Harabasz Scores.  
-
-![WSS - Elbow](kmeans-wss.png)
-
-![Silhouette](kmeans-silh.png)
-
-![Davies_Bouldin](kmeans-dbi.png)
-
-![Calinski_Harabasz](kmeans-chi.png)
-
-The Elbow Method, which uses the WSS scores for each K value, along with the plots of the other intrinsic measures, was used to determine the optimal K value of 3, which was then used to define the final K-Means Model, and apply the clustering to the observations.
+The Trade-off: Smoothness vs. Lag
+When you evaluate a moving average, you are generally trying to find the optimal balance between two competing properties, which can also be quantified:
+1. Smoothness (Noise Reduction)
+A smoother line has less period-to-period change. Quantification: You can measure the volatility or variance of the moving average line itself. A lower standard deviation of the values in the $\hat{y}_t$ series indicates a smoother line.
+2. Lag (Responsiveness)
+The smoothed line naturally lags behind the true underlying trend because it incorporates old data. Quantification: This is often measured in time periods as the average difference between the time a significant trend change occurs in the original data and the time the moving average line changes its slope in response. In practice, technical analysts often visually compare a fast EMA (low lag) against a slow SMA (high lag) to demonstrate this trade-off.
+The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 20-day MA is less smooth but less lagged than a 200-day MA).
 
 ### Intrinsic Validation Metrics
 
