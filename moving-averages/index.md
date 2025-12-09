@@ -36,11 +36,14 @@ Moving averages are versatile statistical tools were their real-world benefits s
 
 A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/dongeorge/seed-from-uci).  
 
-The data contains 7 independent variables:  area (A), perimeter (P), compactness (C), length of kernel (LK), width of kernel (WK), asymmetry coefficient (A_Coef) and length of kernel groove (LKG), which are used to generate the clusters.
+SMA (Simple Moving Average) , WMA (Weighted Moving Average), EMA (Exponential Moving Average)
 
-The overall method was to scale the data, determine the optimal number of clusters (i.e. the optimal value of K), and then generate the clusters, using the optimal K value, and assess the results to determine the quality of the clustering.
 
-Data preparation:  The data for the clustering did not undergo any transformation or preparation, other than scaling as part of the analytical process. 
+It should be noted that when using EMA, there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
+
+EMA Uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yesterday , where the first EMA value is typically initialized as the first price itself.  The smoothing factor α = 2/(span+1), so for a 20-day window: α = 2/21 ≈ 0.095
+
+
 
 ## Results and conclusions:
 
