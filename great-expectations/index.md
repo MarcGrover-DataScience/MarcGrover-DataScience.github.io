@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project Name (Great Expectations)
+title: Data Ingestion Validation (Great Expectations)
 
 permalink: /great-expectations/
 
@@ -98,6 +98,14 @@ The proof-of-concept accurately validated and reported the ingested data as requ
 * The capability can be deployed in any step of the data pipeline
 * The capability can be utilised in enterprise grade solutions, and compatible with cloud services and solutions.
 
+The HTML pages show the set of validation expectations tested against, as well as the results of applying these to the ingested data.
+
+![Expectations_Suite](gx_expectations.png)
+
+![ValidationResults1](gx_validation1.png)
+
+![ValidationResults2](gx_validation2.png)
+
 ## Next steps:  
 
 Recommended next steps include:
@@ -109,4 +117,4 @@ Recommended next steps include:
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/K-Mean_Clustering.py)
+[View the Python Script](/Great_Expectations_v4.py)
