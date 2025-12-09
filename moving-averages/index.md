@@ -10,13 +10,15 @@ permalink: /moving-averages/
 
 ## Goals and objectives:
 
-A financial organisation wishes to understand ...
+A financial organisation wished to understand the long term trends and movements within the US stock market, using statistical analysis of historical S&P 500 daily closing value data, including developing insight into whether patterns and trends for short and long term averages can be a predictor for future movements.
 
-signal extraction (how well the moving average line tracks the real trend)
+A particular aspect of the analysis is to analyse and compare 30-day and 200-day averages, which are commonly used metrics finance analytical metrics.
 
-A soft X-ray technique was used to construct all seven, real-valued attributes (features), for each seed on which the clustering is based.
+S&P 500 (Standard and Poor's 500) is a stock market index tracking the stock performance of 500 leading companies listed on stock exchanges in the United States.
 
-The results of the K-Means clustering produced good agreement with the known labels, with approximately 73% of seeds classified correctly, with three distinct clusters emerging.  It was also noted that ~85-90% of variance was explained by 2 Principle Components. 
+The analytics included applying various moving averages techniques and multiple window-lenghts for averages to the data.
+
+-The results were... -
 
 ## Application:  
 
@@ -31,17 +33,36 @@ Moving averages are versatile statistical tools were their real-world benefits s
   * The Moving Average Cost (MAC) method is an accounting technique where the cost of goods sold (COGS) is calculated using the constantly updated average cost of all inventory on hand. This stabilises profit margins against fluctuating raw material or acquisition prices.
 * **Manufacturing** - In manufacturing, moving averages are essential for maintaining quality and detecting process drift before defects become widespread.  It is used to monitor qualities within the manufacturign process to detect shifts, and support early defect detection.
 
-
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/dongeorge/seed-from-uci).  
+A workflow in Python was developed using libraries Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
+
+After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily close points were used, as this is sufficient for analytical purposes to demonstrate the methods.
 
 SMA (Simple Moving Average) , WMA (Weighted Moving Average), EMA (Exponential Moving Average)
-
 
 It should be noted that when using EMA, there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
 
 EMA Uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yesterday , where the first EMA value is typically initialized as the first price itself.  The smoothing factor α = 2/(span+1), so for a 20-day window: α = 2/21 ≈ 0.095
+
+Comparing the 30-day moving average (MA) and the 200-day MA is a common technical analysis technique to assess a stock's short-term momentum against its long-term trend. The 30-day MA is more sensitive to recent price changes, while the 200-day MA provides a smoother, broader view of the market's direction. 
+
+30-Day MA: Considered a short-to-intermediate-term indicator, it reflects the stock's recent price action and helps spot near-term trend changes.
+
+200-Day MA: A widely followed long-term indicator, it helps identify the major, overarching market trend and often acts as a significant level of support (in an uptrend) or resistance (in a downtrend). 
+
+Traders and investors use the relationship between these two moving averages, and the price itself, to generate potential buy or sell signals: 
+Overall Trend Confirmation:  
+* If the price is above both MAs, and the 30-day MA is above the 200-day MA, it confirms a strong bullish (upward) trend.  
+* If the price is below both MAs, and the 30-day MA is below the 200-day MA, it confirms a strong bearish (downward) trend.
+
+Crossover Signals:  
+* Bullish Crossover (Golden Cross): When the shorter-term 30-day MA crosses above the longer-term 200-day MA, it is generally interpreted as a powerful buy signal, indicating the start of a potential new long-term uptrend.  
+* Bearish Crossover (Death Cross): When the 30-day MA crosses below the 200-day MA, it is a sell signal, indicating a potential long-term downtrend is beginning.
+
+
+
+
 
 
 
@@ -55,23 +76,6 @@ A smoother line has less period-to-period change. Quantification: You can measur
 The smoothed line naturally lags behind the true underlying trend because it incorporates old data. Quantification: This is often measured in time periods as the average difference between the time a significant trend change occurs in the original data and the time the moving average line changes its slope in response. In practice, technical analysts often visually compare a fast EMA (low lag) against a slow SMA (high lag) to demonstrate this trade-off.
 The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 20-day MA is less smooth but less lagged than a 200-day MA).
 
-### Intrinsic Validation Metrics
-
-Where K=3 the K-Means Model generated the following metrics:
-
-WSS = 430.66
-
-Silhouette Score: 0.40  
-  Range: [-1, 1], Higher is better  
-  Interpretation: 0.40 indicates moderate separation  
-
-Davies-Bouldin Index: 0.9279  
-  Range: [0, ∞), Lower is better  
-  Interpretation: 0.93 indicates good cluster separation  
-
-Calinski-Harabasz Index: 249.78  
-  Range: [0, ∞), Higher is better  
-  Interpretation: Higher values indicate denser and better separated clusters
 
 ### Extrinsic Validation Metrics
 
