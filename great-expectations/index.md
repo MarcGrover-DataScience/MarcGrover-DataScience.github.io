@@ -10,7 +10,11 @@ permalink: /great-expectations/
 
 ## Goals and objectives:
 
-Detail
+The business wishes to improve the validation and profiling of data within the whole data pipeline, to ensure quality of data outputs, and supporting the identification of issues within data at each step of the process.  A proof-of-concept is built to validate the data content and structure at the ingestion stage - equivalent validation could be included in every step of the data pipeline.
+
+The Great Expectations (GX) library within python was used to create a set of structural and data validation criteria (expectations) on a test set of data, the commonly used Titanic dataset - available from the Seaborn package.
+
+The suite of expectations was applied to the test data after it was ingested, with the results documented and presented in static HTML pages in an easy to understand format.
 
 ## About Great Expectations:
 
@@ -65,23 +69,43 @@ Great Expectations is widely used across industries to standardize data quality 
 
 ## Methodology:  
 
-Detail. 
+The data ingestion validation tool was built using the recommended Great Expectations workflow:
 
+* Loading the source data
+* Initialising the GX data context (connecting the ingested data into the GX environment)
+* Define a suite of expectations relevant to the ingestion stage
+* Builds the connection of the validations to a Checkpoint, and updates the results database (Data Doc)
+* Generate the static HTML documents
+
+The suite of data ingestion validations included:
+* Structural Validation
+  * Row count
+  * Column count
+  * Column names
+* Data Validation
+  * Data types
+  * Null values
+  * Categorical values in a defined set
+  * Numerical values in a defined range
+ 
 ## Results and conclusions:
 
-Detail  
+The proof-of-concept accurately validated and reported the ingested data as required, based on the the defined validations, providing the business the required understanding of the data.  The conclusions of the proof-of-concept performance and research into GX include:
 
-### Conclusions:
-
-Detail
+* GX provides flexibility to define the required business validations for both data structure and data content
+* The validation results are recorded automatically and presented in a clear and complete manner
+* The validation performs to the required speed and with the resources avaialble
+* The capability can be deployed in any step of the data pipeline
+* The capability can be utilised in enterprise grade solutions, and compatible with cloud services and solutions.
 
 ## Next steps:  
 
-Detail.
-
 Recommended next steps include:
-
-Detail
+* Transitioning to a validation solution within a production pipeline
+* Integrate GX with orchestration tools to automate validating and profiling within a production pipeline
+* Developing validations for other steps within the pipeline
+* Publishing the Data Docs data and HTML outputs to an organisational platform for consumption within the business
+* Export GX results into monitoring tools for tracking and merging with other performance data
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
