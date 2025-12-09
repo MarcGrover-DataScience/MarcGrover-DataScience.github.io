@@ -22,7 +22,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### Chi-squared goodness-of-fit test
 * ### [Multiple linear regression](/multi-linear-regression/)
 * ### Logistic regression
-* ### Time-series analysis (moving averages)
+* ### [Time-series analysis (moving averages)](/moving-averages/)
 * ### Time-series analysis (ARIMA)
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### K-Nearest Neighbours
