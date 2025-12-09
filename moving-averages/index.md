@@ -37,9 +37,18 @@ Moving averages are versatile statistical tools were their real-world benefits s
 
 A workflow in Python was developed using libraries Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
 
-After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily close points were used, as this is sufficient for analytical purposes to demonstrate the methods.
+After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily close points were used, as this is sufficient for analytical purposes to demonstrate the methods.  The plot of the 1,000 points is:
+
+![Data_line](ma_data_1000)
 
 SMA (Simple Moving Average) , WMA (Weighted Moving Average), EMA (Exponential Moving Average)
+
+![3_MA_types](ma_smooth_1000)
+
+![sma](ma_sma_1000)
+![wma](ma_wma_1000)
+![ema](ma_ema_1000)
+
 
 It should be noted that when using EMA, there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
 
