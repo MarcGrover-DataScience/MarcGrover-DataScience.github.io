@@ -10,7 +10,7 @@ permalink: /statistical-analysis/
 
 ## Goals and objectives:
 
-Botanical researchers wish to undertake statistical analysis of iris sepal petal lengths, to test the hypothesis that the average length is 6.0cm.  This project demonstrates how a One-Sample T-Test was used to assess the null hypothesis, that the mean is 6.0cm, using the 150 observations of sepal petal length recorded.  
+The business objective is to undertake statistical analysis of iris sepal petal lengths, to test the hypothesis that the average length is 6.0cm.  This project demonstrates how a One-Sample T-Test was used to assess the null hypothesis, that the mean is 6.0cm, using the 150 observations of sepal petal length recorded.  
 
 There was sufficient evidence to reject the null hypothesis, and supported the alternate hypothesis that the mean sepal petal length is not 6.0cm.  However based on the descriptive statistics, there was evidence that the mean sepal petal length was different for the three different species of iris in the sample.  Applying the One-Sample T-Test to the observations related to the iris species 'versicolor', supported the null hypothesis that the mean sepal length is 6.0cm for that species.
 
