@@ -16,9 +16,9 @@ A particular aspect of the analysis is to analyse and compare 30-day and 200-day
 
 S&P 500 (Standard and Poor's 500) is a stock market index tracking the stock performance of 500 leading companies listed on stock exchanges in the United States.
 
-The analytics included applying various moving averages techniques and multiple window-lenghts for averages to the data.
+The analytics included applying 3 moving averages techniques and multiple window-lengths to the data.
 
--The results were... -
+The moving averages highlighted the overall trends and responsiveness to changes in underlying trends, including the impact of using each moving average type and different window length.  Each providing valuable insights.
 
 ## Application:  
 
@@ -184,7 +184,7 @@ The "best" moving average is the one that minimizes the lag while providing enou
 * S&P 500 Model Performance:
   * Best overall model based on MAE: WMA with 30-day window
     * Achieved MAE of $51.46 (1.83% MAPE)
-    * Smoothness variance: 47.44 (which is less than other models highlighting the trade-off as discussed)
+    * Smoothness variance: 47.44 (which is higher variance than other models, highlighting the trade-off as discussed)
 
 ## Next steps:  
 
