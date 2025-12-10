@@ -201,4 +201,4 @@ Considering the original business objective the recommended next steps for consi
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/K-Mean_Clustering.py)
+[View the Python Script](/MovingAverages_SP500.py)
