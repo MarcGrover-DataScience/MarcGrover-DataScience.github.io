@@ -10,7 +10,7 @@ permalink: /ab-test/
 
 ## Goals and objectives:
 
-A company wishes to test and analyse the conversion rates for users signing up for membership via a new webpage (treatment group) compared to the old webpage (control group).  The business wants to understand if there are any statistically significant differences.
+The business obejective is to test and analyse the conversion rates for users signing up for membership via a new webpage (treatment group) compared to the old webpage (control group).  The business wants to understand if there are any statistically significant differences.
 
 1,000 observations were collected from both the new and old webpage, which showed 180 users took out membership via the new web page, and 120 users took out membership via the old web page.  This data is analysed to determine if any significant difference can be assumed, and identify other insight from the data.
 
@@ -86,7 +86,6 @@ Power = Probability of rejecting the null hypothesis when it's actually false
 Note that it is common to set the significance level (alpha) to 0.05, which is the chance of a false positive.
 
 Taking the example above, the business previously had data to imply that the conversion rate on the old website was 11%, and was hoping for a conversion rate of up to 16%.  Using these values, it was determined that a sample size of at least 733 observations per group was required.  The data analysed has 1,000 observations per groups, and as such we can be confident that the sample size was sufficiently large to detect the approximated differences in conversion rates between websites.
-
 
 ## Next steps:
 The primary recommendations would include:
