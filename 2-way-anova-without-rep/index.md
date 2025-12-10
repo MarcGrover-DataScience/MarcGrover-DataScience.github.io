@@ -10,7 +10,7 @@ permalink: /2-way-anova-without-rep/
 
 ## Goals and objectives:
 
-A wine producer wishes to test and analyse the relationship between 2 independent variables, wine quality ratings (5, 6, 7) and pH levels (Low, Medium, High), on alcohol content in wine, where there is a single measure of alcohol content for each combination of quality and pH level - hence there being no repetition of dependent variable values.  The business wants understand the relationship between quality and pH level on the alcohol content to guide further development, research and new product strategy.    
+The business objective is to test and analyse the relationship between 2 independent variables, wine quality ratings (5, 6, 7) and pH levels (Low, Medium, High), on alcohol content in wine, where there is a single measure of alcohol content for each combination of quality and pH level - hence there being no repetition of dependent variable values.  The business wants understand the relationship between quality and pH level on the alcohol content to guide further development, research and new product strategy.    
 
 The Two-Way ANOVA without replication test provided evidence that the model explains 95% of variance of alcohol content using both factors (quality and pH level), and that both factors should be considered when analysing wine characteristics.
 
@@ -117,7 +117,7 @@ It should be noted that there are important limitations with this test:
  - Results specific to the limited samples of wine
 
 ## Next steps:
-Given the findings and limitations, and the limited number of observations, it id recommended to take additional measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
+Given the findings and limitations, and the limited number of observations, it is recommended to take additional measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
