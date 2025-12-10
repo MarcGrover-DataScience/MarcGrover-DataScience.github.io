@@ -10,7 +10,7 @@ permalink: /great-expectations/
 
 ## Goals and objectives:
 
-The business wishes to improve the validation and profiling of data within the whole data pipeline, to ensure quality of data outputs, and supporting the identification of issues within data at each step of the process.  A proof-of-concept is built to validate the data content and structure at the ingestion stage - equivalent validation could be included in every step of the data pipeline.
+The business objective is to improve the validation and profiling of data within the whole data pipeline, to ensure quality of data outputs, and supporting the identification of issues within data at each step of the process.  A proof-of-concept is built to validate the data content and structure at the ingestion stage - equivalent validation could be included in every step of the data pipeline.
 
 The Great Expectations (GX) library within python was used to create a set of structural and data validation criteria (expectations) on a test set of data, the commonly used Titanic dataset - available from the Seaborn package.
 
