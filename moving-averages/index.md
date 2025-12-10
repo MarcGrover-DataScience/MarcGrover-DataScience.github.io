@@ -10,7 +10,7 @@ permalink: /moving-averages/
 
 ## Goals and objectives:
 
-A financial organisation wished to understand the long term trends and movements within the US stock market, using statistical analysis of historical S&P 500 daily closing value data, including developing insight into whether patterns and trends for short and long term averages can be a predictor for future movements.
+The business objective is to understand the long term trends and movements within the US stock market, using statistical analysis of historical S&P 500 daily closing value data, including developing insight into whether patterns and trends for short and long term averages can be a predictor for future movements.
 
 A particular aspect of the analysis is to analyse and compare 30-day and 200-day averages, which are commonly used metrics finance analytical metrics.
 
@@ -37,13 +37,32 @@ Moving averages are versatile statistical tools were their real-world benefits s
 
 A workflow in Python was developed using libraries Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
 
-After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily close points were used, as this is sufficient for analytical purposes to demonstrate the methods.  The plot of the 1,000 points is:
+After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily close points were used (relating to approximately 4 years), as this is sufficient for analytical purposes to demonstrate the methods, and insight gained.  The plot of the 1,000 points is:
 
 ![Data_line](ma_data_1000.png)
 
-SMA (Simple Moving Average) , WMA (Weighted Moving Average), EMA (Exponential Moving Average)
+Three moving average techniques were applied to the data:  SMA (Simple Moving Average) , WMA (Weighted Moving Average), and EMA (Exponential Moving Average), where different window lengths were used.
+
+There are multiple types of Weighted Moving Average (WMA), where the version used in this demo is Linear Weighted Moving Average (LWMA), considered the most commonly implemented WMA.  This applies more weighting to the most recent observations.  This uses the formula:  
+
+WMA = (n×P₁ + (n-1)×P₂ + (n-2)×P₃ + ... + 2×Pₙ₋₁ + 1×Pₙ) / (n + (n-1) + (n-2) + ... + 2 + 1) 
+where: n = window size (e.g., 20) 
+P₁ = most recent price (gets highest weight)
+Pₙ = oldest price in window (gets lowest weight)
+Denominator = sum of weights = n×(n+1)/2
+
+Accuracy metrics and smoothness metrics were then applied to the results, including Mean Absolute Error, Mean Absolute Percentage Error,  Root Mean Squared Error and Smoothness (variance of differences of consecutive numbers).  These can then be interpreted and support understanding the data and reaching conclusions.
+
+
+## Results and conclusions:
+
+The following chart show the results of applying all three moving average types to the data, all with a 30 day window, where the most recent 1,000 data points are included. 
 
 ![3_MA_types](ma_smooth_1000.png)
+
+For clarity the chart below shows the results of applying the hree moving average types to the data, with a 30 day window, where only the most recent 250 data points are included (which represents approximately one year).
+
+![3_MA_types_250](ma_smooth_250.png)
 
 ![sma](ma_sma_1000.png)
 ![wma](ma_wma_1000.png)
@@ -70,13 +89,6 @@ Crossover Signals:
 * Bearish Crossover (Death Cross): When the 30-day MA crosses below the 200-day MA, it is a sell signal, indicating a potential long-term downtrend is beginning.
 
 
-
-
-
-
-
-## Results and conclusions:
-
 The Trade-off: Smoothness vs. Lag
 When you evaluate a moving average, you are generally trying to find the optimal balance between two competing properties, which can also be quantified:
 1. Smoothness (Noise Reduction)
@@ -86,51 +98,11 @@ The smoothed line naturally lags behind the true underlying trend because it inc
 The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 20-day MA is less smooth but less lagged than a 200-day MA).
 
 
-### Extrinsic Validation Metrics
+### Accuracy and Smoothness Metrics
 
-This project is an unsupervised learning project as the model was generated unsing unlabelled data, however the data used did have labels (they just weren't presented to the K-Means Clustering model).
-
-As such extrinsic validation metrics can be determined, by comparing the clustering result to the grounded truth.
-
-First it should be noted that the intrinsic validation and elbow method determine the optimal clusters to be 3, which is correct, as there are three varieties of wheat seeds.
-
-Adjusted Rand Index (ARI): 0.773  
-  Range: [-1, 1], 1 = perfect match, 0 = random labeling  
-  Interpretation: 0.7733 indicates very good agreement with true labels  
-
-Homogeneity Score: 0.728  
-  Range: [0, 1], Higher is better - Measures if clusters contain only members of a single class  
-  This score indicates that approximately 73% of the time, each cluster contains only samples from a single true class
-
-Completeness Score: 0.728  
-  Range: [0, 1], Higher is better - Measures if all members of a class are in the same cluster  
-  This score shows that about 73% of samples belonging to the same true class are assigned to the same cluster  
-
-V-Measure Score: 0.728  
-  Range: [0, 1], Higher is better - Harmonic mean of homogeneity and completeness  
-  Indicates a good performance of the clustering  
-
-### Visualising Clustering Results  
-
-As the independent variables represent 7 dimensions, it is not possible to visualise the clusters in relation to these 7 dimensions.
-
-A technique commonly used for visualising clusters with 4+ dimensions is to utilise Princple Component Analysis (PCA), which won't be described fully within this project, but is covered in a separate project within this portfolio.
-
-In summary PCA (Principal Component Analysis) is a dimensionality reduction technique that:
-- Transforms the original 7 features into new uncorrelated variables (components)
-- Each principal component is a LINEAR COMBINATION of the original features
-- Components are ordered by the amount of variance they explain
-- PC1 captures the most variance, PC2 the second most, etc.
-
-Using PCA, the first 2 principle components were identified, which were used to produce a scatter plot of the K-Means generated clusters, as well as a scatter plot of the true groups (or clusters):
-
-![Pca_generated clusters](kmeans-pca.png)
-
-![Pca_actual_clusters](kmeans-truth.png)
-
-Finally the predicted clusters were compared to the actuals, noting that as this was an unsupervised learning method, the model was unaware of the true labels and hence the correct predictions are in the bottom-left to top-right diagonal.
-
-![contingency](kmeans-contingency.png)
+![mae](ma_mae_1000.png)
+![mape](ma_mape_1000.png)
+![smoothness](ma_smoothness_1000.png)
 
 ### Conclusions:
 
