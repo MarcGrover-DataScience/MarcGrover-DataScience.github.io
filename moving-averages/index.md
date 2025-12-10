@@ -81,16 +81,16 @@ In conclusion EMA is considered more responsive, as it starts incorporating data
 ### Accuracy and Smoothness Metrics
 
 The following table shows the accuracy and smoothness metrics for each of the 3 moving averages methods applied for both 30-day and 200-day windows.
-'''
-  MA_Type  Window      MAE   MAPE     RMSE  Smoothness
-0     SMA      30   67.814  2.419  103.241      34.009
-1     SMA     200  162.509  5.595  194.199       0.881
-2     EMA      30   56.709  2.024   84.793      32.767
-3     EMA     200  143.007  5.066  171.585       1.929
-4     WMA      30   51.462  1.832   79.376      47.436
-5     WMA     200  137.828  4.750  174.050       2.729
-'''
-
+```
+  MA_Type  Window     MAE  MAPE    RMSE  Smoothness
+0     SMA      30   67.81  2.42  103.24       34.01
+1     SMA     200  162.51  5.59  194.20        0.88
+2     EMA      30   56.71  2.02   84.79       32.77
+3     EMA     200  143.01  5.07  171.59        1.93
+4     WMA      30   51.46  1.83   79.38       47.44
+5     WMA     200  137.83  4.75  174.05        2.73
+```
+Using the 
 
 ![mae](ma_mae_1000.png)
 ![mape](ma_mape_1000.png)
