@@ -10,7 +10,7 @@ permalink: /k-means-clustering/
 
 ## Goals and objectives:
 
-A botanical research facility wishes to understand the clustering of wheat seeds based on measurements of geometrical properties of kernels belonging to three different varieties of wheat; Kama, Rosa and Canadian.
+The business objective is to understand the clustering of wheat seeds based on measurements of geometrical properties of kernels belonging to three different varieties of wheat; Kama, Rosa and Canadian.
 
 A soft X-ray technique was used to construct all seven, real-valued attributes (features), for each seed on which the clustering is based.
 
