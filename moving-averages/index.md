@@ -160,36 +160,31 @@ Crossover Signals:
 
 When evaluating a moving average, you are generally trying to find the optimal balance between two competing properties - Smoothness and Lag:
 
-Smoothness (Noise Reduction)
-A smoother line has less period-to-period change. Quantification: You can measure the volatility or variance of the moving average line itself. A lower standard deviation of the values in the $\hat{y}_t$ series indicates a smoother line.
-Lag (Responsiveness)
-The smoothed line naturally lags behind the true underlying trend because it incorporates old data. Quantification: This is often measured in time periods as the average difference between the time a significant trend change occurs in the original data and the time the moving average line changes its slope in response. In practice, technical analysts often visually compare a fast EMA (low lag) against a slow SMA (high lag) to demonstrate this trade-off.
-The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 20-day MA is less smooth but less lagged than a 200-day MA).
+**Smoothness (Noise Reduction)** - A smoother line has less period-to-period change.  
+**Lag (Responsiveness)** - The smoothed line naturally lags behind the true underlying trend because it incorporates old data.  This is the time a significant trend change occuring in the original data is refelected in the moving average line in response.  
+The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 30-day MA is less smooth but less lagged than a 200-day MA).
 
 ### Conclusions:
 
- KEY CONCLUSIONS:
+* In general application, there is a trade-off between Accuracy and Smoothness:
+  * Shorter windows track prices more closely (lower MAE)
+  * Longer windows are smoother but lag behind actual prices
 
-a) Trade-off Between Accuracy and Smoothness:
-• Shorter windows track prices more closely (lower MAE)
-• Longer windows are smoother but lag behind actual prices
+* For the example data analysed, an optimal Moving Average selection:
+  * For trend following: Use WMA with 200-day window
+  * For trading signals: Use WMA with 30-day window
+  * For robust analysis: Combine both short and long windows
 
-b) Optimal Moving Average Selection:
-• For trend following: Use WMA with 200-day window
-• For trading signals: Use WMA with 30-day window
-• For robust analysis: Combine both short and long windows
+* General practical applications:
+  * EMA is often preferred where responsiveness is required
+  * SMA is better for identifying major trend reversals
+  * WMA provides a middle ground for balanced analysis
+  * Crossover strategies (short MA crossing long MA) signal potential trends
 
-c) Practical Applications:
-• EMA is often preferred for trading due to its responsiveness
-• SMA is better for identifying major trend reversals
-• WMA provides a middle ground for balanced analysis
-• Crossover strategies (short MA crossing long MA) signal potential trends
-
-d) Model Performance:
-• Best overall model: WMA with 30-day window
-• Achieved MAE of $51.46 (1.83% MAPE)
-• Smoothness variance: 47.44
-
+* S&P 500 Model Performance:
+  * Best overall model based on MAE: WMA with 30-day window
+    * Achieved MAE of $51.46 (1.83% MAPE)
+    * Smoothness variance: 47.44 (which is less than other models highlighting the trade-off as discussed)
 
 ## Next steps:  
 
