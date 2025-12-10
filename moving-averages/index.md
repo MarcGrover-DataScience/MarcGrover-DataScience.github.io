@@ -45,11 +45,11 @@ Three moving average techniques were applied to the data:  SMA (Simple Moving Av
 
 There are multiple types of Weighted Moving Average (WMA), where the version used in this demo is Linear Weighted Moving Average (LWMA), considered the most commonly implemented WMA.  This applies more weighting to the most recent observations.  This uses the formula:  
 
-WMA = (n×P₁ + (n-1)×P₂ + (n-2)×P₃ + ... + 2×Pₙ₋₁ + 1×Pₙ) / (n + (n-1) + (n-2) + ... + 2 + 1) 
-where: n = window size (e.g., 20) 
-P₁ = most recent price (gets highest weight)
-Pₙ = oldest price in window (gets lowest weight)
-Denominator = sum of weights = n×(n+1)/2
+WMA = (n×P₁ + (n-1)×P₂ + (n-2)×P₃ + ... + 2×Pₙ₋₁ + 1×Pₙ) / (n + (n-1) + (n-2) + ... + 2 + 1)  
+where: n = window size (e.g., 20)  
+P₁ = most recent price (gets highest weight)  
+Pₙ = oldest price in window (gets lowest weight)  
+Denominator = sum of weights = n×(n+1)/2  
 
 Accuracy metrics and smoothness metrics were then applied to the results, including Mean Absolute Error, Mean Absolute Percentage Error,  Root Mean Squared Error and Smoothness (variance of differences of consecutive numbers).  These can then be interpreted and support understanding the data and reaching conclusions.
 
