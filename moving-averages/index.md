@@ -106,11 +106,40 @@ Analysis of the accuracy and smoothness metrics provides the following interpret
 * As expected the short-window MA types produce smaller error values, but lower smoothness (i.e. higher variance)
   * This highlights the trade-off in results between smoothness and lag (window-size) as addressed below
  
-### Moving Average Type Comparison
+### Moving Average Type and Window Size Comparison
 
+A summary of the three moving average types included in this analysis is:
 
+SMA (Simple Moving Average):
+* Gives equal weight to all data points in the window
+* Slowest to react to price changes
+* Generally most stable and smoothest of the three methods
 
-### 30-day / 200-day Comparison
+EMA (Exponential Moving Average):
+* Gives more weight to recent prices
+* Faster reaction to price changes than SMA
+* More responsive to trends while maintaining smoothness
+
+WMA (Weighted Moving Average):
+* Linearly weights recent prices higher
+* Reactivity between SMA and EMA
+* Good balance of responsiveness and stability
+
+A summary of the 2 window sizes used in the analysis
+
+Short Window (30 days):
+* More responsive to recent price movements
+* Higher volatility in the moving average (less smooth)
+* Average MAE: $58.66
+
+Long Window (200 days):
+* Captures longer-term trends
+* Much smoother, less reactive to short-term fluctuations
+* Average MAE: $147.78 - 151.9% higher error due to lag effect
+
+It is important to note that the individual business use of the moving averages data will dictate which type(s), and window size to use, as each provide benefits.  It is common, and most powerful, to use multiple types and windows to provide maximum insight and benefit.
+
+### 30-day / 200-day Comparison and Application
 
 The 30-day and 200-day windows are commonly used in stock market analysis and predictions, and used as an important tool to support trading decisions.
 
@@ -129,29 +158,38 @@ Crossover Signals:
 
 ### Smoothness vs. Lag Trade-Off
 
-The Trade-off: Smoothness vs. Lag
-When you evaluate a moving average, you are generally trying to find the optimal balance between two competing properties, which can also be quantified:
-1. Smoothness (Noise Reduction)
+When evaluating a moving average, you are generally trying to find the optimal balance between two competing properties - Smoothness and Lag:
+
+Smoothness (Noise Reduction)
 A smoother line has less period-to-period change. Quantification: You can measure the volatility or variance of the moving average line itself. A lower standard deviation of the values in the $\hat{y}_t$ series indicates a smoother line.
-2. Lag (Responsiveness)
+Lag (Responsiveness)
 The smoothed line naturally lags behind the true underlying trend because it incorporates old data. Quantification: This is often measured in time periods as the average difference between the time a significant trend change occurs in the original data and the time the moving average line changes its slope in response. In practice, technical analysts often visually compare a fast EMA (low lag) against a slow SMA (high lag) to demonstrate this trade-off.
 The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 20-day MA is less smooth but less lagged than a 200-day MA).
 
 ### Conclusions:
 
-The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277, -0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
+ KEY CONCLUSIONS:
 
-These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that the features used are reasonably predictive of seed variety, howevever, there may be some natural overlap between varieties in the feature space.  
+a) Trade-off Between Accuracy and Smoothness:
+• Shorter windows track prices more closely (lower MAE)
+• Longer windows are smoother but lag behind actual prices
 
-It also highlights that small portion of seeds (~27%) are either misclassified or represent boundary cases that are difficult to distinguish
+b) Optimal Moving Average Selection:
+• For trend following: Use WMA with 200-day window
+• For trading signals: Use WMA with 30-day window
+• For robust analysis: Combine both short and long windows
 
-This level of performance is quite respectable for unsupervised learning, especially considering K-Means had no knowledge of the true labels during training.
+c) Practical Applications:
+• EMA is often preferred for trading due to its responsiveness
+• SMA is better for identifying major trend reversals
+• WMA provides a middle ground for balanced analysis
+• Crossover strategies (short MA crossing long MA) signal potential trends
 
-Overall the clustering is considered successful, given the evidence that there is natural overlap of observations in the feature space of the true varieties, i.e. there is not a clear separation of true clusters.
+d) Model Performance:
+• Best overall model: WMA with 30-day window
+• Achieved MAE of $51.46 (1.83% MAPE)
+• Smoothness variance: 47.44
 
-Known limitations of this model:
-* K-Means assumes spherical clusters (may not match data geometry)
-* Unsupervised approach doesn't leverage available labels for training
 
 ## Next steps:  
 
