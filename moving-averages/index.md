@@ -59,7 +59,7 @@ The following chart show the results of applying all three moving average types 
 
 ![3_MA_types](ma_smooth_1000.png)
 
-For clarity the chart below shows the results of applying the three moving average types to the data, with a 30 day window, where only the most recent 250 data points are included (which represents approximately one year).
+For clarity the chart below shows the results of applying the three moving average types to the data, with a 30 day window, where only the most recent 250 data points are included (which represents approximately one year).  This highlights how each three moving average type responds to changes in trends, including the responsiveness and how closely they follow the true data.
 
 ![3_MA_types_250](ma_smooth_250.png)
 
@@ -188,40 +188,16 @@ The "best" moving average is the one that minimizes the lag while providing enou
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
+With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yeild tangible benefits.
 
-Recommended next steps include:
+Considering the original business objective the recommended next steps for consideration include:
 
-#### Transition to Supervised Learning
-Having labeled data enables supervised methods will significantly outperform unsupervised clustering, potentially providing higher accuracy and better handling of boundary cases.  This requires creating a dataset with labelled data.
-Recommended Algorithms:
-* Random Forest Classifier: Handles non-linear relationships, provides feature importance
-* Support Vector Machine (SVM): Excellent for finding complex decision boundaries
-* Gradient Boosting (XGBoost/LightGBM): State-of-the-art performance for tabular data
-* Neural Networks: If pattern complexity requires it, but  likely overkill for 7 features
-
-#### Increasing Sample Size
-Collect more samples while ensuring a balanced sampling of varieties.  Look to include boundary examples, and take samples from multiple conditions
-
-#### Feature Engineering
-* Feature Analysis
-  * Assess PCA loadings
-  * Which features have highest loadings on PC1/PC2?
-  * Are any features redundant (highly correlated)?
-  * Do any features have low variance or discriminatory power?
-* Create New Features - Consider Ratios and Interactions of dimensions, for example:
-  * Aspect Ratio: Length / Width
-  * Shape Index: 4π×Area / Perimeter²
-  * Volume Proxy: Area × Kernel Width
-* Feature Selection - Identify if redundant features exist
-  * Test model performance with reduced feature sets
-
-#### Try Alternative Clustering Methods
-* Hierarchical Clustering
-* DBSCAN (Density-Based Clustering)
-* Gaussian Mixture Models (GMM)
-* Ensemble Clustering
-
+* Research more advanced moving average techniques - e.g. KAMA (Kaufman's Adaptive MA), DEMA (Double EMA), Volatility-Adjusted MAs, etc.  
+* Research the implementation of multi-timeframe analysis, for example using three windows in the analysis.  
+* Extend set of data used within analysis, such as currencies, commodities, individual stocks etc.  
+* Integrate Machine Learning to enhance predictive models and pattern recognition (e.g. Random Forest Classifiers).  
+* Automate business decisions based on the analysis - e.g. stock buy/sell decisions based on MA crossovers.  
+* Monitor performance of automated decisions, including outcome compared to logic to make decision.  
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
