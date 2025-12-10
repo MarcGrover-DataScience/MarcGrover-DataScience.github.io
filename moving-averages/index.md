@@ -63,20 +63,38 @@ For clarity the chart below shows the results of applying the three moving avera
 
 ![3_MA_types_250](ma_smooth_250.png)
 
-For each of the three moving average types applied, two separate window lenghts were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results.
+For each of the three moving average types applied, two separate window lengths were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results, showing as expected the plot for the lon-window is smoother.
 
 ![sma](ma_sma_1000.png)
 ![wma](ma_wma_1000.png)
 ![ema](ma_ema_1000.png)
 
 ### EMA Responsiveness
-It should be noted that when using EMA, there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
+It should be noted that when using EMA (Exponential Moving Average), there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
 
-EMA Uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yesterday , where the first EMA value is typically initialized as the first price itself.  The smoothing factor α = 2/(span+1), so for a 20-day window: α = 2/21 ≈ 0.095
+EMA uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yesterday , where the first EMA value is typically initialized as the first price itself.  The smoothing factor α = 2/(span+1), so for a 20-day window: α = 2/21 ≈ 0.095
 
 Comparing the 30-day moving average (MA) and the 200-day MA is a common technical analysis technique to assess a stock's short-term momentum against its long-term trend. The 30-day MA is more sensitive to recent price changes, while the 200-day MA provides a smoother, broader view of the market's direction. 
 
-In conclusion EMA is considered more responsive, as it starts incorporating data immediately, and as such EMA provides earlier trend signals.  For example; EMA is often preferred by traders - it 
+In conclusion EMA is considered more responsive, as it starts incorporating data immediately, and as such EMA provides earlier trend signals.  For example; EMA is often preferred by traders as it maximizes the usable data while still providing smoothing benefits. 
+
+### Accuracy and Smoothness Metrics
+
+The following table shows the accuracy and smoothness metrics for each of the 3 moving averages methods applied for both 30-day and 200-day windows.
+'''
+  MA_Type  Window      MAE   MAPE     RMSE  Smoothness
+0     SMA      30   67.814  2.419  103.241      34.009
+1     SMA     200  162.509  5.595  194.199       0.881
+2     EMA      30   56.709  2.024   84.793      32.767
+3     EMA     200  143.007  5.066  171.585       1.929
+4     WMA      30   51.462  1.832   79.376      47.436
+5     WMA     200  137.828  4.750  174.050       2.729
+'''
+
+
+![mae](ma_mae_1000.png)
+![mape](ma_mape_1000.png)
+![smoothness](ma_smoothness_1000.png)
 
 ### 30-day / 200-day comparison
 
@@ -101,13 +119,6 @@ A smoother line has less period-to-period change. Quantification: You can measur
 2. Lag (Responsiveness)
 The smoothed line naturally lags behind the true underlying trend because it incorporates old data. Quantification: This is often measured in time periods as the average difference between the time a significant trend change occurs in the original data and the time the moving average line changes its slope in response. In practice, technical analysts often visually compare a fast EMA (low lag) against a slow SMA (high lag) to demonstrate this trade-off.
 The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 20-day MA is less smooth but less lagged than a 200-day MA).
-
-
-### Accuracy and Smoothness Metrics
-
-![mae](ma_mae_1000.png)
-![mape](ma_mape_1000.png)
-![smoothness](ma_smoothness_1000.png)
 
 ### Conclusions:
 
