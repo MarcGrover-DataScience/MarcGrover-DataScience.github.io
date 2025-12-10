@@ -10,7 +10,7 @@ permalink: /multi-linear-regression/
 
 ## Goals and objectives:
 
-A restaurant wishes to understand how accurately can we predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
+The business objective is to understand how accurately can we predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
 
 The model generated explained 47.7% of variance of the tip value, with a Mean Absolute Error of 0.67.  The model and data analysis provided key insights into how a model can be further developed to improve accuracy and business benefit.  It was confirmed that total bill amount is the strongest predictor of tip size.
 
