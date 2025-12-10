@@ -51,8 +51,7 @@ P₁ = most recent price (gets highest weight)
 Pₙ = oldest price in window (gets lowest weight)  
 Denominator = sum of weights = n×(n+1)/2  
 
-Accuracy metrics and smoothness metrics were then applied to the results, including Mean Absolute Error, Mean Absolute Percentage Error,  Root Mean Squared Error and Smoothness (variance of differences of consecutive numbers).  These can then be interpreted and support understanding the data and reaching conclusions.
-
+Accuracy metrics and smoothness metrics were then applied to the results, including Mean Absolute Error, Mean Absolute Percentage Error,  Root Mean Squared Error and Smoothness (variance of differences of consecutive values).  These can then be interpreted and support understanding the data and reaching conclusions.
 
 ## Results and conclusions:
 
@@ -70,12 +69,16 @@ For each of the three moving average types applied, two separate window lenghts 
 ![wma](ma_wma_1000.png)
 ![ema](ma_ema_1000.png)
 
-
+### EMA Responsiveness
 It should be noted that when using EMA, there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
 
 EMA Uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yesterday , where the first EMA value is typically initialized as the first price itself.  The smoothing factor α = 2/(span+1), so for a 20-day window: α = 2/21 ≈ 0.095
 
 Comparing the 30-day moving average (MA) and the 200-day MA is a common technical analysis technique to assess a stock's short-term momentum against its long-term trend. The 30-day MA is more sensitive to recent price changes, while the 200-day MA provides a smoother, broader view of the market's direction. 
+
+In conclusion EMA is considered more responsive, as it starts incorporating data immediately, and as such EMA provides earlier trend signals.  For example; EMA is often preferred by traders - it 
+
+### 30-day / 200-day comparison
 
 30-Day MA: Considered a short-to-intermediate-term indicator, it reflects the stock's recent price action and helps spot near-term trend changes.
 
