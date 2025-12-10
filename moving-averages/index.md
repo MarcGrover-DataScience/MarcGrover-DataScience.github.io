@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Time-data (Moving Averages)
+title: S&P 500 Analysis (Moving Averages)
 
 permalink: /moving-averages/
 
@@ -60,9 +60,11 @@ The following chart show the results of applying all three moving average types 
 
 ![3_MA_types](ma_smooth_1000.png)
 
-For clarity the chart below shows the results of applying the hree moving average types to the data, with a 30 day window, where only the most recent 250 data points are included (which represents approximately one year).
+For clarity the chart below shows the results of applying the three moving average types to the data, with a 30 day window, where only the most recent 250 data points are included (which represents approximately one year).
 
 ![3_MA_types_250](ma_smooth_250.png)
+
+For each of the three moving average types applied, two separate window lenghts were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results.
 
 ![sma](ma_sma_1000.png)
 ![wma](ma_wma_1000.png)
