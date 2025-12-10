@@ -23,11 +23,11 @@ sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (14, 7)
 
 # Define the short and long window lengths
-var_short_window = 30
-var_long_window = 200
+var_short_window = 30           # 30 is the normal value
+var_long_window = 200           # 200 is the normal value
 
 # Define datapoints in range
-n_days = 1000     # 250 ~ 1 year   # max = 3,500
+n_days = 1000     # note: 250 ~ 1 year, and the max = 3,500
 
 
 class MovingAveragesPipeline:
@@ -157,16 +157,16 @@ class MovingAveragesPipeline:
         self.metrics_df = pd.DataFrame(metrics_data)
 
         print("\nMetrics Summary - per MA type, per Window")
-        print(self.metrics_df.to_string(index=False))
+        metrics_df_reordered = self.metrics_df[['MA_Type', 'Window', 'MAE', 'MAPE', 'RMSE', 'Smoothness']].round(2)
+        print(metrics_df_reordered)
+        # print(self.metrics_df.to_string(index=False))
 
         # Store for interpretation
         self.results['metrics'] = self.metrics_df
 
     def plot_original_data(self):
         """Plot original time series data"""
-        print("\n" + "=" * 80)
-        print("STEP 4: GENERATING VISUALIZATIONS")
-        print("=" * 80)
+        print("\nSTEP 4: GENERATING VISUALIZATIONS")
 
         plt.figure(figsize=(14, 7))
         plt.plot(self.df['Date'], self.df['Adj_Close'], linewidth=1, alpha=0.8)
@@ -176,7 +176,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
         plt.show()
-        print("\n✓ Original data plot generated")
 
     def plot_comparison_all_mas(self, short_window=20):
         """Plot original data with all three moving averages"""
@@ -202,7 +201,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
         plt.show()
-        print("\n✓ Comparison plot (All MAs) generated")
 
     def plot_sma_comparison(self, short_window=20, long_window=100):
         """Plot SMA with different window sizes"""
@@ -223,7 +221,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
         plt.show()
-        print("\n✓ SMA comparison plot generated")
 
     def plot_ema_comparison(self, short_window=20, long_window=100):
         """Plot EMA with different window sizes"""
@@ -244,7 +241,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
         plt.show()
-        print("\n✓ EMA comparison plot generated")
 
     def plot_wma_comparison(self, short_window=20, long_window=100):
         """Plot WMA with different window sizes"""
@@ -265,7 +261,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
         plt.show()
-        print("\n✓ WMA comparison plot generated")
 
     def plot_metrics_comparison(self):
         """Plot metrics comparison"""
@@ -283,7 +278,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3, axis='y')
         plt.tight_layout()
         plt.show()
-        print("\n✓ MAE comparison plot generated")
 
         # MAPE Comparison
         # plt.figure(figsize=(12, 6))
@@ -297,7 +291,6 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3, axis='y')
         plt.tight_layout()
         plt.show()
-        print("\n✓ MAPE comparison plot generated")
 
         # Smoothness Comparison
         # plt.figure(figsize=(12, 6))
@@ -311,112 +304,102 @@ class MovingAveragesPipeline:
         plt.grid(True, alpha=0.3, axis='y')
         plt.tight_layout()
         plt.show()
-        print("\n✓ Smoothness comparison plot generated")
 
     def interpret_results(self):
         """Provide interpretation and conclusions"""
-        print("\n" + "=" * 80)
-        print("STEP 5: INTERPRETATION AND CONCLUSIONS")
-        print("=" * 80)
+        print("\nSTEP 5: INTERPRETATION AND CONCLUSIONS")
 
         metrics_df = self.metrics_df
 
         print("\n1. ACCURACY ANALYSIS (MAE & MAPE):")
-        print("-" * 80)
 
         # Find best performing MA for short window
         short_metrics = metrics_df[metrics_df['Window'] == metrics_df['Window'].min()]
         best_short = short_metrics.loc[short_metrics['MAE'].idxmin()]
 
-        print(f"\n   Short Window ({best_short['Window']:.0f} days):")
-        print(f"   • Best performer: {best_short['MA_Type']} with MAE = ${best_short['MAE']:.2f}")
-        print(f"   • This represents {best_short['MAPE']:.2f}% average error")
+        print(f"\nShort Window ({best_short['Window']:.0f} days):")
+        print(f"• Best performer: {best_short['MA_Type']} with MAE = ${best_short['MAE']:.2f}")
+        print(f"• This represents {best_short['MAPE']:.2f}% average error")
 
         # Find best performing MA for long window
         long_metrics = metrics_df[metrics_df['Window'] == metrics_df['Window'].max()]
         best_long = long_metrics.loc[long_metrics['MAE'].idxmin()]
 
-        print(f"\n   Long Window ({best_long['Window']:.0f} days):")
-        print(f"   • Best performer: {best_long['MA_Type']} with MAE = ${best_long['MAE']:.2f}")
-        print(f"   • This represents {best_long['MAPE']:.2f}% average error")
+        print(f"\nLong Window ({best_long['Window']:.0f} days):")
+        print(f"• Best performer: {best_long['MA_Type']} with MAE = ${best_long['MAE']:.2f}")
+        print(f"• This represents {best_long['MAPE']:.2f}% average error")
 
         print("\n2. SMOOTHNESS ANALYSIS:")
-        print("-" * 80)
 
         # Smoothness comparison
         smoothest_short = short_metrics.loc[short_metrics['Smoothness'].idxmin()]
         smoothest_long = long_metrics.loc[long_metrics['Smoothness'].idxmin()]
 
-        print(f"\n   • Smoothest short window MA: {smoothest_short['MA_Type']} "
+        print(f"\n• Smoothest short window MA: {smoothest_short['MA_Type']} "
               f"(Variance: {smoothest_short['Smoothness']:.2f})")
-        print(f"   • Smoothest long window MA: {smoothest_long['MA_Type']} "
+        print(f"• Smoothest long window MA: {smoothest_long['MA_Type']} "
               f"(Variance: {smoothest_long['Smoothness']:.2f})")
-        print(f"   • Long windows produce {(smoothest_short['Smoothness'] / smoothest_long['Smoothness']):.1f}x "
+        print(f"• Long windows produce {(smoothest_short['Smoothness'] / smoothest_long['Smoothness']):.1f} x "
               f"smoother curves than short windows")
 
         print("\n3. MOVING AVERAGE TYPE COMPARISON:")
-        print("-" * 80)
 
-        print("\n   SMA (Simple Moving Average):")
-        print("   • Gives equal weight to all data points in the window")
-        print("   • Slowest to react to price changes")
-        print("   • Most stable and smoothest of the three methods")
+        print("\nSMA (Simple Moving Average):")
+        print("• Gives equal weight to all data points in the window")
+        print("• Slowest to react to price changes")
+        print("• Most stable and smoothest of the three methods")
 
-        print("\n   EMA (Exponential Moving Average):")
-        print("   • Gives more weight to recent prices")
-        print("   • Faster reaction to price changes than SMA")
-        print("   • More responsive to trends while maintaining smoothness")
+        print("\nEMA (Exponential Moving Average):")
+        print("• Gives more weight to recent prices")
+        print("• Faster reaction to price changes than SMA")
+        print("• More responsive to trends while maintaining smoothness")
 
-        print("\n   WMA (Weighted Moving Average):")
-        print("   • Linearly weights recent prices higher")
-        print("   • Reactivity between SMA and EMA")
-        print("   • Good balance of responsiveness and stability")
+        print("\nWMA (Weighted Moving Average):")
+        print("• Linearly weights recent prices higher")
+        print("• Reactivity between SMA and EMA")
+        print("• Good balance of responsiveness and stability")
 
         print("\n4. WINDOW SIZE EFFECTS:")
-        print("-" * 80)
 
         # Calculate average error increase for longer windows
         avg_mae_increase = ((long_metrics['MAE'].mean() / short_metrics['MAE'].mean() - 1) * 100)
 
-        print(f"\n   Short Window ({short_metrics['Window'].iloc[0]:.0f} days):")
-        print("   • More responsive to recent price movements")
-        print("   • Higher volatility in the moving average")
-        print(f"   • Average MAE: ${short_metrics['MAE'].mean():.2f}")
+        print(f"\nShort Window ({short_metrics['Window'].iloc[0]:.0f} days):")
+        print("• More responsive to recent price movements")
+        print("• Higher volatility in the moving average")
+        print(f"• Average MAE: ${short_metrics['MAE'].mean():.2f}")
 
-        print(f"\n   Long Window ({long_metrics['Window'].iloc[0]:.0f} days):")
-        print("   • Captures longer-term trends")
-        print("   • Much smoother, less reactive to short-term fluctuations")
-        print(f"   • Average MAE: ${long_metrics['MAE'].mean():.2f}")
-        print(f"   • {abs(avg_mae_increase):.1f}% {'higher' if avg_mae_increase > 0 else 'lower'} "
+        print(f"\nLong Window ({long_metrics['Window'].iloc[0]:.0f} days):")
+        print("• Captures longer-term trends")
+        print("• Much smoother, less reactive to short-term fluctuations")
+        print(f"• Average MAE: ${long_metrics['MAE'].mean():.2f}")
+        print(f"• {abs(avg_mae_increase):.1f}% {'higher' if avg_mae_increase > 0 else 'lower'} "
               f"error due to lag effect")
 
         print("\n5. KEY CONCLUSIONS:")
-        print("-" * 80)
 
-        print("\n   a) Trade-off Between Accuracy and Smoothness:")
-        print("      • Shorter windows track prices more closely (lower MAE)")
-        print("      • Longer windows are smoother but lag behind actual prices")
+        print("\na) Trade-off Between Accuracy and Smoothness:")
+        print("• Shorter windows track prices more closely (lower MAE)")
+        print("• Longer windows are smoother but lag behind actual prices")
 
-        print("\n   b) Optimal Moving Average Selection:")
-        print(f"      • For trend following: Use {best_long['MA_Type']} with {best_long['Window']:.0f}-day window")
-        print(f"      • For trading signals: Use {best_short['MA_Type']} with {best_short['Window']:.0f}-day window")
-        print("      • For robust analysis: Combine both short and long windows")
+        print("\nb) Optimal Moving Average Selection:")
+        print(f"• For trend following: Use {best_long['MA_Type']} with {best_long['Window']:.0f}-day window")
+        print(f"• For trading signals: Use {best_short['MA_Type']} with {best_short['Window']:.0f}-day window")
+        print("• For robust analysis: Combine both short and long windows")
 
-        print("\n   c) Practical Applications:")
-        print("      • EMA is often preferred for trading due to its responsiveness")
-        print("      • SMA is better for identifying major trend reversals")
-        print("      • WMA provides a middle ground for balanced analysis")
-        print("      • Crossover strategies (short MA crossing long MA) signal potential trends")
+        print("\nc) Practical Applications:")
+        print("• EMA is often preferred for trading due to its responsiveness")
+        print("• SMA is better for identifying major trend reversals")
+        print("• WMA provides a middle ground for balanced analysis")
+        print("• Crossover strategies (short MA crossing long MA) signal potential trends")
 
-        print("\n   d) Model Performance:")
+        print("\nd) Model Performance:")
         best_overall = metrics_df.loc[metrics_df['MAE'].idxmin()]
-        print(f"      • Best overall model: {best_overall['MA_Type']} with {best_overall['Window']:.0f}-day window")
-        print(f"      • Achieved MAE of ${best_overall['MAE']:.2f} ({best_overall['MAPE']:.2f}% MAPE)")
-        print(f"      • Smoothness variance: {best_overall['Smoothness']:.2f}")
+        print(f"• Best overall model: {best_overall['MA_Type']} with {best_overall['Window']:.0f}-day window")
+        print(f"• Achieved MAE of ${best_overall['MAE']:.2f} ({best_overall['MAPE']:.2f}% MAPE)")
+        print(f"• Smoothness variance: {best_overall['Smoothness']:.2f}")
 
-        print("\n" + "=" * 80)
-        print("ANALYSIS COMPLETE")
-        print("=" * 80)
+        print("\nANALYSIS COMPLETE")
 
     def run_complete_pipeline(self, short_window=20, long_window=100):
         """Execute the complete pipeline"""
@@ -462,6 +445,6 @@ if __name__ == "__main__":
         long_window=var_long_window  # Long-term: 100 days (~5 months)
     )
 
-    print("\n✓ Pipeline completed successfully!")
-    print("\nTo rerun with different window sizes:")
-    print("pipeline.run_complete_pipeline(short_window=30, long_window=200)")
+    print(f"\nPipeline completed successfully, with short window = {var_short_window} and long window = {var_long_window}")
+    # print("\nTo rerun with different window sizes:")
+    # print("pipeline.run_complete_pipeline(short_window=30, long_window=200)")
