@@ -90,17 +90,33 @@ The following table shows the accuracy and smoothness metrics for each of the 3 
 4     WMA      30   51.46  1.83   79.38       47.44
 5     WMA     200  137.83  4.75  174.05        2.73
 ```
-Using the 
+The following charts show the Mean Absolute Error, Mean Absolute Percentage Error and Smoothness for each moving average type and window.
 
 ![mae](ma_mae_1000.png)
 ![mape](ma_mape_1000.png)
 ![smoothness](ma_smoothness_1000.png)
 
-### 30-day / 200-day comparison
+Analysis of the accuracy and smoothness metrics provides the following interpretation and conclusions:  
 
-30-Day MA: Considered a short-to-intermediate-term indicator, it reflects the stock's recent price action and helps spot near-term trend changes.
+* The best performing MA type for both the short-window and long-window is the WMA  
+  * MAE = $51.46 for 30-day window (1.83% average error)  
+  * MAE = $137.83 for 200-day window (4.75% average error)  
+* Smoothest 30-day window MA is EMA (Variance: 32.77)  
+* Smoothest 200-day window MA: SMA (Variance: 0.88)  
+* As expected the short-window MA types produce smaller error values, but lower smoothness (i.e. higher variance)
+  * This highlights the trade-off in results between smoothness and lag (window-size) as addressed below
+ 
+### Moving Average Type Comparison
 
-200-Day MA: A widely followed long-term indicator, it helps identify the major, overarching market trend and often acts as a significant level of support (in an uptrend) or resistance (in a downtrend). 
+
+
+### 30-day / 200-day Comparison
+
+The 30-day and 200-day windows are commonly used in stock market analysis and predictions, and used as an important tool to support trading decisions.
+
+30-Day Moving Average: Considered a short-to-intermediate-term indicator, it reflects the stock's recent price action and helps spot near-term trend changes.
+
+200-Day Moving Average: A widely followed long-term indicator, it helps identify the major, overarching market trend and often acts as a significant level of support (in an uptrend) or resistance (in a downtrend). 
 
 Traders and investors use the relationship between these two moving averages, and the price itself, to generate potential buy or sell signals: 
 Overall Trend Confirmation:  
@@ -111,6 +127,7 @@ Crossover Signals:
 * Bullish Crossover (Golden Cross): When the shorter-term 30-day MA crosses above the longer-term 200-day MA, it is generally interpreted as a powerful buy signal, indicating the start of a potential new long-term uptrend.  
 * Bearish Crossover (Death Cross): When the 30-day MA crosses below the 200-day MA, it is a sell signal, indicating a potential long-term downtrend is beginning.
 
+### Smoothness vs. Lag Trade-Off
 
 The Trade-off: Smoothness vs. Lag
 When you evaluate a moving average, you are generally trying to find the optimal balance between two competing properties, which can also be quantified:
