@@ -18,6 +18,10 @@ The business objective is...
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
+Falconsai/nsfw_image_detection
+
+timm/mobilenetv3_small_100.lamb_in1k
+
 
 ## Methodology:  
 
