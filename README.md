@@ -23,10 +23,10 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [Multiple linear regression](/multi-linear-regression/)
 * ### Logistic regression
 * ### [Time-series analysis (moving averages)](/moving-averages/)
-* ### Time-series analysis (ARIMA)
+* ### [Time-series analysis (ARIMA)](/arima/)
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### K-Nearest Neighbours
-* ### Decision Trees
+* ### [Decision Trees](/decision-trees/)
 * ### Random Forests
 * ### Gradient Boosted Trees
 * ### Principal Component Analysis (PCA)
@@ -36,7 +36,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
 * ### Text Summarisation (Deep Learning)
 * ### Topic Modelling and Clustering (Deep Learning)
-* ### Image Classification (Deep Learning)
+* ### [Image Classification (Deep Learning)](/image-classification/)
 <!-- * ### Fine Tuning / RAG / Transfer Learning -->
 <!-- * ### Text preprocessing (NLP) -->
 <!-- * ### Sentiment Analysis (NLP) -->
