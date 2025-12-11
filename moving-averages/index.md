@@ -12,11 +12,11 @@ permalink: /moving-averages/
 
 The business objective is to understand the long term trends and movements within the US stock market, using statistical analysis of historical S&P 500 daily closing value data, including developing insight into whether patterns and trends for short and long term averages can be a predictor for future movements.
 
-A particular aspect of the analysis is to analyse and compare 30-day and 200-day averages, which are commonly used metrics finance analytical metrics.
+The analysis is to include a comparison of 30-day and 200-day moving averages, which are commonly used metrics finance analytical metrics.
 
 S&P 500 (Standard and Poor's 500) is a stock market index tracking the stock performance of 500 leading companies listed on stock exchanges in the United States.
 
-The analytics included applying 3 moving averages techniques and multiple window-lengths to the data.
+The analytics included applying 3 moving averages types and multiple window-lengths to the data.
 
 The moving averages highlighted the overall trends and responsiveness to changes in underlying trends, including the impact of using each moving average type and different window length.  Each providing valuable insights.
 
@@ -24,7 +24,7 @@ The moving averages highlighted the overall trends and responsiveness to changes
 
 Moving-averages statistical analysis is a fundamental time series technique used to smooth out short-term fluctuations and noise in sequential data, thereby revealing the underlying long-term trends or cycles. It works by calculating a continuously updated average over a fixed-size "window" of consecutive data points; as a new observation enters the calculation, the oldest observation is dropped, causing the average to "move" forward over time. The resulting series of averages creates a line that is less volatile than the original data, making it easier to visually identify and model the general direction of movement.
 
-Moving averages are versatile statistical tools were their real-world benefits span numerous industries by improving decision-making from trading to inventory control, including the following:
+Moving averages are versatile statistical tools where their real-world benefits span numerous industries by improving decision-making from trading to inventory control, including the following:
 
 * **Finance** - Moving averages are a cornerstone of technical analysis in financial markets, where they are used to interpret asset price movements and trends, supporting buy/sell trading signals.
   * Long-term moving averages, like the 200-day Simple Moving Average (SMA), often act as dynamic levels where asset prices are expected to find support (on a drop) or resistance (on a rise).
@@ -37,7 +37,7 @@ Moving averages are versatile statistical tools were their real-world benefits s
 
 A workflow in Python was developed using libraries Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
 
-After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily close points were used (relating to approximately 4 years), as this is sufficient for analytical purposes to demonstrate the methods, and insight gained.  The plot of the 1,000 points is:
+After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily adjusted close prices were used (relating to approximately 4 years of data), as this is sufficient to demonstrate the analytical methods, and insight gained.  The plot of the 1,000 adjusted close prices is:
 
 ![Data_line](ma_data_1000.png)
 
@@ -63,7 +63,7 @@ For clarity the chart below shows the results of applying the three moving avera
 
 ![3_MA_types_250](ma_smooth_250.png)
 
-For each of the three moving average types applied, two separate window lengths were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results, showing as expected the plot for the lon-window is smoother.
+For each of the three moving average types applied, two separate window lengths were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results, showing as expected the plot for the long-window is smoother.
 
 ![sma](ma_sma_1000.png)
 ![wma](ma_wma_1000.png)
@@ -76,11 +76,11 @@ EMA uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yest
 
 Comparing the 30-day moving average (MA) and the 200-day MA is a common technical analysis technique to assess a stock's short-term momentum against its long-term trend. The 30-day MA is more sensitive to recent price changes, while the 200-day MA provides a smoother, broader view of the market's direction. 
 
-In conclusion EMA is considered more responsive, as it starts incorporating data immediately, and as such EMA provides earlier trend signals.  For example; EMA is often preferred by traders as it maximizes the usable data while still providing smoothing benefits. 
+In conclusion EMA is considered more responsive, as it starts incorporating data immediately, and as such EMA provides earlier trend signals.  For example; EMA is often preferred by traders as it maximises the usable data while still providing smoothing benefits. 
 
 ### Accuracy and Smoothness Metrics
 
-The following table shows the accuracy and smoothness metrics for each of the 3 moving averages methods applied for both 30-day and 200-day windows.
+The following table shows the accuracy and smoothness metrics for each of the 3 moving averages methods applied for both 30-day and 200-day windows.  The three accuracy metrics being: Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE) and Root Mean Square Error (RMSE)
 ```
   MA_Type  Window     MAE  MAPE    RMSE  Smoothness
 0     SMA      30   67.81  2.42  103.24       34.01
@@ -90,7 +90,7 @@ The following table shows the accuracy and smoothness metrics for each of the 3 
 4     WMA      30   51.46  1.83   79.38       47.44
 5     WMA     200  137.83  4.75  174.05        2.73
 ```
-The following charts show the Mean Absolute Error, Mean Absolute Percentage Error and Smoothness for each moving average type and window.
+The following charts show the MAE, MAPE and Smoothness for each moving average type and window.
 
 ![mae](ma_mae_1000.png)
 ![mape](ma_mape_1000.png)
@@ -104,11 +104,11 @@ Analysis of the accuracy and smoothness metrics provides the following interpret
 * Smoothest 30-day window MA is EMA (Variance: 32.77)  
 * Smoothest 200-day window MA: SMA (Variance: 0.88)  
 * As expected the short-window MA types produce smaller error values, but lower smoothness (i.e. higher variance)
-  * This highlights the trade-off in results between smoothness and lag (window-size) as addressed below
+  * This highlights the trade-off between smoothness and lag (window-size) as addressed below
  
 ### Moving Average Type and Window Size Comparison
 
-A summary of the three moving average types included in this analysis is:
+To summarise the comparison of the three moving average types included in this analysis:
 
 SMA (Simple Moving Average):
 * Gives equal weight to all data points in the window
