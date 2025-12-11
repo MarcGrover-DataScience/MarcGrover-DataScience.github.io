@@ -12,7 +12,7 @@ permalink: /moving-averages/
 
 The business objective is to understand the long term trends and movements within the US stock market, using statistical analysis of historical S&P 500 daily closing value data, including developing insight into whether patterns and trends for short and long term averages can be a predictor for future movements.
 
-The analysis is to include a comparison of 30-day and 200-day moving averages, which are commonly used metrics finance analytical metrics.
+The analysis is to include a comparison of 30-day and 200-day moving averages, which are commonly used finance analytical metrics.
 
 S&P 500 (Standard and Poor's 500) is a stock market index tracking the stock performance of 500 leading companies listed on stock exchanges in the United States.
 
