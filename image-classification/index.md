@@ -12,7 +12,7 @@ permalink: /image-classification/
 
 ## Goals and objectives:
 
-The business objective is to automatically label images by applying a classification to each.
+The business objective is to automatically label images by applying a classification to each. 
 
 ## Application:  
 
