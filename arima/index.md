@@ -47,13 +47,18 @@ A workflow was develped in Python using statsmodels, scikit-learn, pandas and nu
 
 The data of observed air passengers was split into a training set and a testing set, where the first 80% of observations formed the training set, and the latest 20% of observations formed the test set.
 
+#### Descriptive Analysis
+The original data was analysed to understand and visualise any poentential trends, patterns and seasonality.
+
 #### Integrated / Differencing (Stationarity)
 ARIMA models are designed to handle non-stationary time series by incorporating differencing into the model itself. The “I” in ARIMA stands for Integrated, which refers to the differencing step that makes the series stationary.  Stationarity is required for AR (AutoRegressive) and MA (Moving Average) components.  While ARIMA handles stationarity internally via differencing, it may be required to apply pre-transformation to the data prior to applying the ARIMA methods, for example the data has variance instability (e.g., heteroscedasticity).
 
 
 ## Results and conclusions:
 
-The overall training set has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points demonstrate a seasonal pattern seemingly with an increasing trend.
+The overall training set has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points demonstrate a seasonal pattern seemingly with an increasing trend.  Additional plots were generated to show the moving average and moving variance.  As shown below these further highlight the overall trend of increasing passenger volumes, and also indicate an increase in variance over time.
+
+
 
 The Augmented Dickey-Fuller (ADF) test was applied to the original training data to test for stationarity, where the null hypothesis (H₀) is that the data is non-stationary.  This produced an ADF test statistic = -0.3569, which produces a p-value of 0.9171, therefore there is insufficient evidence to reject to null hypothesis and there is evidence that the data is non-stationary, and differencing is required.
 
