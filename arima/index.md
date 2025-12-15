@@ -14,6 +14,8 @@ permalink: /arima/
 
 The business objective is to predict monthly air passenger volumes using historical observations.  The Autoregressive Integrated Moving Average (ARIMA) technique was selected for this purpose as it is a powerful time-series analysis tool that can factor in seasonality and trends within time-series data, to determine patterns and build a prediction model.
 
+ARIMA is effectively a model comprising of three components: AR (AutoRegressive), I (Integrated) and MA (Moving Average), which collectively operate on the time-series data.
+
 The model built reached an accuracy of...
 
 ## Application:  
@@ -39,15 +41,21 @@ ARIMA techniques can be applied to many real-world scenarios, yielding benefits 
   * Resource Allocation	- Predicting the demand for storage, bandwidth, or computing resources on a weekly or monthly basis to guide hardware procurement and capacity planning, optimising capital expenditure spending.
   * System Performance	- Forecasting trends in system metrics like network latency or error rates. If the forecast shows a steady upward trend in latency, it flags a need for system optimisation before performance degrades noticeably.
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
-
 ## Methodology:  
 
-Details of the methodology applied in the project.
+A workflow was develped in Python using statsmodels, scikit-learn, pandas and numpy libraries, with Matplotlib and Seasborn packages for visualisation.
+
+The data of observed air passengers was split into a training set and a testing set, where the first 80% of observations formed the training set, and the latest 20% of observations formed the test set.
+
+#### Integrated / Differencing (Stationarity)
+ARIMA models are designed to handle non-stationary time series by incorporating differencing into the model itself. The “I” in ARIMA stands for Integrated, which refers to the differencing step that makes the series stationary.  Stationarity is required for AR (AutoRegressive) and MA (Moving Average) components.  While ARIMA handles stationarity internally via differencing, it may be required to apply pre-transformation to the data prior to applying the ARIMA methods, for example the data has variance instability (e.g., heteroscedasticity).
 
 
 ## Results and conclusions:
+
+The overall training set has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points demonstrate a seasonal pattern seemingly with an increasing trend.
+
+The Augmented Dickey-Fuller (ADF) test was applied to the original training data to test for stationarity, where the null hypothesis (H₀) is that the data is non-stationary.  This produced an ADF test statistic = -0.3569, which produces a p-value of 0.9171, therefore there is insufficient evidence to reject to null hypothesis and there is evidence that the data is non-stationary, and differencing is required.
 
 Results from the project related to the business objective.
 
