@@ -37,25 +37,29 @@ The process returns the image along with the classification applied by the model
 
 ## Results and conclusions:
 
-Results from the project related to the business objective.
+The results demonstrated both the technical feasibility of the concept as well as the proving the model is capable of producing the required output classifications, applying the correct general category.  
+
+The solution validated that a state-of-the-art, high-performance architecture possibel using  with our existing available and compatible technologies such as Python / PyTorch / Hugging Face.  
+
+It demonstrated that the time to apply classifications is practical even using a local machine with CPU, where there are multiple methods to improve the speed and performance using servers with GPUs and / or cloud services. Each classification in the PoC returns in 2 to 3 seconds, even using a CPU on a local machine, and where the python script classifies a single image.
+
+The classifications by the model applied were considered to be accurate based on human validation, noting that there is always a level of subjectivity to the classifications.  Image below show three examples, where for example an expert baker might suggest that the image of a loafof bread is not in fact a 'French loaf'.  As such providing objective accuracy metrics of the model is complex, but for the sake of a proof-of-concept the results are considered accurate.  It was noted that some misclassifications did occur with visually similar items, but given that the model wasn't fine-tuned this could be considered an expected result.
+
+Example classifications include:
 
 ![Banana_classification](ImClas_Bananas.png)  
 ![Cup_classification](ImClas_Cup.png)  
 ![Loaf_classification](ImClas_Loaf.png)  
 
-Each classification runs in 2 to 3 seconds, even using a CPU on a local machine.
-
-### Conclusions:
-
-Conclusions from the project findings and results.
-
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.  The following a recommendations for next steps in developing an Image Classification solution to meet the next stage in the business objectives.
 
-* Classify a library of images
+* Extend the piepline to apply batch classify a library of images, i.e. enable classification of mutliple images within a workflow, rather than classifications on a single image basis
 * Migrate to a server using a GPU or a cloud service for faster results
+* Leverage Transfer Learning, meaning only training a final classification layer with a relatively small set of proprietary labeled data. This reduces data collection costs and accelerates time-to-value.
 * Fine-tune the model using labelled images specific to the business scenario the application is being used for
+* Thorough validation and quality control step to confirm the accuracy of the classification, and enable analysis of mis-classifications to support future model fine-tuning
 
 
 ## Python code:
