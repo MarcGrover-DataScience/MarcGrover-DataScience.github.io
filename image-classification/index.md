@@ -27,23 +27,21 @@ Image classification is one of the foundational applications of computer vision,
 
 ## Methodology:  
 
-The Image Classification application uses the 'google/vit-base-patch16-224' model via Hugging Face, which is a popular Vision Transformer model pre-trained on 14 million images, with additional fine-tuning on a million images.  The Vision Transformer is a transformer encoder model based on the BERT architecture.
+A workflow was built in Python using Pillow, Tasnfromers (Hugging Face) and PyTorch libraries.  The Image Classification application uses the *'google/vit-base-patch16-224'* model via Hugging Face, which is a popular Vision Transformer model pre-trained on 14 million images, with additional fine-tuning on a million images.  The Vision Transformer (ViT) is a transformer encoder model based on the BERT architecture.
 
-The application has a basic workflow.  A local image is referenced in the python code, which is then applied to the model, returning the single highest probability classification.  
+The application has a basic workflow.  A local image is referenced in the python code, which is then applied to the model, returning the single highest probability classification.  The image is resized to 224x224 pixels and transformed into a PyTorch tensor, to be input into the ViT model, using Pillow.
 
 The app is built so that it can easily be pointed to a library of images, rather than a single image and bulk classification can be applied.
 
-
-Details of the methodology applied in the project.
-
+The process returns the image along with the classification applied by the model.
 
 ## Results and conclusions:
 
 Results from the project related to the business objective.
 
-![Banana_classification](ImClas_Bananas.png)
-![Cup_classification](ImClas_Cup.png)
-![Loaf_classification](ImClas_Loaf.png)
+![Banana_classification](ImClas_Bananas.png)  
+![Cup_classification](ImClas_Cup.png)  
+![Loaf_classification](ImClas_Loaf.png)  
 
 Each classification runs in 2 to 3 seconds, even using a CPU on a local machine.
 
