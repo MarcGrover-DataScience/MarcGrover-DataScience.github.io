@@ -56,9 +56,16 @@ ARIMA models are designed to handle non-stationary time series by incorporating 
 
 ## Results and conclusions:
 
-The overall training set has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points demonstrate a seasonal pattern seemingly with an increasing trend.  Additional plots were generated to show the moving average and moving variance.  As shown below these further highlight the overall trend of increasing passenger volumes, and also indicate an increase in variance over time.
+The overall training set has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points (both training and testing data) demonstrate a seasonal pattern seemingly with an increasing trend.  Additional plots were generated to show the moving average and moving variance of the training data.  As shown below these further highlight the overall trend of increasing passenger volumes, and also indicate an increase in variance over time.
 
+The following shows the plot of both the training and testing datsets:
 
+![dataplot](arima_data_split.png)
+
+The plots below show the moving average and moving variance of the training data.
+
+![train_mean](arima_train_mean.png)
+![train_variance](arima_train_variance.png)
 
 The Augmented Dickey-Fuller (ADF) test was applied to the original training data to test for stationarity, where the null hypothesis (H₀) is that the data is non-stationary.  This produced an ADF test statistic = -0.3569, which produces a p-value of 0.9171, therefore there is insufficient evidence to reject to null hypothesis and there is evidence that the data is non-stationary, and differencing is required.
 
@@ -75,4 +82,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/main.py)
+[View the Python Script](/ARIMA_AirPassengers_v3.py)
