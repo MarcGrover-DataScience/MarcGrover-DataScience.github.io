@@ -62,7 +62,7 @@ The following shows the plot of both the training and testing datsets:
 
 ![dataplot](arima_data_split.png)
 
-The plots below show the moving average and moving variance of the training data.
+The plots below show the moving average and moving variance of the training data, both suggesting non-stationarity of the data which will next be more formally tested.
 
 ![train_mean](arima_train_mean.png)
 ![train_variance](arima_train_variance.png)
