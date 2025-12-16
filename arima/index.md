@@ -92,7 +92,7 @@ Results from the project related to the business objective.
 
 This step is primarily used to determine the number of lags (past values of the time series) to include in the model, related to aut-regression.  This is the **p** parameter in the ARIMA model. The Partial Autocorrelation Function (PACF) is applied to the first order differenced data, to generate the PACF plot, which visualises the influence of lagged values on an observation.  
 
-The plot below shows the PACF values for each lag, which visually implies the most significant lag is 12 - which logically is consistent with the visuals of the passenger valume plots which imply some seasonality of 12 months.  This can be further tested by using different **p** values in the ARIMA model.  
+The plot below shows the PACF values for each lag, which visually implies the most significant lag is 12 - which logically is consistent with the visuals of the passenger volume plots which imply some seasonality of 12 months.  This can be further tested by using different **p** values in the ARIMA model.  
 
 ![pacf](arima_pacf.png)  
 
@@ -100,9 +100,29 @@ The plot below shows the PACF values for each lag, which visually implies the mo
 
 This step analyses the number of lags to be used in the ARIMA model in relation to moving averages.  This is the **q** parameter in the ARIMA model.  The Autocorrelation Function (ACF) is apllied to the first order differenced data, to generate the ACF plot, which visualises the influence of lagged values on an observation.  
 
-The plot below:
+The plot of AACF values below, similar to the PACF plot, visually suggests that the most significant lag is also 12, which logically makes sense given that there is evidence of 12 month seasonality.
 
 ![acf](arima_acf.png)  
+
+### ARIMA models:
+
+The workflow developed supports ARIMA modelling with any values of parameters **p**, **d** and **q**, and also supports transformations being applied to the data to stabilise the variance.  For each model generated, predicted passenger volumes for the next 29 months are generated which can be tested against the actual values, to determine acuarracy and quality metrics of the model.
+
+Initially, the ARIMA model was applied with **un-transformed** data and practical baseline parameters of **(p, d, q) = (1, 12, 1)**.  This results in a prediction as shown in the plot below, along with plots of the residuals.  The evalution of the model determined the key values as:
+
+* R^2^ =  0.724 (i.e. 72.4% of all variance can be explained by the model)  
+* Mean Absolute Error (MAE) = 32.34 (i.e. are incorrect by an average of 32)
+* Root Mean Squared Error (RMSE) = 41.04
+
+An interesting finding is that the plots below highlight that the majority of predictions are less than the true values, which is very clear from the histogram of the residuals.
+
+![pred_1](arima_pred_1.png)
+
+![resid_1](arima_residual_1.png)
+
+![resid_histo_1](arima_residual_histo_1.png)
+
+
 
 ### Conclusions:
 
