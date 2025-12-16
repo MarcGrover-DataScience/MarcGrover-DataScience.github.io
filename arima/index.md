@@ -81,8 +81,8 @@ From the previous plots there was evidence that the variance wasn't stable, and 
 
 These findings will be useful when the ARIMA function is applied later, where the differencing relates to the **d** parameter.  The following plots show the data after first order differencing, and the data after the square-root transformation with first order differencing applied.
 
-![differencing](t.png)  
-![sqrt_differencing](t.png)  
+![differencing](arima_diff.png)  
+![sqrt_differencing](arima_diff_sqrt.png)  
 
 It should be remembered that the stabilising of the data is undertaken in order to provide better results in the AR (AutoRegressive) and MA (Moving Average) stages of ARIMA.
 
@@ -94,7 +94,7 @@ This step is primarily used to determine the number of lags (past values of the 
 
 The plot below shows the PACF values for each lag, which visually implies the most significant lag is 12 - which logically is consistent with the visuals of the passenger valume plots which imply some seasonality of 12 months.  This can be further tested by using different **p** values in the ARIMA model.  
 
-![pacf](t.png)  
+![pacf](arima_pacf.png)  
 
 ### Moving Averages:
 
@@ -102,7 +102,7 @@ This step analyses the number of lags to be used in the ARIMA model in relation 
 
 The plot below:
 
-![acf](t.png)  
+![acf](arima_acf.png)  
 
 ### Conclusions:
 
