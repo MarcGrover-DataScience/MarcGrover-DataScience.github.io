@@ -124,7 +124,7 @@ An interesting finding is that the plots below highlight that the majority of pr
 
 Multiple versions of the ARIMA model were run, changing the p, d, q values as well as trying different transformations to stabilise the variance.  Not all of these are described of visualised here for similicity, but the key findings are:
 
-* Using p and q values of 12 improves the model accuracy
+* Using p and q values of 12 provide the optimal model accuracy
 * Increasing d from 1 to 2 improves the model accuracy (i.e. first order differencing to second order differencing)
 * Applying all three of the transformations to stabilise the variance improve the model accuracy
 * The best performing model was using the Box-Cox method to stabilise the variance (where the lambda value in the Box-Cox Transform is 0.04) and ARIMA parameters of **(p, d, q) = (12, 2, 12)**.
@@ -139,11 +139,13 @@ Plots of the predictions of the best-performing model are below.  The model accu
 
 ![resid_2](arima_residual_box_2.png)
 
-![resid_histo_2](arima_residual_histo_box_2.png)
+![resid_histo_2](arima_residual_histo_box_2.png)  
+
+By comparing the three plots above for the optimal ARIMA model, to the baseline model, it is visible that the prediction is closer to the actual test data.  The plot of the residuals also shows that the errors are smaller, with a more even split of positive and negative errors.
 
 ### Conclusions:
 
-Conclusions from the project findings and results.
+The conclusions
 
 ## Next steps:  
 
