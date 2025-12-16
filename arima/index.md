@@ -47,10 +47,10 @@ A workflow was developed in Python using statsmodels, scipy, scikit-learn, panda
 
 The data of observed air passengers (monthly totals) was split into a training set and a testing set, where the first 80% of observations formed the training set, and the latest 20% of observations formed the test set.  As such the prediction is for the latest 20% of monthly data, which can be comparted to the actual values for those months to determine accuracy.
 
-#### Descriptive Analysis
+#### Descriptive Analysis:
 The original data was analysed to understand and visualise any poentential trends, patterns and seasonality.
 
-#### Integrated / Differencing (Stationarity)
+#### Integrated / Differencing (Stationarity):
 ARIMA models are designed to handle non-stationary time series by incorporating differencing into the model itself. The “I” in ARIMA stands for Integrated, which refers to the differencing step that makes the series stationary.  Stationarity is required for AR (AutoRegressive) and MA (Moving Average) components.  While ARIMA handles stationarity internally via differencing, it may also be required to apply pre-transformation to the data prior to applying the ARIMA methods, for example the data has variance instability (e.g., heteroscedasticity).
 
 Methods to stabilise the variance were investigated including; Log Transformation, Square-Root Transformation and Box-Cox Transformation.
@@ -79,16 +79,30 @@ From the previous plots there was evidence that the variance wasn't stable, and 
 * Squre-Root Transformation + First order differencing - p-value = 0.046 - The null hypothesis of non-stationarity can be rejected, and this is evidence of stationarity.  We can conclude that the square-root transformation improves the stationarity  
 * Box-Cox Transformation + First order differencing - p-value = 0.084 - The null hypothesis of non-stationarity cannot be rejected, but this suggests weak stationarity, and suggests the Box-Cox transformation improves the stationarity
 
-These findings will be useful when the ARIMA function is applied later.  The following plots show the data after first order differencing, and the data after the square-root transformation with first order differencing applied.
+These findings will be useful when the ARIMA function is applied later, where the differencing relates to the **d** parameter.  The following plots show the data after first order differencing, and the data after the square-root transformation with first order differencing applied.
 
-![differencing](t.png)
-![sqrt_differencing](t.png)
+![differencing](t.png)  
+![sqrt_differencing](t.png)  
 
 It should be remembered that the stabilising of the data is undertaken in order to provide better results in the AR (AutoRegressive) and MA (Moving Average) stages of ARIMA.
 
-Results from the project related to the business objective.
+Results from the project related to the business objective.  
 
-### Auto-Regression
+### Auto-Regression:
+
+This step is primarily used to determine the number of lags (past values of the time series) to include in the model, related to aut-regression.  This is the **p** parameter in the ARIMA model. The Partial Autocorrelation Function (PACF) is applied to the first order differenced data, to generate the PACF plot, which visualises the influence of lagged values on an observation.  
+
+The plot below shows the PACF values for each lag, which visually implies the most significant lag is 12 - which logically is consistent with the visuals of the passenger valume plots which imply some seasonality of 12 months.  This can be further tested by using different **p** values in the ARIMA model.  
+
+![pacf](t.png)  
+
+### Moving Averages:
+
+This step analyses the number of lags to be used in the ARIMA model in relation to moving averages.  This is the **q** parameter in the ARIMA model.  The Autocorrelation Function (ACF) is apllied to the first order differenced data, to generate the ACF plot, which visualises the influence of lagged values on an observation.  
+
+The plot below:
+
+![acf](t.png)  
 
 ### Conclusions:
 
