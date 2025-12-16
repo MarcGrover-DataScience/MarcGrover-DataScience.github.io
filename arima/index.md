@@ -145,11 +145,23 @@ By comparing the three plots above for the optimal ARIMA model, to the baseline 
 
 ### Conclusions:
 
-The conclusions
+The conclusions of the analysis of the ARIMA model for predicting future value include:
+
+* ARIMA methods including transformation of data to stabilise variance and mean values allows highly accurate modelling of time-series data including trends and seasonality.
+  * The model accurately captures both the overall increasing trend and 12 monthly seasonality.  
+* Low error margins can be achieved, supporting business intelligence and decision-making. 
+* ARIMA modelling is very flexible and easy to be repeated and re-applied to new data to refresh predictions.  
 
 ## Next steps:  
 
 With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yeild tangible benefits.
+
+Recommendations to improve and manage the model include:
+
+* Consider the application of SARIMA techniques explicitly to model seasonality.  
+* Research the use of alternative variance stabilisation methods to improve the prediction accuracy.  
+* Track model performance against actual values, and retrain the model where required, for example model accuracy decreases.  
+* Assess the possibility of migrating to other Machine Learning models to generate predictions.
 
 
 ## Python code:
