@@ -16,7 +16,7 @@ The business objective is to predict monthly air passenger volumes using histori
 
 ARIMA is effectively a model comprising of three components: AR (AutoRegressive), I (Integrated) and MA (Moving Average), which collectively operate on the time-series data.
 
-The model built reached an accuracy of...
+The model built reached a high-level of accuracy with an R² = 0.9470...
 
 ## Application:  
 
@@ -108,11 +108,11 @@ The plot of AACF values below, similar to the PACF plot, visually suggests that 
 
 The workflow developed supports ARIMA modelling with any values of parameters **p**, **d** and **q**, and also supports transformations being applied to the data to stabilise the variance.  For each model generated, predicted passenger volumes for the next 29 months are generated which can be tested against the actual values, to determine acuarracy and quality metrics of the model.
 
-Initially, the ARIMA model was applied with **un-transformed** data and practical baseline parameters of **(p, d, q) = (1, 12, 1)**.  This results in a prediction as shown in the plot below, along with plots of the residuals.  The evalution of the model determined the key values as:
+Initially, the ARIMA model was applied with **un-transformed** data and practical baseline parameters of **(p, d, q) = (12, 1, 12)**.  This results in a prediction as shown in the plot below, along with plots of the residuals.  The evalution of the model determined the key values as:
 
-* R^2^ =  0.724 (i.e. 72.4% of all variance can be explained by the model)  
-* Mean Absolute Error (MAE) = 32.34 (i.e. are incorrect by an average of 32)
-* Root Mean Squared Error (RMSE) = 41.04
+* R² =  0.724 (i.e. 72.4% of all variance can be explained by the model)  
+* Mean Absolute Error (MAE) = 32.3 (i.e. are incorrect by an average of 32)
+* Root Mean Squared Error (RMSE) = 41.0
 
 An interesting finding is that the plots below highlight that the majority of predictions are less than the true values, which is very clear from the histogram of the residuals.
 
@@ -122,7 +122,24 @@ An interesting finding is that the plots below highlight that the majority of pr
 
 ![resid_histo_1](arima_residual_histo_1.png)
 
+Multiple versions of the ARIMA model were run, changing the p, d, q values as well as trying different transformations to stabilise the variance.  Not all of these are described of visualised here for similicity, but the key findings are:
 
+* Using p and q values of 12 improves the model accuracy
+* Increasing d from 1 to 2 improves the model accuracy (i.e. first order differencing to second order differencing)
+* Applying all three of the transformations to stabilise the variance improve the model accuracy
+* The best performing model was using the Box-Cox method to stabilise the variance (where the lambda value in the Box-Cox Transform is 0.04) and ARIMA parameters of **(p, d, q) = (12, 2, 12)**.
+
+Plots of the predictions of the best-performing model are below.  The model accuracy metrics were:
+
+* R² =  0.947 (i.e. 94.7% of all variance can be explained by the model)  
+* Mean Absolute Error (MAE) = 14.9 (i.e. are incorrect by an average of ~15)
+* Root Mean Squared Error (RMSE) = 18.0
+
+![pred_2](arima_pred_box_2.png)
+
+![resid_2](arima_residual_box_2.png)
+
+![resid_histo_2](arima_residual_histo_box_2.png)
 
 ### Conclusions:
 
