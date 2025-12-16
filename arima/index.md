@@ -79,11 +79,16 @@ From the previous plots there was evidence that the variance wasn't stable, and 
 * Squre-Root Transformation + First order differencing - p-value = 0.046 - The null hypothesis of non-stationarity can be rejected, and this is evidence of stationarity.  We can conclude that the square-root transformation improves the stationarity  
 * Box-Cox Transformation + First order differencing - p-value = 0.084 - The null hypothesis of non-stationarity cannot be rejected, but this suggests weak stationarity, and suggests the Box-Cox transformation improves the stationarity
 
-These findings will be useful when the ARIMA function is applied later.
+These findings will be useful when the ARIMA function is applied later.  The following plots show the data after first order differencing, and the data after the square-root transformation with first order differencing applied.
+
+![differencing](t.png)
+![sqrt_differencing](t.png)
 
 It should be remembered that the stabilising of the data is undertaken in order to provide better results in the AR (AutoRegressive) and MA (Moving Average) stages of ARIMA.
 
 Results from the project related to the business objective.
+
+### Auto-Regression
 
 ### Conclusions:
 
