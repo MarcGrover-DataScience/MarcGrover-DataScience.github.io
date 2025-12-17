@@ -8,15 +8,13 @@ permalink: /arima/
 
 ---
 
-#### This project is in development
-
 ## Goals and objectives:
 
-The business objective is to predict monthly air passenger volumes using historical observations.  The Autoregressive Integrated Moving Average (ARIMA) technique was selected for this purpose as it is a powerful time-series analysis tool that can factor in seasonality and trends within time-series data, to determine patterns and build an accruate prediction model.
+The business objective is to predict monthly air passenger volumes using historical observations.  The Autoregressive Integrated Moving Average (ARIMA) technique was selected for this purpose as it is a powerful time-series analysis tool that can factor in seasonality and trends within time-series data, to determine patterns and build an accurate prediction model.
 
 ARIMA is effectively a model comprising of three components: AR (AutoRegressive), I (Integrated) and MA (Moving Average), which collectively operate on the time-series data.
 
-The model built reached a high-level of accuracy with an R² = 0.9470...
+The model built achieved a high-level of forecasting accuracy accounting for 94.7% of variance in passenger numbers, and factored in both the overall increase in volumes and monthly / seasonal fluctuations within each year.
 
 ## Application:  
 
@@ -26,7 +24,7 @@ ARIMA techniques can be applied to many real-world scenarios, yielding benefits 
 
 * **Finance: Risk Management and Market Prediction** - ARIMA is used to forecast highly volatile and continuous data streams, supporting investment and risk management strategies.
   * Short-Term Price Forecasting - predicting stock prices and exchange rates to inform trading decisions and setting market positions
-  * Volatility Forecasting - modelling the variation of financial time series, to predict prediod of high market risk
+  * Volatility Forecasting - modelling the variation of financial time series, to predict period of high market risk
   * Financial Metric Forecasting - Predicting key economic indicators like inflation rates or interest rate movements to guide long-term financial planning and capital allocation.
 * **Manufacturing: Production & Quality Optimisation** - ARIMA models drive efficiency and quality control in manufacturing by providing accurate, timely projections of resource needs and process stability.
   * Raw Material Procurement	- Forecasting the future demand for key raw materials with high accuracy, allowing purchasing managers to optimise order quantities, negotiate better prices, and minimize storage costs.
@@ -48,7 +46,7 @@ A workflow was developed in Python using statsmodels, scipy, scikit-learn, panda
 The data of observed air passengers (monthly totals) was split into a training set and a testing set, where the first 80% of observations formed the training set, and the latest 20% of observations formed the test set.  As such the prediction is for the latest 20% of monthly data, which can be comparted to the actual values for those months to determine accuracy.
 
 #### Descriptive Analysis:
-The original data was analysed to understand and visualise any poentential trends, patterns and seasonality.
+The original data was analysed to understand and visualise any potential trends, patterns and seasonality.
 
 #### Integrated / Differencing (Stationarity):
 ARIMA models are designed to handle non-stationary time series by incorporating differencing into the model itself. The “I” in ARIMA stands for Integrated, which refers to the differencing step that makes the series stationary.  Stationarity is required for AR (AutoRegressive) and MA (Moving Average) components.  While ARIMA handles stationarity internally via differencing, it may also be required to apply pre-transformation to the data prior to applying the ARIMA methods, for example the data has variance instability (e.g., heteroscedasticity).
@@ -59,7 +57,7 @@ Methods to stabilise the variance were investigated including; Log Transformatio
 
 The overall training set of passenger volumes has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points (both training and testing data) demonstrate a seasonal pattern and also an overall increasing trend.  Additional plots were generated to show the moving average and moving variance of the training data over time.  As shown below these further evidence the overall trend of increasing passenger volumes, and increase in variance over time.
 
-The following shows the plot of both the training and testing datsets:
+The following shows the plot of both the training and testing datasets:
 
 ![dataplot](arima_data_split.png)
 
@@ -73,10 +71,10 @@ The Augmented Dickey-Fuller (ADF) test was applied to the original training data
 
 With first order differencing applied to the data, the ADF test was applied returning a p-value = 0.106, which meant that we couldn't reject the null-hypothesis, but suggested that there is weak stationarity in the data after first order differencing, and suggesting further differencing could be applied and analysed.
 
-From the previous plots there was evidence that the variance wasn't stable, and as such three separate transformation methods were applied to stabilise the data prior to first order differencing.  The three thransformations applied were Log Transformation, Square-Root Transformation and Box-Cox Transformation.  The ADF test results of applying each of these prior to first order differencing were:
+From the previous plots there was evidence that the variance wasn't stable, and as such three separate transformation methods were applied to stabilise the data prior to first order differencing.  The three transformations applied were Log Transformation, Square-Root Transformation and Box-Cox Transformation.  The ADF test results of applying each of these prior to first order differencing were:
 
 * Log Transformation + First order differencing - p-value = 0.086 - The null hypothesis of non-stationarity cannot be rejected, but this suggests weak stationarity, and suggests the log transformation improves the stationarity  
-* Squre-Root Transformation + First order differencing - p-value = 0.046 - The null hypothesis of non-stationarity can be rejected, and this is evidence of stationarity.  We can conclude that the square-root transformation improves the stationarity  
+* Square-Root Transformation + First order differencing - p-value = 0.046 - The null hypothesis of non-stationarity can be rejected, and this is evidence of stationarity.  We can conclude that the square-root transformation improves the stationarity  
 * Box-Cox Transformation + First order differencing - p-value = 0.084 - The null hypothesis of non-stationarity cannot be rejected, but this suggests weak stationarity, and suggests the Box-Cox transformation improves the stationarity
 
 These findings will be useful when the ARIMA function is applied later, where the differencing relates to the **d** parameter.  The following plots show the data after first order differencing, and the data after the square-root transformation with first order differencing applied.
@@ -90,7 +88,7 @@ Results from the project related to the business objective.
 
 ### Auto-Regression:
 
-This step is primarily used to determine the number of lags (past values of the time series) to include in the model, related to aut-regression.  This is the **p** parameter in the ARIMA model. The Partial Autocorrelation Function (PACF) is applied to the first order differenced data, to generate the PACF plot, which visualises the influence of lagged values on an observation.  
+This step is primarily used to determine the number of lags (past values of the time series) to include in the model, related to auto-regression.  This is the **p** parameter in the ARIMA model. The Partial Autocorrelation Function (PACF) is applied to the first order differenced data, to generate the PACF plot, which visualises the influence of lagged values on an observation.  
 
 The plot below shows the PACF values for each lag, which visually implies the most significant lag is 12 - which logically is consistent with the visuals of the passenger volume plots which imply some seasonality of 12 months.  This can be further tested by using different **p** values in the ARIMA model.  
 
@@ -106,9 +104,9 @@ The plot of AACF values below, similar to the PACF plot, visually suggests that 
 
 ### ARIMA models:
 
-The workflow developed supports ARIMA modelling with any values of parameters **p**, **d** and **q**, and also supports transformations being applied to the data to stabilise the variance.  For each model generated, predicted passenger volumes for the next 29 months are generated which can be tested against the actual values, to determine acuarracy and quality metrics of the model.
+The workflow developed supports ARIMA modelling with any values of parameters **p**, **d** and **q**, and also supports transformations being applied to the data to stabilise the variance.  For each model generated, predicted passenger volumes for the next 29 months are generated which can be tested against the actual values, to determine accuracy and quality metrics of the model.
 
-Initially, the ARIMA model was applied with **un-transformed** data and practical baseline parameters of **(p, d, q) = (12, 1, 12)**.  This results in a prediction as shown in the plot below, along with plots of the residuals.  The evalution of the model determined the key values as:
+Initially, the ARIMA model was applied with **un-transformed** data and practical baseline parameters of **(p, d, q) = (12, 1, 12)**.  This results in a prediction as shown in the plot below, along with plots of the residuals.  The evaluation of the model determined the key values as:
 
 * R² =  0.724 (i.e. 72.4% of all variance can be explained by the model)  
 * Mean Absolute Error (MAE) = 32.3 (i.e. are incorrect by an average of 32)
@@ -122,7 +120,7 @@ An interesting finding is that the plots below highlight that the majority of pr
 
 ![resid_histo_1](arima_residual_histo_1.png)
 
-Multiple versions of the ARIMA model were run, changing the p, d, q values as well as trying different transformations to stabilise the variance.  Not all of these are described of visualised here for similicity, but the key findings are:
+Multiple versions of the ARIMA model were run, changing the p, d, q values as well as trying different transformations to stabilise the variance.  Not all of these are described of visualised here for simplicity, but the key findings are:
 
 * Using p and q values of 12 provide the optimal model accuracy
 * Increasing d from 1 to 2 improves the model accuracy (i.e. first order differencing to second order differencing)
@@ -154,7 +152,7 @@ The conclusions of the analysis of the ARIMA model for predicting future value i
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yeild tangible benefits.
+With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
 
 Recommendations to improve and manage the model include:
 
