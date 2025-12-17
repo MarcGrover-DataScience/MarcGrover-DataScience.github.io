@@ -122,7 +122,7 @@ An interesting finding is that the plots below highlight that the majority of pr
 
 Multiple versions of the ARIMA model were run, changing the p, d, q values as well as trying different transformations to stabilise the variance.  Not all of these are described or visualised here for simplicity, but the key findings are:
 
-* Using p and q value to 12 provide the optimal ARIMA model accuracy
+* Using p and q values equal to 12 provide the optimal ARIMA model accuracy
 * Increasing d from 1 to 2 improves the model accuracy (i.e. second order differencing produces better results than first order differencing)
 * The application of each of the three of the variance-stabilising transformations improve the model accuracy
 * The best performing model was using the Box-Cox Transform to stabilise the variance (where the lambda value in the Box-Cox Transform is 0.04) and ARIMA parameters of **(p, d, q) = (12, 2, 12)**.
