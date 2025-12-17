@@ -16,7 +16,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [Statistical Analysis - Two-Sample T-Test](/2-sample-independent-t-test/)
 * ### Paired Sample T-Test
 * ### One-Way ANOVA
-* ### Two-Way ANOVA with replication
+* ### [Two-Way ANOVA with replication](/2-way-anova-with-rep/)
 * ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
 * ### [A/B Testing (Chi-squared test)](/ab-test/)
 * ### Chi-squared goodness-of-fit test
