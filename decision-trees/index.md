@@ -81,11 +81,28 @@ Using the o[ptimal tree depth equal to 3 (as determined above), the decision tre
 
 ![decision_tree](decision_tree_structure.png)
 
-The model performance was evaluated to quantify the quality of the predictions.  The key metics (based on the testing set) are:  
+The model performance was evaluated to quantify the quality of the predictions.  The key metrics (based on the testing set) are:  
 * Accuracy:  0.9386
 * Precision: 0.9452
 * Recall:    0.9583
 * F1-Score:  0.9517
+
+Detailed Classification Report (Testing Set):
+```
+              precision    recall  f1-score   support
+
+   malignant       0.93      0.90      0.92        42
+      benign       0.95      0.96      0.95        72
+```
+
+
+![confusion_matrix](confusion_matrix.png)
+
+Additional Metrics:
+* True Positives:  69
+* True Negatives:  38
+* False Positives: 4
+* False Negatives: 3
 
 ### Feature Importance:
 
@@ -96,7 +113,13 @@ The most important factors are listed below, along with the importance score.  T
 The 6 features with a non-zero importance score are:
 
 ```
-ADD
+             Feature  Importance
+        worst radius       0.764
+worst concave points       0.127
+       texture error       0.048
+       worst texture       0.034
+     worst concavity       0.018
+          area error       0.010
 ```
 
 ![feature_importance](feature_importance.png)
