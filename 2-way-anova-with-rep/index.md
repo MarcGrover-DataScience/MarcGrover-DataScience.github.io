@@ -41,7 +41,7 @@ Descriptive statistical analysis of the flipper length observations is undertake
 
 The data is tested for normality for each combination of gender and species, using the Shapiro-Wilk test, as normality is an assumption of the 2-Way ANOVA with Replication test.
 
-Another assumption of the 2-Way ANOVA with Replication test is the homogeneity of the the variances for each gender and species combination.
+Another assumption of the 2-Way ANOVA with Replication test is the homogeneity of the variances for each gender and species combination.  This was tested with Levene's Test.
 
 ADD MORE DETAIL
 
@@ -62,7 +62,7 @@ Chinstrap  Female    34
 Gentoo     Female    58
            Male      61
 ```
-The overall distribution of the flipper lengths is plotted in the histrogram below, including a KDE plot.  The Boxplot shows the distribution of flipper lengths by species and gender, which provides good insight into the data, and highlights that the species and gender are seemingly both factors in the flipper length.  The interaction plot of the mean flipper lengths simplifies the interactions, where the gradients reflect the difference in flipper length between male and female penguins for each species.  The 'steeper' the gradient, the larger the difference.
+The overall distribution of the flipper lengths is plotted in the histogram below, including a KDE plot.  The Boxplot shows the distribution of flipper lengths by species and gender, which provides good insight into the data, and highlights that the species and gender are seemingly both factors in the flipper length.  The interaction plot of the mean flipper lengths simplifies the interactions, where the gradients reflect the difference in flipper length between male and female penguins for each species.  The 'steeper' the gradient, the larger the difference.
 
 These charts suggest that for all species the mean flipper length for males is greater than for females, but the difference is not consistent across all species.  This will be further validated using the 2-Way ANOVA with replication tested.
 
@@ -99,6 +99,10 @@ Chinstrap, Male: 	p=0.6201 Normal
 Gentoo, Female: 	p=0.2450 Normal
 Gentoo, Male: 		p=0.0545 Normal
 ```
+
+Another assumption of an ANOVA test is of equal variances across the groups (i.e. the combinations of gender and species).
+
+Levene's Test was applied, with the null hypothesis that the variances are equal.  Setting the confidence level equal to 0.05, the p-value of Levene's Test was calculated as 0.0365, which means that we reject the null hypothesis, and that there is evidence that the variances assumption may not be true.
 
 ADD HOMGENEITY DETAILS
 
