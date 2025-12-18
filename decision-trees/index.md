@@ -12,13 +12,13 @@ permalink: /decision-trees/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of ...
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of 93.86%.
 
 ## Application:  
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
-Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data preprocessing—meaning they don't need data scaling or normalization—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
+Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data preprocessing—meaning they don't need data scaling or normalisation—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
 
 They are highly valued because they translate complex data into a visual, human-readable format that simplifies high-stakes decision-making.  
 
@@ -50,24 +50,56 @@ The dataset was validated to confirm that there are no missing values, and basic
 
 Decision tree depth analysis was undertaken to determine the optimal depth of the decision tree being created, to generate the most accurate model, and not cause overfitting.
 
+Using the optimal tree depth, the model was fitted and applied to the test set to generate the predictions, which could be used with the actual values of the test set to validate the decision tree model.
+
 ## Results and conclusions:
 
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
 
+### Feature Correlation:  
+
 Correlation of the 30 features was undertaken and visualised as a correlation matrix as shown below.  This highlights that many of the fields have low-correlation, however there appears to be high-correlation in the features relating to radius, area and perimeter metrics.  This was not addressed at this stage, but important insight for any future development to improve the predictions.
 
 ![correlation](correlation_matrix.png)
+
+### Tree Depth Analysis:  
 
 Training and testing sets were determined from the 569 observations in the data, where 80% of the data was for training, and the remaining 20% for testing.  For reference the training set included 455 samples of which 285 were benign cancers and 170 malignant.
 
 Decision tree depth analysis was undertaken on levels in the range (1,13), for each level three metrics were calculated:
 * accuracy on the training set
 * accuracy on the test set
-* Cross-Validation score, where the number of folds was set to 5.  
+* Cross-Validation (CV) Accuracy score, where the number of folds was set to 5.  
 
-The plot below shows the results of the tree depth analysis, which determined that a depth of 3 is optimal, however a depth of 4 also produced similarly accurate results.  This plot also showed that decision trees of 5 or more levels produced less accurate predictions, almost certainly due to over-fitting to the training data.
+The plot below shows the results of the tree depth analysis, which determined that a depth of 3 is optimal, however a depth of 4 also produced similarly accurate results.  This plot also showed that decision trees of 5 or more levels produced less accurate predictions, almost certainly due to over-fitting to the training data.  It is important that a decision tree is fitted with the optimum levels to generate the most accurate model.
 
 ![depth_analysis](depth_analysis.png)
+
+### Model Fitting and Validation:
+
+Using the o[ptimal tree depth equal to 3 (as determined above), the decision tree was trained, as visualised below. 
+
+![decision_tree](decision_tree_structure.png)
+
+The model performance was evaluated to quantify the quality of the predictions.  The key metics (based on the testing set) are:  
+* Accuracy:  0.9386
+* Precision: 0.9452
+* Recall:    0.9583
+* F1-Score:  0.9517
+
+### Feature Importance:
+
+A key insight from using Decision Trees is the importance of each factor in generating a prediction, and hence themost important factors can be determined.
+
+The most important factors are listed below, along with the importance score.  The total importance sums to 1. It should be noted that with a tree depth of 3, not all features are included in the tree and hence most features have an importance score of zero.
+
+The 6 features with a non-zero importance score are:
+
+```
+ADD
+```
+
+![feature_importance](feature_importance.png)
 
 ### Conclusions:
 
