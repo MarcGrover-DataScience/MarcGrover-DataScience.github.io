@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Decision Trees)
+title: Breast Cancer Predictions (Decision Trees)
 
 permalink: /decision-trees/
 
@@ -18,6 +18,25 @@ The business objective is to predict the cancer status of cells (benign or malig
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
+Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data preprocessing—meaning they don't need data scaling or normalization—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
+
+They are highly valued because they translate complex data into a visual, human-readable format that simplifies high-stakes decision-making.  
+
+* **Finance** - decision trees are essential for managing risk and ensuring regulatory compliance through transparent logic, providing a clear "audit trail" of a reason for a decision.
+  * Credit Scoring & Loan Approvals: Banks use decision trees to evaluate the creditworthiness of applicants. By inputting variables like income, debt-to-income ratio, and payment history, the tree classifies applicants into "High Risk" or "Low Risk" categories.  
+  * Fraud Detection: Real-time transaction monitoring systems use decision trees to flag suspicious activity. For instance, if a transaction occurs in a new location for an unusually high amount at an odd time, the tree triggers an immediate alert or hold.
+  * Option Pricing: Investors use "binomial trees" to estimate the value of financial options over time, helping them decide whether to buy or sell based on market volatility.  
+* **Technology** - decision trees used to handle massive datasets and automate customer-facing processes.  Decision trees can make predictions or classifications almost instantly, which is vital for real-time web applications.  
+  * Customer Churn Prediction: SaaS companies analyse usage patterns (e.g., login frequency, feature adoption) to identify customers at risk of cancelling. The tree helps pinpoint which specific behaviours are the strongest indicators of churn.  
+  * Recommendation Engines: Streaming services and E-commerce platforms use tree-based models (often expanded into "Random Forests") to suggest products or movies based on a user's previous clicks and demographic data.  
+* **Science & Healthcare** - decision trees help navigate complex biological and environmental variables to reach accurate conclusions.  Decision trees highlight which variables (e.g., which specific gene or symptom) are the most significant drivers of the outcome.  
+  * Medical Diagnosis: Doctors use clinical decision trees to rule out conditions. For example, a tree for chest pain might branch into "History of Heart Disease" vs. "No History," further splitting by blood pressure and EKG results to reach a diagnosis.  
+  * Genomic Research: Scientists use trees to classify sequences of DNA or proteins, identifying which genetic markers are most likely associated with specific diseases or traits.  
+  * Environmental Modeling: Researchers use them to predict the impact of climate variables (like temperature and humidity) on crop yields or the spread of invasive species.  
+* **Manufacturing** - decision trees are critical for maintaining high quality and optimising the flow of goods.  This can reduce costs, downtime and reputational damage and increase efficiencies.
+  * Root Cause Analysis (RCA): When a batch of products fails quality testing, a decision tree helps technicians trace the defect, identifiying the factors most likely to be the cause, and help determine the exact point of failure.
+  * Predictive Maintenance: Sensors on factory equipment feed data into trees that predict when a machine is likely to break down, allowing for repairs before an expensive halt in production occurs.
+  * Supply Chain Optimisation: Logistics managers use trees to decide the best shipping routes or vendor selections based on lead times, costs, and historical reliability.
 
 ## Methodology:  
 
@@ -31,7 +50,6 @@ The dataset was validated to confirm that there are no missing values, and basic
 
 Decision tree depth analysis was undertaken to determine the optimal depth of the decision tree being created, to generate the most accurate model, and not cause overfitting.
 
-
 ## Results and conclusions:
 
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
@@ -40,9 +58,12 @@ Correlation of the 30 features was undertaken and visualised as a correlation ma
 
 ![correlation](correlation_matrix.png)
 
-Training and testing sets were determined from the 569 observations in the data, where 80% of the data was for training, and the remaining 20% for testing.
+Training and testing sets were determined from the 569 observations in the data, where 80% of the data was for training, and the remaining 20% for testing.  For reference the training set included 455 samples of which 285 were benign cancers and 170 malignant.
 
-Decision tree depth analysis was undertaken on levels in the range (1,13), where for each level the accuracy on the training set, and test set were determined, along with the Cross-Validation score for each number of values, where the number of folds was set to 5.  
+Decision tree depth analysis was undertaken on levels in the range (1,13), for each level three metrics were calculated:
+* accuracy on the training set
+* accuracy on the test set
+* Cross-Validation score, where the number of folds was set to 5.  
 
 The plot below shows the results of the tree depth analysis, which determined that a depth of 3 is optimal, however a depth of 4 also produced similarly accurate results.  This plot also showed that decision trees of 5 or more levels produced less accurate predictions, almost certainly due to over-fitting to the training data.
 
