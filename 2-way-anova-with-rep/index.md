@@ -72,20 +72,32 @@ These charts suggest that for all species the mean flipper length for males is g
 
 ![interaction](2way_anova_with_interaction.png)
 
-The mean and standard deviation of flipper lengths by species and gender is:
+The summary descriptive statistics of flipper lengths by species and gender is:
 
 ```
-ADD
+                  count    mean   std    min    max
+species   gender                                      
+Adelie    Female     73  187.79  5.60  172.0  202.0
+          Male       73  192.41  6.60  178.0  210.0
+Chinstrap Female     34  191.74  5.75  178.0  202.0
+          Male       34  199.91  5.98  187.0  212.0
+Gentoo    Female     58  212.71  3.90  203.0  222.0
+          Male       61  221.54  5.67  208.0  231.0
 ```
 
 ### Checking ANOVA assumptions:
 
-An assumption of an ANOVA test is the normality of the values being analysed.  The historgram of the total set of data, as shown above, implies that overall the flipper length observations are not normally distributed, however the test for normality is to be undertaken for each combination of species and gender.
+An assumption of an ANOVA test is the normality of the values being analysed.  The histogram of the total set of data, as shown above, implies that overall the flipper length observations are not normally distributed, however the test for normality is to be undertaken for each combination of species and gender.
 
 Using the Shapiro-Wilk test on each combination, the results are below.  The null hypothesis of the Shapiro-Wilk test is that the data is normally distributed, and as the p-value is greater than 0.05 for the test of each combination, we cannot reject the null hypothesis and the evidence suggests that the data is normally distributed as required.
 
 ```
-ADD
+Adelie, Female:		p=0.4912 Normal
+Adelie, Male: 		p=0.4984 Normal
+Chinstrap, Female: 	p=0.5074 Normal
+Chinstrap, Male: 	p=0.6201 Normal
+Gentoo, Female: 	p=0.2450 Normal
+Gentoo, Male: 		p=0.0545 Normal
 ```
 
 ADD HOMGENEITY DETAILS
@@ -104,4 +116,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/main.py)
+[View the Python Script](/ANOVA_2-way_withRep_penguins.py)
