@@ -12,7 +12,7 @@ permalink: /decision-trees/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of 93.86%.
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of 93.86%, with the most important feature identified as 'worst radius'.
 
 ## Application:  
 
@@ -39,8 +39,6 @@ They are highly valued because they translate complex data into a visual, human-
   * Supply Chain Optimisation: Logistics managers use trees to decide the best shipping routes or vendor selections based on lead times, costs, and historical reliability.
 
 ## Methodology:  
-
-Details of the methodology applied in the project.
 
 The dataset used is the Wisconsin Breast Cancer dataset available from scikit-learn, which contains 569 observations, including 30 independent features.
 
@@ -82,31 +80,32 @@ Using the o[ptimal tree depth equal to 3 (as determined above), the decision tre
 ![decision_tree](decision_tree_structure.png)
 
 The model performance was evaluated to quantify the quality of the predictions.  The key metrics (based on the testing set) are:  
-* Accuracy:  0.9386
-* Precision: 0.9452
-* Recall:    0.9583
-* F1-Score:  0.9517
+* Accuracy:    0.9386
+* Precision:   0.9452  (Predicted Positives)
+* Recall:      0.9583  (True Positive Rate)
+* F1-Score:    0.9517
+* Specificity: 0.9048  (True Negative Rate)
 
-Detailed Classification Report (Testing Set):
+The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions.  This is based on the testing dataset.
 ```
               precision    recall  f1-score   support
 
    malignant       0.93      0.90      0.92        42
       benign       0.95      0.96      0.95        72
 ```
+The confusion matrix visually demonstrates the performance of the decision tree applied to the testing dataset.
 
+![confusion_matrix](confusion_matrix.png)  
 
-![confusion_matrix](confusion_matrix.png)
-
-Additional Metrics:
-* True Positives:  69
-* True Negatives:  38
-* False Positives: 4
-* False Negatives: 3
+In summary the confusion matrix presents the results:
+* True Positives (True Benign):  69
+* True Negatives (True Malignant):  38
+* False Positives (False Benign): 4
+* False Negatives (False Malignant): 3
 
 ### Feature Importance:
 
-A key insight from using Decision Trees is the importance of each factor in generating a prediction, and hence themost important factors can be determined.
+A key insight from the generation of Decision Trees is the importance of each factor in generating a prediction, and hence themost important factors can be determined.
 
 The most important factors are listed below, along with the importance score.  The total importance sums to 1. It should be noted that with a tree depth of 3, not all features are included in the tree and hence most features have an importance score of zero.
 
@@ -126,7 +125,9 @@ worst concave points       0.127
 
 ### Conclusions:
 
-Conclusions from the project findings and results.
+The overall conclusions are summarised as:
+
+* 
 
 ## Next steps:  
 
