@@ -12,7 +12,7 @@ permalink: /decision-trees/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of ...
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of 93.86%.
 
 ## Application:  
 
@@ -54,20 +54,40 @@ Decision tree depth analysis was undertaken to determine the optimal depth of th
 
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
 
+### Feature Correlation:  
+
 Correlation of the 30 features was undertaken and visualised as a correlation matrix as shown below.  This highlights that many of the fields have low-correlation, however there appears to be high-correlation in the features relating to radius, area and perimeter metrics.  This was not addressed at this stage, but important insight for any future development to improve the predictions.
 
 ![correlation](correlation_matrix.png)
+
+### Tree Depth Analysis:  
 
 Training and testing sets were determined from the 569 observations in the data, where 80% of the data was for training, and the remaining 20% for testing.  For reference the training set included 455 samples of which 285 were benign cancers and 170 malignant.
 
 Decision tree depth analysis was undertaken on levels in the range (1,13), for each level three metrics were calculated:
 * accuracy on the training set
 * accuracy on the test set
-* Cross-Validation score, where the number of folds was set to 5.  
+* Cross-Validation (CV) Accuracy score, where the number of folds was set to 5.  
 
-The plot below shows the results of the tree depth analysis, which determined that a depth of 3 is optimal, however a depth of 4 also produced similarly accurate results.  This plot also showed that decision trees of 5 or more levels produced less accurate predictions, almost certainly due to over-fitting to the training data.
+The plot below shows the results of the tree depth analysis, which determined that a depth of 3 is optimal, however a depth of 4 also produced similarly accurate results.  This plot also showed that decision trees of 5 or more levels produced less accurate predictions, almost certainly due to over-fitting to the training data.  It is important that a decision tree is fitted with the optimum levels to generate the most accurate model.
 
 ![depth_analysis](depth_analysis.png)
+
+### Model Fitting and Validation:
+
+Using the tree depth of 3, the decision tree was trained, as visualised below. 
+
+![decision_tree](decision_tree_structure.png)
+
+The model performance was evaluated to quantify the quality of the predictions.  The key metics (based on the testing set) are:  
+* Accuracy:  0.9386
+* Precision: 0.9452
+* Recall:    0.9583
+* F1-Score:  0.9517
+
+### Feature Importance:
+
+![feature_importance](feature_importance.png)
 
 ### Conclusions:
 
