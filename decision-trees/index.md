@@ -18,7 +18,7 @@ The business objective is to predict the cancer status of cells (benign or malig
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
-Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data preprocessing—meaning they don't need data scaling or normalization—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
+Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data preprocessing—meaning they don't need data scaling or normalisation—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
 
 They are highly valued because they translate complex data into a visual, human-readable format that simplifies high-stakes decision-making.  
 
@@ -50,6 +50,8 @@ The dataset was validated to confirm that there are no missing values, and basic
 
 Decision tree depth analysis was undertaken to determine the optimal depth of the decision tree being created, to generate the most accurate model, and not cause overfitting.
 
+Using the optimal tree depth, the model was fitted and applied to the test set to generate the predictions, which could be used with the actual values of the test set to validate the decision tree model.
+
 ## Results and conclusions:
 
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
@@ -75,7 +77,7 @@ The plot below shows the results of the tree depth analysis, which determined th
 
 ### Model Fitting and Validation:
 
-Using the tree depth of 3, the decision tree was trained, as visualised below. 
+Using the o[ptimal tree depth equal to 3 (as determined above), the decision tree was trained, as visualised below. 
 
 ![decision_tree](decision_tree_structure.png)
 
@@ -86,6 +88,16 @@ The model performance was evaluated to quantify the quality of the predictions. 
 * F1-Score:  0.9517
 
 ### Feature Importance:
+
+A key insight from using Decision Trees is the importance of each factor in generating a prediction, and hence themost important factors can be determined.
+
+The most important factors are listed below, along with the importance score.  The total importance sums to 1. It should be noted that with a tree depth of 3, not all features are included in the tree and hence most features have an importance score of zero.
+
+The 6 features with a non-zero importance score are:
+
+```
+ADD
+```
 
 ![feature_importance](feature_importance.png)
 
