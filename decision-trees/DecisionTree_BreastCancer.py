@@ -95,42 +95,62 @@ missing_values = df.isnull().sum().sum()
 print(f"Missing values: {missing_values}")
 
 # Check for any preprocessing needs
-print(f"Data types:\n{df.dtypes.value_counts()}")
+print(f"\nData types:\n{df.dtypes.value_counts()}")
 
 # No null values in this dataset, no categorical encoding needed
 
 # ============================================================================
 # 3. EXPLORATORY DATA ANALYSIS
 # ============================================================================
-print("\n3. Performing Exploratory Data Analysis...")
+print("\n3. Performing Exploratory Data Analysis")
+print("Generating distribution and correlation plots")
 
 # Class distribution visualization
 plt.figure(figsize=(10, 6))
+# class_counts = pd.Series(y).value_counts()
+# sns.barplot(x=[target_names[0], target_names[1]], y=class_counts.values, palette='viridis')
+# plt.title('Class Distribution in Breast Cancer Dataset', fontsize=14, fontweight='bold')
+# plt.xlabel('Diagnosis', fontsize=12)
+# plt.ylabel('Count', fontsize=12)
+# plt.tight_layout()
+# plt.savefig('class_distribution.png', dpi=300, bbox_inches='tight')
+# plt.show()
+
+
+
 class_counts = pd.Series(y).value_counts()
-sns.barplot(x=[target_names[0], target_names[1]], y=class_counts.values, palette='viridis')
+bars = sns.barplot(x=[target_names[0], target_names[1]], y=class_counts.values, palette='viridis')
+
+# Add value labels on bars
+for i, bar in enumerate(bars.patches):
+    height = bar.get_height()
+    bars.text(bar.get_x() + bar.get_width()/2., height,
+             f'{int(height)}',
+             ha='center', va='bottom', fontsize=12, fontweight='bold')
+
 plt.title('Class Distribution in Breast Cancer Dataset', fontsize=14, fontweight='bold')
 plt.xlabel('Diagnosis', fontsize=12)
 plt.ylabel('Count', fontsize=12)
 plt.tight_layout()
 plt.savefig('class_distribution.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Class distribution plot saved")
 
-# Feature correlation heatmap (top 10 features)
+
+# Feature correlation heatmap
 plt.figure(figsize=(12, 10))
-top_features = df[list(feature_names[:10])].corr()
-sns.heatmap(top_features, annot=True, fmt='.2f', cmap='coolwarm', center=0,
-            square=True, linewidths=1, cbar_kws={"shrink": 0.8})
-plt.title('Feature Correlation Matrix (Top 10 Features)', fontsize=14, fontweight='bold')
+# top_features = df[list(feature_names[:10])].corr()    # To include only first 10 features
+top_features = df[list(feature_names)].corr()
+sns.heatmap(top_features, annot=True, fmt='.1f', cmap='coolwarm', center=0,
+            square=True, linewidths=1, cbar_kws={"shrink": 0.8}, annot_kws={"size": 8})
+plt.title('Feature Correlation Matrix', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig('correlation_matrix.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Correlation matrix saved")
 
 # ============================================================================
 # 4. TRAIN-TEST SPLIT (80-20)
 # ============================================================================
-print("\n[4] Splitting Data into Training and Testing Sets (80-20)...")
+print("\n4. Splitting Data into Training and Testing Sets (80-20)...")
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
@@ -143,10 +163,10 @@ print(f"Testing set class distribution: {np.bincount(y_test)}")
 # ============================================================================
 # 5. MODEL TUNING - OPTIMAL TREE DEPTH
 # ============================================================================
-print("\n[5] Fine-tuning Model - Determining Optimal Tree Depth...")
+print("\n5. Fine-tuning Model - Determining Optimal Tree Depth")
 
 # Test different tree depths
-max_depths = range(1, 21)
+max_depths = range(1, 13)
 train_scores = []
 test_scores = []
 cv_scores = []
@@ -167,7 +187,7 @@ optimal_depth = max_depths[np.argmax(test_scores)]
 print(f"Optimal tree depth: {optimal_depth}")
 print(f"Best test accuracy: {max(test_scores):.4f}")
 
-# Visualization of depth analysis
+# Visualisation of depth analysis
 plt.figure(figsize=(10, 6))
 plt.plot(max_depths, train_scores, label='Training Accuracy', marker='o', linewidth=2)
 plt.plot(max_depths, test_scores, label='Testing Accuracy', marker='s', linewidth=2)
@@ -181,23 +201,24 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('depth_analysis.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Depth analysis plot saved")
 
 # ============================================================================
 # 6. TRAIN OPTIMAL MODEL
 # ============================================================================
-print("\n[6] Training Optimal Decision Tree Model...")
+print("\n6. Training Optimal Decision Tree Model")
 
 # Train with optimal depth
 dt_optimal = DecisionTreeClassifier(max_depth=optimal_depth, random_state=42)
 dt_optimal.fit(X_train, y_train)
+dt_optimal_accuracy = dt_optimal.score(X_test, y_test)
 
-print(f"✓ Model trained with max_depth={optimal_depth}")
+print(f"Model trained with max_depth={optimal_depth}")
+print(f"Accuracy: {dt_optimal_accuracy:.4f}")
 
 # ============================================================================
 # 7. DECISION TREE VISUALIZATION
 # ============================================================================
-print("\n[7] Visualizing Decision Tree Structure...")
+print("\n7. Visualizing Decision Tree Structure")
 
 plt.figure(figsize=(12, 6))
 plot_tree(dt_optimal,
@@ -206,17 +227,16 @@ plot_tree(dt_optimal,
           filled=True,
           rounded=True,
           fontsize=10)
-plt.title(f'Decision Tree Visualization (Depth = {optimal_depth})',
+plt.title(f'Decision Tree Visualisation (Depth = {optimal_depth})',
           fontsize=16, fontweight='bold', pad=20)
 plt.tight_layout()
 plt.savefig('decision_tree_structure.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Decision tree visualization saved")
 
 # ============================================================================
 # 8. FEATURE IMPORTANCE ANALYSIS
 # ============================================================================
-print("\n[8] Performing Feature Importance Analysis...")
+print("\n8. Performing Feature Importance Analysis")
 
 # Get feature importances
 feature_importance = dt_optimal.feature_importances_
@@ -228,23 +248,44 @@ importance_df = pd.DataFrame({
 print("\nTop 10 Most Important Features:")
 print(importance_df.head(10).to_string(index=False))
 
-# Visualize feature importance (top 15)
+# # Visualize feature importance (top 6)
+# plt.figure(figsize=(10, 8))
+# top_n = 6
+# top_features = importance_df.head(top_n)
+# sns.barplot(data=top_features, y='Feature', x='Importance', palette='viridis')
+# plt.title(f'Top {top_n} Feature Importances', fontsize=14, fontweight='bold')
+# plt.xlabel('Importance Score', fontsize=12)
+# plt.ylabel('Feature', fontsize=12)
+# plt.tight_layout()
+# plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
+# plt.show()
+
+
+# Visualize feature importance (top 6)
 plt.figure(figsize=(10, 8))
-top_n = 15
+top_n = 6
 top_features = importance_df.head(top_n)
-sns.barplot(data=top_features, y='Feature', x='Importance', palette='viridis')
+bars = sns.barplot(data=top_features, y='Feature', x='Importance', palette='viridis')
+
+for i, bar in enumerate(bars.patches):
+    width = bar.get_width()
+    bars.text(width, bar.get_y() + bar.get_height()/2.,
+             f'{width:.3f}',
+             ha='left', va='center', fontsize=11, fontweight='bold',
+             color='black')
+
 plt.title(f'Top {top_n} Feature Importances', fontsize=14, fontweight='bold')
 plt.xlabel('Importance Score', fontsize=12)
 plt.ylabel('Feature', fontsize=12)
 plt.tight_layout()
 plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Feature importance plot saved")
+
 
 # ============================================================================
 # 9. MODEL EVALUATION METRICS
 # ============================================================================
-print("\n[9] Evaluating Model Performance...")
+print("\n9. Evaluating Model Performance")
 
 # Make predictions
 y_pred_train = dt_optimal.predict(X_train)
@@ -263,16 +304,16 @@ test_recall = recall_score(y_test, y_pred_test)
 test_f1 = f1_score(y_test, y_pred_test)
 
 print("\nTRAINING SET METRICS:")
-print(f"  Accuracy:  {train_accuracy:.4f}")
-print(f"  Precision: {train_precision:.4f}")
-print(f"  Recall:    {train_recall:.4f}")
-print(f"  F1-Score:  {train_f1:.4f}")
+print(f"Accuracy:  {train_accuracy:.4f}")
+print(f"Precision: {train_precision:.4f}")
+print(f"Recall:    {train_recall:.4f}")
+print(f"F1-Score:  {train_f1:.4f}")
 
 print("\nTESTING SET METRICS:")
-print(f"  Accuracy:  {test_accuracy:.4f}")
-print(f"  Precision: {test_precision:.4f}")
-print(f"  Recall:    {test_recall:.4f}")
-print(f"  F1-Score:  {test_f1:.4f}")
+print(f"Accuracy:  {test_accuracy:.4f}")
+print(f"Precision: {test_precision:.4f}")
+print(f"Recall:    {test_recall:.4f}")
+print(f"F1-Score:  {test_f1:.4f}")
 
 print("\nDetailed Classification Report (Testing Set):")
 print(classification_report(y_test, y_pred_test, target_names=target_names))
@@ -287,7 +328,7 @@ metrics_df = pd.DataFrame({
 plt.figure(figsize=(10, 6))
 x = np.arange(len(metrics_df['Metric']))
 width = 0.35
-plt.bar(x - width / 2, metrics_df['Training'], width, label='Training', alpha=0.8)
+plt.bar(x - width / 2, metrics_df['Training'], width, label='Training', alpha=0.8, )
 plt.bar(x + width / 2, metrics_df['Testing'], width, label='Testing', alpha=0.8)
 plt.xlabel('Metrics', fontsize=12)
 plt.ylabel('Score', fontsize=12)
@@ -299,12 +340,11 @@ plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig('metrics_comparison.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Metrics comparison plot saved")
 
 # ============================================================================
 # 10. CONFUSION MATRIX
 # ============================================================================
-print("\n[10] Generating Confusion Matrix...")
+print("\n[10] Generating Confusion Matrix")
 
 # Calculate confusion matrix
 cm = confusion_matrix(y_test, y_pred_test)
@@ -322,7 +362,6 @@ plt.ylabel('True Label', fontsize=12)
 plt.tight_layout()
 plt.savefig('confusion_matrix.png', dpi=300, bbox_inches='tight')
 plt.show()
-print("✓ Confusion matrix visualization saved")
 
 # Calculate additional metrics from confusion matrix
 tn, fp, fn, tp = cm.ravel()
@@ -330,24 +369,20 @@ specificity = tn / (tn + fp)
 sensitivity = tp / (tp + fn)
 
 print(f"\nAdditional Metrics:")
-print(f"  True Positives:  {tp}")
-print(f"  True Negatives:  {tn}")
-print(f"  False Positives: {fp}")
-print(f"  False Negatives: {fn}")
-print(f"  Sensitivity (TPR): {sensitivity:.4f}")
-print(f"  Specificity (TNR): {specificity:.4f}")
+print(f"True Positives:  {tp}")
+print(f"True Negatives:  {tn}")
+print(f"False Positives: {fp}")
+print(f"False Negatives: {fn}")
+print(f"Sensitivity (TPR): {sensitivity:.4f}")
+print(f"Specificity (TNR): {specificity:.4f}")
 
 # ============================================================================
 # SUMMARY
 # ============================================================================
-print("\n" + "=" * 70)
-print("SUMMARY")
-print("=" * 70)
+print("\nSUMMARY")
 print(f"Dataset: Breast Cancer (569 samples, 30 features)")
 print(f"Training/Testing Split: 80/20")
 print(f"Optimal Tree Depth: {optimal_depth}")
 print(f"Test Accuracy: {test_accuracy:.4f}")
 print(f"Test F1-Score: {test_f1:.4f}")
 print(f"Most Important Feature: {importance_df.iloc[0]['Feature']}")
-print(f"\nAll visualizations saved successfully!")
-print("=" * 70)

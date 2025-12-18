@@ -18,7 +18,7 @@ The business objective is to predict the cancer status of cells (benign or malig
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
-Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data preprocessing—meaning they don't need data scaling or normalisation—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
+Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data pre-processing — meaning they don't need data scaling or normalisation—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
 
 They are highly valued because they translate complex data into a visual, human-readable format that simplifies high-stakes decision-making.  
 
@@ -32,9 +32,9 @@ They are highly valued because they translate complex data into a visual, human-
 * **Science & Healthcare** - decision trees help navigate complex biological and environmental variables to reach accurate conclusions.  Decision trees highlight which variables (e.g., which specific gene or symptom) are the most significant drivers of the outcome.  
   * Medical Diagnosis: Doctors use clinical decision trees to rule out conditions. For example, a tree for chest pain might branch into "History of Heart Disease" vs. "No History," further splitting by blood pressure and EKG results to reach a diagnosis.  
   * Genomic Research: Scientists use trees to classify sequences of DNA or proteins, identifying which genetic markers are most likely associated with specific diseases or traits.  
-  * Environmental Modeling: Researchers use them to predict the impact of climate variables (like temperature and humidity) on crop yields or the spread of invasive species.  
+  * Environmental Modelling: Researchers use them to predict the impact of climate variables (like temperature and humidity) on crop yields or the spread of invasive species.  
 * **Manufacturing** - decision trees are critical for maintaining high quality and optimising the flow of goods.  This can reduce costs, downtime and reputational damage and increase efficiencies.
-  * Root Cause Analysis (RCA): When a batch of products fails quality testing, a decision tree helps technicians trace the defect, identifiying the factors most likely to be the cause, and help determine the exact point of failure.
+  * Root Cause Analysis (RCA): When a batch of products fails quality testing, a decision tree helps technicians trace the defect, identifying the factors most likely to be the cause, and help determine the exact point of failure.
   * Predictive Maintenance: Sensors on factory equipment feed data into trees that predict when a machine is likely to break down, allowing for repairs before an expensive halt in production occurs.
   * Supply Chain Optimisation: Logistics managers use trees to decide the best shipping routes or vendor selections based on lead times, costs, and historical reliability.
 
@@ -75,7 +75,7 @@ The plot below shows the results of the tree depth analysis, which determined th
 
 ### Model Fitting and Validation:
 
-Using the o[ptimal tree depth equal to 3 (as determined above), the decision tree was trained, as visualised below. 
+Using the optimal tree depth equal to 3 (as determined above), the decision tree was trained, as visualised below. 
 
 ![decision_tree](decision_tree_structure.png)
 
@@ -105,7 +105,7 @@ In summary the confusion matrix presents the results:
 
 ### Feature Importance:
 
-A key insight from the generation of Decision Trees is the importance of each factor in generating a prediction, and hence themost important factors can be determined.
+A key insight from the generation of Decision Trees is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
 
 The most important factors are listed below, along with the importance score.  The total importance sums to 1. It should be noted that with a tree depth of 3, not all features are included in the tree and hence most features have an importance score of zero.
 
@@ -123,11 +123,30 @@ worst concave points       0.127
 
 ![feature_importance](feature_importance.png)
 
+### Tree Depth = 4
+
+From the charts shown above, it indicated that a tree-depth of 4 produced results similar to a tree-depth of 4.  As such the model was fitted and validated with a tree-depth of 4.  The overall accuracy was of 0.9386 (the same accuracy achieved with a depth of 3), however the F1-score was slightly less.  Further analysis of a decision tree of depth 4 was not undertaken here.
+
 ### Conclusions:
 
 The overall conclusions are summarised as:
 
-* 
+* Decision tree produced accurate predictions and is an appropriate tool
+
+* Model Performance:
+  * The decision tree achieves excellent predictive accuracy (>93%) on the test set, demonstrating strong capability for breast cancer classification  
+  * High precision and recall indicate the model reliably identifies both malignant and benign cases with minimal false positives/negatives
+  * The cross-validation scores closely align with test scores, suggesting the model generalises well and isn't overfitting
+
+* Feature Insights:
+  * A small subset of features dominates the prediction (typically "worst concave points," "worst perimeter," "worst radius")
+  * Many of the 30 features contribute minimally to predictions, indicating potential redundancy in the dataset
+  * The most important features relate to cell radius and concavity measurements
+
+* Model Characteristics:
+  * The optimal tree depth (typically 3-5 levels) suggests the decision boundaries are relatively simple
+  * Beyond optimal depth, performance plateaus or declines, indicating unnecessary complexity leads to overfitting
+  * The simplicity of the tree structure makes it highly interpretable for clinical settings
 
 ## Next steps:  
 
@@ -135,6 +154,26 @@ With any analysis it is important to assess how the model and application of the
 
 * Feature engineering - including removing and / or adding features
 
+* Ensemble Methods: Implement Random Forests or Gradient Boosting to improve robustness and potentially increase accuracy by 2-5%.  Random Forests reduce variance through multiple trees, and XGBoost/LightGBM offer superior performance with built-in regularisation.
+* Feature Engineering: 
+  * Create interaction terms between top features (e.g., radius × concavity).
+  * Apply dimensionality reduction (PCA) to reduce multicollinearity among correlated features
+  * Focus data collection on the most predictive features to reduce costs - i.e. reduce the number of features used in the model
+  * Consider the 
+* Hyperparameter Optimisation: Fine-tune min_samples_split, min_samples_leaf, and max_features
+* Clinical Validation:
+  * Validate on external datasets from different hospitals/populations
+  * Assess performance across demographic subgroups (age, ethnicity)
+  * Compare predictions against pathologist diagnoses
+* Real-Life implementation considerations:
+  * Prioritise recall (sensitivity) over precision to minimise false negatives (missed cancers)
+  * Implement human-in-the-loop review for borderline cases
+  * Maintain audit trail for all predictions
+  * Assess value of model-assisted diagnosis vs. standard care
+  * Continuous monitoring of predictions and assess re-training of model on new data to identify potentially improved rules
+* Research and compare Alternative Models:
+  * Benchmark against Random Forests, Gradient Boost Trees, Logistic Regression, Neural Networks
+  * Consider stacking/blending multiple model types
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
