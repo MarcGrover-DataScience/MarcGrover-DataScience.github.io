@@ -8,8 +8,6 @@ permalink: /decision-trees/
 
 ---
 
-#### This project is in development
-
 ## Goals and objectives:
 
 The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  A decision tree model was built to make the predictions, achieving an accuracy of 93.86%, with the most important feature identified as 'worst radius'.
