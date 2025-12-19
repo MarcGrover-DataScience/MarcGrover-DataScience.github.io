@@ -8,8 +8,6 @@ permalink: /2-way-anova-with-rep/
 
 ---
 
-#### This project is in development
-
 ## Goals and objectives:
 
 The business objective is understand the impact of species and gender on the flipper length of penguins, as well as the interaction of the two factors (species and gender).  The 2-Way ANOVA with replication technique was applied as there are multiple observations for each combination of species and gender.
@@ -94,12 +92,12 @@ An assumption of an ANOVA test is the normality of the values being analysed.  T
 Using the Shapiro-Wilk test on each combination, the results are below.  The null hypothesis of the Shapiro-Wilk test is that the data is normally distributed, and as the p-value is greater than 0.05 for the test of each combination, we cannot reject the null hypothesis and the evidence suggests that the data is normally distributed as required.
 
 ```
-Adelie, Female:		   p=0.4912 Normal
-Adelie, Male: 		    p=0.4984 Normal
+Adelie, Female:		p=0.4912 Normal
+Adelie, Male: 		p=0.4984 Normal
 Chinstrap, Female: 	p=0.5074 Normal
-Chinstrap, Male: 	  p=0.6201 Normal
-Gentoo, Female: 	   p=0.2450 Normal
-Gentoo, Male: 		    p=0.0545 Normal
+Chinstrap, Male: 	p=0.6201 Normal
+Gentoo, Female: 	p=0.2450 Normal
+Gentoo, Male: 		p=0.0545 Normal
 ```
 
 Another assumption of an ANOVA test is of equal variances across the groups (i.e. the combinations of gender and species).
@@ -108,18 +106,23 @@ Levene's Test was applied, with the null hypothesis that the variances are equal
 
 As the 2-Way ANOVA uses the F-statistic, which is a ratio of variances, when the underlying group variances are not equal, the F-test becomes less "robust".  This results in the 2-Way ANOVA potentially providing misleading results.  It is noted that the group sizes for each combination of factors, is not consistent, ranging from 34 to 73.  This can potentially lead to misleading ANOVA results.
 
-Refering back to the boxplots, these highlight that there are multiple outliers associated to the 'Adelie' penguin species observations, which could potentially be causing the unequal variances.  These outliers are to be investigated further.
+Referring back to the boxplots, these highlight that there are multiple outliers associated to the 'Adelie' penguin species observations, which could potentially be causing the unequal variances.  These outliers are to be investigated further.
 
 ### 2-Way ANOVA Test application
 
-The test produced an R² = 0.8396, i.e. ~84% of the variences in flipper length values can be explained by the two factors and the interaction of the 2 factors.
+The test produced an R² = 0.8396, i.e. ~84% of the variances in flipper length values can be explained by the two factors and the interaction of the 2 factors.
 
 The p-value associated with each factor, including the interaction, determines if the each factor has a significant effect.  I.e. the null hypothesis is that the factor does not have an impact.  The p-value for each factor (species and gender) are of the order 10^-125 and 10^-24 respectively, and the p-value for the interaction is 0.0063, therefore we can say that there is evidence that each factor as well as the interaction of the factors are significant effects in the length of penguin flippers.
 
-Given that there is evidence that the factors have an effect, the size of the effect of each was calcualted using the Eta-Squared values.  The table and chart below show the results of this which effectively state that the species accounts for ~77.4% of the variance, and the gender ~6% of the variance.  While the interaction effect is statistically significant, the size of the effect is 0.5%.  It is important to note that a factor being significant and the size of the effect are different factors, and just because the interaction effect is negligible, it does not mean that it is not statistically significant. Cohen's guidelines provide an interpretation of these sizes which are shown in the chart.  For completeness, the residuals represent ~16% of the variance, which can be interpeted as 16% of the variance is statistical randomness than the factors cannot explain - remembering that the R² of the model was 0.8396, so we had already seen that the model accounted for ~84% of the variance.
+Given that there is evidence that the factors have an effect, the size of the effect of each was calculated using the Eta-Squared values.  The table and chart below show the results of this which effectively state that the species accounts for ~77.4% of the variance, and the gender ~6% of the variance.  While the interaction effect is statistically significant, the size of the effect is 0.5%.  It is important to note that a factor being significant and the size of the effect are different factors, and just because the interaction effect is negligible, it does not mean that it is not statistically significant. Cohen's guidelines provide an interpretation of these sizes which are shown in the chart.  For completeness, the residuals represent ~16% of the variance, which can be interpreted as 16% of the variance is statistical randomness than the factors cannot explain - remembering that the R² of the model was 0.8396, so we had already seen that the model accounted for ~84% of the variance.
 
 ```
-ADD
+ANOVA Table with Eta-Squared:
+                 Sum_Squares   df  F-Value     P-value  eta_squared
+C(species)         50185.027    2  784.583  1.570e-125        0.774
+C(sex)              3905.604    1  122.119   2.461e-24        0.060
+C(species):C(sex)    329.042    2    5.144   6.314e-03        0.005
+Residual           10458.107  327      NaN         NaN        0.161
 ```
 
 ![effect](2way_anova_with_effect.png)
@@ -127,9 +130,9 @@ ADD
 
 ### Conclusions:
 
-The conclusions are that the two factors (species and gender), as well as the interaction of the factors, have a satistically significant effect on the length of penguin flippers, however due to the unequal variances across groups that was reported, the results of this analysis are to be used with some caution.  
+The two factors (species and gender), as well as the interaction of the factors, have a statistically significant effect on the length of penguin flippers, however due to the unequal variances across groups that was reported, the results of this analysis are to be used with some caution.  
 
-The species is the primary factor for flipper length, with the interaction of factors significant but with a negligable effect in size.
+The species is the primary factor for flipper length, with the interaction of factors significant but with a negligible effect in size.
 
 ## Next steps:  
 
@@ -144,9 +147,9 @@ Recommendations and next steps for improving the analysis include:
   * Consider the effect of gender for each species, and assess where the interaction changes across species.  For example the effect of gender on flipper size may be larger in one species than another.
   * Do pair-wise analysis of species, i.e. compare species A to species B, to understand 
 * Addressing the unequal variances:
-  * The ANOVA test can be robust even when variances are unequal, if the group sizes are equal or have minimal differences.  As such it is sugested to collect more data to enable the use of equal group sizes.
+  * The ANOVA test can be robust even when variances are unequal, if the group sizes are equal or have minimal differences.  As such it is suggested to collect more data to enable the use of equal group sizes.
   * Understand the variances of each group in more detail to identify if which are the outliers and if there are any patterns to explain this.  In effect this is identifying the factor (species or gender) with the highest variance.
-  * Investigate the use of a transformation on the flipper lenght measurements (e.g. log, or square root), to see if this stabilises the variances, and if so applying the 2-Way ANOVA to the transformed data.
+  * Investigate the use of a transformation on the flipper length measurements (e.g. log, or square root), to see if this stabilises the variances, and if so applying the 2-Way ANOVA to the transformed data.
   * Apply a version of ANOVA that does not assume equal variances, such as Welch's ANOVA, and interpret the results
 * Expand the analysis:
   * Consider the expansion of the research to collect additional factors, or measurements, and undertake analysis of the effect of factors on other measurements (e.g. body mass, bill length etc.)

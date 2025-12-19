@@ -24,6 +24,7 @@ plt.rcParams['figure.figsize'] = (12, 8)
 # Load the tips dataset from seaborn (a classic example for 2-way ANOVA)
 # This dataset contains information about penguins
 df = sns.load_dataset('penguins')
+# print(df)
 
 print("2-WAY ANOVA WITH REPLICATION")
 print("\nDATASET: Palmer Penguin Data - from Seaborn")
