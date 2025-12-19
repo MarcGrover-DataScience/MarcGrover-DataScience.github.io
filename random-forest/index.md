@@ -18,10 +18,19 @@ This follows on from the Decision Tree project found [here](https://marcgrover-d
 
 ## Application:  
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
+A Random Forest is an ensemble learning method that constructs a multitude of decision trees during training. It is one of the most popular and versatile tools in industry because it follows the "wisdom of the crowd" principle: while a single decision tree might be biased or prone to errors, the collective vote of hundreds of trees usually leads to a much more accurate and stable prediction.  
 
+The primary reason industries move from a single decision tree to a random forest is the trade-off between interpretability and performance.  A decision tree is a single flowchart-like structure, and hence easier to understand the logic.  
+
+As such many examples of applications are similar to those described in the Decision Tree project.  
 
 ## Methodology:  
+
+The dataset used is the same as used in the Decision Tree project - the Wisconsin Breast Cancer dataset, which enables comparison of the two methods.  This is available from scikit-learn, including 569 observations, including 30 independent features.
+
+The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
+
+The method applied in the analysis:
 
 Details of the methodology applied in the project.
 
