@@ -22,7 +22,9 @@ A Random Forest is an ensemble learning method that constructs a multitude of de
 
 The primary reason industries move from a single decision tree to a random forest is the trade-off between interpretability and performance.  A decision tree is a single flowchart-like structure, and hence easier to understand the logic.  
 
-As such many examples of applications are similar to those described in the Decision Tree project.  
+ADD BENEFITS
+
+As such, many examples of applications and beenfits of Random Forests in commerical settings are similar to those described in the Decision Tree project.  
 
 ## Methodology:  
 
