@@ -1,35 +1,5 @@
-# from sklearn.datasets import load_breast_cancer
-# from sklearn.model_selection import train_test_split, cross_val_score
-# from sklearn.tree import DecisionTreeClassifier
-# from sklearn.metrics import accuracy_score, classification_report
-#
-# # Load
-# X, y = load_breast_cancer(return_X_y=True)
-# print(X)
-#
-# # Train/test split (stratified since binary)
-# X_train, X_test, y_train, y_test = train_test_split(
-#     X, y, test_size=0.25, random_state=42, stratify=y
-# )
-#
-# # Model (limit depth to reduce overfitting)
-# clf = DecisionTreeClassifier(max_depth=5, random_state=42)
-# clf.fit(X_train, y_train)
-#
-# # Evaluation
-# y_pred = clf.predict(X_test)
-# print("Test Accuracy:", accuracy_score(y_test, y_pred))
-# print(classification_report(y_test, y_pred))
-#
-# # Cross-validation (robustness)
-# cv_scores = cross_val_score(clf, X, y, cv=5)
-# print("CV Accuracy (mean ± std):", cv_scores.mean(), cv_scores.std())
-
-
-
 # Decision Tree Classification - Breast Cancer Dataset
 # Proof-of-Concept for Categorical Prediction
-
 
 import numpy as np
 import pandas as pd
@@ -107,17 +77,6 @@ print("Generating distribution and correlation plots")
 
 # Class distribution visualization
 plt.figure(figsize=(10, 6))
-# class_counts = pd.Series(y).value_counts()
-# sns.barplot(x=[target_names[0], target_names[1]], y=class_counts.values, palette='viridis')
-# plt.title('Class Distribution in Breast Cancer Dataset', fontsize=14, fontweight='bold')
-# plt.xlabel('Diagnosis', fontsize=12)
-# plt.ylabel('Count', fontsize=12)
-# plt.tight_layout()
-# plt.savefig('class_distribution.png', dpi=300, bbox_inches='tight')
-# plt.show()
-
-
-
 class_counts = pd.Series(y).value_counts()
 bars = sns.barplot(x=[target_names[0], target_names[1]], y=class_counts.values, palette='viridis')
 
@@ -183,6 +142,7 @@ for depth in max_depths:
     cv_scores.append(cv_score.mean())
 
 # Find optimal depth
+# optimal_depth = 4                                 # To manually set the number of levels
 optimal_depth = max_depths[np.argmax(test_scores)]
 print(f"Optimal tree depth: {optimal_depth}")
 print(f"Best test accuracy: {max(test_scores):.4f}")
@@ -248,19 +208,6 @@ importance_df = pd.DataFrame({
 print("\nTop 10 Most Important Features:")
 print(importance_df.head(10).to_string(index=False))
 
-# # Visualize feature importance (top 6)
-# plt.figure(figsize=(10, 8))
-# top_n = 6
-# top_features = importance_df.head(top_n)
-# sns.barplot(data=top_features, y='Feature', x='Importance', palette='viridis')
-# plt.title(f'Top {top_n} Feature Importances', fontsize=14, fontweight='bold')
-# plt.xlabel('Importance Score', fontsize=12)
-# plt.ylabel('Feature', fontsize=12)
-# plt.tight_layout()
-# plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
-# plt.show()
-
-
 # Visualize feature importance (top 6)
 plt.figure(figsize=(10, 8))
 top_n = 6
@@ -280,7 +227,6 @@ plt.ylabel('Feature', fontsize=12)
 plt.tight_layout()
 plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
 plt.show()
-
 
 # ============================================================================
 # 9. MODEL EVALUATION METRICS
