@@ -14,7 +14,7 @@ permalink: /random-forest/
 
 The business objective is …
 
-This follows on from the Decision Tree project found [here](marcgrover-datascience.github.io/decision-trees/)
+This follows on from the Decision Tree project found [here](https://marcgrover-datascience.github.io/decision-trees/)
 
 ## Application:  
 
