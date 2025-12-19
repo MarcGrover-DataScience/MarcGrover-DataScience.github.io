@@ -12,7 +12,7 @@ permalink: /random-forest/
 
 ## Goals and objectives:
 
-The business objective is …
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A previous project built a decision tree model achieving an accuracy of 93.86%, and the goal is to research if using a Random Forest predictor can produce more accurate results, and produce more insights into the data supporting the predictions.
 
 This follows on from the Decision Tree project found [here](https://marcgrover-datascience.github.io/decision-trees/)
 
