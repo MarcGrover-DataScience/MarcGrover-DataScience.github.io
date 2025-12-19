@@ -27,7 +27,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### K-Nearest Neighbours
 * ### [Decision Trees](/decision-trees/)
-* ### Random Forests
+* ### [Random Forests](/random-forest/)
 * ### Gradient Boosted Trees
 * ### Principal Component Analysis (PCA)
 * ### Association Rule
