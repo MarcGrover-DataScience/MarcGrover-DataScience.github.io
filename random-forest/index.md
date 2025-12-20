@@ -26,6 +26,13 @@ As such, many examples of applications and benefits of Random Forests in commeri
 
 The primary reason industries move from a single decision tree to a random forest is the trade-off between interpretability and performance.  A decision tree is a single flowchart-like structure, and hence easier to understand the logic.  In scenarios where an industry is highly regulated (like law or certain government sectors) and there is a need to explain exactly why every single decision was made, a single Decision Tree's transparency can be preferable, even if it produced lower accuracy.  The higher predictive accuracy of Randon Forests is typically the primary reason for using Random Forests.
 
+The primary benefits of using Random Forests over Decision Trees include:
+
+* Higher accuracy through ensemble voting
+* Reduced overfitting via randomisation
+* More robust to outliers and noise
+* Better generalisation to unseen data
+
 The key benefits of using a Random Forest include:
 
 * Handles Missing Data: In the real world, data is rarely perfect. Random Forests can maintain high accuracy even when a significant portion of the data is missing.
@@ -54,6 +61,15 @@ Results from the project related to the business objective.
 When tuning hyperparameters like the number of trees (n_estimators) and tree depth (max_depth), the standard metric to apply is the Cross-Validation (CV) accuracy score based on the training set.
 
 The alternative, using test set to make these decisions, can lead to overly optimistic results and poor performance on truly "unseen" data.
+
+![tree_number](rf_trees_analysis.png)
+
+![tree_depth](rf_depth_analysis.png)
+
+![tree_example](rf_single_tree_structure.png)
+
+![feature_importance](rf_feature_importance.png)
+
 
 ### Conclusions:
 
