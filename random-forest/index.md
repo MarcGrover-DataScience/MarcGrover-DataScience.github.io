@@ -42,7 +42,7 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 The method applied in the analysis:
 
 * Dataset validation to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
-* Decision Tree Volume Analysis
+* Decision Tree Number Analysis
 * Decision Tree Depth Analysis
 
 Details of the methodology applied in the project.
@@ -50,6 +50,10 @@ Details of the methodology applied in the project.
 ## Results and conclusions:
 
 Results from the project related to the business objective.
+
+When tuning hyperparameters like the number of trees (n_estimators) and tree depth (max_depth), the standard metric to apply is the Cross-Validation (CV) accuracy score based on the training set.
+
+The alternative, using test set to make these decisions, can lead to overly optimistic results and poor performance on truly "unseen" data.
 
 ### Conclusions:
 
