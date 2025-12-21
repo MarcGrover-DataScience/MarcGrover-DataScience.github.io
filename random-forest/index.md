@@ -96,8 +96,6 @@ To summarise the analysis has provided evidence that for the given data the opti
 * number of trees (n_estimators) = 150
 * tree depth (max_depth) = 10
 
-150 trees was determined to be the optimal value, using the CV Accuracy Score as the metric being assessed.
-
 ### Model Fitting and Validation:
 
 Using the optimal numer of trees and optimal tree depth, the random forest was trained.  For illustrative purposes, one of the 150 trees is vissualised below, noting the increased depth and overall complexity to the optimal decision tree created in the previous project.  The accuracy of this single tree in isolation would likely have less accuracy that the optimal tree in the previous project, however the accuracy of the collective 150 decision trees in the random forest produce a more accurate model (as highlighted below).
