@@ -14,6 +14,8 @@ permalink: /random-forest/
 
 The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A previous project built a decision tree model achieving an accuracy of 93.86%, and the goal is to research if using a Random Forest predictor can produce more accurate results, and produce more insights into the data supporting the predictions.
 
+This project contains many references to the Decision Tree project as one of the key analysis goals is to understand the comparison between the two approaches.
+
 This follows on from the Decision Tree project found [here](https://marcgrover-datascience.github.io/decision-trees/)
 
 Add results...
@@ -68,19 +70,47 @@ When tuning hyperparameters like the number of trees (n_estimators) and tree dep
 
 The alternative, using the accuracy score based on the test set to make these decisions, can lead to overly optimistic results and poor performance on truly "unseen" data.
 
-Analysis was undertaken for Random Forests with the following number of trees; 10, 25, 50, 75, 100, 150, 200.  For each random forest the following metrics were calculated:
+To determine the optimal number of trees in the random forest, key metrics were calculated for Random Forests with the following number of trees; 10, 25, 50, 75, 100, 150, 200, the three metrics being: 
 
-* accuracy on the training set
-* accuracy on the test set
+* Accuracy on the training set
+* Accuracy on the test set
 * Cross-Validation (CV) Accuracy score, where the number of folds was set to 5.
+
+It should be noted that there was no maximum depth defined for any of these random forests built.
 
 ![tree_number](rf_trees_analysis.png)
 
+Based on this analysis, 150 trees was determined to be the optimal value, using the CV Accuracy Score as the metric being assessed.
+
 ### Tree Depth Analysis
+
+Similarly the optimal tree depth was determined, using 150 trees per random forest, which was previously identified as the optimal number.  The same three key metrics were calculated for each random forest with a maximum depth of; 3, 5, 7, 10, 15, 20, None
+
+The chart below shows the metrics for each random forest for each of the maximum depths.
 
 ![tree_depth](rf_depth_analysis.png)
 
+Based on this analysis, using the CV Accuracy Score as the metric to assess the optimal structure, it was determined that a maximum depth of 10 is optimal.
+
+To summarise the analysis has provided evidence that for the given data the optimal hyperparameters are:
+* number of trees (n_estimators) = 150
+* tree depth (max_depth) = 10
+
+150 trees was determined to be the optimal value, using the CV Accuracy Score as the metric being assessed.
+
+### Model Fitting and Validation:
+
+Using the optimal numer of trees and optimal tree depth, the random forest was trained.  For illustrative purposes, one of the 150 trees is vissualised below, noting the increased depth and overall complexity to the optimal decision tree created in the previous project.  The accuracy of this single tree in isolation would likely have less accuracy that the optimal tree in the previous project, however the accuracy of the collective 150 decision trees in the random forest produce a more accurate model (as highlighted below).
+
 ![tree_example](rf_single_tree_structure.png)
+
+The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
+
+Accuracy: 0.9386
+Precision: 0.9452 (Predicted Positives)
+Recall: 0.9583 (True Positive Rate)
+F1-Score: 0.9517
+Specificity: 0.9048 (True Negative Rate)
 
 ![feature_importance](rf_feature_importance.png)
 
@@ -92,6 +122,11 @@ Conclusions from the project findings and results.
 ## Next steps:  
 
 With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+
+* Undertake more detailed analysis of the volume of trees to be included in the random forest, to refine the optimal number of trees.  For example consider 110, 120, 130 and 140 trees.
+* Undertake more detailed analysis of the maximum tree depth to be included in the random forest, to further refine the model.  For example consider maximum_depths of 8 and 9.
+
+* TASK - Run model with other hyperparameter options as listed above
 
 
 ## Python code:
