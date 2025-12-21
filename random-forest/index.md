@@ -121,6 +121,26 @@ The model performance was evaluated to quantify the quality of the predictions. 
 
 ### Feature Importance:
 
+A key insight from the generation of a Random Forest is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
+
+The most important factors are listed below, along with the importance score. The total importance sums to 1. It should be noted that with a Random Forest, it is typical that all features have a non-zero importance score, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. For the decision tree project, where the optimum tree depth was 3, only 6 features had a non-zero importance score.
+
+The top 10 most important features are:
+
+```
+             Feature  Importance
+          worst area    0.1413
+     worst perimeter    0.1338
+worst concave points    0.1107
+ mean concave points    0.0882
+        worst radius    0.0821
+         mean radius    0.0638
+      mean perimeter    0.0527
+      mean concavity    0.0504
+           mean area    0.0504
+     worst concavity    0.0339
+```
+
 ![feature_importance](rf_feature_importance.png)
 
 
