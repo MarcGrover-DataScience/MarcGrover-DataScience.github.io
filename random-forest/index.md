@@ -12,7 +12,7 @@ permalink: /random-forest/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A previous project built a decision tree model achieving an accuracy of 93.86%, and the goal is to research if using a Random Forest predictor can produce more accurate results, and produce more insights into the data supporting the predictions.
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A previous project built a decision tree model achieving an accuracy of 93.86%, and the goal is to research if using a Random Forest predictor can produce more accurate results, and produce more insights into the data supporting the predictions.  The predicted results are binary 'Malignant', 'Benign' values.
 
 This project contains many references to the Decision Tree project as one of the key analysis goals is to understand the comparison between the two approaches.
 
@@ -102,13 +102,24 @@ Using the optimal numer of trees and optimal tree depth, the random forest was t
 
 ![tree_example](rf_single_tree_structure.png)
 
+The random forest contains 150 trees, which have the following metrics:
+
+* Average tree depth: 7.07  
+* Min tree depth: 4  
+* Max tree depth: 10  
+* Average nodes per tree: 35.67  
+
 The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
 
-Accuracy: 0.9386
-Precision: 0.9452 (Predicted Positives)
-Recall: 0.9583 (True Positive Rate)
-F1-Score: 0.9517
-Specificity: 0.9048 (True Negative Rate)
+* Accuracy: 0.9386  
+* Precision: 0.9452 (Predicted Positives)  
+* Recall: 0.9583 (True Positive Rate)  
+* F1-Score: 0.9517  
+* Specificity: 0.9048 (True Negative Rate)  
+
+![confusion_matrix](rf_confusion_matrix.png)
+
+### Feature Importance:
 
 ![feature_importance](rf_feature_importance.png)
 
