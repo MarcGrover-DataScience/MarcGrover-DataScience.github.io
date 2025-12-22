@@ -112,11 +112,21 @@ The random forest contains 150 trees, which have the following metrics:
 
 The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
 
-* Accuracy: 0.9386  
-* Precision: 0.9452 (Predicted Positives)  
-* Recall: 0.9583 (True Positive Rate)  
-* F1-Score: 0.9517  
-* Specificity: 0.9048 (True Negative Rate)  
+* Accuracy: 0.9561  
+* Precision: 0.9589 (Predicted Positives)  
+* Recall: 0.9722 (True Positive Rate)  
+* F1-Score: 0.9655  
+* Specificity: XXXXX 0.9048 (True Negative Rate)
+
+The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions. This is based on the testing dataset.
+
+```
+              precision    recall  f1-score   support
+   malignant       0.95      0.93      0.94        42
+      benign       0.96      0.97      0.97        72
+```
+
+The confusion matrix visually demonstrates the performance of the random forest applied to the testing dataset.
 
 ![confusion_matrix](rf_confusion_matrix.png)
 
