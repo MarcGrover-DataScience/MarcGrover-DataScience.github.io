@@ -130,6 +130,16 @@ The confusion matrix visually demonstrates the performance of the random forest 
 
 ![confusion_matrix](rf_confusion_matrix.png)
 
+### Model Confidence:
+
+Prediction Confidence (often referred to as Prediction Probability) refers to a numerical score that represents how "sure" the model is that a specific data point belongs to a certain category.  It is fundamentally different from Accuracy, which states how often the model is right; Confidence measures how much the model "believes" in its specific answer for a single instance.
+
+In a single tree, confidence is determined by the purity of the leaf node where the data point ends up.  When you train a tree, each leaf node contains a small group of samples from the training data.  A Random Forest is an ensemble of many trees, because it has multiple trees, the confidence is usually calculated by averaging the probabilities from every individual tree.
+
+Confidence is often more important than the final label in high-importance scenarios.
+
+ADD Confidence stats
+
 ### Feature Importance:
 
 A key insight from the generation of a Random Forest is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
