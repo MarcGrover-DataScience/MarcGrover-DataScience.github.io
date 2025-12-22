@@ -53,6 +53,7 @@ The method applied in the analysis:
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
 * **Decision Tree Number Analysis** to determine the optimal number of trees in the forest, balancing accuracy of the model and compute resources required.
 * **Decision Tree Depth Analysis** to determine the maximum depth of each tree in the forest to achieve optimal accuracy, prevent overfitting and balance with the compute resources required.
+* **Fitting and Validating Random Forest Model** to build the dandom forest using the hyperparameters for the optimal number of trees and optimal tree depth.
 
 Details of the methodology applied in the project.
 
@@ -125,6 +126,8 @@ A key insight from the generation of a Random Forest is the importance of each f
 
 The most important factors are listed below, along with the importance score. The total importance sums to 1. It should be noted that with a Random Forest, it is typical that all features have a non-zero importance score, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. For the decision tree project, where the optimum tree depth was 3, only 6 features had a non-zero importance score.
 
+Feature importance in Random Forest is calculated by measuring how much each feature decreases impurity (Gini/entropy).  It is calcuated by averaging importance across all trees in the forest.  
+
 The top 10 most important features are:
 
 ```
@@ -140,6 +143,7 @@ worst concave points    0.1107
            mean area    0.0504
      worst concavity    0.0339
 ```
+The top 10 features, by importance, are:
 
 ![feature_importance](rf_feature_importance.png)
 
