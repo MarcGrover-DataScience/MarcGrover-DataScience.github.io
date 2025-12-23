@@ -180,11 +180,20 @@ The top 10 features, by importance, are:
 
 ### Conclusions:
 
-Conclusions from the project findings and results.
-
 The overall conclusions are summarised as:
 
-
+* The random forest produced accurate predictions and is an appropriate tool
+* Model Performance:
+  * The random forest achieves excellent predictive accuracy (>95.6%) on the test set, demonstrating strong capability for breast cancer classification predictions
+  * The decision tree had an accuracy of 93.9%, which relates to approximately 61 incorrect predictions per 1,000 observations, however the random forest produces approximately 44 incorrect predictions per 1,000 observations, which equates to approximately 28% less incorrect predictions.
+  * High precision and recall indicate the model reliably identifies both malignant and benign cases with minimal false positives/negatives
+  * The cross-validation scores closely align with test scores, suggesting the model generalises well and isn’t overfitting
+* Feature Insights:
+  * Different most important feature and related to all factors
+* Model Characteristics:
+The optimal tree depth (typically 3-5 levels) suggests the decision boundaries are relatively simple
+Beyond optimal depth, performance plateaus or declines, indicating unnecessary complexity leads to overfitting
+The simplicity of the tree structure makes it highly interpretable for clinical settings
 
 ## Next steps:  
 
