@@ -203,6 +203,8 @@ With any analysis it is important to assess how the model and application of the
 * Undertake more detailed analysis of the maximum tree depth to be included in the random forest, to further refine the model.  For example consider maximum_depths of 8 and 9.
 
 * TASK - Run model with other hyperparameter options as listed above
+* TASK - Conclusions
+* TASK - Next Steps
 
 
 ## Python code:
