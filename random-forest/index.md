@@ -116,7 +116,7 @@ The model performance was evaluated to quantify the quality of the predictions. 
 * Precision: 0.9589 (Predicted Positives)  
 * Recall: 0.9722 (True Positive Rate)  
 * F1-Score: 0.9655  
-* Specificity: XXXXX 0.9048 (True Negative Rate)
+* Specificity: 0.9286 (True Negative Rate)
 
 The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions. This is based on the testing dataset.
 
@@ -129,6 +129,13 @@ The detailed classification report provides additional information on the predic
 The confusion matrix visually demonstrates the performance of the random forest applied to the testing dataset.
 
 ![confusion_matrix](rf_confusion_matrix.png)
+
+In summary the confusion matrix presents the results:
+
+* True Positives (True Benign): 70
+* True Negatives (True Malignant): 39
+* False Positives (False Benign): 3
+* False Negatives (False Malignant): 2
 
 ### Model Prediction Confidence:
 
@@ -143,8 +150,6 @@ For the random forest the mean confidence for each of the 114 test observations 
 Each observation has a confidence value, the histrogram below shows the distribution of these confidences.  This shows that many of the observations have a prediction confidence over 0.9 and 0.95, however there are observations that yielded a predictions with a confidence lower than 0.8.  In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further tests be undertaken.  In this project related to cancerous cells, patients with such low confidence predictions may undergo further medical testing and analysis.
 
 ![confidence_distribution](rf_confidence_distribution.png)
-
-ADD Confidence stats
 
 ### Feature Importance:
 
@@ -173,10 +178,13 @@ The top 10 features, by importance, are:
 
 ![feature_importance](rf_feature_importance.png)
 
-
 ### Conclusions:
 
 Conclusions from the project findings and results.
+
+The overall conclusions are summarised as:
+
+
 
 ## Next steps:  
 
