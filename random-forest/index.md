@@ -18,7 +18,7 @@ This project contains many references to the Decision Tree project as one of the
 
 This follows on from the Decision Tree project found [here](https://marcgrover-datascience.github.io/decision-trees/)
 
-Add results...
+An optimal random forest model was built to make the predictions, achieving an accuracy of 95.61%, using optimal hyperparameters of 150 trees, maximum depth of 10.  For the random forest the most important feature was identified as 'worse area'.  The accuracy increased by 1.75% from the optmial decision tree in the previous project.
 
 ## Application:  
 
@@ -130,13 +130,15 @@ The confusion matrix visually demonstrates the performance of the random forest 
 
 ![confusion_matrix](rf_confusion_matrix.png)
 
-### Model Confidence:
+### Model Prediction Confidence:
 
 Prediction Confidence (often referred to as Prediction Probability) refers to a numerical score that represents how "sure" the model is that a specific data point belongs to a certain category.  It is fundamentally different from Accuracy, which states how often the model is right; Confidence measures how much the model "believes" in its specific answer for a single instance.
 
 In a single tree, confidence is determined by the purity of the leaf node where the data point ends up.  When you train a tree, each leaf node contains a small group of samples from the training data.  A Random Forest is an ensemble of many trees, because it has multiple trees, the confidence is usually calculated by averaging the probabilities from every individual tree.
 
 Confidence is often more important than the final label in high-importance scenarios.
+
+For the random forest the mean confidence across all decision trees is 0.9336.
 
 ADD Confidence stats
 
@@ -148,7 +150,7 @@ The most important factors are listed below, along with the importance score. Th
 
 Feature importance in Random Forest is calculated by measuring how much each feature decreases impurity (Gini/entropy).  It is calcuated by averaging importance across all trees in the forest.  
 
-The top 10 most important features are:
+The top 10 most important features are blow, noting that for the decision tree project, the 'worst radius' feature was identified as the most important, whereas for the random forest it is the 5th most important feature:
 
 ```
              Feature  Importance
