@@ -138,7 +138,11 @@ In a single tree, confidence is determined by the purity of the leaf node where 
 
 Confidence is often more important than the final label in high-importance scenarios.
 
-For the random forest the mean confidence across all decision trees is 0.9336.
+For the random forest the mean confidence for each of the 114 test observations is 0.9336.
+
+Each observation has a confidence value, the histrogram below shows the distribution of these confidences.  This shows that many of the observations have a prediction confidence over 0.9 and 0.95, however there are observations that yielded a predictions with a confidence lower than 0.8.  In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further tests be undertaken.  In this project related to cancerous cells, patients with such low confidence predictions may undergo further medical testing and analysis.
+
+![confidence_distribution](rf_confidence_distribution.png)
 
 ADD Confidence stats
 
