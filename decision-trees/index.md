@@ -150,8 +150,6 @@ The overall conclusions are summarised as:
 
 With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
 
-* Feature engineering - including removing and / or adding features
-
 * Ensemble Methods: Implement Random Forests or Gradient Boosting to improve robustness and potentially increase accuracy by 2-5%.  Random Forests reduce variance through multiple trees, and XGBoost/LightGBM offer superior performance with built-in regularisation.
 * Feature Engineering: 
   * Create interaction terms between top features (e.g., radius × concavity).
