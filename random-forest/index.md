@@ -184,16 +184,22 @@ The overall conclusions are summarised as:
 
 * The random forest produced accurate predictions and is an appropriate tool
 * Model Performance:
-  * The random forest achieves excellent predictive accuracy (>95.6%) on the test set, demonstrating strong capability for breast cancer classification predictions
+  * The random forest achieves excellent predictive accuracy (>95.6%) on the test set, demonstrating strong capability for breast cancer classification predictions.  
   * The decision tree had an accuracy of 93.9%, which relates to approximately 61 incorrect predictions per 1,000 observations, however the random forest produces approximately 44 incorrect predictions per 1,000 observations, which equates to approximately 28% less incorrect predictions.
-  * High precision and recall indicate the model reliably identifies both malignant and benign cases with minimal false positives/negatives
-  * The cross-validation scores closely align with test scores, suggesting the model generalises well and isn’t overfitting
+  * This represents a meaningful improvement in predictive capability while maintaining excellent performance.  
+  * High precision and recall indicate the model reliably identifies both malignant and benign cases with minimal false positives/negatives.  
+  * The cross-validation scores closely align with test scores, suggesting the model generalises well and isn’t overfitting.  
+  * Random Forest predictions are more stable across different data samples due to voting from multiple trees. Single decision trees can be sensitive to small changes in training data.
+  * Random Forest provides probability estimates that are high confidence scores (typically >0.95), which correlate strongly with correct predictions, in this example giving clinicians valuable insight into prediction reliability
 * Feature Insights:
-  * Different most important feature and related to all factors
+  * The top feature is 'worst area', whereas for the decision tree the top feature was 'worst radius', though this is in the top 5 features for the random forest.
+  * The nature of the decision tree meant that only a few features had a non-zero importance, however for the random forest all factors had a non-zero importance.
+  * Random Forest feature importance is more robust because it averages across many trees with different feature subsets, reducing the impact of false correlations
+  * The top 10 features account for approximately 90% of the predictive power of the random forest model.  This can suggest that features are highly correlated, and the dimensionality reduction could simplfy the model without losing accuracy. 
 * Model Characteristics:
+  * While the single Decision Tree is fully interpretable (one clear decision path), Random Forest requires aggregating 50-100+ trees, making it a "black box" model
 The optimal tree depth (typically 3-5 levels) suggests the decision boundaries are relatively simple
 Beyond optimal depth, performance plateaus or declines, indicating unnecessary complexity leads to overfitting
-The simplicity of the tree structure makes it highly interpretable for clinical settings
 
 ## Next steps:  
 
@@ -201,6 +207,9 @@ With any analysis it is important to assess how the model and application of the
 
 * Undertake more detailed analysis of the volume of trees to be included in the random forest, to refine the optimal number of trees.  For example consider 110, 120, 130 and 140 trees.
 * Undertake more detailed analysis of the maximum tree depth to be included in the random forest, to further refine the model.  For example consider maximum_depths of 8 and 9.
+* Feature engineering
+  * Consider investigating the high-correlation between features, and the potential benefit to reducing the number of features included in the random forest.
+  * Dimensionality reduction
 
 * TASK - Run model with other hyperparameter options as listed above
 * TASK - Conclusions
