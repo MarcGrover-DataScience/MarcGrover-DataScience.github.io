@@ -28,7 +28,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### K-Nearest Neighbours
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
-* ### Gradient Boosted Trees
+* ### [Gradient Boosted Trees](/gradient-boosted-trees/)
 * ### Principal Component Analysis (PCA)
 * ### Association Rule
 * ### Causal Impact Analysis

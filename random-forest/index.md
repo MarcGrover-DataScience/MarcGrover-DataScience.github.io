@@ -16,15 +16,15 @@ This project contains many references to the Decision Tree project as one of the
 
 This follows on from the Decision Tree project found [here](https://marcgrover-datascience.github.io/decision-trees/)
 
-An optimal random forest model was built to make the predictions, achieving an accuracy of 95.61%, using optimal hyperparameters of 150 trees, maximum depth of 10.  For the random forest the most important feature was identified as 'worse area'.  The accuracy increased by 1.75% from the optmial decision tree in the previous project.
+An optimal random forest model was built to make the predictions, achieving an accuracy of 95.61%, using optimal hyperparameters of 150 trees, maximum depth of 10.  For the random forest the most important feature was identified as 'worse area'.  The accuracy increased by 1.75% from the optimal decision tree in the previous project.
 
 ## Application:  
 
 A Random Forest is an ensemble learning method that constructs a multitude of decision trees during training. It is one of the most popular and versatile tools in industry because it follows the "wisdom of the crowd" principle: while a single decision tree might be biased or prone to errors, the collective vote of hundreds of trees usually leads to a much more accurate and stable prediction.  
 
-As such, many examples of applications and benefits of Random Forests in commerical settings are similar to those described in the Decision Tree project.  
+As such, many examples of applications and benefits of Random Forests in commercial settings are similar to those described in the Decision Tree project.  
 
-The primary reason industries move from a single decision tree to a random forest is the trade-off between interpretability and performance.  A decision tree is a single flowchart-like structure, and hence easier to understand the logic.  In scenarios where an industry is highly regulated (like law or certain government sectors) and there is a need to explain exactly why every single decision was made, a single Decision Tree's transparency can be preferable, even if it produced lower accuracy.  The higher predictive accuracy of Randon Forests is typically the primary reason for using Random Forests.
+The primary reason industries move from a single decision tree to a random forest is the trade-off between interpretability and performance.  A decision tree is a single flowchart-like structure, and hence easier to understand the logic.  In scenarios where an industry is highly regulated (like law or certain government sectors) and there is a need to explain exactly why every single decision was made, a single Decision Tree's transparency can be preferable, even if it produced lower accuracy.  The higher predictive accuracy of Random Forests is typically the primary reason for using Random Forests.
 
 The primary benefits of using Random Forests over Decision Trees include:
 
@@ -51,7 +51,7 @@ The method applied in the analysis:
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
 * **Decision Tree Number Analysis** to determine the optimal number of trees in the forest, balancing accuracy of the model and compute resources required.
 * **Decision Tree Depth Analysis** to determine the maximum depth of each tree in the forest to achieve optimal accuracy, prevent overfitting and balance with the compute resources required.
-* **Fitting and Validating Random Forest Model** to build the dandom forest using the hyperparameters for the optimal number of trees and optimal tree depth.
+* **Fitting and Validating Random Forest Model** to build the random forest using the hyperparameters for the optimal number of trees and optimal tree depth.
 
 Details of the methodology applied in the project.
 
@@ -97,7 +97,7 @@ To summarise the analysis has provided evidence that for the given data the opti
 
 ### Model Fitting and Validation:
 
-Using the optimal numer of trees and optimal tree depth, the random forest was trained.  For illustrative purposes, one of the 150 trees is vissualised below, noting the increased depth and overall complexity to the optimal decision tree created in the previous project.  The accuracy of this single tree in isolation would likely have less accuracy that the optimal tree in the previous project, however the accuracy of the collective 150 decision trees in the random forest produce a more accurate model (as highlighted below).
+Using the optimal number of trees and optimal tree depth, the random forest was trained.  For illustrative purposes, one of the 150 trees is vissualised below, noting the increased depth and overall complexity to the optimal decision tree created in the previous project.  The accuracy of this single tree in isolation would likely have less accuracy that the optimal tree in the previous project, however the accuracy of the collective 150 decision trees in the random forest produce a more accurate model (as highlighted below).
 
 ![tree_example](rf_single_tree_structure.png)
 
@@ -145,7 +145,7 @@ Confidence is often more important than the final label in high-importance scena
 
 For the random forest the mean confidence for each of the 114 test observations is 0.9336.
 
-Each observation has a confidence value, the histrogram below shows the distribution of these confidences.  This shows that many of the observations have a prediction confidence over 0.9 and 0.95, however there are observations that yielded a predictions with a confidence lower than 0.8.  In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further tests be undertaken.  In this project related to cancerous cells, patients with such low confidence predictions may undergo further medical testing and analysis.
+Each observation has a confidence value, the histogram below shows the distribution of these confidences.  This shows that many of the observations have a prediction confidence over 0.9 and 0.95, however there are observations that yielded a predictions with a confidence lower than 0.8.  In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further tests be undertaken.  In this project related to cancerous cells, patients with such low confidence predictions may undergo further medical testing and analysis.
 
 ![confidence_distribution](rf_confidence_distribution.png)
 
@@ -155,7 +155,7 @@ A key insight from the generation of a Random Forest is the importance of each f
 
 The most important factors are listed below, along with the importance score. The total importance sums to 1. It should be noted that with a Random Forest, it is typical that all features have a non-zero importance score, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. For the decision tree project, where the optimum tree depth was 3, only 6 features had a non-zero importance score.
 
-Feature importance in Random Forest is calculated by measuring how much each feature decreases impurity (Gini/entropy).  It is calcuated by averaging importance across all trees in the forest.  
+Feature importance in Random Forest is calculated by measuring how much each feature decreases impurity (Gini/entropy).  It is calculated by averaging importance across all trees in the forest.  
 
 The top 10 most important features are blow, noting that for the decision tree project, the 'worst radius' feature was identified as the most important, whereas for the random forest it is the 5th most important feature:
 
@@ -194,10 +194,10 @@ The overall conclusions are summarised as:
   * The top feature is 'worst area', whereas for the decision tree the top feature was 'worst radius', though this is in the top 5 features for the random forest.
   * The nature of the decision tree meant that only a few features had a non-zero importance, however for the random forest all factors had a non-zero importance.
   * Random Forest feature importance is more robust because it averages across many trees with different feature subsets, reducing the impact of false correlations
-  * The top 10 features account for approximately 90% of the predictive power of the random forest model.  This can suggest that features are highly correlated, and the dimensionality reduction could simplfy the model without losing accuracy. 
+  * The top 10 features account for approximately 90% of the predictive power of the random forest model.  This can suggest that features are highly correlated, and the dimensionality reduction could simplify the model without losing accuracy. 
 * Model Characteristics:
   * While the single Decision Tree is fully interpretable (one clear decision path), Random Forest requires aggregating 50-100+ trees, making it a "black box" model
-  * Random Forest requires 50-100x more computation than a single tree, though this is negligible for this dataset size, it can be signifiant for larger datasets and where quick computation is required.
+  * Random Forest requires 50-100x more computation than a single tree, though this is negligible for this dataset size, it can be significant for larger datasets and where quick computation is required.
   * For the dataset, both the decision tree and random forest models benefit from depth limiting, confirming that simple decision boundaries work well for this dataset.  
   * Accuracy plateaus at approximately 150 trees, indicating additional trees offer no benefit for this dataset.  
 
@@ -205,7 +205,7 @@ The overall conclusions are summarised as:
 
 With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.  The following are example recommendations for future research and implementation considerations.
 
-* Addditional Models:
+* Additional Models:
   * Research Gradient Boosting Models, such as Gradient Boosted Trees (XGBoost, LightGBM, CatBoost).  These offer sequential learning (unlike the random forest with parallel trees), and can provide improved accuracy on random forests.
   * Consider implementing deep learning approaches such as neural networks.  
   * Consider blending models to optimise performance, for example combining multiple models including random forests, gradient boost trees, logistic regression or neural networks.
