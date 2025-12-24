@@ -113,19 +113,7 @@ print(f"Testing set class distribution: {np.bincount(y_test)}")
 # 5. MODEL TUNING - OPTIMAL PARAMETERS
 # ============================================================================
 print("\n5. Fine-tuning Random Forest Model")
-# print("\nRANDOM FOREST EXPLANATION:")
-# print("Random Forest is an ensemble method that:")
-# print("• Builds multiple decision trees (a 'forest')")
-# print("• Each tree trains on a random subset of data (bootstrap sampling)")
-# print("• Each split considers only a random subset of features")
-# print("• Final prediction: majority vote from all trees")
-# print("\nBenefits over single Decision Tree:")
-# print("• Higher accuracy through ensemble voting")
-# print("• Reduced overfitting via randomization")
-# print("• More robust to outliers and noise")
-# print("• Better generalization to unseen data")
-# print("-" * 70)
-#
+
 # Test different number of trees
 n_estimators_range = [10, 25, 50, 75, 100, 150, 200]
 max_depths = [3, 5, 7, 10, 15, 20, None]
@@ -210,267 +198,258 @@ plt.tight_layout()
 plt.savefig('rf_depth_analysis.png', dpi=300, bbox_inches='tight')
 plt.show()
 
-# # ============================================================================
-# # 6. TRAIN OPTIMAL RANDOM FOREST MODEL
-# # ============================================================================
-# print("\6. Training Optimal Random Forest Model")
-#
-# rf_optimal = RandomForestClassifier(
-#     n_estimators=optimal_n_trees,
-#     max_depth=optimal_depth,
-#     random_state=42,
-#     n_jobs=-1
-# )
-# rf_optimal.fit(X_train, y_train)
-#
-# print(f"Model trained with n_estimators={optimal_n_trees}, max_depth={optimal_depth}")
-#
-# # Forest characteristics
-# print(f"\nForest Characteristics:")
-# print(f"  Total number of trees: {len(rf_optimal.estimators_)}")
-# print(f"  Maximum tree depth: {optimal_depth}")
-# print(f"  Number of features: {rf_optimal.n_features_in_}")
-# print(f"  Number of classes: {rf_optimal.n_classes_}")
-#
-# # ============================================================================
-# # 7. VISUALIZE ONE TREE FROM THE FOREST
-# # ============================================================================
-# print("\n7. Visualizing a Single Tree from the Forest")
-#
-# # Extract one tree (the first tree in the forest)
-# single_tree = rf_optimal.estimators_[0]
-#
-# plt.figure(figsize=(20, 10))
-# plot_tree(single_tree,
-#           feature_names=feature_names,
-#           class_names=target_names,
-#           filled=True,
-#           rounded=True,
-#           fontsize=9)
-# plt.title(f'Single Decision Tree from Random Forest (Tree #1 of {optimal_n_trees})',
-#           fontsize=16, fontweight='bold', pad=20)
-# plt.tight_layout()
-# plt.savefig('rf_single_tree_structure.png', dpi=300, bbox_inches='tight')
-# plt.show()
-# print("Single tree visualization saved")
-#
-# # Tree statistics
-# tree_depths = [estimator.get_depth() for estimator in rf_optimal.estimators_]
-# tree_n_nodes = [estimator.tree_.node_count for estimator in rf_optimal.estimators_]
-#
-# print(f"\nForest Tree Statistics:")
-# print(f"  Average tree depth: {np.mean(tree_depths):.2f}")
-# print(f"  Min/Max tree depth: {np.min(tree_depths)}/{np.max(tree_depths)}")
-# print(f"  Average nodes per tree: {np.mean(tree_n_nodes):.2f}")
-# print(f"  Total nodes in forest: {np.sum(tree_n_nodes)}")
-#
-# # ============================================================================
-# # 8. FEATURE IMPORTANCE ANALYSIS
-# # ============================================================================
-# print("\n8. Performing Feature Importance Analysis...")
-# print("\nRANDOM FOREST FEATURE IMPORTANCE:")
-# print("Feature importance in Random Forest is calculated by:")
-# print("• Measuring how much each feature decreases impurity (Gini/entropy)")
-# print("• Averaging importance across ALL trees in the forest")
-# print("• More robust than single tree due to ensemble averaging")
-# print("• Accounts for feature interactions across different trees")
-#
-# # Get feature importances
-# feature_importance = rf_optimal.feature_importances_
-# importance_df = pd.DataFrame({
-#     'Feature': feature_names,
-#     'Importance': feature_importance
-# }).sort_values('Importance', ascending=False)
-#
-# print("\nTop 10 Most Important Features:")
-# print(importance_df.head(10).to_string(index=False))
-#
-# # Calculate cumulative importance
-# importance_df['Cumulative'] = importance_df['Importance'].cumsum()
-# features_90_pct = (importance_df['Cumulative'] <= 0.90).sum()
-# print(f"\nFeatures accounting for 90% of importance: {features_90_pct}")
-#
-# # Visualize feature importance (top 15)
-# plt.figure(figsize=(10, 8))
-# top_n = 15
-# top_features = importance_df.head(top_n)
-# bars = sns.barplot(data=top_features, y='Feature', x='Importance', palette='viridis')
-#
-# # Add value labels on bars
-# for i, bar in enumerate(bars.patches):
-#     width = bar.get_width()
-#     bars.text(width, bar.get_y() + bar.get_height() / 2.,
-#               f'{width:.4f}',
-#               ha='left', va='center', fontsize=10, fontweight='bold',
-#               color='white' if width > importance_df['Importance'].max() * 0.5 else 'black')
-#
-# plt.title(f'Top {top_n} Feature Importances - Random Forest', fontsize=14, fontweight='bold')
-# plt.xlabel('Importance Score', fontsize=12)
-# plt.ylabel('Feature', fontsize=12)
-# plt.tight_layout()
-# plt.savefig('rf_feature_importance.png', dpi=300, bbox_inches='tight')
-# plt.show()
-# print("✓ Feature importance plot saved")
-#
-# # Cumulative importance plot
-# plt.figure(figsize=(10, 6))
-# plt.plot(range(1, len(importance_df) + 1), importance_df['Cumulative'].values,
-#          marker='o', linewidth=2, markersize=4)
-# plt.axhline(y=0.90, color='red', linestyle='--', label='90% Threshold')
-# plt.axvline(x=features_90_pct, color='red', linestyle='--',
-#             label=f'{features_90_pct} Features')
-# plt.xlabel('Number of Features', fontsize=12)
-# plt.ylabel('Cumulative Importance', fontsize=12)
-# plt.title('Cumulative Feature Importance', fontsize=14, fontweight='bold')
-# plt.legend(fontsize=10)
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.savefig('rf_cumulative_importance.png', dpi=300, bbox_inches='tight')
-# plt.show()
-# print("✓ Cumulative importance plot saved")
-#
-# # ============================================================================
-# # 9. MODEL EVALUATION METRICS
-# # ============================================================================
-# print("\n[9] Evaluating Random Forest Performance...")
-#
-# # Make predictions
-# y_pred_train = rf_optimal.predict(X_train)
-# y_pred_test = rf_optimal.predict(X_test)
-#
-# # Get prediction probabilities for additional analysis
-# y_pred_proba = rf_optimal.predict_proba(X_test)
-#
-# # Calculate metrics for training set
-# train_accuracy = accuracy_score(y_train, y_pred_train)
-# train_precision = precision_score(y_train, y_pred_train)
-# train_recall = recall_score(y_train, y_pred_train)
-# train_f1 = f1_score(y_train, y_pred_train)
-#
-# # Calculate metrics for testing set
-# test_accuracy = accuracy_score(y_test, y_pred_test)
-# test_precision = precision_score(y_test, y_pred_test)
-# test_recall = recall_score(y_test, y_pred_test)
-# test_f1 = f1_score(y_test, y_pred_test)
-#
-# print("\nTRAINING SET METRICS:")
-# print(f"  Accuracy:  {train_accuracy:.4f}")
-# print(f"  Precision: {train_precision:.4f}")
-# print(f"  Recall:    {train_recall:.4f}")
-# print(f"  F1-Score:  {train_f1:.4f}")
-#
-# print("\nTESTING SET METRICS:")
-# print(f"  Accuracy:  {test_accuracy:.4f}")
-# print(f"  Precision: {test_precision:.4f}")
-# print(f"  Recall:    {test_recall:.4f}")
-# print(f"  F1-Score:  {test_f1:.4f}")
-#
-# # Out-of-bag score (if bootstrap=True, which is default)
-# if hasattr(rf_optimal, 'oob_score_'):
-#     print(f"\nOut-of-Bag Score: {rf_optimal.oob_score_:.4f}")
-#
-# print("\nDetailed Classification Report (Testing Set):")
-# print(classification_report(y_test, y_pred_test, target_names=target_names))
-#
-# # Prediction confidence analysis
-# confidence_scores = np.max(y_pred_proba, axis=1)
-# print(f"\nPrediction Confidence Statistics:")
-# print(f"  Mean confidence: {np.mean(confidence_scores):.4f}")
-# print(f"  Min confidence:  {np.min(confidence_scores):.4f}")
-# print(f"  Max confidence:  {np.max(confidence_scores):.4f}")
-# print(f"  Std confidence:  {np.std(confidence_scores):.4f}")
-#
-# # Metrics comparison visualization
-# metrics_df = pd.DataFrame({
-#     'Metric': ['Accuracy', 'Precision', 'Recall', 'F1-Score'],
-#     'Training': [train_accuracy, train_precision, train_recall, train_f1],
-#     'Testing': [test_accuracy, test_precision, test_recall, test_f1]
-# })
-#
-# plt.figure(figsize=(10, 6))
-# x = np.arange(len(metrics_df['Metric']))
-# width = 0.35
-# plt.bar(x - width / 2, metrics_df['Training'], width, label='Training', alpha=0.8)
-# plt.bar(x + width / 2, metrics_df['Testing'], width, label='Testing', alpha=0.8)
-# plt.xlabel('Metrics', fontsize=12)
-# plt.ylabel('Score', fontsize=12)
-# plt.title('Random Forest Performance Metrics Comparison', fontsize=14, fontweight='bold')
-# plt.xticks(x, metrics_df['Metric'])
-# plt.legend(fontsize=10)
-# plt.ylim([0.85, 1.0])
-# plt.grid(axis='y', alpha=0.3)
-# plt.tight_layout()
-# plt.savefig('rf_metrics_comparison.png', dpi=300, bbox_inches='tight')
-# plt.show()
-# print("✓ Metrics comparison plot saved")
-#
-# # Prediction confidence distribution
-# plt.figure(figsize=(10, 6))
-# sns.histplot(confidence_scores, bins=30, kde=True, color='steelblue')
-# plt.xlabel('Prediction Confidence', fontsize=12)
-# plt.ylabel('Frequency', fontsize=12)
-# plt.title('Distribution of Prediction Confidence Scores', fontsize=14, fontweight='bold')
-# plt.axvline(x=np.mean(confidence_scores), color='red', linestyle='--',
-#             label=f'Mean: {np.mean(confidence_scores):.3f}')
-# plt.legend(fontsize=10)
-# plt.tight_layout()
-# plt.savefig('rf_confidence_distribution.png', dpi=300, bbox_inches='tight')
-# plt.show()
-# print("✓ Confidence distribution plot saved")
-#
-# # ============================================================================
-# # 10. CONFUSION MATRIX
-# # ============================================================================
-# print("\n[10] Generating Confusion Matrix...")
-#
-# # Calculate confusion matrix
-# cm = confusion_matrix(y_test, y_pred_test)
-# print("\nConfusion Matrix:")
-# print(cm)
-#
-# # Visualize confusion matrix
-# plt.figure(figsize=(8, 6))
-# sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-#             xticklabels=target_names, yticklabels=target_names,
-#             cbar_kws={'label': 'Count'}, linewidths=2, linecolor='black')
-# plt.title('Confusion Matrix - Random Forest Classifier', fontsize=14, fontweight='bold')
-# plt.xlabel('Predicted Label', fontsize=12)
-# plt.ylabel('True Label', fontsize=12)
-# plt.tight_layout()
-# plt.savefig('rf_confusion_matrix.png', dpi=300, bbox_inches='tight')
-# plt.show()
-#
-# # Calculate additional metrics from confusion matrix
-# tn, fp, fn, tp = cm.ravel()
-# specificity = tn / (tn + fp)
-# sensitivity = tp / (tp + fn)
-#
-# print(f"\nAdditional Metrics:")
-# print(f"  True Positives:  {tp}")
-# print(f"  True Negatives:  {tn}")
-# print(f"  False Positives: {fp}")
-# print(f"  False Negatives: {fn}")
-# print(f"  Sensitivity (TPR): {sensitivity:.4f}")
-# print(f"  Specificity (TNR): {specificity:.4f}")
-#
-# # ============================================================================
-# # SUMMARY & COMPARISON
-# # ============================================================================
-# print("\nRANDOM FOREST MODEL SUMMARY")
-# print(f"Dataset: Breast Cancer (569 samples, 30 features)")
-# print(f"Training/Testing Split: 80/20")
-# print(f"Optimal Number of Trees: {optimal_n_trees}")
-# print(f"Optimal Tree Depth: {optimal_depth}")
-# print(f"Test Accuracy: {test_accuracy:.4f}")
-# print(f"Test F1-Score: {test_f1:.4f}")
-# print(f"Average Prediction Confidence: {np.mean(confidence_scores):.4f}")
-# print(f"Most Important Feature: {importance_df.iloc[0]['Feature']}")
-# print(f"Features for 90% Importance: {features_90_pct} out of 30")
-# print(f"\nKey Insights:")
-# print(f"  • Random Forest achieved {test_accuracy:.1%} accuracy on test set")
-# print(f"  • Model shows high confidence (avg {np.mean(confidence_scores):.3f}) in predictions")
-# print(f"  • Only {features_90_pct} features account for 90% of predictive power")
-# print(f"  • Low false negative rate ({fn}) - critical for cancer detection")
+# ============================================================================
+# 6. TRAIN OPTIMAL RANDOM FOREST MODEL
+# ============================================================================
+print("\n6. Training Optimal Random Forest Model")
+
+rf_optimal = RandomForestClassifier(
+    n_estimators=optimal_n_trees,
+    max_depth=optimal_depth,
+    random_state=42,
+    n_jobs=-1
+)
+rf_optimal.fit(X_train, y_train)
+
+# print(f"Optimal Random Forest model trained with n_estimators={optimal_n_trees}, max_depth={optimal_depth}")
+
+# Forest characteristics
+print(f"\nForest Characteristics:")
+print(f"Total number of trees: {len(rf_optimal.estimators_)}")
+print(f"Maximum tree depth: {optimal_depth}")
+print(f"Number of features: {rf_optimal.n_features_in_}")
+print(f"Number of classes: {rf_optimal.n_classes_}")
+
+# ============================================================================
+# 7. VISUALIZE ONE TREE FROM THE FOREST
+# ============================================================================
+print("\n7. Visualizing a Single Tree from the Forest")
+
+# Extract one tree (the first tree in the forest)
+single_tree = rf_optimal.estimators_[0]
+
+plt.figure(figsize=(20, 10))
+plot_tree(single_tree,
+          feature_names=feature_names,
+          class_names=target_names,
+          filled=True,
+          rounded=True,
+          fontsize=9)
+plt.title(f'Single Decision Tree from Random Forest (Tree #1 of {optimal_n_trees})',
+          fontsize=16, fontweight='bold', pad=20)
+plt.tight_layout()
+plt.savefig('rf_single_tree_structure.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Tree statistics
+tree_depths = [estimator.get_depth() for estimator in rf_optimal.estimators_]
+tree_n_nodes = [estimator.tree_.node_count for estimator in rf_optimal.estimators_]
+
+print(f"\nForest Tree Statistics:")
+print(f"Average tree depth: {np.mean(tree_depths):.2f}")
+print(f"Min/Max tree depth: {np.min(tree_depths)}/{np.max(tree_depths)}")
+print(f"Average nodes per tree: {np.mean(tree_n_nodes):.2f}")
+print(f"Total nodes in forest: {np.sum(tree_n_nodes)}")
+
+# ============================================================================
+# 8. FEATURE IMPORTANCE ANALYSIS
+# ============================================================================
+print("\n8. Performing Feature Importance Analysis...")
+print("\nRANDOM FOREST FEATURE IMPORTANCE:")
+print("Feature importance in Random Forest is calculated by:")
+print("• Measuring how much each feature decreases impurity (Gini/entropy)")
+print("• Averaging importance across ALL trees in the forest")
+print("• More robust than single tree due to ensemble averaging")
+print("• Accounts for feature interactions across different trees")
+
+# Get feature importances
+feature_importance = rf_optimal.feature_importances_
+importance_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance': feature_importance
+}).sort_values('Importance', ascending=False)
+
+print("\nTop 10 Most Important Features:")
+print(importance_df.head(10).to_string(index=False))
+
+# Calculate cumulative importance
+importance_df['Cumulative'] = importance_df['Importance'].cumsum()
+features_90_pct = (importance_df['Cumulative'] <= 0.90).sum()
+print(f"\nFeatures accounting for 90% of importance: {features_90_pct}")
+
+# Visualise feature importance (top 10)
+plt.figure(figsize=(10, 8))
+top_n = 10
+top_features = importance_df.head(top_n)
+bars = sns.barplot(data=top_features, y='Feature', x='Importance', palette='viridis')
+
+# Add value labels on bars
+for i, bar in enumerate(bars.patches):
+    width = bar.get_width()
+    bars.text(width, bar.get_y() + bar.get_height() / 2.,
+              f'{width:.4f}',
+              ha='left', va='center', fontsize=10, fontweight='bold',
+              color= 'black')
+
+plt.title(f'Top {top_n} Feature Importances - Random Forest', fontsize=14, fontweight='bold')
+plt.xlabel('Importance Score', fontsize=12)
+plt.ylabel('Feature', fontsize=12)
+plt.tight_layout()
+plt.savefig('rf_feature_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Cumulative importance plot
+plt.figure(figsize=(10, 6))
+plt.plot(range(1, len(importance_df) + 1), importance_df['Cumulative'].values,
+         marker='o', linewidth=2, markersize=4)
+plt.axhline(y=0.90, color='red', linestyle='--', label='90% Threshold')
+plt.axvline(x=features_90_pct, color='red', linestyle='--',
+            label=f'{features_90_pct} Features')
+plt.xlabel('Number of Features', fontsize=12)
+plt.ylabel('Cumulative Importance', fontsize=12)
+plt.title('Cumulative Feature Importance', fontsize=14, fontweight='bold')
+plt.legend(fontsize=10)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig('rf_cumulative_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 9. MODEL EVALUATION METRICS
+# ============================================================================
+print("\n9. Evaluating Random Forest Performance")
+
+# Make predictions
+y_pred_train = rf_optimal.predict(X_train)
+y_pred_test = rf_optimal.predict(X_test)
+
+# Get prediction probabilities for additional analysis - returns probabilities for each of the 114 X_test observations
+y_pred_proba = rf_optimal.predict_proba(X_test)
+
+# print(y_pred_proba)
+
+# Calculate metrics for training set
+train_accuracy = accuracy_score(y_train, y_pred_train)
+train_precision = precision_score(y_train, y_pred_train)
+train_recall = recall_score(y_train, y_pred_train)
+train_f1 = f1_score(y_train, y_pred_train)
+
+# Calculate metrics for testing set
+test_accuracy = accuracy_score(y_test, y_pred_test)
+test_precision = precision_score(y_test, y_pred_test)
+test_recall = recall_score(y_test, y_pred_test)
+test_f1 = f1_score(y_test, y_pred_test)
+
+print("\nTRAINING SET METRICS:")
+print(f"  Accuracy:  {train_accuracy:.4f}")
+print(f"  Precision: {train_precision:.4f}")
+print(f"  Recall:    {train_recall:.4f}")
+print(f"  F1-Score:  {train_f1:.4f}")
+
+print("\nTESTING SET METRICS:")
+print(f"  Accuracy:  {test_accuracy:.4f}")
+print(f"  Precision: {test_precision:.4f}")
+print(f"  Recall:    {test_recall:.4f}")
+print(f"  F1-Score:  {test_f1:.4f}")
+
+# Out-of-bag score (if bootstrap=True, which is default)
+if hasattr(rf_optimal, 'oob_score_'):
+    print(f"\nOut-of-Bag Score: {rf_optimal.oob_score_:.4f}")
+
+print("\nDetailed Classification Report (Testing Set):")
+print(classification_report(y_test, y_pred_test, target_names=target_names))
+
+# Prediction confidence analysis
+confidence_scores = np.max(y_pred_proba, axis=1)
+print(f"\nPrediction Confidence Statistics:")
+print(f"  Mean confidence: {np.mean(confidence_scores):.4f}")
+print(f"  Min confidence:  {np.min(confidence_scores):.4f}")
+print(f"  Max confidence:  {np.max(confidence_scores):.4f}")
+print(f"  Standard Deviation of confidence:  {np.std(confidence_scores):.4f}")
+
+# Metrics comparison visualisation (training performance compared to testing performance)
+metrics_df = pd.DataFrame({
+    'Metric': ['Accuracy', 'Precision', 'Recall', 'F1-Score'],
+    'Training': [train_accuracy, train_precision, train_recall, train_f1],
+    'Testing': [test_accuracy, test_precision, test_recall, test_f1]
+})
+
+plt.figure(figsize=(10, 6))
+x = np.arange(len(metrics_df['Metric']))
+width = 0.35
+plt.bar(x - width / 2, metrics_df['Training'], width, label='Training', alpha=0.8)
+plt.bar(x + width / 2, metrics_df['Testing'], width, label='Testing', alpha=0.8)
+plt.xlabel('Metrics', fontsize=12)
+plt.ylabel('Score', fontsize=12)
+plt.title('Random Forest Performance Metrics Comparison', fontsize=14, fontweight='bold')
+plt.xticks(x, metrics_df['Metric'])
+plt.legend(fontsize=10)
+plt.ylim([0.85, 1.0])
+plt.grid(axis='y', alpha=0.3)
+plt.tight_layout()
+plt.savefig('rf_metrics_comparison.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Prediction confidence distribution
+plt.figure(figsize=(10, 6))
+sns.histplot(confidence_scores, bins=30, kde=True, color='steelblue')
+plt.xlabel('Prediction Confidence', fontsize=12)
+plt.ylabel('Frequency', fontsize=12)
+plt.title('Distribution of Prediction Confidence Scores', fontsize=14, fontweight='bold')
+plt.axvline(x=np.mean(confidence_scores), color='red', linestyle='--',
+            label=f'Mean: {np.mean(confidence_scores):.3f}')
+plt.legend(fontsize=10)
+plt.tight_layout()
+plt.savefig('rf_confidence_distribution.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 10. CONFUSION MATRIX
+# ============================================================================
+print("\n10. Generating Confusion Matrix")
+
+# Calculate confusion matrix
+cm = confusion_matrix(y_test, y_pred_test)
+print("\nConfusion Matrix:")
+print(cm)
+
+# Visualize confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+            xticklabels=target_names, yticklabels=target_names,
+            cbar_kws={'label': 'Count'}, linewidths=2, linecolor='black')
+plt.title('Confusion Matrix - Random Forest Classifier', fontsize=14, fontweight='bold')
+plt.xlabel('Predicted Label', fontsize=12)
+plt.ylabel('True Label', fontsize=12)
+plt.tight_layout()
+plt.savefig('rf_confusion_matrix.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Calculate additional metrics from confusion matrix
+tn, fp, fn, tp = cm.ravel()
+specificity = tn / (tn + fp)
+sensitivity = tp / (tp + fn)
+
+print(f"\nAdditional Metrics:")
+print(f"  True Positives:  {tp}")
+print(f"  True Negatives:  {tn}")
+print(f"  False Positives: {fp}")
+print(f"  False Negatives: {fn}")
+print(f"  Sensitivity (TPR): {sensitivity:.4f}")
+print(f"  Specificity (TNR): {specificity:.4f}")
+
+# ============================================================================
+# SUMMARY & COMPARISON
+# ============================================================================
+print("\n11. Random Forest Model Summary:")
+print(f"Optimal Number of Trees: {optimal_n_trees}")
+print(f"Optimal Tree Depth: {optimal_depth}")
+print(f"Test F1-Score: {test_f1:.4f}")
+print(f"Most Important Feature: {importance_df.iloc[0]['Feature']}")
+print(f"\nKey Insights:")
+print(f"  • Random Forest achieved {test_accuracy:.1%} accuracy on test set")
+print(f"  • Model shows high confidence (avg {np.mean(confidence_scores):.3f}) in predictions")
+print(f"  • Low false negative rate ({fn}) - critical for cancer detection")
 
 # Track time to complete process
 t1 = time.time()  # Add at end of process
