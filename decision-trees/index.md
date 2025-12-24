@@ -157,7 +157,7 @@ With any analysis it is important to assess how the model and application of the
   * Create interaction terms between top features (e.g., radius × concavity).
   * Apply dimensionality reduction (PCA) to reduce multicollinearity among correlated features
   * Focus data collection on the most predictive features to reduce costs - i.e. reduce the number of features used in the model
-  * Consider the 
+  * Consider investigating the high-correlation between features, and the potential benefit to reducing the number of features included in the random forest.
 * Hyperparameter Optimisation: Fine-tune min_samples_split, min_samples_leaf, and max_features
 * Clinical Validation:
   * Validate on external datasets from different hospitals/populations
