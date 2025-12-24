@@ -8,8 +8,6 @@ permalink: /random-forest/
 
 ---
 
-#### This project is in development
-
 ## Goals and objectives:
 
 The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A previous project built a decision tree model achieving an accuracy of 93.86%, and the goal is to research if using a Random Forest predictor can produce more accurate results, and produce more insights into the data supporting the predictions.  The predicted results are binary 'Malignant', 'Benign' values.
@@ -205,18 +203,37 @@ The overall conclusions are summarised as:
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.  The following are example recommendations for future research and implementation considerations.
 
-* Undertake more detailed analysis of the volume of trees to be included in the random forest, to refine the optimal number of trees.  For example consider 110, 120, 130 and 140 trees.
-* Undertake more detailed analysis of the maximum tree depth to be included in the random forest, to further refine the model.  For example consider maximum_depths of 8 and 9.
-* Feature engineering
-  * Consider investigating the high-correlation between features, and the potential benefit to reducing the number of features included in the random forest.
-  * Dimensionality reduction
+* Addditional Models:
+  * Research Gradient Boosting Models, such as Gradient Boosted Trees (XGBoost, LightGBM, CatBoost).  These offer sequential learning (unlike the random forest with parallel trees), and can provide improved accuracy on random forests.
+  * Consider implementing deep learning approaches such as neural networks.  
+  * Consider blending models to optimise performance, for example combining multiple models including random forests, gradient boost trees, logistic regression or neural networks.
+* Models Enhancements:
+  * Undertake more detailed analysis of the volume of trees to be included in the random forest, to refine the optimal number of trees.  For example consider 110, 120, 130 and 140 trees.
+  * Undertake more detailed analysis of the maximum tree depth to be included in the random forest, to further refine the model.  For example consider maximum_depths of 8 and 9.
+  * Research parameter optimisation for the random forest such as 'minimum samples per split', 'minimum samples per leaf', 'maximum features'
+* Dimensionality Reduction:
+  * Investigating the high-correlation between features, and the potential benefit to reducing the number of features included in the random forest.
+  * Principal Component Analysis (PCA): Reduce 30 features to 10-15 components while retaining 95% variance.
+  * Feature selection models, such as Recursive Feature Elimination (RFE) or LASSO regularisation for automatic selection
+* Feature Engineering:
+  * Introduce measures such as interaction terms (e.g. area × concavity), or ratios (e.g. circularity - perimeter²/area).  
+  * Create variance, skewness measures across related features.  
+  * Research anomalous / outlier observations, and research methods to improve model performance of edge cases
+* Additional data and validation:
+  * Collect additional observations and confirm actual outcomes to predictions to validate model performance
+  * Consider model training based on new data to maintain or improve accuracy
+  * Research real-life implementation considerations, such as human-in-the-loop review for borderline cases, and in-depth analysis of incorrect predictions
 
-* TASK - Run model with other hyperparameter options as listed above
-* TASK - Conclusions
-* TASK - Next Steps
+## Hyperparameter Next Step:
 
+As suggested above in the 'Next Steps' section, research was undertaken to further refine the optimal number of trees and optimal maximum tree depth.  The random tree was build with additional hyperparater values, which determined that the optimal values can be refined to:
+
+* number of trees (n_estimators) = 145
+* tree depth (max_depth) = 9
+
+While this didn't produce an improved accuracy or prediction confidence, it demonstrates that the same accuracy can be produced with less trees and smaller trees, and further evidence that the initial random forest model produced was optimal in producing high-accuracy.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
