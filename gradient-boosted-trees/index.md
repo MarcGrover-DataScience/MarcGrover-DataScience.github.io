@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Decision Trees)
+title: Breast Cancer Predictions (Gradient Boosted Trees)
 
 permalink: /gradient-boosted-trees/
 
