@@ -12,6 +12,12 @@ permalink: /gradient-boosted-trees/
 
 ## Goals and objectives:
 
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. Two previous projects built a decision tree model and random forest model for this prediction, achieving an accuracy of 93.86% and 95.61% respectively.  The goal of this project is to research if using a Gradient Boosted Trees predictor can produce more accurate results, and produce more insights into the data supporting the predictions. The predicted results are binary ‘Malignant’, ‘Benign’ values.
+
+This project contains many references to the Decision Tree and Random Forest projects as one of the key analysis goals is to understand the comparison between the three approaches.
+
+This follows on from the Decision Tree project found here , and the Random Forest project found here.
+
 The business objective is ...
 
 ## Application:  
