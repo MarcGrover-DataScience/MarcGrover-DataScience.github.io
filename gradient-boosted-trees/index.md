@@ -26,6 +26,8 @@ There are multiple implementations of Gradient Boosted Trees, all use the same f
 
 For this proof-of-concept XGBoost is used.  XGBoost is conceptually similar to Random Forest but with boosting instead of bagging, making it an logical next step from random forests.  Other common examples of Gradient Boosted Trees (not used in this project) include LightGBM and CatBoost.  
 
+As such, many examples of applications and benefits of Random Forests in commercial settings are similar to those described in the Decision Tree project. 
+
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
 
