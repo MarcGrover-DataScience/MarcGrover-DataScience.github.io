@@ -39,6 +39,14 @@ For this proof-of-concept XGBoost is used.  XGBoost is conceptually similar to R
 
 ## Methodology:  
 
+The dataset used is the same as used in the Decision Tree project - the Wisconsin Breast Cancer dataset, which enables comparison of the two methods.  This is available from scikit-learn, including 569 observations, including 30 independent features.
+
+The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
+
+The method applied in the analysis:
+
+* **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
+
 Details of the methodology applied in the project.
 
 ## Results and conclusions:
