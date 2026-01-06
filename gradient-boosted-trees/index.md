@@ -46,6 +46,13 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 The method applied in the analysis:
 
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
+* **Fine-tuning XGBoost Hyperparameters** to determine the optimal hyperparameters for the model including:
+  * Number of boosting rounds (trees)
+  * Maximum tree depth
+  * Learning_rate: Step size for each tree's contribution
+  * Subsample: Fraction of samples used per tree
+  * Fraction of features used per tree
+  * Minimum loss reduction for split (regularisation)
 
 Details of the methodology applied in the project.
 
