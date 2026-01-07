@@ -66,14 +66,28 @@ The correlation matrix is the same as that shown for the Decision Tree project [
 
 ### Fine-tuning XGBoost Hyperparameters
 
-An Baseline XGBoost Model was generated which produced an accuracy of 94.74%
+An Baseline XGBoost Model was generated which produced an accuracy of 94.74%.  This used the following arguments:
 
-n_estimators=100,
-    learning_rate=0.1,
-    max_depth=3,
-    random_state=42,
-    eval_metric='logloss',
-    n_jobs=-1
+n_estimators=100,  
+learning_rate=0.1,  
+max_depth=3,  
+random_state=42,  
+eval_metric='logloss',  
+n_jobs=-1  
+
+**Optimising number of trees and learning rate** - multiple GBT models were created using various values for the number of trees (n_estimators) and learning rate, to determine optimal values for each metric.  
+n_estimators = [50, 100, 150, 200, 250]
+learning_rate = [0.01, 0.05, 0.1, 0.2]
+
+The accuracy of these models (based on the testing set) are visualised below, where the results suggest an optimal learning rate of 0.1 and an optimal number of trees equal to 250, which produce a GBT model with an accuracy of 95.61% which is higher than the baseline model.
+
+![tree_number_learning_rate](xgb_lr_nestimators_analysis.png)
+
+**Optimising tree depth** - multiple GBT models were created testing multiple values of tree depth [3, 5, 7, 10, 15], using the optimal number of trees and optimal learning rate previously identified.  The accuracy of each model is the same and as such the optimal tree depth is considered to be 3, which is the same as the baseline model.
+
+
+![tree_depth](xgb_depth_analysis.png)
+
 
 Results from the project related to the business objective.
 
@@ -90,4 +104,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/DecisionTree_BreastCancer.py)
+[View the Python Script](/XGBoost_BreastCancer.py)
