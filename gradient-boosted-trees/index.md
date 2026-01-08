@@ -88,6 +88,46 @@ The accuracy of these models (based on the testing set) are visualised below, wh
 
 ![tree_depth](xgb_depth_analysis.png)
 
+Optimising Sampling Parameters - subsample and colsample
+subsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]
+colsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]
+
+Optimising Regularisation Parameters
+
+In the context of gradient boosted trees, Minimum Loss Reduction (gamma) and L1 Regularisation (reg_alpha) are crucial tools for preventing overfitting by penalising model complexity.
+
+Minimum Loss Reduction (gamma) acts as a gatekeeper for tree growth by specifying the minimum improvement in the loss function required to justify a new split. When the algorithm considers splitting a leaf, it calculates the "Gain" — the reduction in training loss achieved by that split; if this Gain is less than the value of gamma, the split is discarded.  Increasing gamma makes the algorithm more conservative, forcing it to only create branches that provide a significant, meaningful improvement to the model's predictive power, which helps prune away noise-driven branches.
+
+L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves of the tree. In gradient boosting, each leaf in a tree has an associated score or "weight" that contributes to the final prediction. reg_alpha adds a penalty term to the objective function proportional to the absolute value of these weights. Because L1 regularization has a mathematical property that encourages "sparsity," a higher reg_alpha can drive the weights of less important leaves or features all the way to zero. This simplifies the model, makes it more robust against high-dimensional noise, and can even act as a form of automatic feature selection by effectively "turning off" parts of the tree that do not contribute significantly to the overall ensemble.
+
+```
+    gamma  reg_lambda     score
+0     0.0         0.0  0.973684
+1     0.0         0.5  0.956140
+2     0.0         1.0  0.964912
+3     0.0         2.0  0.956140
+4     0.0         5.0  0.956140
+5     0.1         0.0  0.964912
+6     0.1         0.5  0.956140
+7     0.1         1.0  0.956140
+8     0.1         2.0  0.956140
+9     0.1         5.0  0.956140
+10    0.5         0.0  0.956140
+11    0.5         0.5  0.956140
+12    0.5         1.0  0.956140
+13    0.5         2.0  0.956140
+14    0.5         5.0  0.964912
+15    1.0         0.0  0.964912
+16    1.0         0.5  0.956140
+17    1.0         1.0  0.956140
+18    1.0         2.0  0.956140
+19    1.0         5.0  0.956140
+20    2.0         0.0  0.964912
+21    2.0         0.5  0.964912
+22    2.0         1.0  0.956140
+23    2.0         2.0  0.964912
+24    2.0         5.0  0.964912
+```
 
 Results from the project related to the business objective.
 
