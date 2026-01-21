@@ -18,7 +18,7 @@ This project contains many references to the Decision Tree and Random Forest pro
 
 This follows on from the Decision Tree project found here , and the Random Forest project found here.
 
-An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of XX.XX%, using optimal hyperparameters xxxxx. For the random forest the most important feature was identified as ‘worse area’. The accuracy increased by X.XX% from the optimal random forest in the previous project.
+An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of 97.37%, using the determined optimal hyperparameters. The accuracy increased by 1.76% from the optimal random forest in the previous project.  For the random forest the most important feature was identified as ‘worse area’, add details xxxx. 
 
 ## Application:  
 
