@@ -88,17 +88,21 @@ The accuracy of these models (based on the testing set) are visualised below, wh
 
 ![tree_depth](xgb_depth_analysis.png)
 
-Optimising Sampling Parameters - subsample and colsample
-subsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]
-colsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]
+**Optimising Sampling Parameters** - multiple GBT models were created and tested with the values for subsample and colsample being the variables.  The values tested for these two hyperparameters were:  
+subsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]  
+colsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]  
 
-Optimising Regularisation Parameters
+It was determined that the optimal values were:  subsample: 0.7; colsample_bytree: 0.7, which produced an accuracy of 96.49%
+
+<Note - add description of subsample and colsample>
+
+**Optimising Regularisation Parameters**
 
 In the context of gradient boosted trees, Minimum Loss Reduction (gamma) and L1 Regularisation (reg_alpha) are crucial tools for preventing overfitting by penalising model complexity.
 
 Minimum Loss Reduction (gamma) acts as a gatekeeper for tree growth by specifying the minimum improvement in the loss function required to justify a new split. When the algorithm considers splitting a leaf, it calculates the "Gain" — the reduction in training loss achieved by that split; if this Gain is less than the value of gamma, the split is discarded.  Increasing gamma makes the algorithm more conservative, forcing it to only create branches that provide a significant, meaningful improvement to the model's predictive power, which helps prune away noise-driven branches.
 
-L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves of the tree. In gradient boosting, each leaf in a tree has an associated score or "weight" that contributes to the final prediction. reg_alpha adds a penalty term to the objective function proportional to the absolute value of these weights. Because L1 regularization has a mathematical property that encourages "sparsity," a higher reg_alpha can drive the weights of less important leaves or features all the way to zero. This simplifies the model, makes it more robust against high-dimensional noise, and can even act as a form of automatic feature selection by effectively "turning off" parts of the tree that do not contribute significantly to the overall ensemble.
+L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves of the tree. In gradient boosting, each leaf in a tree has an associated score or "weight" that contributes to the final prediction. reg_alpha adds a penalty term to the objective function proportional to the absolute value of these weights. Because L1 regularisation has a mathematical property that encourages "sparsity," a higher reg_alpha can drive the weights of less important leaves or features all the way to zero. This simplifies the model, makes it more robust against high-dimensional noise, and can even act as a form of automatic feature selection by effectively "turning off" parts of the tree that do not contribute significantly to the overall ensemble.
 
 ```
     gamma  reg_lambda     score
