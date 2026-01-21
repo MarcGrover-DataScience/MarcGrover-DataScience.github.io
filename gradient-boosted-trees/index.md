@@ -85,20 +85,23 @@ The accuracy of these models (based on the testing set) are visualised below, wh
 
 **Optimising tree depth** - multiple GBT models were created testing multiple values of tree depth [3, 5, 7, 10, 15], using the optimal number of trees and optimal learning rate previously identified.  The accuracy of each model is the same and as such the optimal tree depth is considered to be 3, which is the same as the baseline model.
 
-
 ![tree_depth](xgb_depth_analysis.png)
 
-**Optimising Sampling Parameters** - multiple GBT models were created and tested with the values for subsample and colsample being the variables.  The values tested for these two hyperparameters were:  
+**Optimising Sampling Parameters** - multiple GBT models were created and tested with the values for subsample and colsample being the variables.  
+
+The subsample parameter controls the fraction of training samples used to build each individual tree in the boosting sequence. It operates similarly to bootstrap sampling in Random Forest, but is applied at each boosting round. For example, subsample=0.8 means each tree is trained on a randomly selected 80% of the training data, with the remaining 20% excluded from that particular tree's construction. This adds randomness to the learning process and helps prevent overfitting. 
+
+The colsample_bytree parameter determines the fraction of features (columns) randomly sampled when constructing each tree in the boosting ensemble. For instance, colsample_bytree=0.8 means each tree uses only 80% of available features, with a different random subset selected for each tree. This feature subsampling mechanism serves multiple purposes: it reduces correlation between trees in the ensemble (making their combined predictions more robust), speeds up training by reducing the number of features each tree must evaluate, and helps prevent overfitting by forcing the model to find alternative feature combinations for making predictions. 
+
+The values tested for these two hyperparameters were:  
 subsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]  
 colsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]  
 
 It was determined that the optimal values were:  subsample: 0.7; colsample_bytree: 0.7, which produced an accuracy of 96.49%
 
-<Note - add description of subsample and colsample>
-
 **Optimising Regularisation Parameters**
 
-In the context of gradient boosted trees, Minimum Loss Reduction (gamma) and L1 Regularisation (reg_alpha) are crucial tools for preventing overfitting by penalising model complexity.
+For optimising gradient boosted trees, Minimum Loss Reduction (gamma) and L1 Regularisation (reg_alpha) are crucial tools for preventing overfitting by penalising model complexity.
 
 Minimum Loss Reduction (gamma) acts as a gatekeeper for tree growth by specifying the minimum improvement in the loss function required to justify a new split. When the algorithm considers splitting a leaf, it calculates the "Gain" — the reduction in training loss achieved by that split; if this Gain is less than the value of gamma, the split is discarded.  Increasing gamma makes the algorithm more conservative, forcing it to only create branches that provide a significant, meaningful improvement to the model's predictive power, which helps prune away noise-driven branches.
 
@@ -132,6 +135,12 @@ L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves o
 23    2.0         2.0  0.964912
 24    2.0         5.0  0.964912
 ```
+
+![confusion_matrix](xgb_confusion_matrix.png)
+
+![feature_importance](xgb_feature_importance.png)
+
+![confidence_distribution](xgb_confidence_distribution.png)
 
 Results from the project related to the business objective.
 
