@@ -138,11 +138,36 @@ L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves o
 ```
 
 ### Model Fitting and Validation
-Using the optimal hyperparameters, the gradient boosted tree model was trained. 
+Using the optimal hyperparameters, the gradient boosted tree model was trained on the training data, which was validated using the test data. 
+
+The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
+
+* Accuracy: 0.9737  
+* Precision: 0.9600 (Predicted Positives)  
+* Recall: 1.0000 (True Positive Rate)  
+* F1-Score: 0.9796  
+* Specificity: 0.9286 (True Negative Rate)
+* ROC-AUC:   0.9964
+
+The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions. This is based on the testing dataset.
+
+```
+              precision    recall  f1-score   support
+   malignant       1.00      0.93      0.96        42
+      benign       0.96      1.00      0.98        72
+```
 
 The confusion matrix visually demonstrates the performance of the model applied to the testing dataset.
 
 ![confusion_matrix](xgb_confusion_matrix.png)
+
+In summary the confusion matrix presents the results:
+
+* True Positives (True Benign): 72
+* True Negatives (True Malignant): 39
+* False Positives (False Benign): 3
+* False Negatives (False Malignant): 0
+
 
 ![feature_importance](xgb_feature_importance.png)
 
