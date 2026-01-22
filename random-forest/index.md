@@ -53,8 +53,6 @@ The method applied in the analysis:
 * **Decision Tree Depth Analysis** to determine the maximum depth of each tree in the forest to achieve optimal accuracy, prevent overfitting and balance with the compute resources required.
 * **Fitting and Validating Random Forest Model** to build the random forest using the hyperparameters for the optimal number of trees and optimal tree depth.
 
-Details of the methodology applied in the project.
-
 ## Results and conclusions:
 
 Results from the project related to the business objective.
