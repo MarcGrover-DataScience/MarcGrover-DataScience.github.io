@@ -55,8 +55,6 @@ The method applied in the analysis:
 
 ## Results and conclusions:
 
-Results from the project related to the business objective.
-
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
 
 The correlation matrix is the same as that shown for the Decision Tree project [here](https://marcgrover-datascience.github.io/decision-trees/) as it uses the same dataset, and as such not shown here.
