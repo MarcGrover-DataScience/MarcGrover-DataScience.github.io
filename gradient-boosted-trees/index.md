@@ -53,6 +53,7 @@ The method applied in the analysis:
   * Subsample: Fraction of samples used per tree
   * Fraction of features used per tree
   * Minimum loss reduction for split (regularisation)
+* **Fitting and Validating Gradient Boosted Tree Model** to build the model using the optimal hyperparameters to make predictions.
 
 Details of the methodology applied in the project.
 
@@ -135,6 +136,11 @@ L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves o
 23    2.0         2.0  0.964912
 24    2.0         5.0  0.964912
 ```
+
+### Model Fitting and Validation
+Using the optimal hyperparameters, the gradient boosted tree model was trained. 
+
+The confusion matrix visually demonstrates the performance of the model applied to the testing dataset.
 
 ![confusion_matrix](xgb_confusion_matrix.png)
 
