@@ -176,10 +176,23 @@ In summary the confusion matrix presents the results:
 * False Positives (False Benign): 3
 * False Negatives (False Malignant): 0
 
+### Model Prediction Confidence
+
+Prediction Confidence, or Prediction Probability, is a score that represents how “sure” the model is that a specific data point belongs to a certain category. It is fundamentally different from Accuracy, which states how often the model is right; Confidence measures how much the model “believes” in its specific answer for a single instance.
+
+Confidence is often more important than the final label in high-importance scenarios.
+
+For the gradient boosted tree model the mean confidence for each of the 114 test observations is 0.9738.  For comparison the mean confidence of the test observations using the optimum Random Forest was 0.9336, which is significantly lower than that from the Gradient Boosted Trees model.  
+
+Each observation has a confidence value, the histogram below shows the distribution of these confidences. This shows that many of the observations have a prediction confidence near 1.0, which demonstrates excellent predictive power of the model.  There are observations with predictions with a lower confidence however these are infrequent. In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further medical testing and analysis be required. 
+
+![confidence_distribution](xgb_confidence_distribution.png)  
+
+### Feature Importance
+
+A key insight from the generation of a Gradient Boosted Tree is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
 
 ![feature_importance](xgb_feature_importance.png)
-
-![confidence_distribution](xgb_confidence_distribution.png)
 
 Results from the project related to the business objective.
 
