@@ -149,6 +149,10 @@ The model performance was evaluated to quantify the quality of the predictions. 
 * Specificity: 0.9286 (True Negative Rate)
 * ROC-AUC:   0.9964
 
+The ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a comprehensive performance metric that measures a classification model's ability to distinguish between classes across all possible classification thresholds.  For Gradient Boosted Trees specifically, ROC-AUC is particularly valuable because it evaluates the quality of the probability estimates produced by the ensemble, not just the final binary predictions. Since XGBoost combines predictions from multiple trees using weighted sums, it naturally produces continuous probability scores rather than hard classifications. An ROC-AUC of 0.99, for example, means there's a 99% probability that the model will rank a randomly chosen positive instance (malignant tumor) higher than a randomly chosen negative instance (benign tumor), demonstrating exceptional discriminative ability. 
+
+The ROC curve plots the True Positive Rate (TPR/Recall/Sensitivity) on the y-axis against the False Positive Rate (FPR) on the x-axis at various probability thresholds, creating a curve that shows how the model performs as you vary the decision boundary. The AUC (Area Under the Curve) quantifies this into a single number between 0 and 1, where 1.0 represents perfect classification (the model correctly ranks all positive cases above all negative cases)
+
 The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions. This is based on the testing dataset.
 
 ```
