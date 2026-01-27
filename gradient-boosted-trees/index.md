@@ -18,7 +18,7 @@ This project contains many references to the Decision Tree and Random Forest pro
 
 This follows on from the Decision Tree project found here , and the Random Forest project found here.
 
-An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of 97.37%, using the determined optimal hyperparameters. The accuracy increased by 1.76% from the optimal random forest in the previous project.  For the random forest the most important feature was identified as ‘worse area’, add details xxxx. 
+An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of 97.37%, using the determined optimal hyperparameters. The accuracy increased by 1.76% from the optimal random forest in the previous project.  For the optimal gradient boosted tree ensemble, the most important feature was identified as ‘worse concave points’, followed by 'worst permieter' and 'worst area'.  The top five most impotant features are the same as those for the optimal random forest, though in a different order and with different importance scores. 
 
 ## Application:  
 
@@ -194,6 +194,8 @@ A key insight from the generation of a Gradient Boosted Tree is the importance o
 
 The most important factors are listed below, along with the importance score. The total importance across all features sums to 1. Wwith a Gradient Boosted Trees model, it is typical that all features have a non-zero importance score, similar to a Random Forest model, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. 
 
+Feature importance in a Gradient Boosted Tree is calculated from all trees in the ensemble, aggregating importance across all trees.
+
 The top 10 most important features are below, noting that for the decision tree project, the ‘worst radius’ feature was identified as the most important, whereas for the random forest it is the 5th most important feature:
 
 ![feature_importance](xgb_feature_importance.png)
@@ -201,6 +203,8 @@ The top 10 most important features are below, noting that for the decision tree 
 Results from the project related to the business objective.
 
 ### Conclusions:
+
+The overall conclusions are summarised as:
 
 Conclusions from the project findings and results.
 
