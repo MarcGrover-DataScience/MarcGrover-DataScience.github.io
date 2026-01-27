@@ -192,6 +192,10 @@ Each observation has a confidence value, the histogram below shows the distribut
 
 A key insight from the generation of a Gradient Boosted Tree is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
 
+The most important factors are listed below, along with the importance score. The total importance across all features sums to 1. Wwith a Gradient Boosted Trees model, it is typical that all features have a non-zero importance score, similar to a Random Forest model, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. 
+
+The top 10 most important features are below, noting that for the decision tree project, the ‘worst radius’ feature was identified as the most important, whereas for the random forest it is the 5th most important feature:
+
 ![feature_importance](xgb_feature_importance.png)
 
 Results from the project related to the business objective.
