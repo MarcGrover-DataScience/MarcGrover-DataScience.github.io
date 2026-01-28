@@ -137,7 +137,7 @@ L1 regularisation (reg_alpha) is applied to the weights assigned to the leaves o
 24    2.0         5.0  0.964912
 ```
 
-### Model Fitting and Validation
+### Model Fitting and Validation:
 Using the optimal hyperparameters, the gradient boosted tree model was trained on the training data, which was validated using the test data. 
 
 The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
@@ -176,7 +176,7 @@ In summary the confusion matrix presents the results:
 * False Positives (False Benign): 3
 * False Negatives (False Malignant): 0
 
-### Model Prediction Confidence
+### Model Prediction Confidence:
 
 Prediction Confidence, or Prediction Probability, is a score that represents how “sure” the model is that a specific data point belongs to a certain category. It is fundamentally different from Accuracy, which states how often the model is right; Confidence measures how much the model “believes” in its specific answer for a single instance.
 
@@ -188,7 +188,7 @@ Each observation has a confidence value, the histogram below shows the distribut
 
 ![confidence_distribution](xgb_confidence_distribution.png)  
 
-### Feature Importance
+### Feature Importance:
 
 A key insight from the generation of a Gradient Boosted Tree is the importance of each factor in generating a prediction, and hence the most important factors can be determined.  
 
@@ -218,9 +218,12 @@ worst concave points    0.1871
 
 The overall conclusions are summarised as:
 
-Conclusions from the project findings and results.
+* Model Performance:
+  * Decision Tree → Random Forest → XGBoost provides excellent narrative for showing evolution of ensemble methods.
+* Feature Insights:
+* Model Characteristics:
 
-Decision Tree → Random Forest → XGBoost provides excellent narrative for showing evolution of ensemble methods.  
+Conclusions from the project findings and results.
 
 ## Next steps:  
 
