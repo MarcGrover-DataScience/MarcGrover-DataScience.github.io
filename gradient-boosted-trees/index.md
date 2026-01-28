@@ -18,7 +18,7 @@ This project contains many references to the Decision Tree and Random Forest pro
 
 This follows on from the Decision Tree project found here , and the Random Forest project found here.
 
-An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of 97.37%, using the determined optimal hyperparameters. The accuracy increased by 1.76% from the optimal random forest in the previous project.  For the optimal gradient boosted tree ensemble, the most important feature was identified as ‘worse concave points’, followed by 'worst permieter' and 'worst area'.  The top five most impotant features are the same as those for the optimal random forest, though in a different order and with different importance scores. 
+An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of 97.37%, using the determined optimal hyperparameters. The accuracy increased by 1.76% from the optimal random forest in the previous project.  For the optimal gradient boosted tree ensemble, the most important feature is identified as ‘worse concave points’, followed by 'worst perimeter' and 'worst area'.  The top five most important features are the same as those for the optimal random forest, though in a different order and with different importance scores. 
 
 ## Application:  
 
@@ -190,17 +190,29 @@ Each observation has a confidence value, the histogram below shows the distribut
 
 ### Feature Importance
 
-A key insight from the generation of a Gradient Boosted Tree is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
-
-The most important factors are listed below, along with the importance score. The total importance across all features sums to 1. Wwith a Gradient Boosted Trees model, it is typical that all features have a non-zero importance score, similar to a Random Forest model, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. 
+A key insight from the generation of a Gradient Boosted Tree is the importance of each factor in generating a prediction, and hence the most important factors can be determined.  
 
 Feature importance in a Gradient Boosted Tree is calculated from all trees in the ensemble, aggregating importance across all trees.
 
-The top 10 most important features are below, noting that for the decision tree project, the ‘worst radius’ feature was identified as the most important, whereas for the random forest it is the 5th most important feature:
+The 10 most important factors are listed below, along with the importance score. The total importance across all features sums to 1. Wwith a Gradient Boosted Trees model, it is typical that all features have a non-zero importance score, similar to a Random Forest model, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. 
+
+The most important feature identified as ‘worse concave points’.  The top five most important features are the same as those for the optimal random forest, though in a different order and with different importance scores, highlighting both the similarities and differences.   
+
+```
+             Feature  Importance
+worst concave points    0.1871
+     worst perimeter    0.1711
+          worst area    0.1473
+ mean concave points    0.1005
+        worst radius    0.0711
+           mean area    0.0465
+     worst concavity    0.0267
+       worst texture    0.0233
+          area error    0.0228
+        mean texture    0.0203
+```
 
 ![feature_importance](xgb_feature_importance.png)
-
-Results from the project related to the business objective.
 
 ### Conclusions:
 
