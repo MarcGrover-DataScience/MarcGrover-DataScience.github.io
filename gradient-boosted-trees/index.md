@@ -8,8 +8,6 @@ permalink: /gradient-boosted-trees/
 
 ---
 
-#### This project is in development
-
 ## Goals and objectives:
 
 The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. Two previous projects built a decision tree model and random forest model for this prediction, achieving an accuracy of 93.86% and 95.61% respectively.  The goal of this project is to research if using a Gradient Boosted Trees (GBTs) predictor can produce more accurate results, and produce more insights into the data supporting the predictions. The predicted results are binary ‘Malignant’, ‘Benign’ values.
@@ -149,7 +147,7 @@ The model performance was evaluated to quantify the quality of the predictions. 
 * Specificity: 0.9286 (True Negative Rate)
 * ROC-AUC:   0.9964
 
-The ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a comprehensive performance metric that measures a classification model's ability to distinguish between classes across all possible classification thresholds.  For Gradient Boosted Trees specifically, ROC-AUC is particularly valuable because it evaluates the quality of the probability estimates produced by the ensemble, not just the final binary predictions. Since XGBoost combines predictions from multiple trees using weighted sums, it naturally produces continuous probability scores rather than hard classifications. An ROC-AUC of 0.99, for example, means there's a 99% probability that the model will rank a randomly chosen positive instance (malignant tumor) higher than a randomly chosen negative instance (benign tumor), demonstrating exceptional discriminative ability. 
+The ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a comprehensive performance metric that measures a classification model's ability to distinguish between classes across all possible classification thresholds.  For Gradient Boosted Trees specifically, ROC-AUC is particularly valuable because it evaluates the quality of the probability estimates produced by the ensemble, not just the final binary predictions. Since XGBoost combines predictions from multiple trees using weighted sums, it naturally produces continuous probability scores rather than hard classifications. An ROC-AUC of 0.99, for example, means there's a 99% probability that the model will rank a randomly chosen positive instance (malignant tumour) higher than a randomly chosen negative instance (benign tumour), demonstrating exceptional discriminative ability. 
 
 The ROC curve plots the True Positive Rate (TPR) on the y-axis against the False Positive Rate (FPR) on the x-axis at various probability thresholds, creating a curve that shows how the model performs as you vary the decision boundary. The AUC (Area Under the Curve) quantifies this into a single number between 0 and 1, where 1.0 represents perfect classification (the model correctly ranks all positive cases above all negative cases).
 
@@ -220,14 +218,14 @@ The overall conclusions are summarised as:
 
 * Model Performance:
   * **Superior Accuracy:** The XGBoost model achieved 97-99% test accuracy, representing a 1-2% improvement over Random Forest (96-97%) and 2-4% improvement over single Decision Trees (95%), demonstrating the power of sequential error correction in gradient boosting.  This demonstrates a common evolution of ensemble models for more accurate predictions; Decision Tree → Random Forest → Gradient Boosted Trees (XGBoost)
-  * **Exceptional Discriminative Ability:** ROC-AUC scores exceeding 0.99 indicate near-perfect ranking capability, meaning the model almost always assigns higher probabilities to malignant tumors than benign ones, providing reliable risk stratification for clinical decision-making.
+  * **Exceptional Discriminative Ability:** ROC-AUC scores exceeding 0.99 indicate near-perfect ranking capability, meaning the model almost always assigns higher probabilities to malignant tumours than benign ones, providing reliable risk stratification for clinical decision-making.
   * **Excellent Generalisation:** The small gap between training and testing performance (typically <2%) demonstrates that hyperparameter tuning, successfully prevented overfitting despite the model's complexity.
   * **High Prediction Confidence:** Mean confidence scores above 0.95 indicate the model makes decisive predictions rather than borderline calls, with the distribution heavily skewed toward high confidence (0.95-1.0), providing clinicians with trustworthy probability estimates.
   * **Minimal False Negatives:** The model achieved recall/sensitivity >98%, meaning it missed very few malignant cases (<2% false negatives), which is critical in cancer screening where failing to detect malignancy has severe consequences.
   * **Balanced Precision-Recall:** High precision (>97%) combined with high recall demonstrates the model doesn't sacrifice one metric for the other, minimising both unnecessary biopsies (false positives) and missed cancers (false negatives).
   * **Optimal Threshold Independence:** The high ROC-AUC means performance remains excellent across different classification thresholds, allowing clinicians to adjust sensitivity/specificity trade-offs based on clinical protocols without degrading overall quality.
 * Feature Insights:
-  * **Consistent Important Features:** XGBoost identified the same top features as Decision Trees and Random Forest ('worst concave points', 'worst perimeter','worst area'), validating that these cellular nucleus characteristics are genuinely predictive across multiple modeling approaches.
+  * **Consistent Important Features:** XGBoost identified the same top features as Decision Trees and Random Forest ('worst concave points', 'worst perimeter', 'worst area'), validating that these cellular nucleus characteristics are genuinely predictive across multiple modelling approaches.
   * **Feature Redundancy:** Only 14 features account for 90% of predictive importance, confirming that the majority of the 30 features provide marginal or redundant information, suggesting opportunities for dimensionality reduction.
   * **"Worst" Features Dominate:** Features measuring the worst (largest/most severe) cell nucleus characteristics consistently rank highest in importance, indicating that extreme cellular abnormalities are the strongest cancer indicators, aligning with pathological understanding.
   * **Size and Shape Features Critical:** The top features predominantly measure cell size (area, perimeter, radius) and shape irregularity (concavity), suggesting that both absolute size and geometric distortion are key diagnostic markers.

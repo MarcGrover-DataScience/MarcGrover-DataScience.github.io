@@ -86,65 +86,6 @@ plt.tight_layout()
 plt.savefig('xgb_class_distribution.png', dpi=300, bbox_inches='tight')
 plt.show()
 
-
-# #### START OF TEMP CODE 55 lines
-# # plt.savefig('xgb_confusion_matrix.png', dpi=300, bbox_inches='tight')
-# # plt.show()
-# # print("✓ Confusion matrix visualization saved")
-# #
-# # # Calculate additional metrics from confusion matrix
-# # tn, fp, fn, tp = cm.ravel()
-# # specificity = tn / (tn + fp)
-# # sensitivity = tp / (tp + fn)
-# #
-# # print(f"\nAdditional Metrics:")
-# # print(f"  True Positives:  {tp}")
-# # print(f"  True Negatives:  {tn}")
-# # print(f"  False Positives: {fp}")
-# # print(f"  False Negatives: {fn}")
-# # print(f"  Sensitivity (TPR): {sensitivity:.4f}")
-# # print(f"  Specificity (TNR): {specificity:.4f}")
-# #
-# # # ============================================================================
-# # # SUMMARY & COMPARISON
-# # # ============================================================================
-# # print("\n" + "="*70)
-# # print("XGBOOST MODEL SUMMARY")
-# # print("="*70)
-# # print(f"Dataset: Breast Cancer (569 samples, 30 features)")
-# # print(f"Training/Testing Split: 80/20")
-# # print(f"\nOptimal Hyperparameters:")
-# # print(f"  n_estimators: {optimal_n_est}")
-# # print(f"  learning_rate: {optimal_lr}")
-# # print(f"  max_depth: {optimal_depth}")
-# # print(f"  subsample: {optimal_subsample}")
-# # print(f"  colsample_bytree: {optimal_colsample}")
-# # print(f"  gamma: {optimal_gamma}")
-# # print(f"  reg_lambda: {optimal_reg_lambda}")
-# # print(f"\nPerformance Metrics:")
-# # print(f"  Test Accuracy: {test_accuracy:.4f}")
-# # print(f"  Test F1-Score: {test_f1:.4f}")
-# # print(f"  Test ROC-AUC: {test_auc:.4f}")
-# # print(f"  Average Prediction Confidence: {np.mean(confidence_scores):.4f}")
-# # print(f"\nFeature Insights:")
-# # print(f"  Most Important Feature: {importance_df.iloc[0]['Feature']}")
-# # print(f"  Features for 90% Importance: {features_90_pct} out of 30")
-# # print(f"\nKey Insights:")
-# # print(f"  • XGBoost achieved {test_accuracy:.1%} accuracy on test set")
-# # print(f"  • ROC-AUC of {test_auc:.4f} indicates excellent discrimination")
-# # print(f"  • Model shows high confidence (avg {np.mean(confidence_scores):.3f})")
-# # print(f"  • Only {features_90_pct} features account for 90% of predictive power")
-# # print(f"  • Low false negative rate ({fn}) - critical for cancer detection")
-# # print(f"  • Sequential boosting provides strong generalization")
-# # print(f"\nAdvantages over Random Forest:")
-# # print(f"  • Sequential learning corrects previous tree errors")
-# # print(f"  • Built-in regularization (gamma, reg_lambda) prevents overfitting")
-# # print(f"  • Learning rate allows fine-grained control")
-# # print(f"  • Generally achieves higher accuracy with fewer trees")
-# # print(f"\nAll visualizations saved successfully!")
-# # (print("="*70)
-#
-#
 # Feature correlation heatmap (top 10 features)
 plt.figure(figsize=(12, 10))
 top_features = df[list(feature_names)].corr()
@@ -592,7 +533,7 @@ print(f"\nPrediction Confidence Statistics:")
 print(f"  Mean confidence: {np.mean(confidence_scores):.4f}")
 print(f"  Min confidence:  {np.min(confidence_scores):.4f}")
 print(f"  Max confidence:  {np.max(confidence_scores):.4f}")
-print(f"  Std confidence:  {np.std(confidence_scores):.4f}")
+print(f"  Standard deviation confidence:  {np.std(confidence_scores):.4f}")
 
 # Metrics comparison visualisation
 metrics_df = pd.DataFrame({
