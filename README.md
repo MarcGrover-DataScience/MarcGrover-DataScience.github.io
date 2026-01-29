@@ -29,7 +29,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
-* ### Principal Component Analysis (PCA)
+* ### [Principal Component Analysis (PCA)](/principle-component-analysis/)
 * ### Association Rule
 * ### Causal Impact Analysis
 * ### [Great Expectations (Validation)](/great-expectations/)
