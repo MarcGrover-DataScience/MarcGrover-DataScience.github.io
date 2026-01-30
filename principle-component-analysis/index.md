@@ -2,9 +2,9 @@
 
 layout: default
 
-title: Project (Principle Component Analysis)
+title: Breast Cancer Dataset (Principal Component Analysis)
 
-permalink: /principle-component-analysis/
+permalink: /principal-component-analysis/
 
 ---
 
@@ -22,8 +22,9 @@ The Wisconsin Breast Cancer dataset is considered a good case for researching an
 
 (Include summary of the findings)
 
-How can the optimal number of Principle Components be determined, as well as what they are?
-What are the outputs other than the components?  Is there scoring of how much variance is captured / lost?  Is there a measure of quality of the output?
+How can the optimal number of Principle Components be determined, as well as what they are?  
+What are the outputs other than the components?  
+Is there scoring of how much variance is captured / lost?  Is there a measure of quality of the output?
 
 ## Application:  
 
@@ -66,23 +67,26 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 The method applied...  
 
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.  
-* **Scaling**  
+* **Scaling**  the feature data, so that for each feature the mean is zero, with a standard deviation equal to 1.  This is an important step in performing PCA as the technique is based on variance, therefore a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
+* **Identify the top 2 components** for the breast cancer features.  The initial model was to determine the top 2 
 
 ## Results and conclusions:
 
 Results from the project related to the business objective.
 
-### Correlation
+### Feature Correlation:
+
+Correlation of the 30 features was determine as visualised in the correlation matrix below. This highlights that many of the fields have low-correlation, however there appears to be high-correlation in the features relating to radius, area and perimeter metrics, where the correlation is in the range (0.8, 1.0).  This evidence of high-correlation suggests the implementation of PCA is suitable to this data.
 
 ![correlation_matrix](correlation_matrix.png)
 
-Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
+### Identifying 2 Principle Components:
 
-### Idetifying 2 Principle Components
+The plot below shows the plot of the points for the training data against the top 2 principle components, mapped to the determined diagnosis of malignant or benign.  This plot visualises there is good separation of the dependent variable for the data plotted against the two principle components.
 
 ![pca_scatter](pca_scatter.png)
 
-Each component is a combination of features in the original data, that has been scaled.
+Each of the two principle components are a combination of the features in the original data.
 
 Visualising PCA is crucial because the components themselves are "abstract", they don't have the simple names (like "mean radius") that original data has. To truly understand them, you need to look at both the variance they capture and the influence of the original variables.
 
