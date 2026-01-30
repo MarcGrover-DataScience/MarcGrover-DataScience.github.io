@@ -12,9 +12,11 @@ permalink: /principle-component-analysis/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A decision tree model was built to make the predictions, achieving an accuracy of 93.86%, with the most important feature identified as 'worst radius'.
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principle Component Analysis as a technique for deimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset.
 
-The Wisconsin Breast Cancer dataset is a "textbook" case for PCA because it suffers from extreme redundancy. When features are highly correlated, they are essentially telling the same story multiple times.
+The Wisconsin Breast Cancer dataset is considered a good case for researching and demonstrating PCA because it suffers from extreme redundancy, as highlighted by the high correlation of features. When features are highly correlated, they are essentially telling the same story multiple times.
+
+(Include summary of the findings)
 
 ## Application:  
 
