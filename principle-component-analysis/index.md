@@ -10,6 +10,10 @@ permalink: /principle-component-analysis/
 
 # This project is in development
 
+Unsupervised learning algorithm
+Scale data
+youtube.com/watch?v=RfbC6fxAxSI
+
 ## Goals and objectives:
 
 The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principle Component Analysis as a technique for deimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset.
@@ -60,6 +64,8 @@ The dataset used is the same as used in the Decision Tree, Random Forest and Gra
 The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
 
 ![correlation_matrix](correlation_matrix.png)
+
+Each component is a combination of features in the original data, that has been scaled.
 
 Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
 
