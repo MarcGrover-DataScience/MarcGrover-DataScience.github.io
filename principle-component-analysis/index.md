@@ -12,7 +12,9 @@ permalink: /principle-component-analysis/
 
 ## Goals and objectives:
 
-The business objective is ...
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images. A decision tree model was built to make the predictions, achieving an accuracy of 93.86%, with the most important feature identified as 'worst radius'.
+
+The Wisconsin Breast Cancer dataset is a "textbook" case for PCA because it suffers from extreme redundancy. When features are highly correlated, they are essentially telling the same story multiple times.
 
 ## Application:  
 
@@ -42,6 +44,8 @@ Details of how this is applicable to multiple industries to solve business probl
 ## Methodology:  
 
 Details of the methodology applied in the project.
+
+!(correlation_matrix)[correlation_matrix.png]
 
 Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
 
