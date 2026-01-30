@@ -14,7 +14,7 @@ The business objective is to predict the cancer status of cells (benign or malig
 
 This project contains many references to the Decision Tree and Random Forest projects as one of the key analysis goals is to understand the comparison between the three approaches.
 
-This follows on from the Decision Tree project found here , and the Random Forest project found here.
+This follows on from the Decision Tree project found [here](https://marcgrover-datascience.github.io/decision-trees/) , and the Random Forest project found [here](https://marcgrover-datascience.github.io/random-forest/).
 
 An optimal gradient boost trees model was built to make the predictions, achieving an accuracy of 97.37%, using the determined optimal hyperparameters. The accuracy increased by 1.76% from the optimal random forest in the previous project.  For the optimal gradient boosted tree ensemble, the most important feature is identified as ‘worse concave points’, followed by 'worst perimeter' and 'worst area'.  The top five most important features are the same as those for the optimal random forest, though in a different order and with different importance scores. 
 
