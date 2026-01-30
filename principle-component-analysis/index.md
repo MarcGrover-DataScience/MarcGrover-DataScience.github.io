@@ -41,42 +41,23 @@ Benefits of Using PCA include:
 * **Improved Algorithm Performance:** Many machine learning algorithms (like regressions or clustering) run faster and more accurately when they aren't bogged down by redundant variables.
 * **Feature Correlation:** It eliminates multicollinearity, ensuring that the remaining features are independent of one another.
 
-PCA is a technique that can be applied in multiple scenarios across all business sectors. PCA serves as a "noise filter," allowing professionals to ignore the hundreds of minor variables and focus on the few underlying forces that actually drive results.
+PCA is a technique that can be applied in multiple scenarios across all business sectors. PCA serves as a "noise filter," allowing professionals to ignore the hundreds of minor variables and focus on the few underlying forces that actually drive results.  Practical real-world examples include:
 
-1. Medical Sector: Genomics & Disease Subtyping
-In modern medicine, a single patient sample can contain data on expression levels for over 20,000 genes.
+* **Medical Sector: Genomics & Disease Subtyping** - In modern medicine, a single patient sample can contain data on expression levels for over 20,000 genes. Researchers use PCA to condense these thousands of gene expressions into a few "eigen-genes".  This helps identify distinct patient clusters. For example, in cancer research, PCA can reveal that what looks like one disease is actually three different subtypes that require different treatments, based on how the gene data clusters in multi-dimensional space, where PCA reduces the dimensions simplfying the understanding.
 
-Application: Researchers use PCA to condense these thousands of gene expressions into a few "eigen-genes."
+* **Finance Sector: Portfolio Risk Management** - Financial markets contain multiple fluctuating stock prices, interest rates, and commodity values.  Analysts apply PCA to a portfolio of dozens of stocks to find "Common Factors".  Instead of watching many individual stock movements (e.g. 50-100), they watch the first few principal components (e.g. 3-5), which often represent Market Sentiment, Interest Rate Sensitivity, and Industry Trends.  A primary benefit is that PCA simplifies Risk Assessment.  As an example, should the first principal component (e.g. "The General Market") drop, the analyst knows exactly how much of their portfolio is exposed to that specific systematic risk versus individual company risk.
 
-Benefit: It helps identify distinct patient clusters. For example, in cancer research, PCA can reveal that what looks like one disease is actually three different subtypes that require different treatments, based on how the gene data clusters in 2D or 3D space.
+* **Manufacturing Sector: Quality Control & Predictive Maintenance** - High-tech factories use hundreds of sensors to monitor temperature, vibration, pressure, and speed on an assembly line.  PCA aggregates these sensor readings into a a few (or even a single) "Health Score".  This application of PCA supports improved Anomaly Detection. For example, in a 30-sensor system, it’s hard to tell if one sensor is slightly off. However, when PCA combines them, a "drift" in the first principal component can signal that a machine is beginning to fail long before an actual breakdown occurs, allowing for proactive maintenance.
 
-2. Finance Sector: Portfolio Risk Management
-Financial markets are a chaotic web of fluctuating stock prices, interest rates, and commodity values.
-
-Application: Analysts apply PCA to a portfolio of dozens of stocks to find "Common Factors." Instead of watching 50 individual stock movements, they watch the first three principal components, which often represent Market Sentiment, Interest Rate Sensitivity, and Industry Trends.
-
-Benefit: It simplifies Risk Assessment. If the first principal component (e.g., "The General Market") drops, the analyst knows exactly how much of their portfolio is exposed to that specific systematic risk versus idiosyncratic (individual company) risk.
-
-3. Manufacturing Sector: Quality Control & Predictive Maintenance
-High-tech factories use hundreds of sensors to monitor temperature, vibration, pressure, and speed on an assembly line.
-
-Application: PCA aggregates these sensor readings into a single "Health Score."
-
-Benefit: Anomaly Detection. In a 30-sensor system, it’s hard to tell if one sensor is slightly off. However, when PCA combines them, a "drift" in the first principal component can signal that a machine is beginning to fail long before an actual breakdown occurs, allowing for proactive maintenance.
-
-4. Science Sector: Remote Sensing & Climate Study
-Satellite imagery (Hyperspectral imaging) captures data across hundreds of different light wavelengths, many of which are invisible to the human eye.
-
-Application: Scientists apply PCA to satellite data of a forest or ocean.
-
-Benefit: Feature Extraction. While a raw image might just look green, PCA can separate the "noise" of sunlight reflection from the "signal" of chlorophyll density or moisture levels. This allows scientists to map deforestation or drought levels with extreme precision using just the top 2 or 3 components.
-
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
+* **Science Sector: Remote Sensing & Climate Study** - Satellite imagery (Hyperspectral imaging) captures data across hundreds of different light wavelengths, many of which are invisible to the human eye. Scientists apply PCA to satellite data of a forest or ocean.  A key benefit of this application of PCA, is Feature Extraction. While a raw image might just look green, PCA can separate the "noise" of sunlight reflection from the "signal" of chlorophyll density or moisture levels. This allows scientists to map deforestation or drought levels with extreme precision using just the top 2 or 3 components.
 
 ## Methodology:  
 
 Details of the methodology applied in the project.
+
+The dataset used is the same as used in the Decision Tree, Random Forest and Gradient Boosted Trees projects - the Wisconsin Breast Cancer dataset.  This is available from scikit-learn, including 569 observations, including 30 independent features.
+
+The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
 
 ![correlation_matrix](correlation_matrix.png)
 
