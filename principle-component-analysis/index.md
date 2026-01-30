@@ -10,9 +10,9 @@ permalink: /principle-component-analysis/
 
 # This project is in development
 
-Unsupervised learning algorithm
-Scale data
-youtube.com/watch?v=RfbC6fxAxSI
+Unsupervised learning algorithm  
+Scale data  
+youtube.com/watch?v=RfbC6fxAxSI  
 
 ## Goals and objectives:
 
@@ -68,6 +68,10 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 Each component is a combination of features in the original data, that has been scaled.
 
 Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
+
+![pca_scatter](pca_scatter.png)
+
+![pca_comp_heatmap](pca_comp_heatmap.png)
 
 ## Results and conclusions:
 
