@@ -22,17 +22,17 @@ Think of it like taking a high-resolution 3D photo of a complex object and findi
 
 PCA identifies patterns in data based on the correlation between features. It seeks to maximise variance, finding the directions (Principal Components) along which the data is most spread out.  Common steps for applying PCA include:  
 
-* Standardisation: Scaling the data so each variable contributes equally.
-* Covariance Matrix Computation: Identifying how variables vary from the mean with respect to each other.
-* Eigenvector/Eigenvalue Calculation: Determining the principal components.
-* Feature Vector: Choosing which components to keep and which to discard.
+* **Standardisation:** Scaling the data so each variable contributes equally.
+* **Covariance Matrix Computation:** Identifying how variables vary from the mean with respect to each other.
+* **Eigenvector/Eigenvalue Calculation:** Determining the principal components.
+* **Feature Vector:** Choosing which components to keep and which to discard.
 
 Benefits of Using PCA include:
 
-* Dimensionality Reduction: It simplifies complex datasets, making them easier to explore and visualize (e.g., turning 10 variables into a 2D plot).
-* Noise Reduction: By discarding components with low variance, you often filter out "noise" and keep the "signal."
-* Improved Algorithm Performance: Many machine learning algorithms (like regressions or clustering) run faster and more accurately when they aren't bogged down by redundant variables.
-* Feature Correlation: It eliminates multicollinearity, ensuring that the remaining features are independent of one another.
+* **Dimensionality Reduction:** It simplifies complex datasets, making them easier to explore and visualize (e.g., turning 10 variables into a 2D plot).
+* **Noise Reduction:** By discarding components with low variance, you often filter out "noise" and keep the "signal."
+* **Improved Algorithm Performance:** Many machine learning algorithms (like regressions or clustering) run faster and more accurately when they aren't bogged down by redundant variables.
+* **Feature Correlation:** It eliminates multicollinearity, ensuring that the remaining features are independent of one another.
 
 
 
