@@ -61,21 +61,57 @@ Details of the methodology applied in the project.
 
 The dataset used is the same as used in the Decision Tree, Random Forest and Gradient Boosted Trees projects - the Wisconsin Breast Cancer dataset.  This is available from scikit-learn, including 569 observations, including 30 independent features.
 
-The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
+The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)  
 
-![correlation_matrix](correlation_matrix.png)
+The method applied...  
 
-Each component is a combination of features in the original data, that has been scaled.
-
-Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
-
-![pca_scatter](pca_scatter.png)
-
-![pca_comp_heatmap](pca_comp_heatmap.png)
+* **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.  
+* **Scaling**  
 
 ## Results and conclusions:
 
 Results from the project related to the business objective.
+
+### Correlation
+
+![correlation_matrix](correlation_matrix.png)
+
+Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
+
+### Idetifying 2 Principle Components
+
+![pca_scatter](pca_scatter.png)
+
+Each component is a combination of features in the original data, that has been scaled.
+
+Visualising PCA is crucial because the components themselves are "abstract", they don't have the simple names (like "mean radius") that original data has. To truly understand them, you need to look at both the variance they capture and the influence of the original variables.
+
+![pca_comp_heatmap](pca_comp_heatmap.png)
+
+### Optimum number of components
+
+The Scree Plot (The "How many do I need?" view)
+A Scree Plot shows the percentage of total variance explained by each principal component. In the Breast Cancer dataset, you'll notice a sharp "elbow" where the variance explained drops off.
+
+What it tells you: It helps you decide the "cut-off" point. If the first 3 components explain 90% of the variance, you can safely ignore the other 27.
+
+The Goal: You want a small number of components to capture a large amount of information.
+
+PCA Loadings / Biplot (The "What do they mean?" view)
+A Biplot is a scatter plot (like the one in the code) with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).
+
+Direction: The direction of the arrow shows which component that feature contributes to most. If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size."
+
+Length: Longer arrows indicate that the feature has a stronger influence on that component.
+
+Angle: If two arrows are close together, those features are highly correlated.
+
+Loading Heatmap (The "Deep Dive" view)
+If 30 arrows on a Biplot look too messy, a Heatmap is a cleaner way to see the "recipe" for each component.
+
+How to read it: Each row is a Principal Component, and each column is an original feature.
+
+The Insight: You might find that PC1 is heavily weighted by "Size" features (Area, Perimeter), while PC2 is heavily weighted by "Shape" features (Concavity, Fractal Dimension). This allows you to rename PC1 to "Tumor Bulk" and PC2 to "Tumor Irregularity" in your report.
 
 ### Conclusions:
 
