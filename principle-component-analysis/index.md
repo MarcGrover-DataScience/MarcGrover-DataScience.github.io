@@ -45,7 +45,7 @@ Details of how this is applicable to multiple industries to solve business probl
 
 Details of the methodology applied in the project.
 
-!(correlation_matrix)[correlation_matrix.png]
+![correlation_matrix](correlation_matrix.png)
 
 Always remember to scale your data before performing PCA. Because PCA is based on variance, a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
 
