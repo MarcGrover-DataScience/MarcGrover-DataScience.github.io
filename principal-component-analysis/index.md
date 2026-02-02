@@ -84,7 +84,7 @@ The plot below shows the plot of the points for the training data against the to
 
 ![pca_scatter](pca_scatter.png)
 
-Each of the two principal components are a combination of the features in the original data.
+Each of the two principal components are a combination of the features in the original data.  The variance explained by the first 2 principal components is 63.24%.
 
 Visualising PCA is crucial because the components themselves are "abstract", they don't have the simple names (like "mean radius") that original data has. To truly understand them, you need to look at both the variance they capture and the influence of the original variables.
 
@@ -93,11 +93,15 @@ Visualising PCA is crucial because the components themselves are "abstract", the
 ### Optimum number of components
 
 The Scree Plot (The "How many do I need?" view)
-A Scree Plot shows the percentage of total variance explained by each principal component. In the Breast Cancer dataset, you'll notice a sharp "elbow" where the variance explained drops off.
+A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analyitical tool to determine the optimum number of components to use.  
+
+In the Breast Cancer dataset, you'll notice a sharp "elbow" where the variance explained drops off.
 
 What it tells you: It helps you decide the "cut-off" point. If the first 3 components explain 90% of the variance, you can safely ignore the other 27.
 
 The Goal: You want a small number of components to capture a large amount of information.
+
+### Understanding the components
 
 PCA Loadings / Biplot (The "What do they mean?" view)
 A Biplot is a scatter plot (like the one in the code) with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).
