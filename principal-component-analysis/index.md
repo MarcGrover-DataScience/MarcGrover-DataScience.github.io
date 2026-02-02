@@ -8,7 +8,7 @@ permalink: /principal-component-analysis/
 
 ---
 
-# This project is in development
+# This project is in development 
 
 Unsupervised learning algorithm  
 Scale data  
