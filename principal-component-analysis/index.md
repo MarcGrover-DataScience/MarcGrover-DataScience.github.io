@@ -109,7 +109,7 @@ It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Curv
 ### Optimum number of components:
 
 The Scree Plot (The "How many do I need?" view)
-A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analytical tool to determine the optimum number of components to use.  The initial analysis of principal components looked at the top 2, where the value of 2 was selected arbitrarily.  More thorough analysis of the optimum number of components.
+A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analytical tool to determine the optimum number of components to use.  The initial analysis of principal components considered the top 2, where the value of 2 was selected for demonstration purposes.  More thorough analysis of the optimum number of components.
 
 To understand how many components are necessary, a Scree Plot combined with a Cumulative Variance calculation is used. This allows quantifying exactly how much information is retained as dimensions are reduced.
 
@@ -119,6 +119,19 @@ What it tells you: It helps you decide the "cut-off" point. If the first 3 compo
 
 The Goal: You want a small number of components to capture a large amount of information.
 
+```
+Variance Report
+PC1: 44.27% (Cumulative: 44.27%)
+PC2: 18.97% (Cumulative: 63.24%)
+PC3: 9.39% (Cumulative: 72.64%)
+PC4: 6.60% (Cumulative: 79.24%)
+PC5: 5.50% (Cumulative: 84.73%)
+PC6: 4.02% (Cumulative: 88.76%)
+PC7: 2.25% (Cumulative: 91.01%)
+PC8: 1.59% (Cumulative: 92.60%)
+PC9: 1.39% (Cumulative: 93.99%)
+PC10: 1.17% (Cumulative: 95.16%)
+```
 
 
 ### Loading Heatmap (contains a lot of what is shown above)
