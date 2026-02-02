@@ -90,10 +90,22 @@ Visualising PCA is crucial because the components themselves are "abstract", the
 
 ![pca_comp_heatmap](pca_comp_heatmap.png)
 
-### Optimum number of components
+### Understanding the Principal Components:
+
+A Biplot is a powerful visualisation in PCA because it bridges the gap between the "abstract" principal components and the "real-world" features.  
+
+A Biplot is a scatter plot with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).
+
+Direction: The direction of the arrow shows which component that feature contributes to most. If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size."
+
+Length: Longer arrows indicate that the feature has a stronger influence on that component.
+
+Angle: If two arrows are close together, those features are highly correlated.
+
+### Optimum number of components:
 
 The Scree Plot (The "How many do I need?" view)
-A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analyitical tool to determine the optimum number of components to use.  
+A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analyitical tool to determine the optimum number of components to use.  The initial analysis of principal components looked at the top 2, where the value of 2 was selected arbitrarily.  More thorough analysis of the optimum number of components 
 
 In the Breast Cancer dataset, you'll notice a sharp "elbow" where the variance explained drops off.
 
@@ -101,16 +113,9 @@ What it tells you: It helps you decide the "cut-off" point. If the first 3 compo
 
 The Goal: You want a small number of components to capture a large amount of information.
 
-### Understanding the components
 
-PCA Loadings / Biplot (The "What do they mean?" view)
-A Biplot is a scatter plot (like the one in the code) with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).
 
-Direction: The direction of the arrow shows which component that feature contributes to most. If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size."
-
-Length: Longer arrows indicate that the feature has a stronger influence on that component.
-
-Angle: If two arrows are close together, those features are highly correlated.
+### Loading Heatmap (contains a lot of what is shown above)
 
 Loading Heatmap (The "Deep Dive" view)
 If 30 arrows on a Biplot look too messy, a Heatmap is a cleaner way to see the "recipe" for each component.
