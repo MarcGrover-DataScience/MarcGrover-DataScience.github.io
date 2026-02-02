@@ -128,7 +128,7 @@ PC7: 2.25% (Cumulative: 91.01%)
 PC8: 1.59% (Cumulative: 92.60%)
 PC9: 1.39% (Cumulative: 93.99%)
 PC10: 1.17% (Cumulative: 95.16%)
-```
+```  
 
 ![pca_variance_analysis](pca_variance_analysis.png)
 
