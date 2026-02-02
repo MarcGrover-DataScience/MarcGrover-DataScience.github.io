@@ -94,13 +94,15 @@ Visualising PCA is crucial because the components themselves are "abstract", the
 
 A Biplot is a powerful visualisation in PCA because it bridges the gap between the "abstract" principal components and the "real-world" features.  
 
-A Biplot is a scatter plot with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).
+A Biplot is a scatter plot with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).  The direction of the arrow shows which component that feature contributes to most. If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size".  Longer arrows indicate that the feature has a stronger influence on that component.
 
-Direction: The direction of the arrow shows which component that feature contributes to most. If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size."
+If two arrows are close together, those features are highly correlated.  If arrows are 90° apart, they are uncorrelated.
 
-Length: Longer arrows indicate that the feature has a stronger influence on that component.
+The Biplot below shows the relation of the top 10 features for the 2 principal components (not all 30 features were included for simplicity).  
 
-Angle: If two arrows are close together, those features are highly correlated.
+![pca_biplot](pca_biplot.png)
+
+From the plot it can be seen that...  arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction. This is visual confirmation of the high correlation we discussed earlier—they are effectively providing the same information to the model.
 
 ### Optimum number of components:
 
@@ -123,6 +125,9 @@ If 30 arrows on a Biplot look too messy, a Heatmap is a cleaner way to see the "
 How to read it: Each row is a Principal Component, and each column is an original feature.
 
 The Insight: You might find that PC1 is heavily weighted by "Size" features (Area, Perimeter), while PC2 is heavily weighted by "Shape" features (Concavity, Fractal Dimension). This allows you to rename PC1 to "Tumor Bulk" and PC2 to "Tumor Irregularity" in your report.
+
+
+### Topic to add:  Cumulative Explained Variance
 
 ### Conclusions:
 
