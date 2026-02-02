@@ -108,19 +108,17 @@ It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Curv
 
 ### Optimum number of components:
 
-The Scree Plot (The "How many do I need?" view)
 A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analytical tool to determine the optimum number of components to use.  The initial analysis of principal components considered the top 2, where the value of 2 was selected for demonstration purposes.  More thorough analysis of the optimum number of components.
 
-To understand how many components are necessary, a Scree Plot combined with a Cumulative Variance calculation is used. This allows quantifying exactly how much information is retained as dimensions are reduced.
+To understand how many components are needed, a Scree Plot combined with a Cumulative Variance calculation is used. This allows quantifying exactly how much information is retained as dimensions are reduced.  The goal of this is to simplify the data by having a small number of components, to capture a large amount of information.
 
-In the Breast Cancer dataset, you'll notice a sharp "elbow" where the variance explained drops off.
+The component variance report below shows the variance captured by each component in decreasing order.  It shows that should the number of components be required to capture >90% of the variance, then the top 7 components would provide this (accounting for 91.01% of the variance).  The scree plot shows the explained variance for the components in decreasing order, as well as the cumulative variance.
 
-What it tells you: It helps you decide the "cut-off" point. If the first 3 components explain 90% of the variance, you can safely ignore the other 27.
+The scree plot shows an elbow at 3 components, explaining 72.64% of the variance.  This suggests that the optimum number of components is 3 as the variance explained by subsequent components is diminishing.  However, should it be required to select components that explain a specified percentage of variance (say 90%), then 3 isn't the optimal value, and the scree plot would provide the required analytics.
 
-The Goal: You want a small number of components to capture a large amount of information.
 
 ```
-Variance Report
+Component Variance
 PC1: 44.27% (Cumulative: 44.27%)
 PC2: 18.97% (Cumulative: 63.24%)
 PC3: 9.39% (Cumulative: 72.64%)
@@ -133,6 +131,7 @@ PC9: 1.39% (Cumulative: 93.99%)
 PC10: 1.17% (Cumulative: 95.16%)
 ```
 
+![pca_variance_analysis](pca_variance_analysis.png)
 
 ### Loading Heatmap (contains a lot of what is shown above)
 
