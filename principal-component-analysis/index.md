@@ -104,12 +104,14 @@ The Biplot below shows the relation of the top 10 features for the 2 principal c
 
 From the biplot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence).  This is visual confirmation of the high correlation we discussed earlier, i.e. they are effectively providing the same information to the model.  As the the "mean area", "mean perimeter", and "mean radius" features point heavily along the PC1 axis, it can be interpretted that these are strongly associated with a high value in PC1.
 
-It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Curvature" features (Concavity), while PC2 is heavily weighted by "Shape Irregularity" features (Fractal Dimension). This suggests renaming PC1 to "Tumour Curvature" and PC2 to "Tumour Irregularity", so support better understanding.
+It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Curvature" features (Concavity), while PC2 is heavily weighted by "Shape Irregularity" features (Fractal Dimension). This suggests renaming PC1 to "Tumour Curvature" and PC2 to "Tumour Irregularity", to support better understanding.
 
 ### Optimum number of components:
 
 The Scree Plot (The "How many do I need?" view)
-A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analyitical tool to determine the optimum number of components to use.  The initial analysis of principal components looked at the top 2, where the value of 2 was selected arbitrarily.  More thorough analysis of the optimum number of components 
+A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analytical tool to determine the optimum number of components to use.  The initial analysis of principal components looked at the top 2, where the value of 2 was selected arbitrarily.  More thorough analysis of the optimum number of components.
+
+To understand how many components are necessary, a Scree Plot combined with a Cumulative Variance calculation is used. This allows quantifying exactly how much information is retained as dimensions are reduced.
 
 In the Breast Cancer dataset, you'll notice a sharp "elbow" where the variance explained drops off.
 
