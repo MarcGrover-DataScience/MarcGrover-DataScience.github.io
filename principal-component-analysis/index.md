@@ -102,7 +102,7 @@ The Biplot below shows the relation of the top 10 features for the 2 principal c
 
 ![pca_biplot](pca_biplot.png)
 
-From the plot it can be seen that...  arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction. This is visual confirmation of the high correlation we discussed earlier—they are effectively providing the same information to the model.
+From the plot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence). This is visual confirmation of the high correlation we discussed earlier—they are effectively providing the same information to the model.
 
 ### Optimum number of components:
 
