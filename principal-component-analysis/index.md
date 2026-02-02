@@ -94,7 +94,7 @@ Visualising PCA is crucial because the components themselves are "abstract", the
 
 A Biplot is a powerful visualisation in PCA because it bridges the gap between the "abstract" principal components and the "real-world" features.  
 
-A Biplot is a scatter plot with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).  The direction of the arrow shows which component that feature contributes to most. If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size".  Longer arrows indicate that the feature has a stronger influence on that component.
+A Biplot is a scatter plot with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).  The direction of the arrow shows which component that feature contributes to most.  If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size".  Longer arrows indicate that the feature has a stronger influence on that component.
 
 If two arrows are close together, those features are highly correlated.  If arrows are 90° apart, they are uncorrelated.
 
@@ -102,7 +102,9 @@ The Biplot below shows the relation of the top 10 features for the 2 principal c
 
 ![pca_biplot](pca_biplot.png)
 
-From the plot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence). This is visual confirmation of the high correlation we discussed earlier—they are effectively providing the same information to the model.
+From the biplot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence).  This is visual confirmation of the high correlation we discussed earlier, i.e. they are effectively providing the same information to the model.  As the the "mean area", "mean perimeter", and "mean radius" features point heavily along the PC1 axis, it can be interpretted that these are strongly associated with a high value in PC1.
+
+It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Curvature" features (Concavity), while PC2 is heavily weighted by "Shape Irregularity" features (Fractal Dimension). This suggests renaming PC1 to "Tumour Curvature" and PC2 to "Tumour Irregularity", so support better understanding.
 
 ### Optimum number of components:
 
