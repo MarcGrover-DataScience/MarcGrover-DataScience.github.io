@@ -66,11 +66,11 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.  
 * **Scaling**  the feature data, so that for each feature the mean is zero, with a standard deviation equal to 1.  This is an important step in performing PCA as the technique is based on variance, therefore a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
-* **Identify the top 2 components** for the breast cancer features.  The initial model was to determine the top 2 
+* **Identify the top 2 components** for the breast cancer features.  The initial model was to determine the top 2
+* **Understand the principal components** -
+* **Determine optimal number of components** - 
 
 ## Results and conclusions:
-
-Results from the project related to the business objective.
 
 ### Feature Correlation:
 
@@ -84,7 +84,7 @@ The plot below shows the plot of the points for the training data against the to
 
 ![pca_scatter](pca_scatter.png)
 
-Each of the two principal components are a combination of the features in the original data.  The variance explained by the first 2 principal components is 63.24%.
+Each of the two principal components are a combination of the features in the original data.  The variance explained by the first 2 principal components is 63.24%.  The PCA scatter plot shows a clear boundary between the two classes, which reveals that the "Malignant" and "Benign" samples are not randomly distributed, as they form distinct, separable clusters in reduced space.
 
 Visualising PCA is crucial because the components themselves are "abstract", they don't have the simple names (like "mean radius") that original data has. To truly understand them, you need to look at both the variance they capture and the influence of the original variables.
 
@@ -102,9 +102,9 @@ The Biplot below shows the relation of the top 10 features for the 2 principal c
 
 ![pca_biplot](pca_biplot.png)
 
-From the biplot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence).  This is visual confirmation of the high correlation we discussed earlier, i.e. they are effectively providing the same information to the model.  As the the "mean area", "mean perimeter", and "mean radius" features point heavily along the PC1 axis, it can be interpretted that these are strongly associated with a high value in PC1.
+From the biplot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence).  This is visual confirmation of the high correlation we discussed earlier, i.e. they are effectively providing the same information to the model.  As the the "mean area", "mean perimeter", "mean radius", and "mean concavity" features point heavily along the PC1 axis, it can be interpretted that these are strongly associated with a high value in PC1.
 
-It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Curvature" features (Concavity), while PC2 is heavily weighted by "Shape Irregularity" features (Fractal Dimension). This suggests renaming PC1 to "Tumour Curvature" and PC2 to "Tumour Irregularity", to support better understanding.
+It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Size" and "Shape" features (Concavity, Area, Radius, Perimeter), while PC2 is heavily weighted by "Shape Irregularity" features (Fractal Dimension). This suggests renaming PC1 to "Tumour Size and Shape" and PC2 to "Tumour Irregularity" may support better understanding of the components.
 
 ### Optimum number of components:
 
@@ -140,42 +140,19 @@ Data Compression: You can reduce the dataset from 30 features to just 7 while st
 Efficiency: By using only the components before the "elbow," you significantly reduce the complexity of any machine learning model you build afterward, often leading to better generalization and faster training times.  
 Information Loss: The remaining 23 components only contain about 9% of the total variance combined, confirming that most features in this dataset were highly redundant.
 
-* **Massive Data Redundancy** - The 30 features measured in the Wisconsin dataset are highly redundant.  The first two principal components alone capture approximately 63% of the total variance, and just 7 components reach the 90% mark.  Most of the information needed to describe these tumors is contained in less than a quarter of the variables collected.
+* **Large Data Redundancy** - The 30 features measured in the Wisconsin dataset are highly redundant.  The first two principal components alone capture approximately 63% of the total variance, and just 7 components reach the 90% mark.  Most of the information needed to describe these tumors is contained in less than a quarter of the variables collected.
 
-2. Structural Separation of Tumor Types
-PCA reveals that the "Malignant" and "Benign" samples are not randomly distributed; they form distinct, separable clusters in reduced space.
+* **Structural Separation of Tumor Types** - PCA reveals that the "Malignant" and "Benign" samples are not randomly distributed; they form distinct, separable clusters in reduced space.  The PCA scatter plot shows a clear boundary between the two classes.  This confirms that the underlying physical characteristics of the cells are fundamentally different between the two groups, making this dataset an excellent candidate for machine learning classification.
 
-The Evidence: The PCA scatter plot shows a clear boundary between the two classes (typically along the PC1 axis).
+* **Size and Shape as the Primary Drivers (PC1)** - By examining the loadings, we can conclude that the first principal component (PC1) essentially represents the overall magnitude or "bulk" of the cell nuclei, along with the shape in terms of the concavity.
 
-The Takeaway: This confirms that the underlying physical characteristics of the cells (captured by the sensors) are fundamentally different between the two groups, making this dataset an excellent candidate for machine learning classification.
+The Evidence: Features like mean radius, mean perimeter, mean area, and mean concavity all have high, positive loadings on PC1 and their vectors in the Biplot point in the same direction.  The single most important factor distinguishing these samples is how large and concave the cells are. Larger values on the PC1 axis correlate strongly with malignant samples.
 
-3. "Size" as the Primary Driver (PC1)
-By examining the loadings, we can conclude that the first principal component (PC1) essentially represents the overall magnitude or "bulk" of the cell nuclei.
+* **"Irregularity" as the Secondary Driver (PC2)** - While PC1 focuses on size, PC2 often captures features related to the complexity or irregularity of the cell boundary.  This can be interpretted as the texture of the cell boundary.  Features like smoothness, and fractal dimension often weight heavily on PC2.  After accounting for size, the next most important differentiator is how "deformed" or "rough" the cell edges are. This provides a secondary layer of diagnostic information that size alone might miss.
 
-The Evidence: Features like mean radius, mean perimeter, and mean area all have high, positive loadings on PC1 and their vectors in the Biplot point in the same direction.
+* **Identification of "Proxy" Features** - The Biplot reveals that many features are virtually identical in the information they provide.  This is evidenced by the arrows for radius, perimeter, and area are almost perfectly overlapping.  In a real-world clinical setting, the data collection process could be simplified by reducing the number of measurements. Instead of meticulously measuring all three, just one could be measured (e.g., mean area) to act as a "proxy" for the others without losing significant diagnostic power.
 
-The Takeaway: The single most important factor distinguishing these samples is how large the cells are. Larger values on the PC1 axis correlate strongly with malignant samples.
-
-4. "Shape/Texture" as the Secondary Driver (PC2)
-While PC1 focuses on size, PC2 often captures features related to the complexity or irregularity of the cell boundary.
-
-The Evidence: Features like smoothness, fractal dimension, and concavity often weight heavily on PC2.
-
-The Takeaway: After accounting for size, the next most important differentiator is how "deformed" or "rough" the cell edges are. This provides a secondary layer of diagnostic information that size alone might miss.
-
-5. Identification of "Proxy" Features
-The Biplot reveals that many features are virtually identical in the information they provide.
-
-The Evidence: The arrows for radius, perimeter, and area are almost perfectly overlapping.
-
-The Takeaway: In a real-world clinical setting, you could simplify the data collection process. Instead of meticulously measuring all three, you could measure just one (e.g., mean area) to act as a "proxy" for the others without losing significant diagnostic power.
-
-6. Detection of Transitionary Samples
-Not all points sit deep within their respective clusters; some sit in the "border zone" between Benign and Malignant.
-
-The Evidence: The overlap area in the PCA scatter plot.
-
-The Takeaway: These points represent "borderline" cases where the cell characteristics are ambiguous. PCA helps identify these specific samples for further review by a human pathologist, highlighting where the automated model might be less certain.
+* **Detection of Transitionary Samples** - Not all points sit deep within their respective clusters; some sit in the "border zone" between Benign and Malignant.  This is represented as the overlap area in the PCA scatter plot.  These points represent "borderline" cases where the cell characteristics are ambiguous.  PCA helps identify these specific samples for further review by a human pathologist, highlighting where the automated model might be less certain.
 
 ## Next steps:  
 
