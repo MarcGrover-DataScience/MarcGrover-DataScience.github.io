@@ -10,25 +10,17 @@ permalink: /principal-component-analysis/
 
 # This project is in development 
 
-Unsupervised learning algorithm  
-Scale data  
-youtube.com/watch?v=RfbC6fxAxSI  
-
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principal Component Analysis as a technique for deimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset.
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principal Component Analysis (PCA) as a technique for deimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset.
 
 The Wisconsin Breast Cancer dataset is considered a good case for researching and demonstrating PCA because it suffers from extreme redundancy, as highlighted by the high correlation of features. When features are highly correlated, they are essentially telling the same story multiple times.
 
-(Include summary of the findings)
-
-How can the optimal number of Principal Components be determined, as well as what they are?  
-What are the outputs other than the components?  
-Is there scoring of how much variance is captured / lost?  Is there a measure of quality of the output?
+The analysis showed that there is high redundency of features in the dataset.  The two principle components identified explain over 63% of variance, with the first 7 components explaining over 91% of the variance.  This shows that using less than a quarter of the variables collected (30 features are measured), most of the information needed to describe these tumors is included.  The two principal components relate to size& shape and irregularity.  Overall the dataset supported the demonstration of the benefits of applying PCA to data with a large volume of features.
 
 ## Application:  
 
-Principal Component Analysis (PCA) is essentially a "space-saving" technique for data. It’s a dimensionality-reduction method that transforms a large set of variables into a smaller one that still contains most of the original information.
+Principal Component Analysis (PCA) is essentially a "space-saving" technique for data. It’s a dimensionality-reduction method that transforms a large set of variables into a smaller one that still contains most of the original information.  PCA is considered an unsupervised learning algorithm, as it does not use labels as a target variable, and looks only at the  structure of the input data.  PCA is used for feature extraction and exploratory analysis, in addition to dimensionality-reduction.
 
 An analogy is taking a high-resolution 3D photo of a complex object and finding the perfect 2D angle that captures its shape so well that a user wouldn't even miss the third dimension.
 
@@ -65,7 +57,7 @@ The dataset used is the same as used in the Decision Tree, Random Forest and Gra
 The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)  
 
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.  
-* **Scaling**  the feature data, so that for each feature the mean is zero, with a standard deviation equal to 1.  This is an important step in performing PCA as the technique is based on variance, therefore a variable with a range of 0–1000 will unfairly dominate a variable with a range of 0–1.
+* **Scaling**  the feature data, so that for each feature the mean is zero, with a standard deviation equal to 1.  This is an important step in performing PCA as the technique is based on variance, therefore a variable with a range of 0 – 1,000 will unfairly dominate a variable with a range of 0–1.
 * **Identify the top 2 components** for the breast cancer features.  The initial model was to determine the top 2
 * **Understand the principal components** -
 * **Determine optimal number of components** - 
@@ -144,9 +136,7 @@ Information Loss: The remaining 23 components only contain about 9% of the total
 
 * **Structural Separation of Tumor Types** - PCA reveals that the "Malignant" and "Benign" samples are not randomly distributed; they form distinct, separable clusters in reduced space.  The PCA scatter plot shows a clear boundary between the two classes.  This confirms that the underlying physical characteristics of the cells are fundamentally different between the two groups, making this dataset an excellent candidate for machine learning classification.
 
-* **Size and Shape as the Primary Drivers (PC1)** - By examining the loadings, we can conclude that the first principal component (PC1) essentially represents the overall magnitude or "bulk" of the cell nuclei, along with the shape in terms of the concavity.
-
-The Evidence: Features like mean radius, mean perimeter, mean area, and mean concavity all have high, positive loadings on PC1 and their vectors in the Biplot point in the same direction.  The single most important factor distinguishing these samples is how large and concave the cells are. Larger values on the PC1 axis correlate strongly with malignant samples.
+* **Size and Shape as the Primary Drivers (PC1)** - By examining the loadings, we can conclude that the first principal component (PC1) essentially represents the overall magnitude or "bulk" of the cell nuclei, along with the shape in terms of the concavity.  Features like mean radius, mean perimeter, mean area, and mean concavity all have high, positive loadings on PC1 and their vectors in the Biplot point in the same direction.  The single most important factor distinguishing these samples is how large and concave the cells are. Larger values on the PC1 axis correlate strongly with malignant samples.
 
 * **"Irregularity" as the Secondary Driver (PC2)** - While PC1 focuses on size, PC2 often captures features related to the complexity or irregularity of the cell boundary.  This can be interpretted as the texture of the cell boundary.  Features like smoothness, and fractal dimension often weight heavily on PC2.  After accounting for size, the next most important differentiator is how "deformed" or "rough" the cell edges are. This provides a secondary layer of diagnostic information that size alone might miss.
 
