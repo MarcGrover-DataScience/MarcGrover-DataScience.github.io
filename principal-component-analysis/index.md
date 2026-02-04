@@ -8,8 +8,6 @@ permalink: /principal-component-analysis/
 
 ---
 
-# This project is in development 
-
 ## Goals and objectives:
 
 The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principal Component Analysis (PCA) as a technique for dimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset, as well as to better understand the drivers for the predictions.
