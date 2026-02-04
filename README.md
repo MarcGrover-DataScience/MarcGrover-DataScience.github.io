@@ -21,7 +21,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [A/B Testing (Chi-squared test)](/ab-test/)
 * ### Chi-squared goodness-of-fit test
 * ### [Multiple linear regression](/multi-linear-regression/)
-* ### Logistic regression
+* ### [Logistic regression](/logistic-regression/)
 * ### [Time-series analysis (moving averages)](/moving-averages/)
 * ### [Time-series analysis (ARIMA)](/arima/)
 * ### [K-Means Clustering](/k-means-clustering/)
