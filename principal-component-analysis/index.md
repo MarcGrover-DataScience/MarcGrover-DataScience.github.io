@@ -12,24 +12,19 @@ permalink: /principal-component-analysis/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principal Component Analysis (PCA) as a technique for deimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset.
+The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principal Component Analysis (PCA) as a technique for dimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset, as well as to better understand the drivers for the predictions.
 
-The Wisconsin Breast Cancer dataset is considered a good case for researching and demonstrating PCA because it suffers from extreme redundancy, as highlighted by the high correlation of features. When features are highly correlated, they are essentially telling the same story multiple times.
+The Wisconsin Breast Cancer dataset is considered a good case for researching and demonstrating PCA because it demonstrates high redundancy, as highlighted by the high correlation of features. When features are highly correlated, they are essentially telling the same story multiple times.
 
-The analysis showed that there is high redundency of features in the dataset.  The two principle components identified explain over 63% of variance, with the first 7 components explaining over 91% of the variance.  This shows that using less than a quarter of the variables collected (30 features are measured), most of the information needed to describe these tumors is included.  The two principal components relate to size& shape and irregularity.  Overall the dataset supported the demonstration of the benefits of applying PCA to data with a large volume of features.
+The analysis showed that there is high redundency of features in the dataset.  The two principle components identified explain over 63% of variance, with the first 7 components explaining over 91% of the variance.  This shows that using less than a quarter of the variables collected (30 features are measured), most of the information needed to describe these tumors is included.  The two principal components relate to size & shape and irregularity.  Overall the dataset supported the demonstration of the benefits of applying PCA to data with a large volume of features.
 
 ## Application:  
 
-Principal Component Analysis (PCA) is essentially a "space-saving" technique for data. It’s a dimensionality-reduction method that transforms a large set of variables into a smaller one that still contains most of the original information.  PCA is considered an unsupervised learning algorithm, as it does not use labels as a target variable, and looks only at the  structure of the input data.  PCA is used for feature extraction and exploratory analysis, in addition to dimensionality-reduction.
+Principal Component Analysis (PCA) is essentially a "space-saving" technique for data. It’s a dimensionality-reduction method that transforms a large set of variables into a smaller one that still contains most of the original information.  PCA is an unsupervised learning algorithm, as it does not use labels as a target variable, and looks only at the  structure of the input data.  PCA is used for feature extraction and exploratory analysis, in addition to dimensionality-reduction.
 
 An analogy is taking a high-resolution 3D photo of a complex object and finding the perfect 2D angle that captures its shape so well that a user wouldn't even miss the third dimension.
 
-PCA identifies patterns in data based on the correlation between features. It seeks to maximise variance, finding the directions (Principal Components) along which the data is most spread out.  Common steps for applying PCA include:  
-
-* **Standardisation:** Scaling the data so each variable contributes equally.
-* **Covariance Matrix Computation:** Identifying how variables vary from the mean with respect to each other.
-* **Eigenvector/Eigenvalue Calculation:** Determining the principal components.
-* **Feature Vector:** Choosing which components to keep and which to discard.
+PCA identifies patterns in data based on the correlation between features. It seeks to maximise variance, finding the directions (Principal Components) along which the data is most spread out.  
 
 Benefits of Using PCA include:
 
@@ -50,8 +45,6 @@ PCA is a technique that can be applied in multiple scenarios across all business
 
 ## Methodology:  
 
-Details of the methodology applied in the project.
-
 The dataset used is the same as used in the Decision Tree, Random Forest and Gradient Boosted Trees projects - the Wisconsin Breast Cancer dataset.  This is available from scikit-learn, including 569 observations, including 30 independent features.
 
 The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)  
@@ -59,8 +52,8 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 * **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.  
 * **Scaling**  the feature data, so that for each feature the mean is zero, with a standard deviation equal to 1.  This is an important step in performing PCA as the technique is based on variance, therefore a variable with a range of 0 – 1,000 will unfairly dominate a variable with a range of 0–1.
 * **Identify the top 2 components** for the breast cancer features.  The initial model was to determine the top 2
-* **Understand the principal components** -
-* **Determine optimal number of components** - 
+* **Understand the principal components** to interpret the components identified, translating the abstract nature of the components to the features within the data
+* **Determine optimal number of components** to ensure the components retained contain sufficient information to be beneficial which providing the required simplicity
 
 ## Results and conclusions:
 
