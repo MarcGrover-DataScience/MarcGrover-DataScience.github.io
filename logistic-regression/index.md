@@ -4,7 +4,7 @@ layout: default
 
 title: Project (Logistic Regression)
 
-permalink: /logistic_regression/
+permalink: /logistic-regression/
 
 ---
 
