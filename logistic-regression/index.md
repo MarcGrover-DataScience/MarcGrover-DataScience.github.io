@@ -8,11 +8,15 @@ permalink: /logistic-regression/
 
 ---
 
-#### This project is in development
+# This project is in development
 
 ## Goals and objectives:
 
 The business objective is ...
+
+https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
+opportunities to demonstrate handling of imbalanced classes, which is common in fraud and default prediction scenarios where the positive class (default) is much rarer than the negative class.
+Numerical or categorical data?
 
 ## Application:  
 
