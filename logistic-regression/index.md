@@ -51,8 +51,20 @@ The dataset contains both numerical and categorical features, which logistic reg
 The overall method applied was:
 
 * **Class Imbalance Ratio (CIR)** metric calculated used to quantify the disparity between the two classes in the dataset, for this project the "positive" minority class (churn) and the "negative" majority class (no churn).
+* **Feature engineering** to created features to enhance model performance:
+  * **balance_per_product**: Balance divided by number of products (customer value metric)
+  * **engagement_score**: Tenure × Products (loyalty indicator)
+  * **age_group**: Categorical age bins
+  * **balance_category**: Categorical balance bins
+  * **salary_balance_ratio**: Income to balance ratio (financial health)
+  * **high_value_customer**: Binary flag for customers with multiple products and high balance
+  * **credit_category**: Categorical credit score bins
+* **Data preprocessing** to remove the 'customer_id' feature as it's not predictive, encode the binary field 'gender', and one-hot encode the features 'country', 'age_group', 'balance_category', and'credit_category'.
+* **Scale data**
+* **Fit the logistical regression model**
 
-Class Weights - Most logistic regression implementations (like Scikit-Learn) allow you to set class_weight='balanced'. This penalizes the model more for misclassifying the minority class.
+
+Class Weights - Most logistic regression implementations (like Scikit-Learn) allow you to set class_weight='balanced'. This penalises the model more for misclassifying the minority class.
 Threshold adjustments - Instead of using the default 0.5 probability threshold to classify an item, you might lower it (e.g., to 0.3) to make the model more "sensitive" to the minority class.
 
 ## Results and conclusions:
