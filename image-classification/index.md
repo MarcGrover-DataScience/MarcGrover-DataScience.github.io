@@ -8,8 +8,6 @@ permalink: /image-classification/
 
 ---
 
-#### This project is in development
-
 ## Goals and objectives:
 
 The business objective is to automatically label images by applying a classification to each.  A proof-of-concept was built to demonstrate the capability, utilising existing image classification models, and existing images.
