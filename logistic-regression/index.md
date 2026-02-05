@@ -63,6 +63,8 @@ feature engineering by creating new variables such as balance-to-product ratios 
 
 **Class Imbalance Ratio (CIR)** determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
 
+Include detailed classification report for each class, showing precision    recall  f1-score
+
 ### Conclusions:
 
 Conclusions from the project findings and results.
