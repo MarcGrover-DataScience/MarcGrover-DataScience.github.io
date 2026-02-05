@@ -12,7 +12,9 @@ permalink: /logistic-regression/
 
 ## Goals and objectives:
 
-The business objective is to predict the churn of bank customers.  A Logistic Regression model is to be built using customer features and historical data to predict which current customers are likely to leave, which can be used to implement customer retention strategies.  Customer churn prediction is highly relevant to real-world business problems. Businesses across multiple sectors can implment such advanced analytics to identify at-risk customers, this analysis does not just benefit banks and financial institutions.
+The business objective is to predict the churn of bank customers.  A Logistic Regression model is to be built using customer features and historical data to predict which current customers are predicted to leave, which can be used to focus the implementation of customer retention strategies.  Customer churn prediction is highly relevant to real-world business problems. Businesses across multiple sectors can implment such advanced analytics to identify at-risk customers, this analysis does not just benefit banks and financial institutions.
+
+The Logistic Regression model produced binary outcomes...
 
 https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
 opportunities to demonstrate handling of imbalanced classes, which is common in fraud and default prediction scenarios where the positive class (default) is much rarer than the negative class.
@@ -42,15 +44,21 @@ Logistic regression can be applied in a variety of scenarios across all industry
 
 Details of the methodology applied in the project.
 
-The dataset used is publically available from Kaggle [here](https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset).  The dataset contains 10,000 records which were used to train and test the Logistic Regression model.
+The dataset used is the publically available 'Bank Customer Churn Dataset' from Kaggle [here](https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset).  The dataset contains 10,000 records, containing 10 features and a single target variable, which were used to train and test the Logistic Regression model.
+
+The dataset contains both numerical and categorical features, which logistic regression can handle effectively.  The categorical features (Country and Gender) cannot be used in their raw text form, but are converted into a numerical representation, using encoding, to enable the mathematical modelling.  Binary encoding was applied to the gender field, and one-hot encoding to the Country field (having 3 disctinct values).
 
 ## Results and conclusions:
 
 Results from the project related to the business objective.
 
+feature engineering by creating new variables such as balance-to-product ratios or customer engagement scores
+
 ### Conclusions:
 
 Conclusions from the project findings and results.
+
+discuss important concepts like the cost of customer acquisition versus retention, and how probability thresholds can be adjusted based on business objectives.
 
 ## Next steps:  
 
