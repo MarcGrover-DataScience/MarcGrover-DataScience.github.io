@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Logistic Regression)
+title: Bank Customer Churn (Logistic Regression)
 
 permalink: /logistic-regression/
 
