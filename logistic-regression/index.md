@@ -12,7 +12,7 @@ permalink: /logistic-regression/
 
 ## Goals and objectives:
 
-The business objective is ...
+The business objective is to predict the churn of bank customers.  A Logistic Regression model is to be built using customer features and historical data to predict which current customers are likely to leave, which can be used to target actions to retain those customers.
 
 https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
 opportunities to demonstrate handling of imbalanced classes, which is common in fraud and default prediction scenarios where the positive class (default) is much rarer than the negative class.
@@ -41,6 +41,8 @@ Logistic regression can be applied in a variety of scenarios across all industry
 ## Methodology:  
 
 Details of the methodology applied in the project.
+
+The dataset used is publically available from Kaggle [here](https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset).  The dataset contains 10,000 records which were used to train and test the Logistic Regression model.
 
 ## Results and conclusions:
 
