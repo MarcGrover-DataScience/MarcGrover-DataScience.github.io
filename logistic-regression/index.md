@@ -75,6 +75,10 @@ feature engineering by creating new variables such as balance-to-product ratios 
 
 **Class Imbalance Ratio (CIR)** determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
 
+**Predicted Probability Distribution** visualises how confident the logistic regression model is in its predictions for both churned and non-churned customers.  The x-axis shows the model's predicted probability that a customer will churn, ranging from 0% chance of churn100% chance of churn.  The y-axis shows the volume of customers that received that probability score.  The two distributions show:
+* **Green**: Customers who actually DID NOT churn in reality - this is clustered towards 0 showing most customers who didn't churn get LOW probability scores (model correctly says "unlikely to churn")
+* **Red**: Customers who actually DID churn in reality - this is clustered near 1 showing most customers who did churn get HIGH probability scores (model correctly says "likely to churn")
+
 Include detailed classification report for each class, showing precision    recall  f1-score
 
 ### Conclusions:
