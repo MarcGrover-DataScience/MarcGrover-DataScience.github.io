@@ -16,7 +16,6 @@ The business objective is to predict the churn of bank customers.  A Logistic Re
 
 The Logistic Regression model produced binary outcomes...
 
-https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients  
 opportunities to demonstrate handling of imbalanced classes, which is common in fraud and default prediction scenarios where the positive class (default) is much rarer than the negative class.  
 Numerical or categorical data?
 
@@ -51,6 +50,14 @@ The dataset contains both numerical and categorical features, which logistic reg
 The overall method applied was:
 
 * **Class Imbalance Ratio (CIR)** metric calculated used to quantify the disparity between the two classes in the dataset, for this project the "positive" minority class (churn) and the "negative" majority class (no churn).
+* **Descriptive analysis** of the data to understand high-level trends and features of the data
+* **Data preprocessing** to remove the 'customer_id' feature as it's not predictive, encode the binary field 'gender', and one-hot encode the features 'country', 'age_group', 'balance_category', and 'credit_category' (the later being engineered fields - see later).
+* **Scale data** in numeric fields (non-binary) to support optimal logistic regression model creation and more meaningful analysis of feature importance.
+* **Fit the logistical regression model** using the preprocessed and scaled data.
+* **Prediction and model validation** 
+
+Once the model was created and validated, further research was undertaken to determine if the creation of engineered features enabled a model with better predictive power.
+
 * **Feature engineering** to created features to enhance model performance:
   * **balance_per_product**: Balance divided by number of products (customer value metric)
   * **engagement_score**: Tenure × Products (loyalty indicator)
@@ -59,9 +66,6 @@ The overall method applied was:
   * **salary_balance_ratio**: Income to balance ratio (financial health)
   * **high_value_customer**: Binary flag for customers with multiple products and high balance
   * **credit_category**: Categorical credit score bins
-* **Data preprocessing** to remove the 'customer_id' feature as it's not predictive, encode the binary field 'gender', and one-hot encode the features 'country', 'age_group', 'balance_category', and'credit_category'.
-* **Scale data**
-* **Fit the logistical regression model**
 
 
 Class Weights - Most logistic regression implementations (like Scikit-Learn) allow you to set class_weight='balanced'. This penalises the model more for misclassifying the minority class.
@@ -74,6 +78,8 @@ Results from the project related to the business objective.
 feature engineering by creating new variables such as balance-to-product ratios or customer engagement scores
 
 **Class Imbalance Ratio (CIR)** determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
+
+**Descriptive Statistics** 
 
 ![confusion_matrix](plot_2_confusion_matrix.png)
 
