@@ -79,7 +79,13 @@ feature engineering by creating new variables such as balance-to-product ratios 
 
 **Class Imbalance Ratio (CIR)** determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
 
-**Descriptive Statistics** 
+**Descriptive Statistics** determined some high-level patterns in the data such as the rate of chrun by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.
+
+![churn_by_products](plot_9_churn_by_products.png)
+
+![churn_by_age](plot_8_churn_by_age.png)
+
+![churn_by_country](plot_10_churn_by_country.png)
 
 ![confusion_matrix](plot_2_confusion_matrix.png)
 
@@ -106,4 +112,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/x.py)
+[View the Python Script](/Logistic Regression.py)
