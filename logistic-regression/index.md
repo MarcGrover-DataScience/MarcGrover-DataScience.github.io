@@ -41,8 +41,6 @@ Logistic regression can be applied in a variety of scenarios across all industry
 
 ## Methodology:  
 
-Details of the methodology applied in the project.
-
 The dataset used is the publically available 'Bank Customer Churn Dataset' from Kaggle [here](https://www.kaggle.com/datasets/gauravtopre/bank-customer-churn-dataset).  The dataset contains 10,000 records, containing 10 features and a single target variable, which were used to train and test the Logistic Regression model.
 
 The dataset contains both numerical and categorical features, which logistic regression can handle effectively.  The categorical features (Country and Gender) cannot be used in their raw text form, but are converted into a numerical representation, using encoding, to enable the mathematical modelling.  Binary encoding was applied to the gender field, and one-hot encoding to the Country field (having 3 disctinct values).
@@ -53,10 +51,10 @@ The overall method applied was:
 * **Descriptive analysis** of the data to understand high-level trends and features of the data
 * **Data preprocessing** to remove the 'customer_id' feature as it's not predictive, encode the binary field 'gender', and one-hot encode the features 'country', 'age_group', 'balance_category', and 'credit_category' (the later being engineered fields - see later).
 * **Scale data** in numeric fields (non-binary) to support optimal logistic regression model creation and more meaningful analysis of feature importance.
-* **Fit the logistical regression model** using the preprocessed and scaled data.
-* **Prediction and model validation** 
+* **Fit the logistical regression model** using preprocessed and scaled training data.  The data was split 80/20 into training and testing data.  
+* **Prediction and model validation** was undertaken using the trained model on the testing dataset, with the classification predictions compared to the known outcomes to determine the model quality.  
 
-Once the model was created and validated, further research was undertaken to determine if the creation of engineered features enabled a model with better predictive power.
+After the classification model was created using the original features and validated, further research was undertaken to determine if the creation of engineered features enable a model with increased predictive power.
 
 * **Feature engineering** to created features to enhance model performance:
   * **balance_per_product**: Balance divided by number of products (customer value metric)
@@ -66,6 +64,7 @@ Once the model was created and validated, further research was undertaken to det
   * **salary_balance_ratio**: Income to balance ratio (financial health)
   * **high_value_customer**: Binary flag for customers with multiple products and high balance
   * **credit_category**: Categorical credit score bins
+ * **Model creation and validation** was undertaken including the engineered features as with the initial model, enabling a comparison of the results between the two classification models.  
 
 
 Class Weights - Most logistic regression implementations (like Scikit-Learn) allow you to set class_weight='balanced'. This penalises the model more for misclassifying the minority class.
@@ -79,11 +78,17 @@ feature engineering by creating new variables such as balance-to-product ratios 
 
 **Class Imbalance Ratio (CIR)** determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
 
-**Descriptive Statistics** determined some high-level patterns in the data such as the rate of chrun by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.
+**Descriptive Statistics** determined some high-level patterns in the data such as the rate of churn by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.  
 
-![churn_by_products](plot_9_churn_by_products.png)
+The churn rate by number of products subscribed to shows that the churn rate is very high with customers who have 3+ products, though this relates to approximately 1 in 10 customers. 
 
-![churn_by_age](plot_8_churn_by_age.png)
+![churn_by_products](plot_9_churn_by_products.png)  
+
+The churn rate by age increases steadily until the age of ~56, where it peaks at approximatley 72% churn rate.  For ages greater than 56 the churn rate rapidly decreases by age, subject to a potential outlier at the age of 84 (the spike shown on the chart).
+
+![churn_by_age](plot_8_churn_by_age.png)  
+
+Churn rate for customers in Germany is approximately twice as high as that for customers in Spain and Italy.  
 
 ![churn_by_country](plot_10_churn_by_country.png)
 
