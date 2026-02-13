@@ -76,11 +76,13 @@ Results from the project related to the business objective.
 
 feature engineering by creating new variables such as balance-to-product ratios or customer engagement scores
 
-**Class Imbalance Ratio (CIR)** determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
+### Class Imbalance Ratio (CIR)
+The CIR determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
 
-**Descriptive Statistics** determined some high-level patterns in the data such as the rate of churn by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.  
+### Descriptive Statistics
+Descriptive analysis determined some high-level patterns in the data such as the rate of churn by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.  
 
-The churn rate by number of products subscribed chart shows that the churn rate is very high with customers who have 3+ products, though this relates to a relatively small proportion of customers, approximately 1 in 10. 
+The churn rate by number of products subscribed chart shows that the churn rate is very high with customers who have 3+ products, though this relates to a relatively small proportion of customers, approximately 1 in 30. 
 
 ![churn_by_products](plot_9_churn_by_products.png)  
 
@@ -92,17 +94,36 @@ The churn rate by customer country highlights that rate for customers in Germany
 
 ![churn_by_country](plot_10_churn_by_country.png)
 
-**Model fitting and validation** produced performance metrics:
+### Model fitting and validation
+Using the training data the fitted model was validated produced performance metrics:
 
 * Accuracy: 0.7135  
 * ROC-AUC: 0.7772 
 * F1-Score: 0.4987
+* Precision: 0.3872
+* Recall: 0.7002
 
+The model correctly predicts whether a customer will churn or stay approximately 71.4% of the time. While this seems good, accuracy alone can be misleading when dealing with imbalanced datasets, as identified earlier.
 
+The ROC-AUC score is considered the most-important metric for imbalanced classification.  It shows the model's ability to distinguish between classes, For ROC-AUC on a two class predictor, the range is 0.5 (random guessing) to 1.0 (perfect classification).  A score of 0.78 indicates strong discriminative ability.  This can be interpreted as the model havings a 78% chance of ranking a randomly selected churning customer higher than a randomly selected non-churning customer in terms of churn probability.
 
-The confusion matrix is shown below
+The precision score of 0.39 mean that of the customers predicted to churn, 39% actually do.  This is not a high score, but compared to an average of 20% of customers churning this is an improvement on a random guess, and reduces wasted retention resources on customers who wouldn't churn anyway.
+
+The recall of 0.70 means that of all customers who actually churn, the model identifies 70%.
+
+The F1-Score of 0.50 is considered good for imbalanced data (this score is a harmonic of Precision and Recall).  This score shows the model can identify churners while not generating too many false alarms.
+
+The ROC curve plots False Positive Rate (FPR) against True Positive Rate (TPR/Recall) at different probability thresholds.  This curve shows the trade-off between catching more churners (higher TPR).  For the ROC curvem the diagonal line is the random classifier baseline.  The green line is our model's curve.  The more the line bows towards the top left the better, as the ROC-AUC score is the area under the line as a percentage of the total 'square' area.
+* FPR = False Positives / All Actual Negatives
+* TPR/Recall = True Positives / All Actual Positives
+
+![roc_curve](plot_3_roc_curve.png)
+
+The confusion matrix for the model shows the results of the model predictions, providing vital insight into where the model performs well and where it makes errors.  
 
 ![confusion_matrix](plot_2_confusion_matrix.png)
+
+### Feature Importance
 
 ![feature_importance](plot_5_feature_importance.png)
 
@@ -119,6 +140,28 @@ Include detailed classification report for each class, showing precision    reca
 Conclusions from the project findings and results.
 
 discuss important concepts like the cost of customer acquisition versus retention, and how probability thresholds can be adjusted based on business objectives.
+
+Business Value to the Bank
+
+* Proactive Retention: Identify at-risk customers before they leave
+  * Identifies at-risk customers BEFORE they churn
+  * Enables targeted retention campaigns rather than blanket approaches
+  * Bank can intervene with personalized offers, discounts, or services
+* Cost Savings: Customer acquisition costs 5-25x more than retention
+  * Customer acquisition costs are 5-25x higher than retention costs
+  * Bank loses revenue when customers churn
+  * Broad retention campaigns waste resources on customers not at risk
+  * Model allows focus of retention budget on high-risk customers (50-55% recall), avoiding wasted money on low-risk customers (65-70% precision).  ROI increases significantly by targeting the right customers.
+* Resource Optimization: Target high-risk customers, avoid wasting budget on low-risk
+  * Rank customers by churn risk, supporting allocation of resources based on risk level, e.g. high risk (>0.7 probability) so get Premium retention offers.
+* Actionable Insights: Understand WHY customers churn (products, age, activity)
+  * The model reveals insight into which groups of customers churn.
+  * Age: Develop age-specific retention strategies
+  * Activity status: Re-engage inactive members
+  * Balance patterns: Monitor unusual balance changes
+* ROI Example: Could save $1.1M in revenue while spending only $55K on retention
+  * Retention efforts focussed on approximately 37% of customers, which covers ~70% of true churners - focussing value
+  * If a retention campaign saves customers churning this has net value benefit to the bank
 
 ## Next steps:  
 
