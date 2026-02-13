@@ -80,17 +80,27 @@ feature engineering by creating new variables such as balance-to-product ratios 
 
 **Descriptive Statistics** determined some high-level patterns in the data such as the rate of churn by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.  
 
-The churn rate by number of products subscribed to shows that the churn rate is very high with customers who have 3+ products, though this relates to approximately 1 in 10 customers. 
+The churn rate by number of products subscribed chart shows that the churn rate is very high with customers who have 3+ products, though this relates to a relatively small proportion of customers, approximately 1 in 10. 
 
 ![churn_by_products](plot_9_churn_by_products.png)  
 
-The churn rate by age increases steadily until the age of ~56, where it peaks at approximatley 72% churn rate.  For ages greater than 56 the churn rate rapidly decreases by age, subject to a potential outlier at the age of 84 (the spike shown on the chart).
+The churn rate by age increases steadily until the age of ~56, where it peaks at a churn rate of approximately 72%.  For ages greater than 56 the churn rate rapidly decreases, subject to a potential outlier at the age of 84 (the spike shown on the chart).
 
 ![churn_by_age](plot_8_churn_by_age.png)  
 
-Churn rate for customers in Germany is approximately twice as high as that for customers in Spain and Italy.  
+The churn rate by customer country highlights that rate for customers in Germany (32.4%) is approximately twice that of customers in Spain (16.7%) and Italy (16.2%).  
 
 ![churn_by_country](plot_10_churn_by_country.png)
+
+**Model fitting and validation** produced performance metrics:
+
+* Accuracy: 0.7135  
+* ROC-AUC: 0.7772 
+* F1-Score: 0.4987
+
+
+
+The confusion matrix is shown below
 
 ![confusion_matrix](plot_2_confusion_matrix.png)
 
