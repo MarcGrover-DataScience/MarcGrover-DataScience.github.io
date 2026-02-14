@@ -53,6 +53,20 @@ ARIMA models are designed to handle non-stationary time series by incorporating 
 
 Methods to stabilise the variance were investigated including; Log Transformation, Square-Root Transformation and Box-Cox Transformation.
 
+This analysis supports the values of **d** to be used in the ARIMA model, as well as any transformation required to produce more accurate ARIMA predictions.
+
+#### Auto Regression:  
+
+Determine the number of lags (past values of the time series) to include in the ARIMA model, using the Partial Autocorrelation Function (PACF).  This relates to the 'AR' aspect of ARIMA, and determines the optimal value of **p** to use in the ARIMA model
+
+#### Moving Averages:
+
+Determine the number of lags to be used in the ARIMA model in relation to moving averages, using the Autocorrelation Function (ACF). This is used as the **q** parameter in the ARIMA model.
+
+#### Gernerate ARIMA model and validate:
+
+ARIMA models were created and validated using the findings of the Stationarity, Auto Regression and Moving Averages stages.  The validation enabled analysis of the results, and used to determine the optimal model parameters and predictions.
+
 ## Results and conclusions:
 
 The overall training set of passenger volumes has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points (both training and testing data) demonstrate a seasonal pattern and also an overall increasing trend.  Additional plots were generated to show the moving average and moving variance of the training data over time.  As shown below these further evidence the overall trend of increasing passenger volumes, and increase in variance over time.
@@ -66,7 +80,7 @@ The plots below show the moving average and moving variance of the training data
 ![train_mean](arima_train_mean.png)
 ![train_variance](arima_train_variance.png)
 
-### Stationarity
+### Stationarity:
 The Augmented Dickey-Fuller (ADF) test was applied to the original training data to test for stationarity, where the null hypothesis (H₀) is that the data is non-stationary.  This produced an ADF test statistic = -0.3569, which produces a p-value of 0.917, therefore there is insufficient evidence to reject to null hypothesis and there is evidence that the data is non-stationary, and differencing is required.
 
 With first order differencing applied to the data, the ADF test was applied returning a p-value = 0.106, which meant that we couldn't reject the null-hypothesis, but suggested that there is weak stationarity in the data after first order differencing, and suggesting further differencing could be applied and analysed.
@@ -98,7 +112,7 @@ The plot below shows the PACF values for each lag, which visually implies the mo
 
 This step analyses the number of lags to be used in the ARIMA model in relation to moving averages.  This is the **q** parameter in the ARIMA model.  The Autocorrelation Function (ACF) is apllied to the first order differenced data, to generate the ACF plot, which visualises the influence of lagged values on an observation.  
 
-The plot of AACF values below, similar to the PACF plot, visually suggests that the most significant lag is also 12, which logically makes sense given that there is evidence of 12 month seasonality.
+The plot of ACF values below, similar to the PACF plot, visually suggests that the most significant lag is also 12, which logically makes sense given that there is evidence of 12 month seasonality.
 
 ![acf](arima_acf.png)  
 
