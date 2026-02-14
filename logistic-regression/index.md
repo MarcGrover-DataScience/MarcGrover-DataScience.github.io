@@ -125,9 +125,17 @@ The confusion matrix for the model shows the results of the model predictions, p
 
 ### Feature Importance
 
+The feature importance analysis reveals which customer characteristics have the strongest influence on churn probability by examining the coefficients from the logistic regression model.  Each feature's coefficient indicates both the direction and magnitude of its impact, where positive coefficients indicate that higher values of that feature increase the likelihood of churn, and similarly negative coefficients indicate that higher values decrease churn probability.  
+
+The plot below shows that being an active member significantly reduces the likelihood of churn, whereas a customer from Germany is likely to increase the likelihood of churn.  
+
+The overall model can predict the customers most likely to churn, and the feature analysis can be used to suggest why they might churn, enabling targeted interventions.  This shows that the model is more than a black-box prediction tool, and can be used to support business decisions into actions to take to prevent churn.
+
 ![feature_importance](plot_5_feature_importance.png)
 
-**Predicted Probability Distribution** visualises how confident the logistic regression model is in its predictions for both churned and non-churned customers.  The x-axis shows the model's predicted probability that a customer will churn, ranging from 0% chance of churn100% chance of churn.  The y-axis shows the volume of customers that received that probability score.  The two distributions show:
+### Predicted Probability Distribution  
+
+The predicted probability distribution visualises how confident the logistic regression model is in its predictions for both churned and non-churned customers.  The x-axis shows the model's predicted probability that a customer will churn, ranging from 0% chance of churn100% chance of churn.  The y-axis shows the volume of customers that received that probability score.  The two distributions show:
 * **Green**: Customers who actually DID NOT churn in reality - this is clustered towards 0 showing most customers who didn't churn get LOW probability scores (model correctly says "unlikely to churn")
 * **Red**: Customers who actually DID churn in reality - this is clustered near 1 showing most customers who did churn get HIGH probability scores (model correctly says "likely to churn")
 
