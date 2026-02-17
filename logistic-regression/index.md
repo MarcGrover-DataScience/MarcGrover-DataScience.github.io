@@ -56,16 +56,8 @@ The overall method applied was:
 
 After the classification model was created using the original features and validated, further research was undertaken to determine if the creation of engineered features enable a model with increased predictive power.
 
-* **Feature engineering** to created features to enhance model performance:
-  * **balance_per_product**: Balance divided by number of products (customer value metric)
-  * **engagement_score**: Tenure × Products (loyalty indicator)
-  * **age_group**: Categorical age bins
-  * **balance_category**: Categorical balance bins
-  * **salary_balance_ratio**: Income to balance ratio (financial health)
-  * **high_value_customer**: Binary flag for customers with multiple products and high balance
-  * **credit_category**: Categorical credit score bins
- * **Model creation and validation** was undertaken including the engineered features as with the initial model, enabling a comparison of the results between the two classification models.  
-
+* **Feature engineering** to created features to enhance model performance
+* **Model creation and validation** was undertaken including the engineered features as with the initial model, enabling a comparison of the results between the two classification models.  
 
 Class Weights - Most logistic regression implementations (like Scikit-Learn) allow you to set class_weight='balanced'. This penalises the model more for misclassifying the minority class.
 Threshold adjustments - Instead of using the default 0.5 probability threshold to classify an item, you might lower it (e.g., to 0.3) to make the model more "sensitive" to the minority class.
@@ -76,10 +68,10 @@ Results from the project related to the business objective.
 
 feature engineering by creating new variables such as balance-to-product ratios or customer engagement scores
 
-### Class Imbalance Ratio (CIR)
+### Class Imbalance Ratio (CIR):
 The CIR determined that the churn rate (positive binary class outcome) was 20.4%, producing a Class Imbalance Ratio (churn/no-churn): 0.26.  As a result the model validation will need to consider metrics beyond Accuracy, also considering Precision, Recall, F1-Score and **Area Under the Precision-Recall Curve (AUPRC)**.  It should be noted that the model will achieve ~79.6% accuracy, simply by always predicting a 'no-churn' outcome.
 
-### Descriptive Statistics
+### Descriptive Statistics:
 Descriptive analysis determined some high-level patterns in the data such as the rate of churn by features such as number of products, customer age and country.  Customers are from three countries; France , Germany, Spain.  
 
 The churn rate by number of products subscribed chart shows that the churn rate is very high with customers who have 3+ products, though this relates to a relatively small proportion of customers, approximately 1 in 30. 
@@ -94,7 +86,7 @@ The churn rate by customer country highlights that rate for customers in Germany
 
 ![churn_by_country](plot_10_churn_by_country.png)
 
-### Model fitting and validation
+### Model fitting and validation:
 Using the training data the fitted model was validated produced performance metrics:
 
 * Accuracy: 0.7135  
@@ -111,6 +103,8 @@ The precision score of 0.39 mean that of the customers predicted to churn, 39% a
 
 The recall of 0.70 means that of all customers who actually churn, the model identifies 70%.
 
+Note that the precision and recall values relate to the positive class only (in the case of binary classification), i.e. the predictions for churners.  This is the most relevant metric for business purposes, as the focus is the accuracy of the "at-risk" predictions.
+
 The F1-Score of 0.50 is considered good for imbalanced data (this score is a harmonic of Precision and Recall).  This score shows the model can identify churners while not generating too many false alarms.
 
 The ROC curve plots False Positive Rate (FPR) against True Positive Rate (TPR/Recall) at different probability thresholds.  This curve shows the trade-off between catching more churners (higher TPR).  For the ROC curvem the diagonal line is the random classifier baseline.  The green line is our model's curve.  The more the line bows towards the top left the better, as the ROC-AUC score is the area under the line as a percentage of the total 'square' area.
@@ -123,7 +117,7 @@ The confusion matrix for the model shows the results of the model predictions, p
 
 ![confusion_matrix](plot_2_confusion_matrix.png)
 
-### Feature Importance
+### Feature Importance:
 
 The feature importance analysis reveals which customer characteristics have the strongest influence on churn probability by examining the coefficients from the logistic regression model.  Each feature's coefficient indicates both the direction and magnitude of its impact, where positive coefficients indicate that higher values of that feature increase the likelihood of churn, and similarly negative coefficients indicate that higher values decrease churn probability.  
 
@@ -133,15 +127,55 @@ The overall model can predict the customers most likely to churn, and the featur
 
 ![feature_importance](plot_5_feature_importance.png)
 
-### Predicted Probability Distribution  
+### Predicted Probability Distribution:  
 
-The predicted probability distribution visualises how confident the logistic regression model is in its predictions for both churned and non-churned customers.  The x-axis shows the model's predicted probability that a customer will churn, ranging from 0% chance of churn100% chance of churn.  The y-axis shows the volume of customers that received that probability score.  The two distributions show:
+The predicted probability distribution visualises how confident the logistic regression model is in its predictions for both churned and non-churned customers.  The x-axis shows the model's predicted probability that a customer will churn, ranging from 0% chance of churn, to 100% chance of churn.  The y-axis shows the volume of customers that received that probability score.  The two distributions show:
 * **Green**: Customers who actually DID NOT churn in reality - this is clustered towards 0 showing most customers who didn't churn get LOW probability scores (model correctly says "unlikely to churn")
 * **Red**: Customers who actually DID churn in reality - this is clustered near 1 showing most customers who did churn get HIGH probability scores (model correctly says "likely to churn")
 
 ![probability_distribution](plot_6_probability_distribution.png)
 
-Include detailed classification report for each class, showing precision    recall  f1-score
+### Prediction Threshold:
+
+The prediction threshold can be adjusted, to allow for the trade-off of recall and precision.  The above values of Precision = 0.3872, and Recall = 0.7002, are based on a default prediction of threshold of 0.5.  In this example lowering the prediction threshold would catch more churners (increases recall) but decreases precision, meaning you identify more at-risk customers but also generate more false alarms.  
+
+An example practical application of adjusting prediction thresholds could be the use retention campaigns.  If they are inexpensive and missing a churner is costly, the bank might operate at a point with high recall (catch 70-80% of churners) while accepting lower precision (more false positives); conversely, if the retention budget is limited or campaigns are expensive, they might choose high precision (ensure most flagged customers are truly at risk) while accepting that some churners will be missed. 
+
+### Feature Engineering:
+
+Features were engineered from the original features, an advanced technique used to enhance model performance.  For this project 7 features were engineered:
+* **balance_per_product**: Balance divided by number of products (customer value metric)
+* **engagement_score**: Tenure × Products (loyalty indicator)
+* **age_group**: Categorical age bins
+* **balance_category**: Categorical balance bins
+* **salary_balance_ratio**: Income to balance ratio (financial health)
+* **high_value_customer**: Binary flag for customers with multiple products and high balance
+* **credit_category**: Categorical credit score bins
+
+### Model fitting and validation (with feature engineering):
+
+```
+Accuracy: 0.7405
+ROC-AUC: 0.8028
+F1-Score: 0.5354
+Precision: 0.4211
+Recall: 0.7346
+```
+
+### Feature Importance (with feature engineering):
+
+```
+Top 10 Most Important Features
+high_value_customer            | Coef:  -1.4554 | decreases churn probability
+balance_per_product            | Coef:  -1.1866 | decreases churn probability
+balance                        | Coef:   1.1345 | increases churn probability
+balance_category_Low           | Coef:   1.0535 | increases churn probability
+age_group_60+                  | Coef:  -1.0065 | decreases churn probability
+age_group_50-60                | Coef:   1.0014 | increases churn probability
+balance_category_High          | Coef:   0.8690 | increases churn probability
+active_member                  | Coef:  -0.8518 | decreases churn probability
+country_Germany                | Coef:   0.7783 | increases churn probability
+```
 
 ### Conclusions:
 
@@ -167,7 +201,7 @@ Business Value to the Bank
   * Age: Develop age-specific retention strategies
   * Activity status: Re-engage inactive members
   * Balance patterns: Monitor unusual balance changes
-* ROI Example: Could save $1.1M in revenue while spending only $55K on retention
+* ROI Example: Could save 1.1M in revenue while spending only 55K on retention
   * Retention efforts focussed on approximately 37% of customers, which covers ~70% of true churners - focussing value
   * If a retention campaign saves customers churning this has net value benefit to the bank
 
