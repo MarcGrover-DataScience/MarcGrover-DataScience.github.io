@@ -192,11 +192,10 @@ age                            | Coef:   0.6802 | increases churn probability
 
 ### Conclusions:
 
-Conclusions from the project findings and results.
+Summarise the conclusions that can be reached from the logicistic regression models generated (one without engineered features and the other with engineered features).  This is to be added to the portfolio in a 'Conclusions' section.  This is to be clean and consise and based on the results generated.
 
-discuss important concepts like the cost of customer acquisition versus retention, and how probability thresholds can be adjusted based on business objectives.
+This is to include conclusions regarding the models that have been created, and the business benefits to the bank by using such a model.  The following are notes previously made, which is to be used as a guide.  The content is to be tidied, reduced and extended as applicable to a conclusions section.  Add any ohter meaningful conclusions not listed below. 
 
-Business Value to the Bank
 * Feature Engineering was successful, as the model predictions improved.  The engineered features can be interpreted as:
   * Captured behavioral patterns (engagement_score, balance_per_product)
   * Revealed financial relationships (salary_balance_ratio)
@@ -204,7 +203,7 @@ Business Value to the Bank
   * Enabled better segmentation (age_group, balance_category, credit_category)
   * Provided clearer signals to guide model learning
 
-
+The logicistic regression model can be implemented to provide tangible business benefits including the following areas.
 * Proactive Retention: Identify at-risk customers before they leave
   * Identifies at-risk customers BEFORE they churn
   * Enables targeted retention campaigns rather than blanket approaches
