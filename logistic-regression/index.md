@@ -164,7 +164,7 @@ Using the enhanced set of features, a set of training data was used to fit the l
 
 High-level analysis shows that the overall accuracy increased by 2.7% from 71.4% to 74.1%, and more meaningfully the Precision increased by 3.4% to 42.1% and the Recall increased by 3.4% to 73.4%.
 
-
+In practicality, this means the model is able to identify more of the true churners, which fewer false positives are identified.  This both means that true churners can be targetted by retention activities, and less wasted effort on retention activities targeting those who won't churn.  This yeilds tangible savings and efficiencies to the bank, as well as retaining more customers, which is a primary goal.
 
 ### Feature Importance (with feature engineering):
 
@@ -188,6 +188,12 @@ Conclusions from the project findings and results.
 discuss important concepts like the cost of customer acquisition versus retention, and how probability thresholds can be adjusted based on business objectives.
 
 Business Value to the Bank
+* Feature Engineering was successful, as the model predictions improved.  The engineered features can be interpreted as:
+  * Captured behavioral patterns (engagement_score, balance_per_product)
+  * Revealed financial relationships (salary_balance_ratio)
+  * Created interaction effects (high_value_customer flag)
+  * Enabled better segmentation (age_group, balance_category, credit_category)
+  * Provided clearer signals to guide model learning
 
 * Proactive Retention: Identify at-risk customers before they leave
   * Identifies at-risk customers BEFORE they churn
