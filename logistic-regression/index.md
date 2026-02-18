@@ -166,7 +166,15 @@ High-level analysis shows that the overall accuracy increased by 2.7% from 71.4%
 
 In practicality, this means the model is able to identify more of the true churners, which fewer false positives are identified.  This both means that true churners can be targetted by retention activities, and less wasted effort on retention activities targeting those who won't churn.  This yeilds tangible savings and efficiencies to the bank, as well as retaining more customers, which is a primary goal.
 
+It is important to understand that while the model including the 7 engineered features has improved predictive power, this does not mean that each engineered feature individually improves the model, nor that any of the original features should be trained.  Some engineered features may not help or could even hurt model performance due to:
+* Adding noise rather than signal
+* Creating multicollinearity (high correlation with existing features)
+* Overfitting to training data
+* Not capturing meaningful patterns
+
 ### Feature Importance (with feature engineering):
+
+Considering the warning regarding some engineered features reduce model performance, the feature importance was analysed.  It shows that 6 of the top 7 features are associated to the engineered features, and hence the top features list differs significantly to that for the model without the engineered features.  Previously we saw that churn rate has a strong association to age-but in a non-linear manner, however the introduction of age groups (as an engineered feature) allows a more nuanced and meaningful use of age as a predictive feature as shown by 'age group' = '60+' and 'age group' = '50-60' being two important features, but one to decrease churn probability and the other increasing churn probability.  It also logically suggests that the generic 'age' feature may be redundant with the introduction of the 'age group' feature - this would require further investigation.
 
 ```
 Top 10 Most Important Features
@@ -179,6 +187,7 @@ age_group_50-60                | Coef:   1.0014 | increases churn probability
 balance_category_High          | Coef:   0.8690 | increases churn probability
 active_member                  | Coef:  -0.8518 | decreases churn probability
 country_Germany                | Coef:   0.7783 | increases churn probability
+age                            | Coef:   0.6802 | increases churn probability
 ```
 
 ### Conclusions:
@@ -194,6 +203,7 @@ Business Value to the Bank
   * Created interaction effects (high_value_customer flag)
   * Enabled better segmentation (age_group, balance_category, credit_category)
   * Provided clearer signals to guide model learning
+
 
 * Proactive Retention: Identify at-risk customers before they leave
   * Identifies at-risk customers BEFORE they churn
@@ -218,6 +228,16 @@ Business Value to the Bank
 ## Next steps:  
 
 With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+
+Feature engineering and reduction
+Recommended Workflow:
+
+Start with feature importance - Remove features with coefficients near zero
+Check correlations - Remove redundant features (correlation > 0.9)
+Run ablation study - Identify which engineered features actually help (by introducing each individually)
+Try L1 (Lasso) regularisation - Let the model automatically select features - automatically drives weak feature coefficients to zero
+Logically duplicated features - Consider if features are logically linked, associated or duplicated, e.g. the 'age' feature could be replaced by the 'age group' feature
+Compare models - Keep the feature set with best validation performance
 
 
 ## Python code:
