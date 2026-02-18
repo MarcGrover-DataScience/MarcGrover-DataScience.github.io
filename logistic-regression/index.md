@@ -196,6 +196,13 @@ Summarise the conclusions that can be reached from the logicistic regression mod
 
 This is to include conclusions regarding the models that have been created, and the business benefits to the bank by using such a model.  The following are notes previously made, which is to be used as a guide.  The content is to be tidied, reduced and extended as applicable to a conclusions section.  Add any ohter meaningful conclusions not listed below. 
 
+
+Two logistic regression models were developed and compared: a baseline model using only the original dataset features, and an enhanced model incorporating seven strategically engineered features. The enhanced model demonstrated measurable improvements across all key performance metrics, due to the engineered features:
+
+* Accuracy +2.7% to 74.1%
+* Precision increased by 3.4% to 42.1% and the
+* Recall increased by 3.4% to 73.4%.
+
 * Feature Engineering was successful, as the model predictions improved.  The engineered features can be interpreted as:
   * Captured behavioral patterns (engagement_score, balance_per_product)
   * Revealed financial relationships (salary_balance_ratio)
