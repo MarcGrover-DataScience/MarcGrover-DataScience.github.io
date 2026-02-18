@@ -143,7 +143,7 @@ An example practical application of adjusting prediction thresholds could be the
 
 ### Feature Engineering:
 
-Features were engineered from the original features, an advanced technique used to enhance model performance.  For this project 7 features were engineered:
+The initial model uses the features included in the original data.  With the business goal to generate an accurate prediction model, the original logistic model was enhanced with generated engineered features utilising the original features.  This is advanced technique used to enhance model performance.  For this project 7 features were engineered:
 * **balance_per_product**: Balance divided by number of products (customer value metric)
 * **engagement_score**: Tenure × Products (loyalty indicator)
 * **age_group**: Categorical age bins
@@ -154,13 +154,17 @@ Features were engineered from the original features, an advanced technique used 
 
 ### Model fitting and validation (with feature engineering):
 
-```
-Accuracy: 0.7405
-ROC-AUC: 0.8028
-F1-Score: 0.5354
-Precision: 0.4211
-Recall: 0.7346
-```
+Using the enhanced set of features, a set of training data was used to fit the logisitic regression model.  The resulting model was validated to produce performance metrics against the set of enhanced testing data:
+
+* Accuracy: 0.7405
+* ROC-AUC: 0.8028
+* F1-Score: 0.5354
+* Precision: 0.4211
+* Recall: 0.7346
+
+High-level analysis shows that the overall accuracy increased by 2.7% from 71.4% to 74.1%, and more meaningfully the Precision increased by 3.4% to 42.1% and the Recall increased by 3.4% to 73.4%.
+
+
 
 ### Feature Importance (with feature engineering):
 
