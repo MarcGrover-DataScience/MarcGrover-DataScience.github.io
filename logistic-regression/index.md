@@ -215,26 +215,78 @@ The model's probability-based output provides operational flexibility.  Decision
 
 ## Next steps:  
 
-With any advanced analytics and prediction model, it is important to assess how the model and implementation can be evolved to further support the business goals and business decisions, maximising tangible benefits.  Several opportunities exist for further improvement and increasing benefit to the business.  These enhancements would build upon the solid foundation established by the current logistic regression implementation, further increasing business value while maintaining model interpretability and operational reliability.
+Advanced analytics and prediction models require continuous evolution to maximise business value and maintain effectiveness. Several opportunities exist to enhance this logistic regression model's performance and operational impact. These improvements would build upon the current foundation while preserving model interpretability and operational reliability—critical requirements in a banking environment.
 
-### Model Improvements:
+### Model Performance Optimisation:
 
-* Hyperparameter optimisation through grid search to fine-tune regularisation strength
-* Threshold optimisation using cost-benefit analysis to select the decision point that maximises business value
-* Model comparison with ensemble methods (Random Forest, Gradient Boosting) to assess potential performance gains
-* Feature selection refinement through multiple methods:
-  * study the removal of features with high-correlation
-  * removal of features with coefficients near zero
-  * systematic ablation studies to identify and remove features that contribute minimal value
-  * Consider if features are logically associated, e.g. the 'age' feature could be replaced by the 'age group' feature, rather than in addition to
-  * L1 (Lasso) regularisation - Let the model automatically select features - automatically drives weak feature coefficients to zero
+**Hyperparameter Tuning**
+* Apply grid search or randomized search to optimize regularization strength (C parameter), solver choice, and convergence tolerance  
+* Use cross-validation to ensure improvements generalise beyond the training set  
 
-### Richer Training Data (more customers and more features):
+**Decision Threshold Optimisation**
+* Conduct cost-benefit analysis incorporating customer acquisition costs, retention campaign costs, and customer lifetime value
+* Select the probability threshold that maximises net business value rather than defaulting to 0.5
+* Consider different thresholds for different customer segments based on their strategic importance
 
-* Collect data for more customers, both historic and going-forward, and research if this can be used to train the model for increased predictive power
-* Collect more features on each customer, to be used to generate models to compare predictive power to determine performance gains
+**Algorithm Comparison**
+* Benchmark performance against ensemble methods (Random Forest, Gradient Boosting, XGBoost) to quantify potential accuracy gains
+* Evaluate the trade-off between increased predictive power and reduced interpretability
+* If ensemble methods significantly outperform logistic regression, consider hybrid approaches (e.g., logistic regression for transparency, ensemble for final scoring)
 
-### Model Implelementation and Montioring:
+### Feature Engineering and Selection
+
+**Feature Refinement**
+* Remove highly correlated features (correlation >0.9) that provide redundant information
+* Eliminate features with near-zero coefficients that contribute minimal predictive value
+* Conduct systematic ablation studies: remove each feature group individually, measure performance impact, and eliminate those that don't contribute
+* Apply L1 (Lasso) regularization to automatically drive weak feature coefficients to zero, enabling data-driven feature selection
+
+**Feature Consolidation**
+* Evaluate whether derived features can replace original features (e.g., use engineered 'age_group' instead of raw 'age' if performance is equivalent)
+* Test interaction terms between key features to capture non-linear relationships
+* Validate that each retained feature provides unique, non-redundant information
+
+### Training Data Enhancement:
+
+**Expanded Training Dataset**
+* Incorporate additional historical customer data to increase sample size and improve model generalisation
+* Collect data across multiple time periods to capture seasonal patterns and temporal trends
+* Ensure training data represents the full diversity of the customer base
+
+**Feature Expansion**
+* Identify and collect additional customer attributes (e.g., transaction frequency, customer service interactions, digital engagement metrics, product usage patterns)
+* Test new features incrementally, measuring marginal performance gains
+* Balance the cost of data collection against predictive value improvements
+
+### Model Deployment and Ongoing Management:
+
+**Production Deployment**
+
+Integrate model into the bank's CRM system for automated daily risk scoring
+Develop operational dashboards for customer service and retention teams
+Establish clear escalation procedures for high-risk customers
+
+**Performance Monitoring**
+
+Track key metrics (ROC-AUC, precision, recall, F1-score) on holdout validation sets monthly
+Monitor prediction distribution to detect shifts in customer behavior patterns
+Measure actual business outcomes: retention campaign success rates, cost per retained customer, revenue preserved
+
+**Model Maintenance**
+
+Implement temporal validation using time-based train-test splits to ensure predictions remain stable as customer behavior evolves
+Detect concept drift through statistical tests on prediction distributions and feature distributions
+Establish automated retraining triggers when performance degrades beyond acceptable thresholds (e.g., ROC-AUC drops below 0.83)
+Schedule quarterly model reviews regardless of performance to incorporate new data and business insights
+
+**Business Impact Assessment**
+
+Conduct A/B testing to compare retention outcomes between model-guided interventions and traditional approaches
+Calculate realized ROI by tracking actual customers retained versus campaign costs
+Gather feedback from retention teams to refine model outputs and operational workflows
+
+
+
 
 * Roll-out and measure accuracy, and realised benefits
 * Temporal validation using time-based train-test splits to ensure model stability over time
