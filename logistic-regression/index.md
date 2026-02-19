@@ -211,26 +211,29 @@ The model's probability-based output provides operational flexibility.  Decision
 * Logistic Regression maintains interpretability, a crucial requirement in banking and other regulated industries
 * Class imbalance can be handled handling, using balanced class weights and evaluating performance through ROC-AUC, precision, recall, and F1-score, rather than accuracy alone.  This ensures the model genuinely learns to identify the minority class (churners) rather than defaulting to the majority class.
 * Predictive models enable strategic transformation. Beyond tactical benefits like cost savings, the model provides strategic insights into customer behavior patterns that inform product development, service design, and long-term customer relationship strategies.
-* Data science delivers measurable business value. The model's $10+ million net value demonstrates that well-designed analytical solutions directly impact organizational performance, making data science a strategic asset rather than a technical capability.  
-
-### Final Conclusion
-This project successfully demonstrates the application of logistic regression for customer churn prediction, achieving strong predictive performance (ROC-AUC 0.85-0.87) through strategic feature engineering and proper handling of class imbalance. The model delivers substantial business value—potentially preserving over $10 million in annual revenue while optimizing resource allocation and providing actionable insights into customer behavior.
-Beyond technical achievements, the project illustrates how data science translates into strategic business impact: proactive rather than reactive customer management, evidence-based resource allocation, and data-driven insights that inform organizational strategy. The model's interpretability, combined with its strong performance, makes it deployment-ready for production use in a banking environment where both accuracy and transparency are essential.
-The success of feature engineering in improving model performance by 27% in net value underscores a fundamental principle: domain knowledge and thoughtful data transformation often contribute more to predictive success than algorithm complexity alone. This project exemplifies how rigorous analytical methods, combined with business understanding, create solutions that are both technically sound and commercially valuable.
+* Data science delivers measurable business value. The model's outputs demonstrates that well-designed analytical solutions directly impact organisational performance, making data science a strategic asset rather than a technical capability.  It supports proactive rather than reactive customer management, evidence-based resource allocation, and data-driven insights that inform organisational strategy. The model's interpretability, combined with its strong performance, makes it deployment-ready for production use in a banking environment where both accuracy and transparency are essential.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+With any advanced analytics and prediction model, it is important to assess how the model and implementation can be evolved to further support the business goals and business decisions, maximising tangible benefits.  Several opportunities exist for further improvement and increasing benefit to the business.  These enhancements would build upon the solid foundation established by the current logistic regression implementation, further increasing business value while maintaining model interpretability and operational reliability.
 
-### Future Enhancements
-While the current model performs strongly, several opportunities exist for further improvement:
-Hyperparameter optimization through grid search to fine-tune regularization strength
-Threshold optimization using cost-benefit analysis to select the decision point that maximizes business value
-Model comparison with ensemble methods (Random Forest, Gradient Boosting) to assess potential performance gains
-Temporal validation using time-based train-test splits to ensure model stability over time
-Feature selection refinement through systematic ablation studies to identify and remove features that contribute minimal value
-Continuous monitoring to detect concept drift and trigger model retraining when customer behavior patterns shift
-These enhancements would build upon the solid foundation established by the current logistic regression implementation, further increasing business value while maintaining model interpretability and operational reliability.
+### Model Improvements
+
+* Hyperparameter optimisation through grid search to fine-tune regularisation strength
+* Threshold optimisation using cost-benefit analysis to select the decision point that maximises business value
+* Model comparison with ensemble methods (Random Forest, Gradient Boosting) to assess potential performance gains
+* Feature selection refinement through systematic ablation studies to identify and remove features that contribute minimal value
+
+### Richer Training Data (more customers and more features)
+
+* Collect data for more customers, both historic and going-forward, and research if this can be used to train the model for increased predictive power
+* Collect more features on each customer, to be used to generate models to compare predictive power to determine performance gains
+
+### Model Implelementation and Montioring
+
+* Roll-out and measure accuracy, and realised benefits
+* Temporal validation using time-based train-test splits to ensure model stability over time
+* Continuous monitoring to detect concept drift and trigger model retraining when customer behavior patterns shift
 
 Feature engineering and reduction
 Recommended Workflow:
