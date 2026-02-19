@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Association Rule)
+title: E-Commerce Transactional Data (Association Rule)
 
 permalink: /association-rule/
 
@@ -12,7 +12,13 @@ permalink: /association-rule/
 
 ## Goals and objectives:
 
-The business objective is ...
+The business goal of an e-commerce retailer is to generate and understand association rules for products, and uncover hidden patterns in customer purchasing behaviour and translate them into actionable commercial insights.  This demonstrates the practical application of Association Rule Learning on real-world transactional data to meet the goals and provide valuable insight to the business.
+
+An objective is not simply to generate association rules, but to demonstrate the critical thinking required to validate their quality, understand their limitations, and prioritise those with genuine commercial relevance using metrics including lift, confidence, support, leverage, and conviction.  
+ 
+A secondary objective is to illustrate how data science can directly inform business strategy in a retail context. The insights derived from this analysis have tangible applications across multiple commercial functions — from powering product recommendation engines and designing promotional bundles, to informing inventory planning and guiding targeted email marketing campaigns. 
+
+By grounding every analytical decision in a business rationale, this project aims to demonstrate not only technical proficiency in Python, FP-Growth modelling, and data visualisation, but also the ability to communicate findings in a way that is meaningful to both technical and non-technical stakeholders. Ultimately, the project reflects a core principle of applied data science: that the value of a model lies not in its construction, but in the decisions it enables.
 
 ## Application:  
 
@@ -42,6 +48,10 @@ Beyond retail, the technique finds application in many other sectors:
 ## Methodology:  
 
 Details of the methodology applied in the project.
+
+Using the Online Retail II dataset — a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous preprocessing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
+
+https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv
 
 ## Results:
 
