@@ -191,7 +191,7 @@ These improvements validate the value of thoughtful feature engineering.  The en
 
 The enhanced model's ROC-AUC score (0.80) indicates strong discriminative ability, there is an 80% probability the model correctly ranks a churning customer higher than a non-churning customer.  This performance, combined with the model's interpretability through feature importance analysis, makes it well-suited for production deployment in a banking environment.
 
-### Business Value and Strategic Benefits  
+### Business Value and Strategic Benefits:  
 
 The logistic regression model delivers substantial business value through multiple channels:
 1. Proactive Customer Retention - The model identifies at-risk customers before they churn, enabling the bank to shift from reactive to proactive retention strategies. Rather than blanket campaigns targeting all customers, the bank can implement targeted interventions for those most likely to leave.  This proactive approach increases retention effectiveness while improving customer experience.
@@ -200,12 +200,12 @@ The logistic regression model delivers substantial business value through multip
 4. Actionable Strategic Insights - Beyond predictions, the model reveals why customers churn through feature importance analysis.  This supports the ability to provide personalised retention offers and services.  As an example inactive customers and those with a low balance correlate with churn risk.  These insights drive strategic initiatives beyond individual customer targeting, informing product development, service design, and long-term customer relationship strategies.
 5. Quantifiable Return on Investment - For a bank with 100,000 customers experiencing 20% annual churn (20,000 churners), the enhanced model delivers measurable financial impact.  Identfying ~35k at-risk customers, of which ~15k are true churners.  The cost of running retention campaigns is outweighed by the financial benefit of retaining customers.
 
-### Model Interpretability and Deployment Readiness
+### Model Interpretability and Deployment Readiness:
 A critical advantage of logistic regression over more complex "black box" algorithms is its inherent interpretability.  Stakeholders can understand exactly which customer characteristics drive churn predictions and why specific customers receive certain risk scores. This transparency builds trust with business users, facilitates regulatory compliance, and enables continuous model refinement based on domain expertise.  
 
 The model's probability-based output provides operational flexibility.  Decision thresholds can be adjusted based on changing business conditions, such as budget constraints or strategic growth.
 
-### Key Takeaways
+### Key Takeaways:
 * Feature engineering significantly enhances model performance.   
 * Logistic regression remains highly effective for business classification problems delivering strong predictive performance, even compared to more complex machine learning techniques.
 * Logistic Regression maintains interpretability, a crucial requirement in banking and other regulated industries
@@ -217,19 +217,19 @@ The model's probability-based output provides operational flexibility.  Decision
 
 With any advanced analytics and prediction model, it is important to assess how the model and implementation can be evolved to further support the business goals and business decisions, maximising tangible benefits.  Several opportunities exist for further improvement and increasing benefit to the business.  These enhancements would build upon the solid foundation established by the current logistic regression implementation, further increasing business value while maintaining model interpretability and operational reliability.
 
-### Model Improvements
+### Model Improvements:
 
 * Hyperparameter optimisation through grid search to fine-tune regularisation strength
 * Threshold optimisation using cost-benefit analysis to select the decision point that maximises business value
 * Model comparison with ensemble methods (Random Forest, Gradient Boosting) to assess potential performance gains
 * Feature selection refinement through systematic ablation studies to identify and remove features that contribute minimal value
 
-### Richer Training Data (more customers and more features)
+### Richer Training Data (more customers and more features):
 
 * Collect data for more customers, both historic and going-forward, and research if this can be used to train the model for increased predictive power
 * Collect more features on each customer, to be used to generate models to compare predictive power to determine performance gains
 
-### Model Implelementation and Montioring
+### Model Implelementation and Montioring:
 
 * Roll-out and measure accuracy, and realised benefits
 * Temporal validation using time-based train-test splits to ensure model stability over time
