@@ -30,8 +30,8 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
-* ### Association Rule
-* ### Causal Impact Analysis
+* ### [Association Rule](/association-rule/)
+* ### [Causal Impact Analysis](/causal-impact-analysis/)
 * ### [Great Expectations (Validation)](/great-expectations/)
 * ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
 * ### Text Summarisation (Deep Learning)

@@ -4,7 +4,7 @@ layout: default
 
 title: Project (Decision Trees)
 
-permalink: /test_project/
+permalink: /causal-impact-analysis/
 
 ---
 
@@ -38,4 +38,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/DecisionTree_BreastCancer.py)
+[View the Python Script](/test.py)
