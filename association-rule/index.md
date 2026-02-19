@@ -31,8 +31,13 @@ The most well-known algorithm for implementing this technique is the Apriori alg
 
 In a real-world retail context, Association Rule Learning is the engine behind product recommendation engines and physical store layout optimisation. A supermarket chain, for example, could apply this technique to millions of transaction records to discover that customers who purchase nappies and baby formula on weekday evenings also frequently purchase beer.  This seemingly counterintuitive insight — famously observed in early retail analytics — could inform targeted promotions, shelf placement decisions, or personalised email campaigns.  
 
-Beyond retail, the technique finds application in healthcare (identifying co-occurring symptoms or medications), cybersecurity (detecting patterns in network intrusion events), and web analytics (understanding click-path behaviour across a site).
-
+Beyond retail, the technique finds application in many other sectors:
+* healthcare: identifying co-occurring symptoms or medications
+* cybersecurity: detecting patterns in network intrusion events
+* web analytics: understanding click-path behaviour across a site
+* retail: detecting co-purchased items, supporting product bundling offers
+* technology: understanding user behaviours to support on-boarding and retention
+* science: in weather prediction, discover associations between atmospheric variables — such as sea surface temperature, humidity, and wind patterns — that tend to precede extreme weather events, contributing to improved early warning systems
 
 ## Methodology:  
 
