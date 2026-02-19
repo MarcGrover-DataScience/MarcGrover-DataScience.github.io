@@ -10,9 +10,9 @@ permalink: /logistic-regression/
 
 ## Goals and objectives:
 
-The business objective is to predict the churn of bank customers.  A Logistic Regression model was built using customer features and historical customer churn outcomes to predict which current customers are predicted to leave, to be used to focus the implementation of customer retention strategies.  Customer churn prediction is highly relevant to real-world business problems.  Businesses across multiple sectors can implment such advanced analytics to identify at-risk customers, this analysis does not just benefit banks and financial institutions.
+The business objective is to predict the churn of bank customers.  A Logistic Regression model was built using customer features and historical customer churn outcomes to predict which current customers are predicted to leave, to be used to focus the implementation of customer retention strategies.  Customer churn prediction is highly relevant to real-world business problems.  Businesses across multiple sectors can implement such advanced analytics to identify at-risk customers, this analysis does not just benefit banks and financial institutions.
 
-The Logistic Regression model produced accurate binary churn / no-churn predictions, which was further advanced using feature engineering to provide more accurate predictions and insight into causes and signals of churn.  The class imbalance (churn is far less common than non-churn) was handled using class weights and evalauting performance with suitable metrics (ROC-AUC, precision, recall, and F1-score).  The overall model was proven to support business understanding of customers at risk of churning, enabling efficient retention initiatives to reducing costs and increase the value of the overall customer base - clear business benefits. 
+The Logistic Regression model produced accurate binary churn / no-churn predictions, which was further advanced using feature engineering to provide more accurate predictions and insight into causes and signals of churn.  The class imbalance (churn is far less common than non-churn) was handled using class weights and evaluating performance with suitable metrics (ROC-AUC, precision, recall, and F1-score).  The overall model was proven to support business understanding of customers at risk of churning, enabling efficient retention initiatives to reducing costs and increase the value of the overall customer base - clear business benefits. 
 
 ## Application:  
 
@@ -28,7 +28,7 @@ Logistic regression can be extended to handle **multi-class classification** pro
 
 Logistic regression can be applied in a variety of scenarios across all industry sectors.  Example uses include:
 
-* **Finance: Credit Default Prediction** - logistic regression models are extensively used for credit risk assessment and loan default prediction, to evaluate whether a loan applicant is likely to default on their payments.  The model takes into account various features such as credit score, income level, employment history, debt-to-income ratio, previous loan repayment behavior, and loan amount.  By analysing historical data from thousands of past borrowers, the model learns which combinations of these features are associated with higher default risk.  The output is a probability score between 0 and 1, representing the likelihood of default, supporting decisions on offering loans and setting interest rates.  This probabilistic approach supports data-driven lending decisions and risk exposure management, maintaining profitability while still serving customers.  
+* **Finance: Credit Default Prediction** - logistic regression models are extensively used for credit risk assessment and loan default prediction, to evaluate whether a loan applicant is likely to default on their payments.  The model takes into account various features such as credit score, income level, employment history, debt-to-income ratio, previous loan repayment behaviour, and loan amount.  By analysing historical data from thousands of past borrowers, the model learns which combinations of these features are associated with higher default risk.  The output is a probability score between 0 and 1, representing the likelihood of default, supporting decisions on offering loans and setting interest rates.  This probabilistic approach supports data-driven lending decisions and risk exposure management, maintaining profitability while still serving customers.  
 * **Medical: Disease Diagnosis and Screening** - logistic regression plays a crucial role in diagnostic decision support systems, particularly for screening and early detection of diseases.  For example in predicting the likelihood of heart disease based on patient characteristics and clinical measurements.  Medical practitioners input patient data including age, blood pressure, cholesterol levels, blood sugar levels, smoking status, family history, and results from tests like electrocardiograms.  The logistic regression model, trained on extensive patient databases, outputs a probability that the patient has or will develop heart disease.  This probability helps physicians prioritise which patients need immediate intervention, further diagnostic testing, or preventive care. The interpretability of logistic regression is particularly valuable in medical settings because doctors can understand which factors are driving the prediction, allowing them to explain risks to patients and make informed clinical decisions that combine the model's output with their professional expertise.  
 * **Retail: Customer Churn Prediction** - Retail companies, especially those with subscription-based models or loyalty programs, use logistic regression to predict customer churn, which is the likelihood that a customer will stop doing business with them.  The model analyses customer behaviour patterns including purchase frequency, recency of last purchase, average transaction value, etc.  By identifying customers with high churn probabilities, retailers can proactively implement retention strategies such as personalised offers or targeted discounts.  
 * **Manufacturing: Quality Control and Defect Detection** - In manufacturing, logistic regression is applied to predictive quality control, helping identify whether products will meet quality standards or be defective.  Production facilities collect vast amounts of data from sensors and inspection points throughout the manufacturing process. A logistic regression model trained on this data can predict the probability that a product being defective based on the process parameters observed during its production. Products can be identified as high-risk, enabling additional focussed additional checks or handled differently.  This can reduce waste, improve overall product quality, minimise risk and exposure, and optimise efficiency and profitability.  
@@ -44,7 +44,7 @@ The overall method applied was:
 
 * **Class Imbalance Ratio (CIR)** metric calculated used to quantify the disparity between the two classes in the dataset, for this project the "positive" minority class (churn) and the "negative" majority class (no churn).
 * **Descriptive analysis** of the data to understand high-level trends and features of the data
-* **Data preprocessing** to remove the 'customer_id' feature as it's not predictive, encode the binary field 'gender', and one-hot encode the features 'country', 'age_group', 'balance_category', and 'credit_category' (the later being engineered fields - see later).
+* **Data pre-processing** to remove the 'customer_id' feature as it's not predictive, encode the binary field 'gender', and one-hot encode the features 'country', 'age_group', 'balance_category', and 'credit_category' (the later being engineered fields - see later).
 * **Scale data** in numeric fields (non-binary) to support optimal logistic regression model creation and more meaningful analysis of feature importance.
 * **Fit the logistical regression model** using pre-processed and scaled training data.  The data was split 80/20 into training and testing data.  
 * **Prediction and model validation** was undertaken using the trained model on the testing dataset, with the classification predictions compared to the known outcomes to determine the model quality.  
@@ -149,7 +149,7 @@ The initial model uses the features included in the original data.  With the bus
 
 ### Model fitting and validation (with feature engineering):
 
-Using the enhanced set of features, a set of training data was used to fit the logisitic regression model.  The resulting model was validated to produce performance metrics against the set of enhanced testing data:
+Using the enhanced set of features, a set of training data was used to fit the logistic regression model.  The resulting model was validated to produce performance metrics against the set of enhanced testing data:
 
 * Accuracy: 0.7405
 * ROC-AUC: 0.8028
@@ -159,7 +159,7 @@ Using the enhanced set of features, a set of training data was used to fit the l
 
 High-level analysis shows that the overall accuracy increased by 2.7% from 71.4% to 74.1%, and more meaningfully the Precision increased by 3.4% to 42.1% and the Recall increased by 3.4% to 73.4%.
 
-In practicality, this means the model is able to identify more of the true churners, which fewer false positives are identified.  This both means that true churners can be targetted by retention activities, and less wasted effort on retention activities targeting those who won't churn.  This yeilds tangible savings and efficiencies to the bank, as well as retaining more customers, which is a primary goal.
+In practicality, this means the model is able to identify more of the true churners, which fewer false positives are identified.  This both means that true churners can be targeted by retention activities, and less wasted effort on retention activities targeting those who won't churn.  This yields tangible savings and efficiencies to the bank, as well as retaining more customers, which is a primary goal.
 
 It is important to understand that while the model including the 7 engineered features has improved predictive power, this does not mean that each engineered feature individually improves the model, nor that any of the original features should be trained.  Some engineered features may not help or could even hurt model performance due to:
 * Adding noise rather than signal
@@ -185,7 +185,7 @@ Two logistic regression models were developed and compared: a baseline model usi
 * Precision increased by 3.4% to 42.1% and the
 * Recall increased by 3.4% to 73.4%.
 
-These improvements validate the value of thoughtful feature engineering.  The engineered features successfully captured customer behavioral patterns (engagement_score, balance_per_product), revealed financial relationships (salary_balance_ratio), created interaction effects (high_value_customer flag), and enabled better customer segmentation (age_group, balance_category, credit_category). By distilling complex customer information into clearer predictive signals, these features guided the model to learn more meaningful patterns from the data.
+These improvements validate the value of thoughtful feature engineering.  The engineered features successfully captured customer behavioural patterns (engagement_score, balance_per_product), revealed financial relationships (salary_balance_ratio), created interaction effects (high_value_customer flag), and enabled better customer segmentation (age_group, balance_category, credit_category). By distilling complex customer information into clearer predictive signals, these features guided the model to learn more meaningful patterns from the data.
 
 The enhanced model's ROC-AUC score (0.80) indicates strong discriminative ability, there is an 80% probability the model correctly ranks a churning customer higher than a non-churning customer.  This performance, combined with the model's interpretability through feature importance analysis, makes it well-suited for production deployment in a banking environment.
 
@@ -196,7 +196,7 @@ The logistic regression model delivers substantial business value through multip
 2. Significant Cost Savings - Customer acquisition costs are higher than retention costs, making churn prevention economically critical. The enhanced model's precision minimises wasted resources on customers who would have stayed regardless.  Simultaneously, the recall ensures the bank captures a high percentage of actual churners, translating to focusing retention budgets on the right customers, therefore the model dramatically improves return on investment.
 3. Optimized Resource Allocation - The model generates probability scores (0.0 to 1.0) for each customer, enabling sophisticated prioritisation strategies, based on the risk of churning. A risk-based allocation ensures resources are deployed where they will have the greatest impact.
 4. Actionable Strategic Insights - Beyond predictions, the model reveals why customers churn through feature importance analysis.  This supports the ability to provide personalised retention offers and services.  As an example inactive customers and those with a low balance correlate with churn risk.  These insights drive strategic initiatives beyond individual customer targeting, informing product development, service design, and long-term customer relationship strategies.
-5. Quantifiable Return on Investment - For a bank with 100,000 customers experiencing 20% annual churn (20,000 churners), the enhanced model delivers measurable financial impact.  Identfying ~35k at-risk customers, of which ~15k are true churners.  The cost of running retention campaigns is outweighed by the financial benefit of retaining customers.
+5. Quantifiable Return on Investment - For a bank with 100,000 customers experiencing 20% annual churn (20,000 churners), the enhanced model delivers measurable financial impact.  Identifying ~35k at-risk customers, of which ~15k are true churners.  The cost of running retention campaigns is outweighed by the financial benefit of retaining customers.
 
 ### Model Interpretability and Deployment Readiness:
 A critical advantage of logistic regression over more complex "black box" algorithms is its inherent interpretability.  Stakeholders can understand exactly which customer characteristics drive churn predictions and why specific customers receive certain risk scores. This transparency builds trust with business users, facilitates regulatory compliance, and enables continuous model refinement based on domain expertise.  
@@ -264,11 +264,11 @@ Advanced analytics and prediction models require continuous evolution to maximis
 
 **Performance Monitoring**
 * Track key metrics (ROC-AUC, precision, recall, F1-score) on holdout validation sets monthly
-* Monitor prediction distribution to detect shifts in customer behavior patterns
+* Monitor prediction distribution to detect shifts in customer behaviour patterns
 * Measure actual business outcomes: retention campaign success rates, cost per retained customer, revenue preserved
 
 **Model Maintenance**
-* Implement temporal validation using time-based train-test splits to ensure predictions remain stable as customer behavior evolves
+* Implement temporal validation using time-based train-test splits to ensure predictions remain stable as customer behaviour evolves
 * Establish automated retraining triggers when performance degrades beyond acceptable thresholds (e.g., ROC-AUC value drops below a threshold)
 * Schedule regular model reviews regardless of performance to incorporate new data and business insights
 
