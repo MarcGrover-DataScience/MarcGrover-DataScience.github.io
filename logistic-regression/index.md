@@ -222,7 +222,12 @@ With any advanced analytics and prediction model, it is important to assess how 
 * Hyperparameter optimisation through grid search to fine-tune regularisation strength
 * Threshold optimisation using cost-benefit analysis to select the decision point that maximises business value
 * Model comparison with ensemble methods (Random Forest, Gradient Boosting) to assess potential performance gains
-* Feature selection refinement through systematic ablation studies to identify and remove features that contribute minimal value
+* Feature selection refinement through multiple methods:
+  * study the removal of features with high-correlation
+  * removal of features with coefficients near zero
+  * systematic ablation studies to identify and remove features that contribute minimal value
+  * Consider if features are logically associated, e.g. the 'age' feature could be replaced by the 'age group' feature, rather than in addition to
+  * L1 (Lasso) regularisation - Let the model automatically select features - automatically drives weak feature coefficients to zero
 
 ### Richer Training Data (more customers and more features):
 
@@ -234,17 +239,6 @@ With any advanced analytics and prediction model, it is important to assess how 
 * Roll-out and measure accuracy, and realised benefits
 * Temporal validation using time-based train-test splits to ensure model stability over time
 * Continuous monitoring to detect concept drift and trigger model retraining when customer behavior patterns shift
-
-Feature engineering and reduction
-Recommended Workflow:
-
-Start with feature importance - Remove features with coefficients near zero
-Check correlations - Remove redundant features (correlation > 0.9)
-Run ablation study - Identify which engineered features actually help (by introducing each individually)
-Try L1 (Lasso) regularisation - Let the model automatically select features - automatically drives weak feature coefficients to zero
-Logically duplicated features - Consider if features are logically linked, associated or duplicated, e.g. the 'age' feature could be replaced by the 'age group' feature
-Compare models - Keep the feature set with best validation performance
-
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
