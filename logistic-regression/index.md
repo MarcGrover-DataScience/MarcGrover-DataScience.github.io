@@ -8,8 +8,6 @@ permalink: /logistic-regression/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 The business objective is to predict the churn of bank customers.  A Logistic Regression model was built using customer features and historical customer churn outcomes to predict which current customers are predicted to leave, to be used to focus the implementation of customer retention strategies.  Customer churn prediction is highly relevant to real-world business problems.  Businesses across multiple sectors can implment such advanced analytics to identify at-risk customers, this analysis does not just benefit banks and financial institutions.
@@ -233,7 +231,7 @@ Advanced analytics and prediction models require continuous evolution to maximis
 * Evaluate the trade-off between increased predictive power and reduced interpretability
 * If ensemble methods significantly outperform logistic regression, consider hybrid approaches (e.g., logistic regression for transparency, ensemble for final scoring)
 
-### Feature Engineering and Selection
+### Feature Engineering and Selection:
 
 **Feature Refinement**
 * Remove highly correlated features (correlation >0.9) that provide redundant information
@@ -261,36 +259,23 @@ Advanced analytics and prediction models require continuous evolution to maximis
 ### Model Deployment and Ongoing Management:
 
 **Production Deployment**
-
-Integrate model into the bank's CRM system for automated daily risk scoring
-Develop operational dashboards for customer service and retention teams
-Establish clear escalation procedures for high-risk customers
+* Integrate model into the bank's CRM system for automated risk scoring
+* Establish clear escalation procedures for high-risk customers
 
 **Performance Monitoring**
-
-Track key metrics (ROC-AUC, precision, recall, F1-score) on holdout validation sets monthly
-Monitor prediction distribution to detect shifts in customer behavior patterns
-Measure actual business outcomes: retention campaign success rates, cost per retained customer, revenue preserved
+* Track key metrics (ROC-AUC, precision, recall, F1-score) on holdout validation sets monthly
+* Monitor prediction distribution to detect shifts in customer behavior patterns
+* Measure actual business outcomes: retention campaign success rates, cost per retained customer, revenue preserved
 
 **Model Maintenance**
-
-Implement temporal validation using time-based train-test splits to ensure predictions remain stable as customer behavior evolves
-Detect concept drift through statistical tests on prediction distributions and feature distributions
-Establish automated retraining triggers when performance degrades beyond acceptable thresholds (e.g., ROC-AUC drops below 0.83)
-Schedule quarterly model reviews regardless of performance to incorporate new data and business insights
+* Implement temporal validation using time-based train-test splits to ensure predictions remain stable as customer behavior evolves
+* Establish automated retraining triggers when performance degrades beyond acceptable thresholds (e.g., ROC-AUC value drops below a threshold)
+* Schedule regular model reviews regardless of performance to incorporate new data and business insights
 
 **Business Impact Assessment**
-
-Conduct A/B testing to compare retention outcomes between model-guided interventions and traditional approaches
-Calculate realized ROI by tracking actual customers retained versus campaign costs
-Gather feedback from retention teams to refine model outputs and operational workflows
-
-
-
-
-* Roll-out and measure accuracy, and realised benefits
-* Temporal validation using time-based train-test splits to ensure model stability over time
-* Continuous monitoring to detect concept drift and trigger model retraining when customer behavior patterns shift
+* Conduct A/B testing to compare retention outcomes between model-guided interventions and traditional approaches
+* Calculate realised ROI by tracking actual customers retained versus campaign costs
+* Gather feedback from retention teams to refine model outputs and operational workflows
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
