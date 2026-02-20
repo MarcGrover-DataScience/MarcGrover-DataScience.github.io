@@ -66,7 +66,7 @@ The methodology follows the end-to-end data science workflow, implemented in Pyt
 
 Results from the project related to the business objective.
 
-**Data Validation and Pre-Processing**
+**Data Validation and Pre-Processing**  
 The data was pre-processed to remove records deemed as not adding analytical value, or potentially liable to produce misleading or incorrect results.  In a real-wrold scenario, this is subject to many factors including; business objectives, analysis goals and constraints and features or issues with the data.  For example, records associated to non-UK purchases were excluded from this analysis, but could be included given a different business scoping or goal.  One subtle rule applied that is of note, is that invoices containing a single purchased product were excluded - as this analysis finds relationships between multiple products in the same invoice, invoices containing a single product offer no analytical value.
 
 The result of the data validation and pre-processing step is a dataset for analysis summarised as:
@@ -78,11 +78,17 @@ The result of the data validation and pre-processing step is a dataset for analy
 
 **Exploratory Data Analysis**
 
-Exploratory data analysis was conducted across five visualisations to establish an understanding of the cleaned dataset and some of the purchasing patterns within it.  The charts examine the business from multiple angles: identifying the products with the highest sales volumes, understanding how transaction activity and revenue fluctuate across the calendar year, revealing the days of the week on which customers are most active, and characterising the typical size of a customer basket. Together these charts provide the commercial context needed to interpret the association rules that follow, and surface several patterns in their own right that are directly relevant to retail planning and marketing strategy.
+Exploratory data analysis was conducted across five visualisations to establish an understanding of the cleaned dataset and some of the purchasing patterns within it.  The charts examine the business from multiple angles: identifying the products with the highest sales volumes, understanding how transaction activity and revenue fluctuate by time, and weekdays (relealing no activity on Saturdays), and understanding the distribution of the number of distinct products in customer baskets.  Together these charts provide the commercial context needed to interpret the association rules that follow, and surface several patterns in their own right that are directly relevant to retail planning and marketing strategy.
 
 ![top20_products](01_top20_products.png)
 
 ![monthly_transactions](02_monthly_transactions.png)
+
+![transactions_by_day](transactions_by_day.png)
+
+![monthly_revenue](monthly_revenue.png)
+
+![basket_size_distribution](basket_size_distribution.png)
 
 ## Conclusions:
 
