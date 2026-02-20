@@ -78,6 +78,8 @@ The result of the data validation and pre-processing step is a dataset for analy
 
 **Exploratory Data Analysis**
 
+Exploratory data analysis was conducted across five visualisations to establish an understanding of the cleaned dataset and some of the purchasing patterns within it.  The charts examine the business from multiple angles: identifying the products with the highest sales volumes, understanding how transaction activity and revenue fluctuate across the calendar year, revealing the days of the week on which customers are most active, and characterising the typical size of a customer basket. Together these charts provide the commercial context needed to interpret the association rules that follow, and surface several patterns in their own right that are directly relevant to retail planning and marketing strategy.
+
 ![top20_products](01_top20_products.png)
 
 ![monthly_transactions](02_monthly_transactions.png)
