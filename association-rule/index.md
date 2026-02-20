@@ -88,6 +88,8 @@ Exploratory data analysis was conducted across five visualisations to establish 
 
 ![monthly_revenue](monthly_revenue.png)
 
+Note that for the basket distribution below, invoices with a single product have been removed from the analysis.  The frequency by basket size decreases with the increase in products in the basket.  This chart is limited to basket size of 60 for simplicity.  The largest basket size being 540 distinct products.  The mean basket size in the cleaned dataset is 22.3, with the 50 percentile equal to 16.
+
 ![basket_size_distribution](basket_size_distribution.png)
 
 ## Conclusions:
