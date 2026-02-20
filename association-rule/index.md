@@ -49,9 +49,18 @@ Beyond retail, the technique finds application in many other sectors:
 
 Details of the methodology applied in the project.
 
-Using the Online Retail II dataset — a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous preprocessing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
+This portfolio project uses the 'Online Retail II dataset', available at Kaggle [here](https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv)  This is a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous preprocessing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
 
-This uses tthe data available at Kaggle [here](https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv)
+The methodology follows the end-to-end data science workflow, implemented in Python using the mlxtend, pandas, seaborn, and numpy libraries, progressing from raw data ingestion through to the extraction and communication of business insight across eight structured stages.
+
+**Data Loading and Initial Exploration**: The 2010–2011 Online Retail II dataset is loaded from CSV using Latin-1 encoding, with an initial review of shape, data types, descriptive statistics, and missing value counts conducted to establish a baseline understanding of data quality before any transformation is applied.  
+**Data Validation and Pre-Processing**: Seven sequential cleaning steps are applied to remove cancelled orders, missing Customer IDs, negative and zero quantities, invalid prices, non-product stock codes, non-UK transactions, and single-item invoices, with row counts logged at each step to maintain full transparency over the impact of each decision.  
+**Exploratory Data Analysis**: Five individual Seaborn visualisations are produced covering top-selling products, monthly transaction volumes, day-of-week purchasing patterns, monthly revenue, and basket size distribution, building a rounded picture of customer behaviour before modelling begins.  
+**Basket Construction**: The cleaned transaction data is pivoted into a binary invoice-by-product matrix, where each cell is encoded as True or False to indicate whether a given product was purchased within that transaction, producing the input format required by the FP-Growth algorithm.  
+**Frequent Itemset Mining**: The FP-Growth algorithm is applied to the basket matrix with a minimum support threshold of 2%, chosen through sensitivity analysis as a pragmatic balance between discovery breadth and result quality, to identify all product combinations appearing frequently enough across transactions to be commercially meaningful.  
+**Association Rule Generation**: Rules are derived from the frequent itemsets with a minimum lift of 1.5 and minimum confidence of 0.20, with all rules enriched with support, confidence, lift, leverage, and conviction metrics to enable multi-dimensional evaluation of rule strength.  
+**Model Validation**: Six validation checks are applied covering trivial rule filtering, leverage confirmation, conviction scoring, support stability, reciprocal rule detection, and a parameter sensitivity analysis across five support thresholds, collectively confirming that the retained rules represent genuine and robust product associations rather than statistical artefacts.  
+**Business Insight Extraction and Visualisation**: The strongest rules are surfaced and visualised through rankings by lift and confidence, a lift distribution plot, a top antecedents chart, and a product co-occurrence heatmap, with each output interpreted in terms of its direct application to retail use cases including product recommendations, promotional bundling, and inventory planning.  
 
 ## Results:
 
