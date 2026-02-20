@@ -12,7 +12,7 @@ permalink: /association-rule/
 
 ## Goals and objectives:
 
-The business goal of an e-commerce retailer is to generate and understand association rules for products, and uncover hidden patterns in customer purchasing behaviour and translate them into actionable commercial insights.  This demonstrates the practical application of Association Rule Learning on real-world transactional data to meet the goals and provide valuable insight to the business.
+For this portfolio project, the simulated business scenario is regarding a ficticious e-commerce retailer, with the goals of uncovering hidden patterns in customer purchasing behaviour and translate them into actionable commercial insights, enabling tangible business benefits.  This demonstrates the practical application of Association Rule Learning on real-world transactional data to meet the goals and provide valuable insight to the business, by understanding patterns of multiple products purchased together within the same transaction. 
 
 An objective is not simply to generate association rules, but to demonstrate the critical thinking required to validate their quality, understand their limitations, and prioritise those with genuine commercial relevance using metrics including lift, confidence, support, leverage, and conviction.  
  
@@ -29,21 +29,21 @@ Association Rule Learning is an unsupervised machine learning technique used to 
 At its core, the algorithm identifies "if-then" relationships — for example, if a customer buys product A, then they are likely to also buy product B. 
 
 These rules are evaluated using three key metrics:  
-* support (how frequently the itemset appears in the dataset)  
-* confidence (the probability that the consequent occurs given the antecedent)  
-* lift (how much more likely the association is compared to random chance)  
+* **support**: how frequently the itemset appears in the dataset  
+* **confidence**: the probability that the consequent occurs given the antecedent  
+* **lift**: how much more likely the association is compared to random chance  
 
 The most well-known algorithm for implementing this technique is the Apriori algorithm, though more efficient alternatives like FP-Growth are widely used in practice.  
 
 In a real-world retail context, Association Rule Learning is the engine behind product recommendation engines and physical store layout optimisation. A supermarket chain, for example, could apply this technique to millions of transaction records to discover that customers who purchase nappies and baby formula on weekday evenings also frequently purchase beer.  This seemingly counterintuitive insight — famously observed in early retail analytics — could inform targeted promotions, shelf placement decisions, or personalised email campaigns.  
 
 Beyond retail, the technique finds application in many other sectors:
-* healthcare: identifying co-occurring symptoms or medications
-* cybersecurity: detecting patterns in network intrusion events
-* web analytics: understanding click-path behaviour across a site
-* retail: detecting co-purchased items, supporting product bundling offers
-* technology: understanding user behaviours to support on-boarding and retention
-* science: in weather prediction, discover associations between atmospheric variables — such as sea surface temperature, humidity, and wind patterns — that tend to precede extreme weather events, contributing to improved early warning systems
+* **healthcare**: identifying co-occurring symptoms or medications
+* **cybersecurity**: detecting patterns in network intrusion events
+* **web analytics**: understanding click-path behaviour across a site
+* **retail**: detecting co-purchased items, supporting product bundling offers
+* **technology**: understanding user behaviours to support on-boarding and retention
+* **science**: in weather prediction, discover associations between atmospheric variables — such as sea surface temperature, humidity, and wind patterns — that tend to precede extreme weather events, contributing to improved early warning systems
 
 ## Methodology:  
 
@@ -51,7 +51,7 @@ Details of the methodology applied in the project.
 
 Using the Online Retail II dataset — a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous preprocessing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
 
-https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv
+This uses tthe data available at Kaggle [here](https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv)
 
 ## Results:
 
