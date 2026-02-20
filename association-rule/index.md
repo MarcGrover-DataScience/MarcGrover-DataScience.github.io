@@ -76,6 +76,12 @@ The result of the data validation and pre-processing step is a dataset for analy
 * Unique products      : 3,821
 * Unique customers     : 3,819
 
+**Exploratory Data Analysis**
+
+![top20_products](01_top20_products.png)
+
+![monthly_transactions](02_monthly_transactions.png)
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
@@ -87,4 +93,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/test.py)
+[View the Python Script](/Association_Rule_v1.py)
