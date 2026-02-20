@@ -98,9 +98,18 @@ The binary invoice-by-product matrix was created as a grid of 15,365 invoices an
 
 **Frequent Itemset Mining**
 
-FP-Growth algorithm is applied to the basket matrix with a minimum support threshold of 2%.  
-MIN_CONFIDENCE = 0.20  
-MIN_LIFT       = 1.5  
+Frequent itemset mining was performed on the binary basket matrix using the FP-Growth algorithm, with a minimum support threshold of 2%, meaning only product combinations appearing in at least 2% of all UK transactions were retained for further analysis.  
+
+The algorithm identified a total of several hundred frequent itemsets across multiple itemset sizes, with the distribution heavily weighted towards smaller itemsets as expected.
+
+* Size-2 itemsets represent pairs of products frequently purchased together, which account for the largest share of results,
+* The count declines progressively for size-3 and above as the constraint of three or more products co-occurring within the same basket becomes increasingly restrictive.
+* Size-1 itemsets are also present as a natural output of the mining process, representing individual high-frequency products that serve as the foundational building blocks from which larger itemsets are constructed
+* It is the size-2 itemsets and above that form the basis of all association rules generated in the subsequent stage.
+
+The support distribution chart confirms that the majority of frequent itemsets sit close to the 2% threshold.  A smaller number of highly prevalent itemsets achieve higher support values, indicating a core set of product combinations that are consistently purchased together across a broad proportion of the customer base.
+
+![support_distribution](support_distribution.png)
 
 ## Conclusions:
 
