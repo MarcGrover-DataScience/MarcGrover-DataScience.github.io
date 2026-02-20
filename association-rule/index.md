@@ -53,8 +53,8 @@ This portfolio project uses the 'Online Retail II dataset', available at Kaggle 
 
 The methodology follows the end-to-end data science workflow, implemented in Python using the mlxtend, pandas, seaborn, and numpy libraries, progressing from raw data ingestion through to the extraction and communication of business insight across eight structured stages.
 
-**Data Loading and Initial Exploration**: The 2010–2011 Online Retail II dataset is loaded from CSV using Latin-1 encoding, with an initial review of shape, data types, descriptive statistics, and missing value counts conducted to establish a baseline understanding of data quality before any transformation is applied.  
-**Data Validation and Pre-Processing**: Seven sequential cleaning steps are applied to remove cancelled orders, missing Customer IDs, negative and zero quantities, invalid prices, non-product stock codes, non-UK transactions, and single-item invoices, with row counts logged at each step to maintain full transparency over the impact of each decision.  
+**Data Loading and Initial Exploration**: The dataset is loaded from CSV, with an initial review of shape, data types, descriptive statistics, and missing value counts conducted to establish a baseline understanding of data quality.  
+**Data Validation and Pre-Processing**: Seven sequential cleaning steps are applied to remove records associated to cancelled orders, missing Customer IDs, negative and zero quantities, invalid prices, non-product stock codes, non-UK transactions, and single-item invoices, with row counts logged at each step to maintain full transparency over the impact of each decision.  
 **Exploratory Data Analysis**: Five individual Seaborn visualisations are produced covering top-selling products, monthly transaction volumes, day-of-week purchasing patterns, monthly revenue, and basket size distribution, building a rounded picture of customer behaviour before modelling begins.  
 **Basket Construction**: The cleaned transaction data is pivoted into a binary invoice-by-product matrix, where each cell is encoded as True or False to indicate whether a given product was purchased within that transaction, producing the input format required by the FP-Growth algorithm.  
 **Frequent Itemset Mining**: The FP-Growth algorithm is applied to the basket matrix with a minimum support threshold of 2%, chosen through sensitivity analysis as a pragmatic balance between discovery breadth and result quality, to identify all product combinations appearing frequently enough across transactions to be commercially meaningful.  
@@ -65,6 +65,16 @@ The methodology follows the end-to-end data science workflow, implemented in Pyt
 ## Results:
 
 Results from the project related to the business objective.
+
+**Data Validation and Pre-Processing**
+The data was pre-processed to remove records deemed as not adding analytical value, or potentially liable to produce misleading or incorrect results.  In a real-wrold scenario, this is subject to many factors including; business objectives, analysis goals and constraints and features or issues with the data.  For example, records associated to non-UK purchases were excluded from this analysis, but could be included given a different business scoping or goal.  One subtle rule applied that is of note, is that invoices containing a single purchased product were excluded - as this analysis finds relationships between multiple products in the same invoice, invoices containing a single product offer no analytical value.
+
+The result of the data validation and pre-processing step is a dataset for analysis summarised as:
+
+* Records              : 352,765
+* Unique invoices      : 15,365
+* Unique products      : 3,821
+* Unique customers     : 3,819
 
 ## Conclusions:
 
