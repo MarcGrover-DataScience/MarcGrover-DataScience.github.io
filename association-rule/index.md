@@ -98,7 +98,9 @@ The binary invoice-by-product matrix was created as a grid of 15,365 invoices an
 
 **Frequent Itemset Mining**
 
-FP-Growth algorithm is applied to the basket matrix with a minimum support threshold of 2%
+FP-Growth algorithm is applied to the basket matrix with a minimum support threshold of 2%.  
+MIN_CONFIDENCE = 0.20  
+MIN_LIFT       = 1.5  
 
 ## Conclusions:
 
