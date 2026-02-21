@@ -113,11 +113,15 @@ The support distribution chart confirms that the majority of frequent itemsets s
 
 **Association Rule Generation**  
 
-Association rules were generated from the frequent itemsets using a minimum lift threshold of 1.5 and a minimum confidence of 0.20, ensuring that only rules representing a meaningful uplift in co-purchase probability above chance, and with a reasonable degree of reliability, were retained. 
+Association rules, 94 in totoal, were generated from the frequent itemsets using a minimum lift threshold of 1.5 and a minimum confidence of 0.20, ensuring that only rules representing a meaningful uplift in co-purchase probability above chance, and with a reasonable degree of reliability, were retained.  These are product combinations are many times more likely to be purchased together than would be expected if customer choices were made independently.
 
 Each rule was enriched with five evaluation metrics — support, confidence, lift, leverage, and conviction — providing a multi-dimensional basis for assessing rule strength and commercial relevance.  
 
-The resulting ruleset, containing 94 rules, summarised in the metrics table and visualised across the lift and confidence charts, reveals a number of strong product associations, with the top rules by lift indicating that certain product combinations are many times more likely to be purchased together than would be expected if customer choices were made independently.
+The three most diagnostically useful metrics are lift, confidence, and support. 
+
+* The mean **lift** (9.44) and maximum lift (22.51) are the headline indicators of rule quality — a mean lift comfortably above 1.5 confirms that the ruleset as a whole reflects genuine purchasing associations rather than chance co-occurrence, while the maximum lift identifies the strongest individual product relationships in the data.
+* Mean **confidence** (0.48) indicates how reliably the rules fire on average, with higher values suggesting that the antecedent is a dependable predictor of the consequent.
+* **Support** is most informative when considered alongside lift — a rule with high lift but very low support may be statistically interesting but affects too few transactions to be commercially actionable, whereas rules combining strong lift with moderate to high support represent the most viable candidates for real-world implementation.
 
 ## Conclusions:
 
