@@ -111,6 +111,14 @@ The support distribution chart confirms that the majority of frequent itemsets s
 
 ![support_distribution](support_distribution.png)
 
+**Association Rule Generation**  
+
+Association rules were generated from the frequent itemsets using a minimum lift threshold of 1.5 and a minimum confidence of 0.20, ensuring that only rules representing a meaningful uplift in co-purchase probability above chance, and with a reasonable degree of reliability, were retained. 
+
+Each rule was enriched with five evaluation metrics — support, confidence, lift, leverage, and conviction — providing a multi-dimensional basis for assessing rule strength and commercial relevance.  
+
+The resulting ruleset, containing 94 rules, summarised in the metrics table and visualised across the lift and confidence charts, reveals a number of strong product associations, with the top rules by lift indicating that certain product combinations are many times more likely to be purchased together than would be expected if customer choices were made independently.
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
