@@ -123,6 +123,24 @@ The three most diagnostically useful metrics are lift, confidence, and support.
 * Mean **confidence** (0.48) indicates how reliably the rules fire on average, with higher values suggesting that the antecedent is a dependable predictor of the consequent.
 * **Support** is most informative when considered alongside lift — a rule with high lift but very low support may be statistically interesting but affects too few transactions to be commercially actionable, whereas rules combining strong lift with moderate to high support represent the most viable candidates for real-world implementation.
 
+**Model Validation** 
+
+Six validation checks were applied to assess the integrity and robustness of the generated ruleset.  
+
+All retained rules carried **positive leverage** values, confirming that every association represents a co-purchase frequency genuinely above what would be expected under statistical independence, while **conviction** scores above 1.0 across the ruleset confirmed that the directional relationships implied by the rules are reliable rather than coincidental.  
+
+The presence of **reciprocal rule pairs** — where a product association holds in both directions — provides further evidence that the strongest relationships in the data reflect robust and consistent co-purchasing behaviour rather than one-directional anomalies.  
+
+The parameter sensitivity analysis demonstrated that rule volume responds predictably to changes in the minimum support threshold, validating that the chosen threshold of 2% sits at a sensible point in the trade-off between discovery breadth and result quality.  A threshold of 1.5% resulted in 280 rules, whereas a threshold of 2.5% produced 42 rules.  The 2% threshold produced 94 rules.  Of the 94 rules generated, the 42 with a support >= 2.5% are considered more stable than those with a support < 2%.
+
+The **Lift versus Confidence scatter plot** reveals that the majority of rules cluster at moderate confidence levels with lift values comfortably above the 1.5 threshold, with a smaller number of high-lift outliers representing the most powerful product associations in the dataset. 
+
+
+
+The **Support versus Confidence scatter**, coloured by lift, confirms that the strongest rules — those combining reasonable support with high confidence and elevated lift — form a distinct group that represents the most commercially actionable candidates for implementation.
+
+
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
