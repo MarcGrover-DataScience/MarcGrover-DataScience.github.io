@@ -135,11 +135,11 @@ The parameter sensitivity analysis demonstrated that rule volume responds predic
 
 The **Lift versus Confidence scatter plot** reveals that the majority of rules cluster at moderate confidence levels with lift values comfortably above the 1.5 threshold, with a smaller number of high-lift outliers representing the most powerful product associations in the dataset. 
 
-
+![lift_vs_confidence](lift_vs_confidence.png)
 
 The **Support versus Confidence scatter**, coloured by lift, confirms that the strongest rules — those combining reasonable support with high confidence and elevated lift — form a distinct group that represents the most commercially actionable candidates for implementation.
 
-
+![support_vs_confidence](support_vs_confidence.png)
 
 ## Conclusions:
 
