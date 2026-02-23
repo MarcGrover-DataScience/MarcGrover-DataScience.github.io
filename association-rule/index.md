@@ -141,6 +141,18 @@ The **Support versus Confidence scatter**, coloured by lift, confirms that the s
 
 ![support_vs_confidence](support_vs_confidence.png)
 
+**Business Insight Extraction and Visualisation**
+
+The business insight stage translated the statistical outputs of the model into commercially actionable findings through five targeted visualisations. 
+
+The top rules ranked by lift revealed that the strongest product associations in the dataset are concentrated within complementary product families — decorative and gift items, storage products, and themed homewares — where customers demonstrably purchase coordinating pieces within the same transaction, presenting clear opportunities for bundle promotions and curated product recommendations. 
+
+The top rules by confidence identified those associations that fire most reliably, highlighting specific product pairings where the purchase of one item is a particularly strong predictor of the other and where targeted cross-sell interventions are most likely to convert. 
+
+The top antecedents chart identified a small number of high-frequency trigger products that appear as the antecedent across a disproportionately large number of rules, suggesting these items act as natural entry points into broader purchasing journeys and should therefore be prioritised in recommendation engine logic and promotional strategy. 
+
+Finally, the product co-occurrence heatmap provided an intuitive overview of the relationship landscape across the fifteen most prevalent items, making it immediately visible which product pairings carry the densest concentration of rules and offering a practical reference for category managers and merchandising teams when making decisions around product placement, ranging, and inventory alignment.
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
