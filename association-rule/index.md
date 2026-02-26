@@ -96,12 +96,9 @@ Frequent itemset mining was performed on the binary basket matrix using the FP-G
 
 The algorithm identified a total of 278 frequent itemsets across multiple itemset sizes, with the distribution heavily weighted towards smaller itemsets as expected.  The itemset size distribution being:
 
-```
-itemset_size
-1    233
-2     44
-3      1
-```
+itemset_size = 1    233
+itemset_size = 2     44
+itemset_size = 3      1
 
 * Size-2 itemsets represent pairs of products frequently purchased together, which account for the largest share of results,
 * The count declines progressively for size-3 and above as the constraint of three or more products co-occurring within the same basket becomes increasingly restrictive.
@@ -144,9 +141,33 @@ The **Support versus Confidence scatter**, coloured by lift, confirms that the s
 
 **Business Insight Extraction and Visualisation**
 
-The business insight stage translated the statistical outputs of the model into commercially actionable findings through five targeted visualisations. 
+The business insight stage translated the statistical outputs of the model into commercially actionable findings through four targeted visualisations. 
 
-The top rules ranked by lift revealed that the strongest product associations in the dataset are concentrated within complementary product families — decorative and gift items, storage products, and themed homewares — where customers demonstrably purchase coordinating pieces within the same transaction, presenting clear opportunities for bundle promotions and curated product recommendations. 
+The top rules ranked by lift revealed that the strongest product associations in the dataset are concentrated within complementary product families — decorative and gift items, storage products, and themed homewares — where customers demonstrably purchase coordinating pieces within the same transaction, presenting clear opportunities for bundle promotions and curated product recommendations. The top 5 rules ranked by lift are:
+
+```
+  IF   [GREEN REGENCY TEACUP AND SAUCER, ROSES REGENCY TEACUP AND SAUCER]
+  THEN [PINK REGENCY TEACUP AND SAUCER]
+       Support=0.022  Confidence=0.716  Lift=22.51
+
+  IF   [PINK REGENCY TEACUP AND SAUCER]
+  THEN [GREEN REGENCY TEACUP AND SAUCER, ROSES REGENCY TEACUP AND SAUCER]
+       Support=0.022  Confidence=0.697  Lift=22.51
+
+  IF   [GREEN REGENCY TEACUP AND SAUCER]
+  THEN [PINK REGENCY TEACUP AND SAUCER, ROSES REGENCY TEACUP AND SAUCER]
+       Support=0.022  Confidence=0.557  Lift=22.35
+
+  IF   [PINK REGENCY TEACUP AND SAUCER, ROSES REGENCY TEACUP AND SAUCER]
+  THEN [GREEN REGENCY TEACUP AND SAUCER]
+       Support=0.022  Confidence=0.890  Lift=22.35
+
+  IF   [GREEN REGENCY TEACUP AND SAUCER]
+  THEN [PINK REGENCY TEACUP AND SAUCER]
+       Support=0.026  Confidence=0.660  Lift=20.74
+```
+
+Note that for simplicity the antecedent and consequent names are capped at 30 characters for space reasons, which can give a false impression that they relate to 1 and not 2 products.
 
 ![top20_rules_by_lift](top20_rules_by_lift.png)
 
@@ -164,12 +185,55 @@ Finally, the product co-occurrence heatmap provided an intuitive overview of the
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+This project demonstrated the application of Association Rule Learning to real-world retail transactional data, following a rigorous end-to-end analytical workflow from data ingestion and preprocessing through to the extraction of commercially actionable insights.  
+
+The Online Retail II dataset presented genuine data quality challenges — including cancelled orders, missing customer identifiers, and invalid quantities — the resolution of which formed an important part of the analytical process and reflects the kind of preprocessing decisions routinely encountered in professional data science practice.  
+
+The FP-Growth algorithm successfully identified a meaningful ruleset of product associations, validated across six quality checks to confirm that the relationships uncovered are statistically robust and not attributable to chance.  
+
+The key finding is that a identifiable set of complementary product families exhibit strong and consistent co-purchase behaviour, quantified through lift, confidence, and support metrics, and that these associations are sufficiently prevalent across the customer base to be commercially viable. 
+
+The insights generated have direct applications across multiple retail functions, most notably product recommendation, promotional bundling, and category management, demonstrating that Association Rule Learning is a practical and accessible technique for driving measurable commercial value from transactional data.  
+
+### Business Insight Interpretation
+
+**Lift** measures how much more likely two products are to be purchased together compared to by chance.  A lift of 4.0 means customers are 4x more likely to buy both items than if purchase decisions were independent.  Rules with high lift are the strongest candidates for:
+* Cross-sell recommendations at checkout
+* 'Frequently bought together' website features
+* Bundle promotions and targeted discount offers
+
+**Confidence** is the conditional probability: given a customer bought the antecedent, how often did they also buy the consequent?  A confidence of 0.75 means 75% of baskets containing the antecedent also contained the consequent.  High-confidence rules are actionable for:
+* Next-best-product recommendation engines
+* Email campaigns triggered by recent purchases
+* Staff training on upsell opportunities
+
+**Support** measures how frequently a rule fires across all transactions.  Rules with both high lift AND reasonable support are the most commercially valuable — the association is strong AND affects a meaningful share of customers.  Rules with very low support, even with high lift, may reflect niche behaviour not worth operationalising at scale.
+
+**Leverage** confirms the co-occurrence is above chance.
+
+**Conviction** measures the degree to which the antecedent implies the consequent directionally.  Both metrics were used in validation to confirm rule quality beyond lift alone.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+The findings from this analysis present several immediate opportunities for practical implementation alongside a number of avenues through which the analytical approach could be extended and refined. 
 
+In terms of business implementation, the five most actionable applications of the rules generated are: deploying a product recommendation engine on the website that surfaces associated products at the basket and checkout stage based on current session contents; designing promotional bundle offers around the highest lift product pairings to increase average order value; using high-confidence rules to trigger personalised post-purchase email campaigns recommending complementary products based on a customer's most recent order; informing category management and store layout decisions by positioning strongly associated product families in closer proximity; and aligning inventory planning for correlated products to ensure that demand driven by one item in a strong pairing is not frustrated by a stockout of its associated counterpart.
+
+From an analytical perspective, several enhancements would strengthen and extend the current work. Segmenting the analysis by season or month would reveal whether product associations are stable year-round or driven by specific trading periods, which has direct implications for the timing of any interventions. Analysing rules at the customer segment level — for example by purchase frequency or average spend — could uncover whether different customer groups exhibit meaningfully different co-purchase behaviours. Lowering the minimum support threshold in a targeted way could surface valuable niche associations that the current parameters exclude. Finally, a Causal Impact Analysis could be applied to measure the actual commercial uplift generated by any recommendation or bundling strategy implemented as a result of this work, closing the loop between insight generation and evidence-based evaluation of business outcomes.
+
+  1. Website product recommendations — surface consequent
+     products on the basket/checkout page when antecedent
+     items are detected.
+  2. Promotional bundling — create bundle offers based on
+     top high-lift, high-confidence pairs to increase
+     average order value.
+  3. Store layout / category management — place strongly
+     associated product categories in proximity.
+  4. Inventory planning — stock correlated products at
+     similar levels to avoid one driving demand for the
+     other when out of stock.
+  5. Targeted email marketing — send personalised product
+     suggestions based on a customer's last purchase.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
