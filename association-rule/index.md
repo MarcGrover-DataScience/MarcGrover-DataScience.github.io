@@ -22,8 +22,6 @@ By grounding every analytical decision in a business rationale, this project aim
 
 ## Application:  
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
 Association Rule Learning is an unsupervised machine learning technique used to discover interesting relationships, patterns, and dependencies between variables in large datasets.  
 
 At its core, the algorithm identifies "if-then" relationships — for example, if a customer buys product A, then they are likely to also buy product B. 
@@ -47,8 +45,6 @@ Beyond retail, the technique finds application in many other sectors:
 
 ## Methodology:  
 
-Details of the methodology applied in the project.
-
 This portfolio project uses the 'Online Retail II dataset', available at Kaggle [here](https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv)  This is a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous preprocessing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
 
 The methodology follows the end-to-end data science workflow, implemented in Python using the mlxtend, pandas, seaborn, and numpy libraries, progressing from raw data ingestion through to the extraction and communication of business insight across eight structured stages.
@@ -64,17 +60,15 @@ The methodology follows the end-to-end data science workflow, implemented in Pyt
 
 ## Results:
 
-Results from the project related to the business objective.
-
 **Data Validation and Pre-Processing**  
 The data was pre-processed to remove records deemed as not adding analytical value, or potentially liable to produce misleading or incorrect results.  In a real-wrold scenario, this is subject to many factors including; business objectives, analysis goals and constraints and features or issues with the data.  For example, records associated to non-UK purchases were excluded from this analysis, but could be included given a different business scoping or goal.  One subtle rule applied that is of note, is that invoices containing a single purchased product were excluded - as this analysis finds relationships between multiple products in the same invoice, invoices containing a single product offer no analytical value.
 
 The result of the data validation and pre-processing step is a dataset for analysis summarised as:
 
-* Records              : 352,765
-* Unique invoices      : 15,365
-* Unique products      : 3,821
-* Unique customers     : 3,819
+* Records           : 352,765
+* Unique invoices   : 15,365
+* Unique products   : 3,821
+* Unique customers  : 3,819
 
 **Exploratory Data Analysis**
 
@@ -100,7 +94,14 @@ The binary invoice-by-product matrix was created as a grid of 15,365 invoices an
 
 Frequent itemset mining was performed on the binary basket matrix using the FP-Growth algorithm, with a minimum support threshold of 2%, meaning only product combinations appearing in at least 2% of all UK transactions were retained for further analysis.  
 
-The algorithm identified a total of several hundred frequent itemsets across multiple itemset sizes, with the distribution heavily weighted towards smaller itemsets as expected.
+The algorithm identified a total of 278 frequent itemsets across multiple itemset sizes, with the distribution heavily weighted towards smaller itemsets as expected.  The itemset size distribution being:
+
+```
+itemset_size
+1    233
+2     44
+3      1
+```
 
 * Size-2 itemsets represent pairs of products frequently purchased together, which account for the largest share of results,
 * The count declines progressively for size-3 and above as the constraint of three or more products co-occurring within the same basket becomes increasingly restrictive.
@@ -113,7 +114,7 @@ The support distribution chart confirms that the majority of frequent itemsets s
 
 **Association Rule Generation**  
 
-Association rules, 94 in totoal, were generated from the frequent itemsets using a minimum lift threshold of 1.5 and a minimum confidence of 0.20, ensuring that only rules representing a meaningful uplift in co-purchase probability above chance, and with a reasonable degree of reliability, were retained.  These are product combinations are many times more likely to be purchased together than would be expected if customer choices were made independently.
+Association rules, 94 in total, were generated from the frequent itemsets using a minimum lift threshold of 1.5 and a minimum confidence of 0.20, ensuring that only rules representing a meaningful uplift in co-purchase probability above chance, and with a reasonable degree of reliability, were retained.  These are product combinations are many times more likely to be purchased together than would be expected if customer choices were made independently.
 
 Each rule was enriched with five evaluation metrics — support, confidence, lift, leverage, and conviction — providing a multi-dimensional basis for assessing rule strength and commercial relevance.  
 
