@@ -10,7 +10,7 @@ permalink: /association-rule/
 
 ## Goals and objectives:
 
-For this portfolio project, the simulated business scenario is regarding a ficticious e-commerce retailer, with the goals of uncovering hidden patterns in customer purchasing behaviour and translate them into actionable commercial insights, enabling tangible business benefits.  This demonstrates the practical application of Association Rule Learning on real-world transactional data to meet the goals and provide valuable insight to the business, by understanding patterns of multiple products purchased together within the same transaction. 
+For this portfolio project, the simulated business scenario is regarding a fictitious e-commerce retailer, with the goals of uncovering hidden patterns in customer purchasing behaviour and translate them into actionable commercial insights, enabling tangible business benefits.  This demonstrates the practical application of Association Rule Learning on real-world transactional data to meet the goals and provide valuable insight to the business, by understanding patterns of multiple products purchased together within the same transaction. 
 
 An objective is not simply to generate association rules, but to demonstrate the critical thinking required to validate their quality, understand their limitations, and prioritise those with genuine commercial relevance using metrics including lift, confidence, support, leverage, and conviction.  
  
@@ -43,7 +43,7 @@ Beyond retail, the technique finds application in many other sectors:
 
 ## Methodology:  
 
-This portfolio project uses the 'Online Retail II dataset', available at Kaggle [here](https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv)  This is a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous preprocessing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
+This portfolio project uses the 'Online Retail II dataset', available at Kaggle [here](https://www.kaggle.com/datasets/jillwang87/online-retail-ii?select=online_retail_10_11.csv)  This is a genuine record of over 540k transactions from a UK-based e-commerce retailer — the project moves through the full analytical lifecycle: from raw data ingestion and rigorous pre-processing, through exploratory analysis and model development, to the interpretation and business contextualisation of results. 
 
 The methodology follows the end-to-end data science workflow, implemented in Python using the mlxtend, pandas, seaborn, and numpy libraries, progressing from raw data ingestion through to the extraction and communication of business insight across eight structured stages.
 
@@ -70,7 +70,7 @@ The result of the data validation and pre-processing step is a dataset for analy
 
 **Exploratory Data Analysis**
 
-Exploratory data analysis was conducted across five visualisations to establish an understanding of the cleaned dataset and some of the purchasing patterns within it.  The charts examine the business from multiple angles: identifying the products with the highest sales volumes, understanding how transaction activity and revenue fluctuate by time, and weekdays (relealing no activity on Saturdays), and understanding the distribution of the number of distinct products in customer baskets.  Together these charts provide the commercial context needed to interpret the association rules that follow, and surface several patterns in their own right that are directly relevant to retail planning and marketing strategy.
+Exploratory data analysis was conducted across five visualisations to establish an understanding of the cleaned dataset and some of the purchasing patterns within it.  The charts examine the business from multiple angles: identifying the products with the highest sales volumes, understanding how transaction activity and revenue fluctuate by time, and weekdays (revealing no activity on Saturdays), and understanding the distribution of the number of distinct products in customer baskets.  Together these charts provide the commercial context needed to interpret the association rules that follow, and surface several patterns in their own right that are directly relevant to retail planning and marketing strategy.
 
 ![top20_products](01_top20_products.png)
 
@@ -184,9 +184,9 @@ Finally, the product co-occurrence heatmap provided an intuitive overview of the
 
 ## Conclusions:
 
-This project demonstrated the application of Association Rule Learning to real-world retail transactional data, following a rigorous end-to-end analytical workflow from data ingestion and preprocessing through to the extraction of commercially actionable insights.  
+This project demonstrated the application of Association Rule Learning to real-world retail transactional data, following a rigorous end-to-end analytical workflow from data ingestion and pre-processing through to the extraction of commercially actionable insights.  
 
-The Online Retail II dataset presented genuine data quality challenges — including cancelled orders, missing customer identifiers, and invalid quantities — the resolution of which formed an important part of the analytical process and reflects the kind of preprocessing decisions routinely encountered in professional data science practice.  
+The Online Retail II dataset presented genuine data quality challenges — including cancelled orders, missing customer identifiers, and invalid quantities — the resolution of which formed an important part of the analytical process and reflects the kind of pre-processing decisions routinely encountered in professional data science practice.  
 
 The FP-Growth algorithm successfully identified a meaningful ruleset of product associations, validated across six quality checks to confirm that the relationships uncovered are statistically robust and not attributable to chance.  
 
