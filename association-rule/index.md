@@ -8,8 +8,6 @@ permalink: /association-rule/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 For this portfolio project, the simulated business scenario is regarding a ficticious e-commerce retailer, with the goals of uncovering hidden patterns in customer purchasing behaviour and translate them into actionable commercial insights, enabling tangible business benefits.  This demonstrates the practical application of Association Rule Learning on real-world transactional data to meet the goals and provide valuable insight to the business, by understanding patterns of multiple products purchased together within the same transaction. 
@@ -96,9 +94,10 @@ Frequent itemset mining was performed on the binary basket matrix using the FP-G
 
 The algorithm identified a total of 278 frequent itemsets across multiple itemset sizes, with the distribution heavily weighted towards smaller itemsets as expected.  The itemset size distribution being:
 
-itemset_size = 1    233  
-itemset_size = 2     44  
-itemset_size = 3      1  
+
+Itemset Size = 1; Frequent Itemset Count = 233  
+Itemset Size = 2; Frequent Itemset Count = 44  
+Itemset Size = 3; Frequent Itemset Count = 1  
 
 * Size-2 itemsets represent pairs of products frequently purchased together, which account for the largest share of results,
 * The count declines progressively for size-3 and above as the constraint of three or more products co-occurring within the same basket becomes increasingly restrictive.
