@@ -62,8 +62,7 @@ The methodology adopted for this project follows the end-to-end data science wor
 * The analysis is then scoped to the 2013–2014 window (i.e. 2 complete calendar years) to provide a full pre-intervention year and a full post-intervention year of equal length.
 * Derived features are engineered including month, day of week, week of year, and a binary weekend indicator to support the exploratory analysis.
 
-Stage 3 — Exploratory Data Analysis  
-Six individual Seaborn visualisations are produced to build a thorough understanding of the data before modelling begins. These cover the distribution of daily sales across all stores, average sales by store type, a monthly sales comparison between the treated store and the overall store average, the effect of short-term promotions on daily sales across all stores, the treated store's full daily sales time series with the intervention date marked, and the treated store's average sales by day of week. Together these charts establish the commercial context for the analysis and surface patterns that inform both the control store selection and the interpretation of the causal model outputs.
+**Stage 3 — Exploratory Data Analysis**:  Six individual Seaborn visualisations are produced to build a thorough understanding of the data before modelling begins. These cover the distribution of daily sales across all stores, average sales by store type, a monthly sales comparison between the treated store and the overall store average, the effect of short-term promotions on daily sales across all stores, the treated store's full daily sales time series with the intervention date marked, and the treated store's average sales by day of week. Together these charts establish the commercial context for the analysis and surface patterns that inform both the control store selection and the interpretation of the causal model outputs.
 
 Stage 4 — Treated and Control Store Selection  
 Store 1 is designated the treated store, with the activation of the Promo2 continuous loyalty promotion on 1st January 2014 serving as the intervention event. The selection of appropriate control stores is critical to the validity of the analysis: control stores must track the treated store's sales trajectory closely in the pre-intervention period so that any post-intervention divergence can be attributed to the promotion rather than pre-existing differences. Candidate control stores are filtered to match the treated store on store type and assortment level, and stores with Promo2 already active are excluded to avoid contamination of the control series. From the remaining candidates, the five stores with the highest Pearson correlation to the treated store's pre-intervention daily sales are selected as controls.
@@ -88,7 +87,7 @@ Results from the project related to the business objective.
 The transactional data contains 1,017,209 records, with the store data containing 1,115 records.  The transactional data contains no missing data, with the store data identified as containing some missing values.  The relevant fields containing missing data were addressed in the following step.
 
 **Stage 2 — Data Validation and Pre-Processing**
-
+The resulting dataset, after the pre-processing removed specific rows, contained 648,309 records, realting to 1,115 stores. 
 
 ## Conclusions:
 
