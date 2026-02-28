@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Causal Impact Analysis)
+title: Pharmacy Promotion Impact (Causal Impact Analysis)
 
 permalink: /causal-impact-analysis/
 
@@ -42,15 +42,25 @@ This approach is equally applicable across a wide range of domains - as its stre
 
 Details of the methodology applied in the project.
 
-This portfolio project uses the ‘Rossmann Store Sales dataset’ (both files: train.csv and store.csv), available at Kaggle [here](https://www.kaggle.com/datasets/pratyushakar/rossmann-store-sales) 
+This portfolio project uses the ‘Rossmann Store Sales dataset’, where two datasets are loaded:
+
+* train.csv - contains daily transactional sales records across all stores
+* store.csv - contains store-level metadata including store type, assortment category, competition distance, and promotional scheme participation
+
+The data is available at Kaggle [here](https://www.kaggle.com/datasets/pratyushakar/rossmann-store-sales) 
 
 The methodology adopted for this project follows the end-to-end data science workflow, progressing from raw data ingestion through to the extraction and communication of business insight. The project is implemented in Python, using the causalimpact library for Bayesian structural time series modelling, pandas for data manipulation, scipy and sklearn for statistical validation, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described in detail below.  
 
-Stage 1 — Data Loading and Initial Exploration  
-Two files from the Rossmann Store Sales dataset are loaded: train.csv, which contains daily transactional sales records across all stores, and store.csv, which contains store-level metadata including store type, assortment category, competition distance, and promotional scheme participation. An initial review is conducted covering dataset shape, column names, data types, descriptive statistics, and a missing value audit across both files. This establishes a baseline understanding of data quality and informs the preprocessing decisions that follow.
+**Stage 1 — Data Loading and Initial Exploration**:  Two files from the Rossmann Store Sales dataset are loaded: train.csv, and store.csv. An initial review is conducted covering dataset shape, column names, data types, descriptive statistics, and a missing value audit across both files. This establishes a baseline understanding of data quality and informs the preprocessing decisions that follow.
 
-Stage 2 — Data Validation and Pre-Processing  
-Seven preprocessing steps are applied sequentially, with row counts logged at each stage to maintain full transparency over the impact of each decision. Closed store days, where the Open field equals zero, are removed as they contribute zero sales by definition and would distort the time series baseline. Rows with zero or negative sales values are removed as these represent data quality issues rather than genuine trading records. Rows where customer count is zero on an open trading day are similarly excluded as likely erroneous. Store metadata from store.csv is merged into the main dataset, with missing competition distance values imputed using the column median. The analysis is then scoped to the 2013–2014 window to provide a full pre-intervention year and a full post-intervention year of equal length. Finally, derived features are engineered including month, day of week, week of year, and a binary weekend indicator to support the exploratory analysis.
+**Stage 2 — Data Validation and Pre-Processing**: Seven preprocessing steps are applied sequentially, with row counts logged at each stage to maintain full transparency over the impact of each decision.  
+* Date fields are converted to the correct data format, enabling validation that the data reflects the correct time frame.
+* Closed store days, where the Open field equals zero, are removed as they contribute zero sales by definition and would distort the time series baseline.
+* Rows with zero or negative sales values are removed as these represent data quality issues rather than genuine trading records.
+* Rows where customer count is zero on an open trading day are similarly excluded as likely erroneous.
+* Store metadata from store.csv is merged into the main dataset, with missing competition distance values imputed using the column median.
+* The analysis is then scoped to the 2013–2014 window to provide a full pre-intervention year and a full post-intervention year of equal length.
+* Derived features are engineered including month, day of week, week of year, and a binary weekend indicator to support the exploratory analysis.
 
 Stage 3 — Exploratory Data Analysis  
 Six individual Seaborn visualisations are produced to build a thorough understanding of the data before modelling begins. These cover the distribution of daily sales across all stores, average sales by store type, a monthly sales comparison between the treated store and the overall store average, the effect of short-term promotions on daily sales across all stores, the treated store's full daily sales time series with the intervention date marked, and the treated store's average sales by day of week. Together these charts establish the commercial context for the analysis and surface patterns that inform both the control store selection and the interpretation of the causal model outputs.
@@ -73,6 +83,10 @@ Five post-intervention visualisations are produced to communicate the causal mod
 ## Results:
 
 Results from the project related to the business objective.
+
+**Stage 1 — Data Loading and Initial Exploration**  
+The transactional data contains 1,017,209 records, with the store data containing 1,115 records.  The transactional data contains no missing data, with the store data containing some missing values - TO BE VALIDATED.
+
 
 ## Conclusions:
 
