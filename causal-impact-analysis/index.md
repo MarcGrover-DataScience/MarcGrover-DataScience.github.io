@@ -58,8 +58,8 @@ The methodology adopted for this project follows the end-to-end data science wor
 * Closed store days, where the Open field equals zero, are removed as they contribute zero sales by definition and would distort the time series baseline.
 * Rows with zero or negative sales values are removed as these represent data quality issues rather than genuine trading records.
 * Rows where customer count is zero on an open trading day are similarly excluded as likely erroneous.
-* Store metadata from store.csv is merged into the main dataset, with missing competition distance values imputed using the column median.
-* The analysis is then scoped to the 2013–2014 window to provide a full pre-intervention year and a full post-intervention year of equal length.
+* Store metadata from store.csv is merged into the main dataset. Missing competition distance values imputed using the column median.  Missing values in three Promo2 fields were populated with '0' and 'None' values as appropriate.
+* The analysis is then scoped to the 2013–2014 window (i.e. 2 complete calendar years) to provide a full pre-intervention year and a full post-intervention year of equal length.
 * Derived features are engineered including month, day of week, week of year, and a binary weekend indicator to support the exploratory analysis.
 
 Stage 3 — Exploratory Data Analysis  
@@ -85,7 +85,9 @@ Five post-intervention visualisations are produced to communicate the causal mod
 Results from the project related to the business objective.
 
 **Stage 1 — Data Loading and Initial Exploration**  
-The transactional data contains 1,017,209 records, with the store data containing 1,115 records.  The transactional data contains no missing data, with the store data containing some missing values - TO BE VALIDATED.
+The transactional data contains 1,017,209 records, with the store data containing 1,115 records.  The transactional data contains no missing data, with the store data identified as containing some missing values.  The relevant fields containing missing data were addressed in the following step.
+
+**Stage 2 — Data Validation and Pre-Processing**
 
 
 ## Conclusions:
