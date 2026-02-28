@@ -2,7 +2,7 @@
 
 layout: default
 
-title: E-Commerce Transactional Data (Association Rule)
+title: E-Commerce Transactional Data (Association Rules)
 
 permalink: /association-rule/
 
