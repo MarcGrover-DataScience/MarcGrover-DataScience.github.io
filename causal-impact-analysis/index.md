@@ -99,16 +99,27 @@ STATE THE STORE NUMBER
 
 Distribution of Daily Sales Across All Stores - This chart shows the frequency distribution of daily sales values across all stores and trading days in the 2013–2014 analysis window. The distribution is right-skewed, indicating that the majority of store-days generate moderate sales volumes with a smaller number of high-performing days pulling the tail to the right.
 
-Average Daily Sales by Store Type - 
-The Rossmann estate is segmented into four store types — a, b, c, and d — and this chart compares their average daily sales performance. Clear differences in average revenue are visible across store types, confirming that store type is a meaningful structural characteristic that should be controlled for when selecting comparison stores for the causal analysis.
+![01_sales_distribution](01_sales_distribution.png)
+
+Average Daily Sales by Store Type - The Rossmann estate is segmented into four store types — a, b, c, and d — and this chart compares their average daily sales performance. Clear differences in average revenue are visible across store types, confirming that store type is a meaningful structural characteristic that should be controlled for when selecting comparison stores for the causal analysis.
+
+![02_sales_by_store_type](02_sales_by_store_type.png)
 
 Monthly Average Sales: Store 1 vs All Stores - This chart compares the monthly average daily sales of Store 1 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 1's performance diverges from the overall estate average, providing an early visual indication of where the promotional effect may be most pronounced.
 
+![03_monthly_sales_comparison](03_monthly_sales_comparison.png)
+
 Average Daily Sales: Promotion vs No Promotion - Aggregating across all stores and all trading days, this chart contrasts average daily sales on days where a short-term promotion was active against days where no promotion was running. The difference between the two bars provides an indicative measure of the overall sales uplift associated with promotional activity across the estate, contextualising the store-level causal analysis that follows.
+
+![04_promo_vs_no_promo](4_promo_vs_no_promo.png)
 
 Store 1 Daily Sales Time Series with Intervention Marker - This chart plots Store 1's daily sales across the full 2013–2014 window, with a vertical marker indicating the 1st January 2014 intervention date when the Promo2 continuous promotion was activated. The chart provides a visual baseline for the causal analysis, allowing the reader to observe the pre-intervention sales pattern and form an initial impression of whether sales behaviour appears to shift following the intervention.
 
+![05_treated_store_time_series](05_treated_store_time_series.png)
+
 Store 1 Average Sales by Day of Week - This chart shows the average daily sales for Store 1 broken down by day of the week, revealing the intra-week trading pattern of the treated store. Pronounced variation across the days of the week is evident, confirming that day-of-week is a meaningful source of sales variability that the Bayesian structural time series model must account for when constructing the counterfactual.
+
+![06_sales_by_day_of_week](06_sales_by_day_of_week.png)
 
 ## Conclusions:
 
@@ -121,4 +132,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/test.py)
+[View the Python Script](/Causal_Impact_Analysis_v1.py)
