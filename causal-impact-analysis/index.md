@@ -49,6 +49,14 @@ This portfolio project uses the ‘Rossmann Store Sales dataset’, where two da
 
 The data is available at Kaggle [here](https://www.kaggle.com/datasets/pratyushakar/rossmann-store-sales) 
 
+It should be noted that the data reflects two types of promotional activities:
+
+* **Short-term promotions** are promotions occuring on a single or few consecutive days. - reflected where Promo == 1 in the train.csv file.  These are frequent and recurring throughout the analysis window, rather than being a single discrete intervention event.  It is not a single intervention event with a clear before and after; it switches on and off repeatedly throughout the dataset, which makes it unsuitable as the intervention for a Causal Impact analysis. Causal Impact requires a single, clearly defined point in time where something changed permanently or for a sustained period.
+* **Longer-running loyalty promotion** that a store either participates in from a specific start date or does not.  This is the type of intervention that is well suited to Causal Impact Analysis, as it has a defined activation date from which the store's behaviour may change persistently.  These are recored in the store.csv file.
+
+
+This means the intervention logic in the current script needs to be revisited. Before proceeding, I would recommend running the earlier verification code to check Store 1's Promo2 status in store.csv, confirming whether Promo2 is active and when it started, so that a valid and defensible intervention can be defined for the analysis. Would you like help identifying a more suitable treated store and intervention event within the dataset?
+
 The methodology adopted for this project follows the end-to-end data science workflow, progressing from raw data ingestion through to the extraction and communication of business insight. The project is implemented in Python, using the causalimpact library for Bayesian structural time series modelling, pandas for data manipulation, scipy and sklearn for statistical validation, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described in detail below.  
 
 **Stage 1 — Data Loading and Initial Exploration**:  Two files from the Rossmann Store Sales dataset are loaded: train.csv, and store.csv. An initial review is conducted covering dataset shape, column names, data types, descriptive statistics, and a missing value audit across both files. This establishes a baseline understanding of data quality and informs the preprocessing decisions that follow.
