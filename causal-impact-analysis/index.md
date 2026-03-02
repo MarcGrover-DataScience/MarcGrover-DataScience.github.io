@@ -71,7 +71,7 @@ The methodology adopted for this project follows the end-to-end data science wor
 
 **Stage 3 — Exploratory Data Analysis**:  Six individual Seaborn visualisations are produced to build a thorough understanding of the data before modelling begins. These cover the distribution of daily sales across all stores, average sales by store type, a monthly sales comparison between the treated store and the overall store average, the effect of short-term promotions on daily sales across all stores, the treated store's full daily sales time series with the intervention date marked, and the treated store's average sales by day of week. Together these charts establish the commercial context for the analysis and surface patterns that inform both the control store selection and the interpretation of the causal model outputs.
 
-**Stage 4 — Treated and Control Store Selection**:  Store 1 is designated the treated store, with the activation of the Promo2 continuous loyalty promotion on 1st January 2014 serving as the intervention event. The selection of appropriate control stores is critical to the validity of the analysis: control stores must track the treated store's sales trajectory closely in the pre-intervention period so that any post-intervention divergence can be attributed to the promotion rather than pre-existing differences. Candidate control stores are filtered to match the treated store on store type and assortment level, and stores with Promo2 already active are excluded to avoid contamination of the control series. From the remaining candidates, the five stores with the highest Pearson correlation to the treated store's pre-intervention daily sales are selected as controls.
+**Stage 4 — Treated and Control Store Selection**:  Store 30 is designated the treated store, with the activation of the Promo2 continuous loyalty promotion on 3rd March 2014 serving as the intervention event. The selection of appropriate control stores is critical to the validity of the analysis: control stores must track the treated store's sales trajectory closely in the pre-intervention period so that any post-intervention divergence can be attributed to the promotion rather than pre-existing differences. Candidate control stores are filtered to match the treated store on store type and assortment level, and stores with Promo2 active at any time are excluded to avoid contamination of the control series. From the remaining candidates, the five stores with the highest Pearson correlation to the treated store's pre-intervention daily sales are selected as controls.
 
 **Stage 5 — Pre-Intervention Correlation Validation**:  Before fitting the causal model, the parallel trends assumption is validated — the foundational requirement of causal inference, which states that in the absence of the intervention, the treated and control stores would have continued to evolve in parallel. This is assessed in two ways: a statistical comparison of mean weekly pre-period growth rates between the treated and control stores, where a difference of less than 2% is considered supportive of the assumption; and visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores. Both outputs are included to give both a quantitative and intuitive basis for assessing whether the control group is a credible counterfactual anchor.
 
@@ -105,7 +105,7 @@ STATE THE STORE NUMBER
 
 ![02_sales_by_store_type](02_sales_by_store_type.png)
 
-**Monthly Average Sales: Store 1 vs All Stores** - This chart compares the monthly average daily sales of Store 1 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 1's performance diverges from the overall business average, providing an early visual indication of where the promotional effect may be most pronounced.
+**Monthly Average Sales: Store 30 vs All Stores** - This chart compares the monthly average daily sales of Store 30 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 30's performance diverges from the overall business average, providing an early visual indication of where the promotional effect may be most pronounced.
 
 ![03_monthly_sales_comparison](03_monthly_sales_comparison.png)
 
@@ -113,13 +113,17 @@ STATE THE STORE NUMBER
 
 ![04_promo_vs_no_promo](4_promo_vs_no_promo.png)
 
-**Store 1 Daily Sales Time Series with Intervention Marker** - This chart plots Store 1's daily sales across the full 2013–2014 window, with a vertical marker indicating the 1st January 2014 intervention date when the Promo2 continuous promotion was activated. The chart provides a visual baseline for the causal analysis, allowing the reader to observe the pre-intervention sales pattern and form an initial impression of whether sales behaviour appears to shift following the intervention.
+**Store 30 Daily Sales Time Series with Intervention Marker** - This chart plots Store 30's daily sales across the full 2013–2014 window, with a vertical marker indicating the 1st January 2014 intervention date when the Promo2 continuous promotion was activated. The chart provides a visual baseline for the causal analysis, allowing the reader to observe the pre-intervention sales pattern and form an initial impression of whether sales behaviour appears to shift following the intervention.
 
 ![05_treated_store_time_series](05_treated_store_time_series.png)
 
-**Store 1 Average Sales by Day of Week** - This chart shows the average daily sales for Store 1 broken down by day of the week, revealing the intra-week trading pattern of the treated store. Pronounced variation across the days of the week is evident, confirming that day-of-week is a meaningful source of sales variability that the Bayesian structural time series model must account for when constructing the counterfactual.
+**Store 30 Average Sales by Day of Week** - This chart shows the average daily sales for Store 30 broken down by day of the week, revealing the intra-week trading pattern of the treated store. Pronounced variation across the days of the week is evident, confirming that day-of-week is a meaningful source of sales variability that the Bayesian structural time series model must account for when constructing the counterfactual.
 
 ![06_sales_by_day_of_week](06_sales_by_day_of_week.png)
+
+**Stage 4 — Treated and Control Store Selection**
+
+194 stores were identfied as having the same Store Type and Assortment as the Treatment Store, where it was determined all 194 had complete data, which is required for optimal analysis.
 
 ## Conclusions:
 
