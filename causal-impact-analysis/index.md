@@ -93,7 +93,7 @@ The resulting dataset, after the pre-processing removed specific rows, contained
 
 **Stage 3 — Exploratory Data Analysis**
 
-Prior to modelling, an exploratory data analysis was conducted across six visualisations to establish an understanding of the cleaned dataset, the characteristics of the selected treated store (which is store 1 in this instance, selected at random), and the broader sales patterns across all the Rossmann stores.  The charts examine the data from multiple angles, collectively providing the commercial context needed to interpret the causal model outputs that follow.
+Prior to modelling, an exploratory data analysis was conducted across six visualisations to establish an understanding of the cleaned dataset, the characteristics of the selected treated store (which is store 30 in this instance, selected at random), and the broader sales patterns across all the Rossmann stores.  The charts examine the data from multiple angles, collectively providing the commercial context needed to interpret the causal model outputs that follow.
 
 STATE THE STORE NUMBER
 
@@ -123,7 +123,17 @@ STATE THE STORE NUMBER
 
 **Stage 4 — Treated and Control Store Selection**
 
-194 stores were identfied as having the same Store Type and Assortment as the Treatment Store, where it was determined all 194 had complete data, which is required for optimal analysis.
+194 stores were identfied as having the same Store Type and Assortment as the Treatment Store, where it was determined that all 194 had complete data, which is required for optimal analysis.
+
+Of these 194 stores which are candidates for control stores, these were filtered to 5 for this analysis, using the highest Pearson correlation of spend compared to the Treatment Store.
+
+```
+  Store  905  |  Correlation = 0.9660
+  Store  651  |  Correlation = 0.9650
+  Store  621  |  Correlation = 0.9631
+  Store  475  |  Correlation = 0.9623
+  Store  341  |  Correlation = 0.9616
+```
 
 ## Conclusions:
 
