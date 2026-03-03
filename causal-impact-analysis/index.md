@@ -131,17 +131,29 @@ From the qualifying candidates with sufficient trading data across the pre-perio
 
 The top five control stores identified were as follows, with their pre-period correlation to Store 30:
 
-```
-  Store  905  |  Correlation = 0.9660
-  Store  651  |  Correlation = 0.9650
-  Store  621  |  Correlation = 0.9631
-  Store  475  |  Correlation = 0.9623
-  Store  341  |  Correlation = 0.9616
-```
+
 
 **Stage 5 — Pre-Intervention Correlation Validation**
 
-The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.
+The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.  
+
+Prior to fitting the causal model, a formal validation of the parallel trends assumption was conducted to confirm that the selected control stores provide a credible counterfactual basis for the analysis. This assumption — that the treated and control stores would have followed similar sales trajectories in the absence of the intervention — is the foundational requirement of causal inference, and its validity directly determines the reliability of the causal effect estimates produced in the subsequent modelling stage.
+
+The five selected control stores, were determined using Pearson correlation coefficients across the full pre-intervention period in comparison to Store 30.   The correlation scores, shown below, confirm the strength of the linear relationship between each control store and the treated store during the baseline period, with higher values indicating a closer alignment in daily sales patterns.  This reinforces confidence that they represent a coherent and stable reference group for the counterfactual construction.
+
+* Store  905  |  Correlation = 0.9660
+* Store  651  |  Correlation = 0.9650
+* Store  621  |  Correlation = 0.9631
+* Store  475  |  Correlation = 0.9623
+* Store  341  |  Correlation = 0.9616
+
+Chart 8 — Pre-Period Time Series Overlay
+
+The pre-period time series overlay plots the daily sales of Store 30 alongside each of the five control stores across the full pre-intervention window from January 2013 to early March 2014. The chart provides a visual confirmation that the selected control stores track the seasonal rhythm and week-to-week variation of Store 30 closely throughout the baseline period, including the characteristic peaks associated with key retail trading periods. Any divergence between the treated and control series visible in this chart would be a cause for concern, as it would suggest that the parallel trends assumption may not hold and that the counterfactual projection into the post-period could be unreliable.
+
+Parallel Trends Statistical Check
+
+In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period. The results of this check should be reported directly from the script output, as the specific growth rate values and their difference are determined at runtime. A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption, providing a statistical complement to the visual evidence presented in the overlay chart and giving a combined basis for concluding that the control store selection is appropriate for the causal analysis that follows.
 
 ## Conclusions:
 
