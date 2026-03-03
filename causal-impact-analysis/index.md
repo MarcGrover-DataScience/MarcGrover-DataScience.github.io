@@ -123,9 +123,15 @@ STATE THE STORE NUMBER
 
 **Stage 4 — Treated and Control Store Selection**
 
-194 stores were identfied as having the same Store Type and Assortment as the Treatment Store, where it was determined that all 194 had complete data, which is required for optimal analysis.
+The selection of appropriate control stores is a critical determinant of the validity of the causal analysis, as the counterfactual is only credible if the control stores would genuinely have tracked the treated store's sales trajectory in the absence of the intervention. 
 
-Of these 194 stores which are candidates for control stores, these were filtered to 5 for this analysis, using the highest Pearson correlation of spend compared to the Treatment Store.
+Store 30 was confirmed as a valid treated store, with the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 30 is classified as StoreType a with an Assortment a product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
+
+Candidate control stores were filtered to match Store 30 on both store type and assortment level, and any store with an active Promo2 scheme was excluded to prevent the intervention being measured from also affecting the control series. 194 candidates were identified.
+
+From the qualifying candidates with sufficient trading data across the pre-period, the five stores with the highest Pearson correlation to Store 30's daily sales were selected. Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
+
+The top five control stores identified were as follows, with their pre-period correlation to Store 30:
 
 ```
   Store  905  |  Correlation = 0.9660
@@ -134,6 +140,10 @@ Of these 194 stores which are candidates for control stores, these were filtered
   Store  475  |  Correlation = 0.9623
   Store  341  |  Correlation = 0.9616
 ```
+
+**Stage 5 — Pre-Intervention Correlation Validation**
+
+The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.
 
 ## Conclusions:
 
