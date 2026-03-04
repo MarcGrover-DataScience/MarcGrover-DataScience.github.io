@@ -79,7 +79,11 @@ Candidate control stores are filtered to match the treated store on store type a
 
 The selection of appropriate control stores is a critical determinant of the validity of the causal analysis, as the counterfactual is only credible if the control stores would genuinely have tracked the treated store's sales trajectory in the absence of the intervention. 
 
-**Stage 5 — Pre-Intervention Correlation Validation**:  Before fitting the causal model, the parallel trends assumption is validated — the foundational requirement of causal inference, which states that in the absence of the intervention, the treated and control stores would have continued to evolve in parallel. This is assessed in two ways: a statistical comparison of mean weekly pre-period growth rates between the treated and control stores, where a difference of less than 2% is considered supportive of the assumption; and visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores. Both outputs are included to give both a quantitative and intuitive basis for assessing whether the control group is a credible counterfactual anchor.
+**Stage 5 — Pre-Intervention Correlation Validation**:  Before fitting the causal model, the parallel trends assumption is validated which is the foundational requirement of causal inference.  This states that in the absence of the intervention, the treated and control stores would have continued to evolve in parallel.  
+
+This is assessed in two ways, to give both a quantitative and intuitive basis for assessing whether the control group is a credible counterfactual anchor:  
+* a statistical comparison of mean weekly pre-period growth rates between the treated and control stores, where a difference of less than 2% is considered supportive of the assumption
+* a visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores.
 
 **Stage 6 — Causal Impact Modelling**:  The Causal Impact model is fitted using the causalimpact Python library, which implements a Bayesian structural time series framework. The model uses the pre-intervention period to learn the relationship between the treated store's sales and the control store series, then projects that relationship forward through the post-intervention period to construct the counterfactual — the synthetic estimate of what the treated store's sales would have looked like had the promotion never been activated. The difference between the observed post-intervention sales and this counterfactual is the estimated causal effect of the promotion. Both a point estimate and a 95% Bayesian credible interval are produced for every day in the post-period, along with cumulative and average effect summaries.
 
@@ -143,21 +147,28 @@ The top five control stores identified were as follows, with their pre-period Pe
 
 **Stage 5 — Pre-Intervention Correlation Validation**
 
+The correlation heatmap below (Pearsons Correlation) for the five selected control stores plus the treated store, is further validation of the parallel trends assumption was conducted to confirm that the selected control stores provide a credible counterfactual basis for the analysis.  All stores have high-correlation with each other for sales across the full pre-intervention period.
+
+![07_pre_intervention_correlation](07_pre_intervention_correlation.png)
+
+The pre-period time series overlay plots the daily sales of Store 30 alongside each of the five control stores across the full pre-intervention window from January 2013 to early March 2014. The chart provides a visual confirmation that the selected control stores track the seasonal rhythm and week-to-week variation of Store 30 closely throughout the baseline period, including the characteristic peaks associated with key retail trading periods. Any divergence between the treated and control series visible in this chart would be a cause for concern, as it would suggest that the parallel trends assumption may not hold and that the counterfactual projection into the post-period could be unreliable.
+
+![08_pre_period_overlay](08_pre_period_overlay.png)
+
+In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period. The results of this check should be reported directly from the script output, as the specific growth rate values and their difference are determined at runtime. A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption, providing a statistical complement to the visual evidence presented in the overlay chart and giving a combined basis for concluding that the control store selection is appropriate for the causal analysis that follows.
+
+The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.  
+
+
+
+Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
+
 The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.  
 
 Prior to fitting the causal model, a formal validation of the parallel trends assumption was conducted to confirm that the selected control stores provide a credible counterfactual basis for the analysis. This assumption — that the treated and control stores would have followed similar sales trajectories in the absence of the intervention — is the foundational requirement of causal inference, and its validity directly determines the reliability of the causal effect estimates produced in the subsequent modelling stage.
 
 The five selected control stores, were determined using Pearson correlation coefficients across the full pre-intervention period in comparison to Store 30.   The correlation scores, shown below, confirm the strength of the linear relationship between each control store and the treated store during the baseline period, with higher values indicating a closer alignment in daily sales patterns.  This reinforces confidence that they represent a coherent and stable reference group for the counterfactual construction.
 
-
-
-Chart 8 — Pre-Period Time Series Overlay
-
-The pre-period time series overlay plots the daily sales of Store 30 alongside each of the five control stores across the full pre-intervention window from January 2013 to early March 2014. The chart provides a visual confirmation that the selected control stores track the seasonal rhythm and week-to-week variation of Store 30 closely throughout the baseline period, including the characteristic peaks associated with key retail trading periods. Any divergence between the treated and control series visible in this chart would be a cause for concern, as it would suggest that the parallel trends assumption may not hold and that the counterfactual projection into the post-period could be unreliable.
-
-Parallel Trends Statistical Check
-
-In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period. The results of this check should be reported directly from the script output, as the specific growth rate values and their difference are determined at runtime. A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption, providing a statistical complement to the visual evidence presented in the overlay chart and giving a combined basis for concluding that the control store selection is appropriate for the causal analysis that follows.
 
 ## Conclusions:
 
