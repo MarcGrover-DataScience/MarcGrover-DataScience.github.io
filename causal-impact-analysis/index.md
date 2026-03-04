@@ -69,9 +69,15 @@ The methodology adopted for this project follows the end-to-end data science wor
 * The analysis is then scoped to the 2013–2014 window (i.e. 2 complete calendar years) to provide a full pre-intervention year and a full post-intervention year of equal length.
 * Derived features are engineered including month, day of week, week of year, and a binary weekend indicator to support the exploratory analysis.
 
-**Stage 3 — Exploratory Data Analysis**:  Six individual Seaborn visualisations are produced to build a thorough understanding of the data before modelling begins. These cover the distribution of daily sales across all stores, average sales by store type, a monthly sales comparison between the treated store and the overall store average, the effect of short-term promotions on daily sales across all stores, the treated store's full daily sales time series with the intervention date marked, and the treated store's average sales by day of week. Together these charts establish the commercial context for the analysis and surface patterns that inform both the control store selection and the interpretation of the causal model outputs.
+**Stage 3 — Exploratory Data Analysis**:  Six visualisations are produced to build a thorough understanding of the data before modelling begins. These cover the distribution of daily sales across all stores, average sales by store type, a monthly sales comparison between the treated store and the overall store average, the effect of short-term promotions on daily sales across all stores, the treated store's full daily sales time series with the intervention date marked, and the treated store's average sales by day of week. Together these charts establish the commercial context for the analysis and surface patterns that inform both the control store selection and the interpretation of the causal model outputs.
 
-**Stage 4 — Treated and Control Store Selection**:  Store 30 is designated the treated store, with the activation of the Promo2 continuous loyalty promotion on 3rd March 2014 serving as the intervention event. The selection of appropriate control stores is critical to the validity of the analysis: control stores must track the treated store's sales trajectory closely in the pre-intervention period so that any post-intervention divergence can be attributed to the promotion rather than pre-existing differences. Candidate control stores are filtered to match the treated store on store type and assortment level, and stores with Promo2 active at any time are excluded to avoid contamination of the control series. From the remaining candidates, the five stores with the highest Pearson correlation to the treated store's pre-intervention daily sales are selected as controls.
+**Stage 4 — Treated and Control Store Selection**:  Store 30 is designated the treated store, with the activation of the Promo2 continuous loyalty promotion on 3rd March 2014 serving as the intervention event.  This is approximately mid-way through the 2 year analysis window and as such considered a suitable treated store for the analysis.
+
+The selection of appropriate control stores is critical to the validity of the analysis: control stores must track the treated store's sales trajectory closely in the pre-intervention period so that any post-intervention divergence can be attributed to the promotion rather than pre-existing differences. 
+
+Candidate control stores are filtered to match the treated store on store type and assortment level, and stores with Promo2 active at any time are excluded to avoid contamination of the control series. From the remaining candidates, the five stores with the highest Pearson correlation to the treated store's pre-intervention daily sales are selected as controls.
+
+The selection of appropriate control stores is a critical determinant of the validity of the causal analysis, as the counterfactual is only credible if the control stores would genuinely have tracked the treated store's sales trajectory in the absence of the intervention. 
 
 **Stage 5 — Pre-Intervention Correlation Validation**:  Before fitting the causal model, the parallel trends assumption is validated — the foundational requirement of causal inference, which states that in the absence of the intervention, the treated and control stores would have continued to evolve in parallel. This is assessed in two ways: a statistical comparison of mean weekly pre-period growth rates between the treated and control stores, where a difference of less than 2% is considered supportive of the assumption; and visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores. Both outputs are included to give both a quantitative and intuitive basis for assessing whether the control group is a credible counterfactual anchor.
 
@@ -121,17 +127,19 @@ Prior to modelling, an exploratory data analysis was conducted across six visual
 
 **Stage 4 — Treated and Control Store Selection**
 
-The selection of appropriate control stores is a critical determinant of the validity of the causal analysis, as the counterfactual is only credible if the control stores would genuinely have tracked the treated store's sales trajectory in the absence of the intervention. 
-
-Store 30 was confirmed as a valid treated store, with the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 30 is classified as StoreType a with an Assortment a product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
+The selected treated store, store 30, has the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 30 is classified as StoreType 'a' with an Assortment 'a' product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
 
 Candidate control stores were filtered to match Store 30 on both store type and assortment level, and any store with an active Promo2 scheme was excluded to prevent the intervention being measured from also affecting the control series. 194 candidates were identified.
 
-From the qualifying candidates with sufficient trading data across the pre-period, the five stores with the highest Pearson correlation to Store 30's daily sales were selected. Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
+From the qualifying candidates with complete trading data across the pre-period, the five stores with the highest Pearson correlation to Store 30's daily sales were selected. Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
 
-The top five control stores identified were as follows, with their pre-period correlation to Store 30:
+The top five control stores identified were as follows, with their pre-period Pearson correlation coefficients to Store 30 stated, each of which indicate a very high correlation to Store 30:
 
-
+* Store  905   Correlation = 0.9660
+* Store  651   Correlation = 0.9650
+* Store  621   Correlation = 0.9631
+* Store  475   Correlation = 0.9623
+* Store  341   Correlation = 0.9616
 
 **Stage 5 — Pre-Intervention Correlation Validation**
 
@@ -141,11 +149,7 @@ Prior to fitting the causal model, a formal validation of the parallel trends as
 
 The five selected control stores, were determined using Pearson correlation coefficients across the full pre-intervention period in comparison to Store 30.   The correlation scores, shown below, confirm the strength of the linear relationship between each control store and the treated store during the baseline period, with higher values indicating a closer alignment in daily sales patterns.  This reinforces confidence that they represent a coherent and stable reference group for the counterfactual construction.
 
-* Store  905  |  Correlation = 0.9660
-* Store  651  |  Correlation = 0.9650
-* Store  621  |  Correlation = 0.9631
-* Store  475  |  Correlation = 0.9623
-* Store  341  |  Correlation = 0.9616
+
 
 Chart 8 — Pre-Period Time Series Overlay
 
