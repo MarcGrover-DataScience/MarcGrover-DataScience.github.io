@@ -81,11 +81,14 @@ The selection of appropriate control stores is a critical determinant of the val
 
 **Stage 5 — Pre-Intervention Correlation Validation**:  Before fitting the causal model, the parallel trends assumption is validated which is the foundational requirement of causal inference.  This states that in the absence of the intervention, the treated and control stores would have continued to evolve in parallel.  
 
-This is assessed in two ways, to give both a quantitative and intuitive basis for assessing whether the control group is a credible counterfactual anchor:  
+This is assessed in three ways, to give both a quantitative and intuitive basis for assessing whether the control group is a credible counterfactual anchor:  
 * a statistical comparison of mean weekly pre-period growth rates between the treated and control stores, where a difference of less than 2% is considered supportive of the assumption
-* a visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores.
+* a visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores
+* a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period
 
-**Stage 6 — Causal Impact Modelling**:  The Causal Impact model is fitted using the causalimpact Python library, which implements a Bayesian structural time series framework. The model uses the pre-intervention period to learn the relationship between the treated store's sales and the control store series, then projects that relationship forward through the post-intervention period to construct the counterfactual — the synthetic estimate of what the treated store's sales would have looked like had the promotion never been activated. The difference between the observed post-intervention sales and this counterfactual is the estimated causal effect of the promotion. Both a point estimate and a 95% Bayesian credible interval are produced for every day in the post-period, along with cumulative and average effect summaries.
+**Stage 6 — Causal Impact Modelling**:  The Causal Impact model is fitted using the causalimpact Python library, which implements a Bayesian structural time series framework. The model uses the pre-intervention period to learn the relationship between the treated store's sales and the control store series, then projects that relationship forward through the post-intervention period to construct the counterfactual — the synthetic estimate of what the treated store's sales would have looked like had the promotion never been activated.  
+
+The difference between the observed post-intervention sales and this counterfactual is the estimated causal effect of the promotion. Both a point estimate and a 95% Bayesian credible interval are produced for every day in the post-period, along with cumulative and average effect summaries.
 
 **Stage 7 — Model Validation and Diagnostics**:  Six validation checks are applied to assess the reliability of the model outputs. The pre-period model fit is evaluated using MAPE and R², where a MAPE below 10% and an R² close to 1.0 indicate that the counterfactual closely tracks the treated store in the period where the true outcome is known. A Shapiro-Wilk test is applied to the pre-period residuals to assess normality, since non-normal residuals would affect the reliability of the credible intervals. The Bayesian posterior tail probability — equivalent to a one-sided p-value — is reported, where a value below 0.05 indicates the observed effect is unlikely to be attributable to chance. The 95% credible interval for the average daily effect is inspected to confirm it excludes zero, providing direct probabilistic evidence of a genuine causal effect. The cumulative effect estimate and its credible interval are reported to assess overall commercial plausibility. Finally, the relative effect percentage is calculated to express the intervention's impact in proportional terms, which is the most accessible metric for non-technical stakeholders.
 
@@ -131,9 +134,9 @@ Prior to modelling, an exploratory data analysis was conducted across six visual
 
 **Stage 4 — Treated and Control Store Selection**
 
-The selected treated store, store 30, has the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 30 is classified as StoreType 'a' with an Assortment 'a' product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
+The selected treated store, Store 30, has the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 30 is classified as StoreType 'a' with an Assortment 'a' product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
 
-Candidate control stores were filtered to match Store 30 on both store type and assortment level, and any store with an active Promo2 scheme was excluded to prevent the intervention being measured from also affecting the control series. 194 candidates were identified.
+Candidate control stores were filtered to match Store 30 on both store type and assortment level, and any store with an active Promo2 scheme was excluded to prevent the intervention being measured from also affecting the control series. 194 candidate stores were identified.
 
 From the qualifying candidates with complete trading data across the pre-period, the five stores with the highest Pearson correlation to Store 30's daily sales were selected. Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
 
@@ -151,23 +154,24 @@ The correlation heatmap below (Pearsons Correlation) for the five selected contr
 
 ![07_pre_intervention_correlation](07_pre_intervention_correlation.png)
 
-The pre-period time series overlay plots the daily sales of Store 30 alongside each of the five control stores across the full pre-intervention window from January 2013 to early March 2014. The chart provides a visual confirmation that the selected control stores track the seasonal rhythm and week-to-week variation of Store 30 closely throughout the baseline period, including the characteristic peaks associated with key retail trading periods. Any divergence between the treated and control series visible in this chart would be a cause for concern, as it would suggest that the parallel trends assumption may not hold and that the counterfactual projection into the post-period could be unreliable.
+The pre-period time series overlay plots the daily sales of Store 30 alongside each of the five control stores across the full pre-intervention window from January 2013 to early March 2014. The chart provides further visual confirmation that the selected control stores track the seasonal rhythm and week-to-week variation of Store 30 closely throughout the baseline period, including the characteristic peaks associated with key retail trading periods. Any divergence between the treated and control series visible in this chart would be a cause for concern, as it would suggest that the parallel trends assumption may not hold and that the counterfactual projection into the post-period could be unreliable.
 
 ![08_pre_period_overlay](08_pre_period_overlay.png)
 
-In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period. The results of this check should be reported directly from the script output, as the specific growth rate values and their difference are determined at runtime. A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption, providing a statistical complement to the visual evidence presented in the overlay chart and giving a combined basis for concluding that the control store selection is appropriate for the causal analysis that follows.
+In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period. 
 
-The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.  
+The mean weekly sales growth rate of Store 30 was identified to be 5.75%.  A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption.  The mean weekly sales growth rates for the 5 control stores are below, each of which are within 2% of the treated store, supporting the conclusion that the control store selection is appropriate for the causal analysis that follows:
 
+Store 905    5.42%
+Store 651    5.54%
+Store 621    7.54%
+Store 475    6.75%
+Store 341    6.19%
 
+The correlation heatmap and pre-period time series overlay charts produced in the subsequent validation stage provide a visual confirmation of the strength of these relationships, and the parallel trends check quantifies that the mean weekly growth rates of the treated and control stores are sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.
 
-Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
+**Stage 6 — Causal Impact Modelling**
 
-The correlation heatmap and pre-period time series overlay charts produced validate the selection in the previous section, providing a visual confirmation of the strength of these relationships, and the parallel trends check quantifies whether the mean weekly growth rates of the treated and control stores were sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.  
-
-Prior to fitting the causal model, a formal validation of the parallel trends assumption was conducted to confirm that the selected control stores provide a credible counterfactual basis for the analysis. This assumption — that the treated and control stores would have followed similar sales trajectories in the absence of the intervention — is the foundational requirement of causal inference, and its validity directly determines the reliability of the causal effect estimates produced in the subsequent modelling stage.
-
-The five selected control stores, were determined using Pearson correlation coefficients across the full pre-intervention period in comparison to Store 30.   The correlation scores, shown below, confirm the strength of the linear relationship between each control store and the treated store during the baseline period, with higher values indicating a closer alignment in daily sales patterns.  This reinforces confidence that they represent a coherent and stable reference group for the counterfactual construction.
 
 
 ## Conclusions:
