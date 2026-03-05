@@ -86,7 +86,7 @@ This is assessed in three ways, to give both a quantitative and intuitive basis 
 * a visual inspection via a pre-period time series overlay chart and a Pearson correlation heatmap across all selected stores
 * a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period
 
-**Stage 6 — Causal Impact Modelling**:  The Causal Impact model is fitted using the causalimpact Python library, which implements a Bayesian structural time series framework. The model uses the pre-intervention period to learn the relationship between the treated store's sales and the control store series, then projects that relationship forward through the post-intervention period to construct the counterfactual — the synthetic estimate of what the treated store's sales would have looked like had the promotion never been activated.  
+**Stage 6 — Causal Impact Modelling**:  The Causal Impact model is fitted using the tfp-causalimpact Python library, which implements a Bayesian structural time series framework. The model uses the pre-intervention period to learn the relationship between the treated store's sales and the control store series, then projects that relationship forward through the post-intervention period to construct the counterfactual — the synthetic estimate of what the treated store's sales would have looked like had the promotion never been activated.  
 
 The difference between the observed post-intervention sales and this counterfactual is the estimated causal effect of the promotion. Both a point estimate and a 95% Bayesian credible interval are produced for every day in the post-period, along with cumulative and average effect summaries.
 
@@ -172,7 +172,55 @@ The correlation heatmap and pre-period time series overlay charts produced in th
 
 **Stage 6 — Causal Impact Modelling**
 
+Posterior tail-area probability p: 0.153  
+Posterior prob. of a causal effect: 84.68%  
 
+During the post-intervention period, the response variable had
+an average value of approx. 4097.7. In the absence of an
+intervention, we would have expected an average response of 4401.0.
+The 95% interval of this counterfactual prediction is [3795.3, 4987.8].
+Subtracting this prediction from the observed response yields
+an estimate of the causal effect the intervention had on the
+response variable. This effect is -303.3 with a 95% interval of
+[-890.2, 302.3]. For a discussion of the significance of this effect,
+see below.
+
+Summing up the individual data points during the post-intervention
+period (which can only sometimes be meaningfully interpreted), the
+response variable had an overall value of 1245688.0.
+Had the intervention not taken place, we would have expected
+a sum of 1337897.2. The 95% interval of this prediction is [1153778.7, 1516300.8].
+
+
+The above results are given in terms of absolute numbers. In relative
+terms, the response variable showed a decrease of -6.4%. The 95%
+interval of this percentage is [-17.8%, 8.0%].
+This means that, although it may look as though the intervention has
+exerted a negative effect on the response variable when considering
+the intervention period as a whole, this effect is not statistically
+significant and so cannot be meaningfully interpreted.
+
+
+The apparent effect could be the result of random fluctuations that
+are unrelated to the intervention. This is often the case when the
+intervention period is very long and includes much of the time when
+the effect has already worn off. It can also be the case when the
+intervention period is too short to distinguish the signal from the
+noise. Finally, failing to find a significant effect can happen when
+there are not enough control variables or when these variables do not
+correlate well with the response variable during the learning period.
+
+
+The probability of obtaining this effect by chance is p = 15%.
+This means the effect may be spurious and would generally not be
+considered statistically significant.
+
+
+**Stage 7 — Model Validation and Diagnostics**
+
+The pre-period MAPE of 8.94%, calculated on trading days only to exclude the distorting effect of zero-sales days such as Sundays and public holidays, confirms that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known, satisfying the model fit requirement for a credible causal inference.  
+
+R²   : 0.8431
 
 ## Conclusions:
 
