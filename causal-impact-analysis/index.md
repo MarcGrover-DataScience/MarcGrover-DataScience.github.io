@@ -221,7 +221,12 @@ considered statistically significant.
 The pre-period MAPE of 8.94%, calculated on trading days only to exclude the distorting effect of zero-sales days such as Sundays and public holidays, confirms that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known, satisfying the model fit requirement for a credible causal inference.  Industry benchmarks are that a MAPE below 10% is generally considered strong model fit.  The R² value equal to 0.8431 also indicates strong the model is a strong fit.
 
 The normality of the residuals for the pre-period was tested using the Shapiro-Wilk test, returning a p-value = 0.4192, and as such we cannot reject the null-hypothesis (p > 0.05)
-that the residues are distributed normally, and as such is evidence that the residuals are approximately normal.
+that the residues are distributed normally, and as such is evidence that the residuals are approximately normal.  
+
+Average daily effect — 95% credible interval:  
+     Lower : €-884.77  
+     Upper : €262.26  
+ Credible interval spans zero — effect direction is uncertain  
 
 ## Conclusions:
 
