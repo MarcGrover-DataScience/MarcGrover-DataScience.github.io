@@ -172,18 +172,30 @@ The correlation heatmap and pre-period time series overlay charts produced in th
 
 **Stage 6 — Causal Impact Modelling**
 
+The Causal Impact model was fitted using the tfp-causalimpact library, with Store 30 as the treated store and the five selected control stores providing the covariate series. The pre-period spanning 1st January 2013 to 2nd March 2014 was used to train the Bayesian structural time series model, learning the relationship between Store 30 and the control stores during the period before the Promo2 promotion was activated.  
+
+The model then projected this learned relationship forward through the post-period — 3rd March 2014 to 31st December 2014 — to construct the counterfactual, representing the estimated sales trajectory Store 30 would have followed had the promotion never been introduced. The Causal Impact summary and detailed report provide the foundational statistics that the validation checks and business insight extraction are built upon.
+
+**Stage 7 — Model Validation and Diagnostics**
+
+Six validation checks were applied to assess the reliability and integrity of the model outputs, with the results summarised below.  
+
+The pre-period model fit was assessed using MAPE and R², calculated on trading days only to exclude the distorting effect of zero-sales days such as Sundays and public holidays. A MAPE of 8.94% and an R² of 0.843 were produced, where a MAPE below 10% and an R² close to 1.0 indicate that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known. A MAPE of 8.94% confirms strong model fit, providing confidence that the control stores are a credible basis for the counterfactual projection into the post-period.
+
+The Shapiro-Wilk test for residual normality returned a statistic of [insert value] and a p-value of [insert value]. A p-value above 0.05 indicates that the pre-period residuals are approximately normally distributed, supporting the reliability of the credible intervals produced by the model. Where the p-value falls below 0.05 this should be noted as a caveat when interpreting the uncertainty bounds.
+
+The normality of the residuals for the pre-period was tested using the Shapiro-Wilk test, returning a p-value = 0.4192, and as such we cannot reject the null-hypothesis (p > 0.05)
+that the residues are distributed normally, and as such is evidence that the residuals are approximately normal.  
+
+
+
+
 Posterior tail-area probability p: 0.153  
 Posterior prob. of a causal effect: 84.68%  
 
-During the post-intervention period, the response variable had
-an average value of approx. 4097.7. In the absence of an
-intervention, we would have expected an average response of 4401.0.
+During the post-intervention period, the response variable had an average value of approx. 4097.7. In the absence of an intervention, we would have expected an average response of 4401.0.
 The 95% interval of this counterfactual prediction is [3795.3, 4987.8].
-Subtracting this prediction from the observed response yields
-an estimate of the causal effect the intervention had on the
-response variable. This effect is -303.3 with a 95% interval of
-[-890.2, 302.3]. For a discussion of the significance of this effect,
-see below.
+Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is -303.3 with a 95% interval of [-890.2, 302.3]. For a discussion of the significance of this effect, see below.
 
 Summing up the individual data points during the post-intervention
 period (which can only sometimes be meaningfully interpreted), the
@@ -216,17 +228,19 @@ This means the effect may be spurious and would generally not be
 considered statistically significant.
 
 
-**Stage 7 — Model Validation and Diagnostics**
 
-The pre-period MAPE of 8.94%, calculated on trading days only to exclude the distorting effect of zero-sales days such as Sundays and public holidays, confirms that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known, satisfying the model fit requirement for a credible causal inference.  Industry benchmarks are that a MAPE below 10% is generally considered strong model fit.  The R² value equal to 0.8431 also indicates strong the model is a strong fit.
-
-The normality of the residuals for the pre-period was tested using the Shapiro-Wilk test, returning a p-value = 0.4192, and as such we cannot reject the null-hypothesis (p > 0.05)
-that the residues are distributed normally, and as such is evidence that the residuals are approximately normal.  
 
 Average daily effect — 95% credible interval:  
      Lower : €-884.77  
      Upper : €262.26  
  Credible interval spans zero — effect direction is uncertain  
+
+![09_residuals_distribution](09_residuals_distribution.png)
+
+![10_pre_period_actual_vs_predicted](10_pre_period_actual_vs_predicted.png)
+
+
+**Stage 8 — Business Insight Extraction and Visualisation**
 
 ## Conclusions:
 
@@ -239,4 +253,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/Causal_Impact_Analysis_v1.py)
+[View the Python Script](/Causal_Impact_Analysis_v2.py)
