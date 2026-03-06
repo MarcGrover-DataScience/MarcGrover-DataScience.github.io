@@ -90,7 +90,14 @@ This is assessed in three ways, to give both a quantitative and intuitive basis 
 
 The difference between the observed post-intervention sales and this counterfactual is the estimated causal effect of the promotion. Both a point estimate and a 95% Bayesian credible interval are produced for every day in the post-period, along with cumulative and average effect summaries.
 
-**Stage 7 — Model Validation and Diagnostics**:  Six validation checks are applied to assess the reliability of the model outputs. The pre-period model fit is evaluated using MAPE and R², where a MAPE below 10% and an R² close to 1.0 indicate that the counterfactual closely tracks the treated store in the period where the true outcome is known. A Shapiro-Wilk test is applied to the pre-period residuals to assess normality, since non-normal residuals would affect the reliability of the credible intervals. The Bayesian posterior tail probability — equivalent to a one-sided p-value — is reported, where a value below 0.05 indicates the observed effect is unlikely to be attributable to chance. The 95% credible interval for the average daily effect is inspected to confirm it excludes zero, providing direct probabilistic evidence of a genuine causal effect. The cumulative effect estimate and its credible interval are reported to assess overall commercial plausibility. Finally, the relative effect percentage is calculated to express the intervention's impact in proportional terms, which is the most accessible metric for non-technical stakeholders.
+**Stage 7 — Model Validation and Diagnostics**:  Six validation checks are applied to assess the reliability of the model outputs.  
+
+* The pre-period model fit is evaluated using MAPE and R², where a MAPE below 10% and an R² close to 1.0 indicate that the counterfactual closely tracks the treated store in the period where the true outcome is known.  
+* A Shapiro-Wilk test is applied to the pre-period residuals to assess normality, since non-normal residuals would affect the reliability of the credible intervals.
+* The Bayesian posterior tail probability — equivalent to a one-sided p-value — is reported, where a value below 0.05 indicates the observed effect is unlikely to be attributable to chance.
+* The 95% credible interval for the average daily effect is inspected to confirm it excludes zero, providing direct probabilistic evidence of a genuine causal effect.
+* The cumulative effect estimate and its credible interval are reported to assess overall commercial plausibility.
+* Finally, the relative effect percentage is calculated to express the intervention's impact in proportional terms, which is the most accessible metric for non-technical stakeholders.
 
 **Stage 8 — Business Insight Extraction and Visualisation**:  Five post-intervention visualisations are produced to communicate the causal model outputs in a commercially meaningful way. The full time series chart overlays actual sales against the counterfactual with its credible interval across both the pre and post periods, making the gap attributable to the promotion immediately visible. The daily causal effect chart plots the estimated effect for each individual post-period trading day with its uncertainty bounds, revealing whether the promotional uplift was consistent or concentrated in particular periods. The cumulative causal effect chart tracks the running total of incremental revenue over the post-period, providing an intuitive view of how the commercial benefit accumulated over time. A monthly comparison chart contrasts average actual versus counterfactual sales at a monthly level to identify whether the promotional effect was stronger in particular months. Finally, a distribution of daily effect estimates is produced to characterise the typical magnitude and variability of the promotion's impact across individual trading days.
 
@@ -182,60 +189,21 @@ Six validation checks were applied to assess the reliability and integrity of th
 
 The pre-period model fit was assessed using MAPE and R², calculated on trading days only to exclude the distorting effect of zero-sales days such as Sundays and public holidays. A MAPE of 8.94% and an R² of 0.843 were produced, where a MAPE below 10% and an R² close to 1.0 indicate that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known. A MAPE of 8.94% confirms strong model fit, providing confidence that the control stores are a credible basis for the counterfactual projection into the post-period.
 
-The Shapiro-Wilk test for residual normality returned a statistic of [insert value] and a p-value of [insert value]. A p-value above 0.05 indicates that the pre-period residuals are approximately normally distributed, supporting the reliability of the credible intervals produced by the model. Where the p-value falls below 0.05 this should be noted as a caveat when interpreting the uncertainty bounds.
+The Shapiro-Wilk test for residual normality returned a p-value of 0.3952. As the p-value is above 0.05 this indicates that the pre-period residuals are approximately normally distributed, supporting the reliability of the credible intervals produced by the model. 
 
-The normality of the residuals for the pre-period was tested using the Shapiro-Wilk test, returning a p-value = 0.4192, and as such we cannot reject the null-hypothesis (p > 0.05)
-that the residues are distributed normally, and as such is evidence that the residuals are approximately normal.  
+The Bayesian posterior tail probability of 0.151 represents the probability of observing a causal effect of the magnitude identified purely by chance. A value below 0.05 is conventionally considered statistically significant. The result should be interpreted alongside the credible interval — where the p-value is above 0.05 but the credible interval of the average daily effect excludes zero, the evidence is suggestive of a genuine promotional effect but falls short of the conventional significance threshold, and should be described as indicative rather than conclusive.
 
+The 95% credible interval for the average daily causal effect of €-882.42 to €318.15 provides a direct probability statement about the range within which the true average daily effect most plausibly lies. Where this interval is entirely positive it provides supporting evidence of a genuine sales uplift attributable to the Promo2 promotion, even where the posterior tail probability does not clear the 0.05 threshold.  As the interval spans zero, the effect direction is uncertain.
 
+The cumulative causal effect point estimate of €-90,700.75, with a 95% credible interval of €-268,254.40 to €96,717.89, represents the total estimated revenue impact of the promotion across the full post-period. This is the most commercially significant output of the analysis as it provides the basis for evaluating the financial return on the promotional investment.  As expected based on previous validation, this spans zero, and as such strengthens the assertion that the direction and existance of an effect is not certain.  As the cumulative causal effect point estimate is negative this further weakens the confidence that the Promo2 promotion generated a genuine sales uplift.
 
+The relative effect of -6.37%, with a 95% credible interval of -17.72% to 8.42%, expresses the promotional uplift as a proportion of the baseline sales that would have been achieved without the intervention, and is the most accessible metric for communicating the scale of the effect to non-technical stakeholders.
 
-Posterior tail-area probability p: 0.153  
-Posterior prob. of a causal effect: 84.68%  
-
-During the post-intervention period, the response variable had an average value of approx. 4097.7. In the absence of an intervention, we would have expected an average response of 4401.0.
-The 95% interval of this counterfactual prediction is [3795.3, 4987.8].
-Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is -303.3 with a 95% interval of [-890.2, 302.3]. For a discussion of the significance of this effect, see below.
-
-Summing up the individual data points during the post-intervention
-period (which can only sometimes be meaningfully interpreted), the
-response variable had an overall value of 1245688.0.
-Had the intervention not taken place, we would have expected
-a sum of 1337897.2. The 95% interval of this prediction is [1153778.7, 1516300.8].
-
-
-The above results are given in terms of absolute numbers. In relative
-terms, the response variable showed a decrease of -6.4%. The 95%
-interval of this percentage is [-17.8%, 8.0%].
-This means that, although it may look as though the intervention has
-exerted a negative effect on the response variable when considering
-the intervention period as a whole, this effect is not statistically
-significant and so cannot be meaningfully interpreted.
-
-
-The apparent effect could be the result of random fluctuations that
-are unrelated to the intervention. This is often the case when the
-intervention period is very long and includes much of the time when
-the effect has already worn off. It can also be the case when the
-intervention period is too short to distinguish the signal from the
-noise. Finally, failing to find a significant effect can happen when
-there are not enough control variables or when these variables do not
-correlate well with the response variable during the learning period.
-
-
-The probability of obtaining this effect by chance is p = 15%.
-This means the effect may be spurious and would generally not be
-considered statistically significant.
-
-
-
-
-Average daily effect — 95% credible interval:  
-     Lower : €-884.77  
-     Upper : €262.26  
- Credible interval spans zero — effect direction is uncertain  
+The residuals distribution chart plots the frequency of the differences between Store 30's actual sales and the model's predicted counterfactual values across all trading days in the pre-period. A well-fitted model should produce residuals that are approximately normally distributed and centred around zero, indicating that the model's errors are random rather than systematic. The vertical line marking zero provides a visual reference for assessing whether the residuals are symmetrically distributed around the baseline, and the KDE curve overlaid on the histogram gives a smooth representation of the overall residual distribution shape. Any pronounced skew or heavy tails in the distribution would indicate a potential model fit issue that should be noted when interpreting the post-period results.  
 
 ![09_residuals_distribution](09_residuals_distribution.png)
+
+The pre-period actual versus predicted chart overlays Store 30's observed daily sales against the model's counterfactual predictions across the full pre-intervention period from January 2013 to March 2014. Since the model is fitted on this period, close agreement between the two series is expected and confirms that the Bayesian structural time series model has successfully learned the relationship between Store 30 and the control stores. The degree of alignment between the actual and predicted lines provides a visual corroboration of the MAPE and R² statistics reported in Validation 1, and gives the reader an intuitive sense of the model's accuracy before it is asked to extrapolate into the post-intervention period where the true counterfactual is unobservable.
 
 ![10_pre_period_actual_vs_predicted](10_pre_period_actual_vs_predicted.png)
 
