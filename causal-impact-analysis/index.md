@@ -207,8 +207,22 @@ The pre-period actual versus predicted chart overlays Store 30's observed daily 
 
 ![10_pre_period_actual_vs_predicted](10_pre_period_actual_vs_predicted.png)
 
-
 **Stage 8 — Business Insight Extraction and Visualisation**
+
+The business insight stage translated the statistical outputs of the Causal Impact model into commercially interpretable findings through five visualisations, with the three charts below focusing on the direction, magnitude, and consistency of the promotional effect across the post-intervention period. 
+
+
+The **daily causal effect** chart plots the estimated causal effect of the Promo2 promotion on Store 30's sales for each individual trading day in the post-period, alongside the 95% credible interval and a zero effect reference line. The chart reveals that the daily effect is predominantly negative throughout the post-period, with approximately 75% of days returning a negative estimated effect and only around 25% of days showing a positive effect. The mean daily causal effect of -€312 indicates that on a typical trading day, Store 30's actual sales were below what the model estimated they would have been without the Promo2 promotion. The credible interval around the daily effect is wide on individual days, reflecting the inherent uncertainty in day-level estimates, but the consistent positioning of the majority of daily effects below the zero line provides a coherent picture of the promotion's direction of impact across the post-period.  
+
+![12_daily_causal_effect](12_daily_causal_effect.png)
+
+The **cumulative causal effect**chart tracks the running total of the estimated promotional effect from the intervention date of 3rd March 2014 through to 31st December 2014, providing the clearest single view of the promotion's overall commercial impact. The cumulative effect trends consistently downward across the post-period, reflecting the predominantly negative daily effects accumulating over time. While there are small and brief periods of minimal recovery where the cumulative line flattens slightly, the overall trajectory is consistently negative with no sustained reversal. By the end of the post-period the cumulative causal effect stands at -€94,904.60, meaning the model estimates that Store 30 generated approximately €94,905 less in sales over the post-period than it would have done in the absence of the Promo2 promotion. The 95% credible interval of -€271,669.90 to +€79,244.10 is wide and spans zero, indicating meaningful uncertainty around the magnitude of this effect, though the point estimate and the overall downward trend in the cumulative chart both point consistently in the same negative direction.  
+
+![13_cumulative_causal_effect](13_cumulative_causal_effect.png)
+
+The **distribution of daily causal** effect estimates provides a summary view of the spread and central tendency of the promotional effect across all post-period trading days. The distribution is centred to the left of zero, with a mean daily effect of -€312 confirming that negative effects predominate across the post-period. The KDE curve and histogram together show that while the bulk of daily effect estimates are clustered in negative territory, the distribution has a tail extending into positive values, consistent with the approximately 25% of days showing a positive effect observed in Plot 12. The zero effect reference line sits to the right of the distribution's peak, visually reinforcing that the central tendency of the promotional effect is negative rather than neutral or positive. The spread of the distribution reflects the day-to-day variability in the estimated effect, which is expected given the natural fluctuation in retail sales and the influence of factors such as day of week and seasonal trading patterns on individual daily outcomes.  
+
+![15_effect_distribution](15_effect_distribution.png)
 
 ## Conclusions:
 
