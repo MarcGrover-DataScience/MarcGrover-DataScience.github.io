@@ -169,11 +169,11 @@ In addition to the visual assessment, a quantitative parallel trends check was p
 
 The mean weekly sales growth rate of Store 30 was identified to be 5.75%.  A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption.  The mean weekly sales growth rates for the 5 control stores are below, each of which are within 2% of the treated store, supporting the conclusion that the control store selection is appropriate for the causal analysis that follows:
 
-* Store 905    5.42%  
-* Store 651    5.54%  
-* Store 621    7.54%  
-* Store 475    6.75%  
-* Store 341    6.19%  
+* Store 905   sales growth rate = 5.42%  
+* Store 651   sales growth rate = 5.54%  
+* Store 621   sales growth rate = 7.54%  
+* Store 475   sales growth rate = 6.75%  
+* Store 341   sales growth rate = 6.19%  
 
 The correlation heatmap and pre-period time series overlay charts produced in the subsequent validation stage provide a visual confirmation of the strength of these relationships, and the parallel trends check quantifies that the mean weekly growth rates of the treated and control stores are sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.
 
