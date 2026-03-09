@@ -237,7 +237,13 @@ The **distribution of daily causal effect estimates** provides a summary view of
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+This project demonstrated the application of Causal Impact Analysis to real-world retail sales data, following a rigorous end-to-end analytical workflow from data ingestion and preprocessing through to the extraction and communication of causal inference results. The analysis was grounded in a clearly defined and defensible intervention event — the activation of the Promo2 continuous loyalty promotion for Store 30 on 3rd March 2014 — with control stores selected on the basis of structural similarity and pre-period sales correlation to satisfy the parallel trends assumption underpinning the causal inference framework.  
+
+The key finding of the analysis is that the Promo2 promotion does not appear to have generated a positive sales uplift for Store 30 during the post-intervention period. The average daily causal effect of -€312, the consistently negative trajectory of the cumulative effect chart, and a cumulative point estimate of -€94,905 across the post-period all point in the same direction — that Store 30's actual sales were below the modelled counterfactual throughout the period following the promotion's activation. This is a commercially significant and counterintuitive result, suggesting that the continuous loyalty promotion may not have driven the incremental revenue that would typically be expected from a sustained promotional intervention.  
+
+It is important to qualify this finding appropriately.  The posterior tail probability of 0.1443 does not meet the conventional 0.05 threshold for statistical significance, and the 95% credible interval for both the average daily effect (-€894 to +€261) and the cumulative effect (-€271,670 to +€79,244) span zero, meaning the analysis cannot conclusively rule out the possibility that the true effect is neutral or marginally positive.  The honest conclusion is therefore that the evidence is suggestive of a negative or neutral promotional effect rather than conclusive, and that the result warrants further investigation rather than an immediate definitive judgement on the promotion's value. 
+
+Notwithstanding these caveats, the analysis successfully demonstrates that Causal Impact Analysis is a powerful and practical technique for evaluating the effect of retail interventions in the absence of a controlled experiment. By constructing a credible counterfactual from comparable control stores and quantifying the uncertainty around the estimated effect, the approach provides a far more rigorous basis for commercial decision-making than a simple before-and-after sales comparison would allow.  
 
 ## Next steps:  
 
