@@ -1,5 +1,5 @@
 # Marc Grover - Data Science Portfolio 
-Hello, I'm Marc Grover, and welcome to my collection of Data Science analytical projects built in Python demonstrating key Data Science techniques to solve business problems and provide insights and evidence to support business decisions.  
+Hello, my name is Marc Grover, and welcome to my collection of Data Science analytical projects built in Python demonstrating key Data Science techniques to solve business problems and provide insights and evidence to support business decisions.  
 
 These demonstrate key techniques using a range of machine learning and artificial intelligence techniques, utilising leading python libraries.  
 
