@@ -1,4 +1,4 @@
----
+<img width="129" height="21" alt="image" src="https://github.com/user-attachments/assets/e8c36af9-38b5-48c6-beee-7c792f509ad2" />---
 
 layout: default
 
@@ -16,7 +16,7 @@ This is an extension to the primary Causal Impact Analysis (CIA) project page - 
 
 In the primary CIA project, a dataset from a fictitious European retail pharmacy chain (Rossmann) was analysed to determine the impact of a promotion campaign (Promo2) on sales.  In that project a single store from the entire estate of 1,115 stores was selected as the treatment store (store 30), to determine if the Promo2 campaign had a significant impact on sales.
 
-As that did not yield a statistically significant result, the analysis was run on another store - store 56 - which is covered in this project extension.
+As that did not yield a statistically significant result, the analysis was run on another store - store 56 - which is covered in this project extension.  Store 56 was chosen as Promo2 was intitiated on the same day as Store 30 (3rd March 2014), which allows comparison between the two stores.  Unlike store 30, store 56 has established, which exists across the whole of the two-year analysis period, and as such less likely to be a factor when comparing the pre- and post-periods.  Store 56 has Store Type = d, and Assortment Type = c, which is different to store 30, and as such prevents comparison between the two stores.
 
 See the primary CIA page for full details on the goals and objectives of the analysis, the application of the CIA technique, and the methodology applied - which hasn't been included in this page for simplicity.  It also includes the suggested next steps and python code which are not replicated here, but equally relevant.
 
@@ -34,23 +34,17 @@ The resulting dataset, after the pre-processing removed specific rows, contained
 
 **Stage 3 — Exploratory Data Analysis**
 
-Prior to modelling, an exploratory data analysis was conducted across six visualisations to establish an understanding of the cleaned dataset, the characteristics of the selected treated store (which is store 30 in this instance, selected at random), and the broader sales patterns across all the Rossmann stores.  The charts examine the data from multiple angles, collectively providing the commercial context needed to interpret the causal model outputs that follow.
+Prior to modelling, an exploratory data analysis was conducted to establish an understanding of the cleaned dataset, the characteristics of the selected treated store (which is store 56 in this instance), and the broader sales patterns across all the Rossmann stores.  The charts examine the data from multiple angles, collectively providing the commercial context needed to interpret the causal model outputs that follow.
 
-**Distribution of Daily Sales Across All Stores** - This chart shows the frequency distribution of daily sales values across all stores and trading days in the 2013–2014 analysis window. The distribution is right-skewed, indicating that the majority of store-days generate moderate sales volumes with a smaller number of high-performing days pulling the tail to the right.
+Three charts are the same as for the primary CIA project as they analyse the entire Rossmann store estate, and as such not repeated here.  These are:  Distribution of Daily Sales Across All Stores, Average Daily Sales by Store Type, and Average Daily Sales: Promotion vs No Promotion.
 
-![01_sales_distribution](01_sales_distribution.png)
 
-**Average Daily Sales by Store Type** - The Rossmann business is segmented into four store types — a, b, c, and d — and this chart compares their average daily sales performance, across the full 2013–2014 analysis window. Clear differences in average revenue are visible across store types, confirming that store type is a meaningful structural characteristic that should be controlled for when selecting comparison stores for the causal analysis.
 
-![02_sales_by_store_type](02_sales_by_store_type.png)
 
-**Monthly Average Sales: Store 30 vs All Stores** - This chart compares the monthly average daily sales of Store 30 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 30's performance diverges from the overall business average, providing an early visual indication of where the promotional effect may be most pronounced.
+**Monthly Average Sales: Store 56 vs All Stores** - This chart compares the monthly average daily sales of Store 56 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 56's performance diverges from the overall business average, providing an early visual indication of where the promotional effect may be most pronounced.
 
 ![03_monthly_sales_comparison](03_monthly_sales_comparison.png)
 
-**Average Daily Sales: Promotion vs No Promotion** - Aggregating across all stores and all trading days, this chart contrasts average daily sales on days where a short-term promotion was active against days where no promotion was running. The difference between the two bars provides an indicative measure of the overall sales uplift associated with promotional activity across the estate, contextualising the store-level causal analysis that follows.
-
-![04_promo_vs_no_promo](4_promo_vs_no_promo.png)
 
 **Store 30 Daily Sales Time Series with Intervention Marker** - This chart plots Store 30's daily sales across the full 2013–2014 window, with a vertical marker indicating the 1st January 2014 intervention date when the Promo2 continuous promotion was activated. The chart provides a visual baseline for the causal analysis, allowing the reader to observe the pre-intervention sales pattern and form an initial impression of whether sales behaviour appears to shift following the intervention.
 
