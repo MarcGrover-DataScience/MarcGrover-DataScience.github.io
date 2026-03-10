@@ -8,8 +8,6 @@ permalink: /causal-impact-analysis/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 For this portfolio project, the simulated business scenario is regarding a fictitious European retail pharmacy chain operating across multiple store locations, with the goal of measuring the true causal effect of a promotional campaign on store sales. A simple before-and-after comparison of sales would be insufficient for this purpose, as it cannot distinguish the genuine impact of the promotion from underlying trends, seasonal patterns, and external factors that would have influenced sales regardless of the intervention. 
@@ -39,8 +37,6 @@ This approach is equally applicable across a wide range of domains - as its stre
 * **science**: assess the effect of conservation policy changes — such as the designation of a marine protected area — on fish population metrics over time
 
 ## Methodology:  
-
-Details of the methodology applied in the project.
 
 This portfolio project uses the ‘Rossmann Store Sales dataset’, where two datasets are loaded:
 
@@ -106,8 +102,6 @@ The difference between the observed post-intervention sales and this counterfact
 * Finally, a **distribution of daily effect estimates** is produced to characterise the typical magnitude and variability of the promotion's impact across individual trading days.
 
 ## Results:
-
-Results from the project related to the business objective.
 
 **Stage 1 — Data Loading and Initial Exploration**  
 The transactional data contains 1,017,209 records, with the store data containing 1,115 records.  The transactional data contains no missing data, with the store data identified as containing some missing values.  The relevant fields containing missing data were addressed in the following step.
@@ -266,6 +260,8 @@ Repeating the analysis for all other stores with Promo2 activated in 2014 — wo
 Incorporating additional covariates into the model — such as local competition distance, whether a store is in an urban or rural location, or the specific months covered by the Promo Interval — could improve the counterfactual's accuracy by accounting for store-level factors that influence sales independently of the promotion.  
 
 Finally, a sensitivity analysis varying the number and composition of control stores would confirm whether the negative effect finding is robust to changes in the counterfactual construction, strengthening the credibility of the conclusion for presentation to non-technical business stakeholders.  
+
+Given the inconclusive results of the analysis on store 30, further analysis was undertaken on another store, with store 56 chosen as the treated store.  This confirms the applicability of the analysis to any of the stores in the whole Rossmann estate, as well as providing insight of the Promo2 campaign impact on another store, where it was determined that Promo2 scheme did have a statistically significant positive impact on sales.  The analysis for store 56 can be found [here](https://marcgrover-datascience.github.io/causal-impact-analysis-2/)
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
