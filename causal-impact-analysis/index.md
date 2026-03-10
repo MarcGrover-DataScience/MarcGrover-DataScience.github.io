@@ -51,16 +51,16 @@ The data is available at Kaggle [here](https://www.kaggle.com/datasets/pratyusha
 
 It should be noted that the data reflects two types of promotional activities:
 
-* **Short-term promotions** are promotions occuring on a single or few consecutive days. - reflected where Promo == 1 in the train.csv file.  These are frequent and recurring throughout the analysis window, rather than being a single discrete intervention event.  It is not a single intervention event with a clear before and after; it switches on and off repeatedly throughout the dataset, which makes it unsuitable as the intervention for a Causal Impact analysis. Causal Impact requires a single, clearly defined point in time where something changed permanently or for a sustained period.
-* **Longer-running loyalty promotion** that a store either participates in from a specific start date or does not.  This is the type of intervention that is well suited to Causal Impact Analysis, as it has a defined activation date from which the store's behaviour may change persistently.  These are recored in the store.csv file.
+* **Short-term promotions** are promotions occurring on a single or few consecutive days. - reflected where Promo == 1 in the train.csv file.  These are frequent and recurring throughout the analysis window, rather than being a single discrete intervention event.  It is not a single intervention event with a clear before and after; it switches on and off repeatedly throughout the dataset, which makes it unsuitable as the intervention for a Causal Impact analysis. Causal Impact requires a single, clearly defined point in time where something changed permanently or for a sustained period.
+* **Longer-running loyalty promotion** that a store either participates in from a specific start date or does not.  This is the type of intervention that is well suited to Causal Impact Analysis, as it has a defined activation date from which the store's behaviour may change persistently.  These are recorded in the store.csv file.
 
 For the project store 30 was selected as the treated store, which is included in the Promo2 initiative, starting on 3rd March 2014.  As such activation date becomes the intervention point, with all trading days before it forming the pre-period and all days after forming the post-period.  This is Store Type a, and Assortment is basic (category = a).  
 
 The methodology adopted for this project follows the end-to-end data science workflow, progressing from raw data ingestion through to the extraction and communication of business insight. The project is implemented in Python, using the causalimpact library for Bayesian structural time series modelling, pandas for data manipulation, scipy and sklearn for statistical validation, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described in detail below.  
 
-**Stage 1 — Data Loading and Initial Exploration**:  Two files from the Rossmann Store Sales dataset are loaded: train.csv, and store.csv. An initial review is conducted covering dataset shape, column names, data types, descriptive statistics, and a missing value audit across both files. This establishes a baseline understanding of data quality and informs the preprocessing decisions that follow.
+**Stage 1 — Data Loading and Initial Exploration**:  Two files from the Rossmann Store Sales dataset are loaded: train.csv, and store.csv. An initial review is conducted covering dataset shape, column names, data types, descriptive statistics, and a missing value audit across both files. This establishes a baseline understanding of data quality and informs the pre-processing decisions that follow.
 
-**Stage 2 — Data Validation and Pre-Processing**: Seven preprocessing steps are applied sequentially, with row counts logged at each stage to maintain full transparency over the impact of each decision.  
+**Stage 2 — Data Validation and Pre-Processing**: Seven pre-processing steps are applied sequentially, with row counts logged at each stage to maintain full transparency over the impact of each decision.  
 * Date fields are converted to the correct data format, enabling validation that the data reflects the correct time frame.
 * Closed store days, where the Open field equals zero, are removed as they contribute zero sales by definition and would distort the time series baseline.
 * Rows with zero or negative sales values are removed as these represent data quality issues rather than genuine trading records.
@@ -113,7 +113,7 @@ Results from the project related to the business objective.
 The transactional data contains 1,017,209 records, with the store data containing 1,115 records.  The transactional data contains no missing data, with the store data identified as containing some missing values.  The relevant fields containing missing data were addressed in the following step.
 
 **Stage 2 — Data Validation and Pre-Processing**
-The resulting dataset, after the pre-processing removed specific rows, contained 648,309 records, realting to 1,115 stores. 
+The resulting dataset, after the pre-processing removed specific rows, contained 648,309 records, relating to 1,115 stores. 
 
 **Stage 3 — Exploratory Data Analysis**
 
@@ -161,7 +161,7 @@ The top five control stores identified were as follows, with their pre-period Pe
 
 **Stage 5 — Pre-Intervention Correlation Validation**
 
-The correlation heatmap below (Pearsons Correlation) for the five selected control stores plus the treated store, is further validation of the parallel trends assumption was conducted to confirm that the selected control stores provide a credible counterfactual basis for the analysis.  All stores have high-correlation with each other for sales across the full pre-intervention period.
+The correlation heatmap below (Pearson's Correlation) for the five selected control stores plus the treated store, is further validation of the parallel trends assumption was conducted to confirm that the selected control stores provide a credible counterfactual basis for the analysis.  All stores have high-correlation with each other for sales across the full pre-intervention period.
 
 ![07_pre_intervention_correlation](07_pre_intervention_correlation.png)
 
@@ -199,7 +199,7 @@ The **Bayesian posterior tail probability** of 0.151 represents the probability 
 
 The **95% credible interval for the average daily causal effect** of €-894 to €261 provides a direct probability statement about the range within which the true average daily effect most plausibly lies.  Should this interval be entirely positive it provides supporting evidence of a genuine sales uplift attributable to the Promo2 promotion, even where the posterior tail probability does not clear the 0.05 threshold.  As the interval spans zero, the effect direction of the promotion is uncertain.
 
-The **cumulative causal effect point estimate** of €-94,905, with a 95% credible interval of €-271,670 to €79,244, represents the total estimated revenue impact of the promotion across the full post-period. This is the most commercially significant output of the analysis as it provides the basis for evaluating the financial return on the promotional investment.  As expected based on previous validation, this spans zero, and as such strengthens the assertion that the direction and existance of an effect is not certain.  As the cumulative causal effect point estimate is negative this further weakens the confidence that the Promo2 promotion generated a genuine sales uplift.
+The **cumulative causal effect point estimate** of €-94,905, with a 95% credible interval of €-271,670 to €79,244, represents the total estimated revenue impact of the promotion across the full post-period. This is the most commercially significant output of the analysis as it provides the basis for evaluating the financial return on the promotional investment.  As expected based on previous validation, this spans zero, and as such strengthens the assertion that the direction and existence of an effect is not certain.  As the cumulative causal effect point estimate is negative this further weakens the confidence that the Promo2 promotion generated a genuine sales uplift.
 
 The **relative causal effect** of -6.37%, with a 95% credible interval of -17.72% to 8.42%, expresses the promotional uplift as a proportion of the baseline sales that would have been achieved without the intervention.
 
@@ -235,7 +235,7 @@ The **distribution of daily causal effect estimates** provides a summary view of
 
 ## Conclusions:
 
-This project demonstrated the application of Causal Impact Analysis to real-world retail sales data, following a rigorous end-to-end analytical workflow from data ingestion and preprocessing through to the extraction and communication of causal inference results. The analysis was grounded in a clearly defined and defensible intervention event — the activation of the Promo2 continuous loyalty promotion for Store 30 on 3rd March 2014 — with control stores selected on the basis of structural similarity and pre-period sales correlation to satisfy the parallel trends assumption underpinning the causal inference framework.  
+This project demonstrated the application of Causal Impact Analysis to real-world retail sales data, following a rigorous end-to-end analytical workflow from data ingestion and pre-processing through to the extraction and communication of causal inference results. The analysis was grounded in a clearly defined and defensible intervention event — the activation of the Promo2 continuous loyalty promotion for Store 30 on 3rd March 2014 — with control stores selected on the basis of structural similarity and pre-period sales correlation to satisfy the parallel trends assumption underpinning the causal inference framework.  
 
 The key finding of the analysis is that the Promo2 promotion does not appear to have generated a positive sales uplift for Store 30 during the post-intervention period. The average daily causal effect of -€312, the consistently negative trajectory of the cumulative effect chart, and a cumulative point estimate of -€94,905 across the post-period all point in the same direction — that Store 30's actual sales were below the modelled counterfactual throughout the period following the promotion's activation. This is a commercially significant and counterintuitive result, suggesting that the continuous loyalty promotion may not have driven the incremental revenue that would typically be expected from a sustained promotional intervention.  
 
@@ -259,7 +259,7 @@ Several enhancements would strengthen the analysis and provide richer insight. E
 
 Repeating the analysis for all other stores with Promo2 activated in 2014 — would allow a meta-analysis of promotional effectiveness across the estate, identifying whether Store 30's result is an outlier or indicative of a systemic issue with the Promo2 scheme.  Segmenting these results by store type and assortment would further identify which store characteristics are associated with a positive promotional response.  
 
-Incorporating additional covariates into the model — such as local competition distance, whether a store is in an urban or rural location, or the specific months covered by the PromoInterval — could improve the counterfactual's accuracy by accounting for store-level factors that influence sales independently of the promotion.  
+Incorporating additional covariates into the model — such as local competition distance, whether a store is in an urban or rural location, or the specific months covered by the Promo Interval — could improve the counterfactual's accuracy by accounting for store-level factors that influence sales independently of the promotion.  
 
 Finally, a sensitivity analysis varying the number and composition of control stores would confirm whether the negative effect finding is robust to changes in the counterfactual construction, strengthening the credibility of the conclusion for presentation to non-technical business stakeholders.  
 

@@ -63,13 +63,6 @@ POST_PERIOD_START = "2014-03-03"
 POST_PERIOD_END   = "2014-12-31"
 N_CONTROL_STORES   = 5
 
-# TREATED_STORE      = 1
-# INTERVENTION_DATE  = "2014-01-01"
-# PRE_PERIOD_START   = "2013-01-01"
-# PRE_PERIOD_END     = "2013-12-31"
-# POST_PERIOD_START  = "2014-01-01"
-# POST_PERIOD_END    = "2014-12-31"
-
 # 2. DATA LOADING & INITIAL EXPLORATION
 
 
@@ -331,8 +324,6 @@ print('\nDaily sales by store in pre-period:')
 print(pivot)
 
 # Retain only candidates with complete pre-period data - taken to be sales on both 2013-01-12 and 2014-03-01
-# complete_candidates = [s for s in candidate_stores
-#                        if s in pivot.columns and pivot[s].min() > 0]
 
 complete_candidates = [
     s for s in candidate_stores
@@ -348,9 +339,8 @@ print(complete_candidates)
 print(f"\nCandidates with complete pre-period data: {len(complete_candidates)}")
 
 # Select control stores by Pearson correlation
-# High pre-period correlation with the treated store ensures the
-# control series would have tracked the treated store closely
-# in the absence of the intervention — a key validity requirement.
+# High pre-period correlation with the treated store ensures the control series would have tracked the treated store
+# closely in the absence of the intervention — a key validity requirement.
 treated_pre = pivot[TREATED_STORE]
 
 correlations = {}
@@ -422,9 +412,9 @@ print(f"  Treated store  : {treated_growth:.4f} ({treated_growth*100:.2f}%)")
 print(f"  Control stores : {control_growth:.4f} ({control_growth*100:.2f}%)")
 print(f"  Difference     : {abs(treated_growth - control_growth):.4f}")
 if abs(treated_growth - control_growth) < 0.02:
-    print("  ✔  Parallel trends assumption supported (difference < 2%)")
+    print(" Parallel trends assumption supported (difference < 2%)")
 else:
-    print("  ⚠  Parallel trends assumption may be weak — interpret with caution")
+    print(" Parallel trends assumption may be weak — interpret with caution")
 
 print("\nMean weekly growth rate per control store (pre-period):")
 print(control_growth2.apply(lambda x: f"{x:.4f}"))
@@ -479,12 +469,6 @@ ci = fit_causalimpact(data=ci_data, pre_period=pre_period, post_period=post_peri
 print("\nCausal Impact Summary:")
 print(summary(ci))
 
-#  Should pre_period and post_period be a tuple rather than a list?
-
-# print(ci.inferences.columns.tolist())
-# print(ci.inferences.head())
-# print(ci.summary())
-
 print("\nCausal Impact Detailed Report:")
 print(summary(ci, output_format='report'))
 
@@ -492,21 +476,6 @@ print(summary(ci, output_format='report'))
 # 8. MODEL VALIDATION & DIAGNOSTICS
 
 print("\nSECTION 8 — MODEL VALIDATION & DIAGNOSTICS")
-
-# # Understanding ci object
-# print(type(ci))
-# print(dir(ci))
-# import inspect
-# print(inspect.signature(fit_causalimpact))
-#
-#
-# print("\nFurther help:")
-# print(type(ci.series))
-# print(ci.series.columns.tolist())
-# print(ci.series.head())
-#
-# print(type(ci.summary))
-# print(ci.summary)
 
 # Extract model series
 inferences   = ci.series.copy()
@@ -572,10 +541,6 @@ elif avg_effect_upper < 0:
 else:
     print(" Credible interval spans zero — effect direction is uncertain")
 
-
-# print("\n Test")
-# print(ci.summary.columns.tolist())
-
 # Validation 5: Cumulative effect plausibility
 cum_effect       = summary_data.loc["cumulative", "actual"] - summary_data.loc["cumulative", "predicted"]
 cum_effect_lower = summary_data.loc["cumulative", "abs_effect_lower"]
@@ -632,286 +597,131 @@ plt.show()
 print("\nSECTION 9 — BUSINESS INSIGHT EXTRACTION & VISUALISATION")
 
 post_mask = inferences.index >= pd.to_datetime(INTERVENTION_DATE)
-#
-# post_actual    = inferences.loc[post_mask, "response"]
-# post_predicted = inferences.loc[post_mask, "point_pred"]
-# post_lower     = inferences.loc[post_mask, "point_pred_lower"]
-# post_upper     = inferences.loc[post_mask, "point_pred_upper"]
-# point_effect   = inferences.loc[post_mask, "point_effect"]
-# effect_lower   = inferences.loc[post_mask, "point_effect_lower"]
-# effect_upper   = inferences.loc[post_mask, "point_effect_upper"]
-# cum_actual     = inferences.loc[post_mask, "cum_response"]
-# cum_predicted  = inferences.loc[post_mask, "cum_pred"]
-# cum_pred_lower = inferences.loc[post_mask, "cum_pred_lower"]
-# cum_pred_upper = inferences.loc[post_mask, "cum_pred_upper"]
-#
-# # ── Plot 11: Full time series — actual vs counterfactual ──────
-# fig, ax = plt.subplots(figsize=(14, 6))
-#
-# # Pre-period
-# ax.plot(inferences.loc[pre_mask].index, pre_actual,
-#         color="steelblue", linewidth=1.0, label="Actual Sales (Pre)")
-# ax.plot(inferences.loc[pre_mask].index, pre_predicted,
-#         color="grey", linewidth=1.0, linestyle="--", alpha=0.7)
-#
-# # Post-period actual
-# ax.plot(post_actual.index, post_actual,
-#         color="steelblue", linewidth=1.2, label="Actual Sales (Post)")
-#
-# # Counterfactual with credible interval
-# ax.plot(post_predicted.index, post_predicted,
-#         color="darkorange", linewidth=1.5, linestyle="--", label="Counterfactual")
-# ax.fill_between(post_predicted.index, post_lower, post_upper,
-#                 color="darkorange", alpha=0.15, label="95% Credible Interval")
-#
-# ax.axvline(pd.to_datetime(INTERVENTION_DATE), color="crimson",
-#            linestyle="--", linewidth=1.8, label=f"Intervention: {INTERVENTION_DATE}")
-#
-# ax.set_title(f"Store {TREATED_STORE} — Actual Sales vs Counterfactual with Credible Interval",
-#              fontsize=14, fontweight="bold")
-# ax.set_xlabel("Date")
-# ax.set_ylabel("Daily Sales (€)")
-# ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
-# ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
-# ax.legend(fontsize=9)
-# plt.xticks(rotation=30)
-# plt.tight_layout()
-# plt.savefig(f"{OUTPUT_DIR}/11_actual_vs_counterfactual.png", dpi=150)
-# plt.show()
-# print("[Chart 11 saved] Actual vs Counterfactual")
-#
-# # ── Plot 12: Daily causal effect (point effect) ───────────────
-# fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
-# ax.plot(point_effect.index, point_effect,
-#         color="steelblue", linewidth=1.0, label="Daily Causal Effect")
-# ax.fill_between(point_effect.index, effect_lower, effect_upper,
-#                 color="steelblue", alpha=0.15, label="95% Credible Interval")
-# ax.axhline(0, color="crimson", linestyle="--", linewidth=1.5, label="Zero Effect Line")
-# ax.set_title("Daily Causal Effect of Intervention on Sales",
-#              fontsize=14, fontweight="bold")
-# ax.set_xlabel("Date")
-# ax.set_ylabel("Estimated Effect (€)")
-# ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
-# ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
-# ax.legend()
-# plt.xticks(rotation=30)
-# plt.tight_layout()
-# plt.savefig(f"{OUTPUT_DIR}/12_daily_causal_effect.png", dpi=150)
-# plt.show()
-# print("[Chart 12 saved] Daily Causal Effect")
-#
-# # ── Plot 13: Cumulative causal effect ─────────────────────────
-# cum_effect_ts   = cum_actual - cum_predicted
-# cum_lower_ts    = cum_actual - cum_pred_upper
-# cum_upper_ts    = cum_actual - cum_pred_lower
-#
-# fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
-# ax.plot(cum_effect_ts.index, cum_effect_ts,
-#         color="steelblue", linewidth=1.5, label="Cumulative Causal Effect")
-# ax.fill_between(cum_effect_ts.index, cum_lower_ts, cum_upper_ts,
-#                 color="steelblue", alpha=0.15, label="95% Credible Interval")
-# ax.axhline(0, color="crimson", linestyle="--", linewidth=1.5, label="Zero Effect Line")
-# ax.set_title("Cumulative Causal Effect of Intervention on Sales",
-#              fontsize=14, fontweight="bold")
-# ax.set_xlabel("Date")
-# ax.set_ylabel("Cumulative Effect (€)")
-# ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
-# ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
-# ax.legend()
-# plt.xticks(rotation=30)
-# plt.tight_layout()
-# plt.savefig(f"{OUTPUT_DIR}/13_cumulative_causal_effect.png", dpi=150)
-# plt.show()
-# print("[Chart 13 saved] Cumulative Causal Effect")
-#
-# # ── Plot 14: Monthly average actual vs counterfactual (post) ──
-# post_comparison = pd.DataFrame({
-#     "Actual"        : post_actual,
-#     "Counterfactual": post_predicted
-# })
-# post_comparison["Month"] = post_comparison.index.month
-# monthly_post = post_comparison.groupby("Month")[["Actual", "Counterfactual"]].mean().reset_index()
-# monthly_post_melt = monthly_post.melt(id_vars="Month",
-#                                        value_vars=["Actual", "Counterfactual"],
-#                                        var_name="Series", value_name="Avg Daily Sales")
-#
-# fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
-# sns.barplot(data=monthly_post_melt, x="Month", y="Avg Daily Sales",
-#             hue="Series", palette=["steelblue", "darkorange"],
-#             ax=ax, errorbar=None)
-# ax.set_title("Post-Intervention: Monthly Avg Actual vs Counterfactual Sales",
-#              fontsize=14, fontweight="bold")
-# ax.set_xlabel("Month")
-# ax.set_ylabel("Average Daily Sales (€)")
-# ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
-# ax.legend(title="Series")
-# plt.tight_layout()
-# plt.savefig(f"{OUTPUT_DIR}/14_monthly_actual_vs_counterfactual.png", dpi=150)
-# plt.show()
-# print("[Chart 14 saved] Monthly Actual vs Counterfactual")
-#
-# # ── Plot 15: Effect distribution across post-period days ──────
-# fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
-# sns.histplot(point_effect, bins=40, kde=True, color="coral", ax=ax)
-# ax.axvline(0, color="crimson", linestyle="--", linewidth=1.5, label="Zero Effect")
-# ax.axvline(point_effect.mean(), color="steelblue", linestyle="-",
-#            linewidth=1.5, label=f"Mean Effect: €{point_effect.mean():,.0f}")
-# ax.set_title("Distribution of Daily Causal Effect Estimates (Post-Period)",
-#              fontsize=14, fontweight="bold")
-# ax.set_xlabel("Daily Effect (€)")
-# ax.set_ylabel("Frequency")
-# ax.legend()
-# plt.tight_layout()
-# plt.savefig(f"{OUTPUT_DIR}/15_effect_distribution.png", dpi=150)
-# plt.show()
-# print("[Chart 15 saved] Effect Distribution")
-#
-#
-# # 10. SUMMARY REPORT
-#
-# print("\nSECTION 10 — SUMMARY REPORT & BUSINESS INSIGHTS")
-#
-# avg_actual      = summary_data.loc["average", "actual"]
-# avg_predicted   = summary_data.loc["average", "predicted"]
-# avg_effect      = summary_data.loc["average", "actual"] - summary_data.loc["average", "predicted"]
-# total_actual    = summary_data.loc["cumulative", "actual"]
-# total_predicted = summary_data.loc["cumulative", "predicted"]
-# total_effect    = total_actual - total_predicted
-#
-# print(f"""
-# ╔══════════════════════════════════════════════════════════════╗
-# ║        CAUSAL IMPACT ANALYSIS — SUMMARY REPORT              ║
-# ╚══════════════════════════════════════════════════════════════╝
-#
-# DATASET OVERVIEW
-# ─────────────────────────────────────────────────────────────
-#   Source        : Rossmann Store Sales (Kaggle)
-#   Files used    : train.csv + store.csv
-#   Analysis scope: 2013-01-01 to 2014-12-31 (UK open days only)
-#   Treated store : Store {TREATED_STORE} (Type: {treated_store_type}, Assortment: {treated_assortment})
-#   Intervention  : Promo2 continuous promotion — {INTERVENTION_DATE}
-#   Control stores: {control_stores}
-#
-# PRE-PROCESSING STEPS APPLIED
-# ─────────────────────────────────────────────────────────────
-#   ✔  Closed store days removed (Open == 0)
-#   ✔  Zero and negative sales records removed
-#   ✔  Zero customer records removed
-#   ✔  Store metadata merged from store.csv
-#   ✔  Competition distance imputed with median where missing
-#   ✔  Analysis scoped to 2013–2014
-#   ✔  Feature engineering: Month, DayOfWeek, WeekOfYear, IsWeekend
-#
-# CONTROL STORE SELECTION
-# ─────────────────────────────────────────────────────────────
-#   Method    : Pearson correlation on pre-intervention sales
-#   Criteria  : Same StoreType, same Assortment, no Promo2
-#   Stores    : {control_stores}
-#
-# MODEL VALIDATION RESULTS
-# ─────────────────────────────────────────────────────────────
-#   Pre-period MAPE          : {mape:.2f}%
-#   Pre-period R²            : {r2:.4f}
-#   Posterior p-value        : {post_prob:.4f}
-#   Relative effect          : {rel_effect*100:.2f}%
-#   Avg daily effect CI lower: €{avg_effect_lower:,.2f}
-#   Avg daily effect CI upper: €{avg_effect_upper:,.2f}
-#
-# CAUSAL EFFECT RESULTS
-# ─────────────────────────────────────────────────────────────
-#   Average actual daily sales      : €{avg_actual:,.2f}
-#   Average counterfactual daily    : €{avg_predicted:,.2f}
-#   Average daily causal effect     : €{avg_effect:,.2f}
-#   Relative effect                 : {rel_effect*100:.2f}%
-#   Total actual sales (post)       : €{total_actual:,.2f}
-#   Total counterfactual (post)     : €{total_predicted:,.2f}
-#   Total cumulative causal effect  : €{total_effect:,.2f}
-#   95% CI cumulative effect        : €{cum_effect_lower:,.2f} to €{cum_effect_upper:,.2f}
-#
-# BUSINESS INSIGHT INTERPRETATION
-# ─────────────────────────────────────────────────────────────
-#
-#   COUNTERFACTUAL
-#   ──────────────
-#   The counterfactual represents the most likely sales trajectory
-#   Store {TREATED_STORE} would have followed had the Promo2 promotion not
-#   been activated.  It is constructed using the pre-intervention
-#   relationship between the treated store and control stores,
-#   projected forward through the post-period.  The gap between
-#   actual and counterfactual is the estimated causal effect.
-#
-#   AVERAGE DAILY EFFECT
-#   ─────────────────────
-#   The average daily causal effect of €{avg_effect:,.2f} represents
-#   the estimated incremental sales attributable to the promotion
-#   on a typical trading day.  This is the key metric for
-#   evaluating the day-to-day commercial value of the intervention
-#   and for comparing ROI against promotional costs.
-#
-#   CUMULATIVE EFFECT
-#   ─────────────────
-#   The cumulative effect of €{total_effect:,.2f} represents the
-#   total estimated revenue uplift generated by the promotion
-#   across the full post-period.  The 95% credible interval
-#   (€{cum_effect_lower:,.2f} to €{cum_effect_upper:,.2f}) provides the range
-#   within which the true cumulative effect most plausibly falls,
-#   and is essential for any business case or investment decision.
-#
-#   RELATIVE EFFECT
-#   ────────────────
-#   The relative effect of {rel_effect*100:.2f}% represents the
-#   percentage increase in sales attributable to the promotion
-#   above baseline.  This is the most intuitive metric for
-#   communicating the commercial impact to non-technical
-#   stakeholders and for benchmarking against other promotions.
-#
-#   CREDIBLE INTERVAL
-#   ─────────────────
-#   Unlike a traditional p-value, the Bayesian credible interval
-#   provides a direct probability statement: there is a 95%
-#   probability that the true average daily effect lies between
-#   €{avg_effect_lower:,.2f} and €{avg_effect_upper:,.2f}.  If this interval
-#   excludes zero, we have strong evidence that the promotion had
-#   a genuine causal impact on sales rather than one that could
-#   be explained by random variation.
-#
-#   PRACTICAL APPLICATIONS
-#   ──────────────────────
-#   1. Promotion ROI evaluation — compare the cumulative causal
-#      effect against the cost of running the Promo2 scheme to
-#      assess whether the promotion is financially justified.
-#   2. Rollout decision support — use the credible interval to
-#      inform whether the promotion should be extended to
-#      additional stores, with quantified confidence bounds.
-#   3. Budget planning — the average daily effect provides a
-#      reliable estimate for forecasting incremental revenue when
-#      planning future promotional calendars.
-#   4. Performance benchmarking — repeat the analysis across
-#      multiple treated stores to compare promotional effectiveness
-#      by store type, location, or assortment.
-#   5. Causal attribution — distinguish genuine promotion-driven
-#      uplift from seasonal trends that would have occurred
-#      regardless, enabling honest reporting of campaign outcomes.
-#
-# CHARTS SAVED TO: ./{OUTPUT_DIR}/
-# ─────────────────────────────────────────────────────────────
-#   01_sales_distribution.png
-#   02_sales_by_store_type.png
-#   03_monthly_sales_comparison.png
-#   04_promo_vs_no_promo.png
-#   05_treated_store_time_series.png
-#   06_sales_by_day_of_week.png
-#   07_pre_intervention_correlation.png
-#   08_pre_period_overlay.png
-#   09_residuals_distribution.png
-#   10_pre_period_actual_vs_predicted.png
-#   11_actual_vs_counterfactual.png
-#   12_daily_causal_effect.png
-#   13_cumulative_causal_effect.png
-#   14_monthly_actual_vs_counterfactual.png
-#   15_effect_distribution.png
-# ══════════════════════════════════════════════════════════════
-# """)
+
+post_actual    = inferences.loc[post_mask, "observed"]
+post_predicted = inferences.loc[post_mask, "posterior_mean"]
+post_lower     = inferences.loc[post_mask, "posterior_lower"]
+post_upper     = inferences.loc[post_mask, "posterior_upper"]
+point_effect   = inferences.loc[post_mask, "point_effects_mean"]
+effect_lower   = inferences.loc[post_mask, "point_effects_lower"]
+effect_upper   = inferences.loc[post_mask, "point_effects_upper"]
+cum_effect_ts  = inferences.loc[post_mask, "cumulative_effects_mean"]
+cum_lower_ts   = inferences.loc[post_mask, "cumulative_effects_lower"]
+cum_upper_ts   = inferences.loc[post_mask, "cumulative_effects_upper"]
+
+
+# Plot 11: Full time series — actual vs counterfactual
+fig, ax = plt.subplots(figsize=(14, 6))
+
+# Pre-period
+ax.plot(pre_trading.index, pre_actual,
+        color="steelblue", linewidth=1.0, label="Actual Sales (Pre)")
+ax.plot(pre_trading.index, pre_predicted,
+        color="grey", linewidth=1.0, linestyle="--", alpha=0.7)
+
+# Post-period actual
+ax.plot(post_actual.index, post_actual,
+        color="steelblue", linewidth=1.2, label="Actual Sales (Post)")
+
+# Counterfactual with credible interval
+ax.plot(post_predicted.index, post_predicted,
+        color="darkorange", linewidth=1.5, linestyle="--", label="Counterfactual")
+ax.fill_between(post_predicted.index, post_lower, post_upper,
+                color="darkorange", alpha=0.15, label="95% Credible Interval")
+
+ax.axvline(pd.to_datetime(INTERVENTION_DATE), color="crimson",
+           linestyle="--", linewidth=1.8, label=f"Intervention: {INTERVENTION_DATE}")
+
+ax.set_title(f"Store {TREATED_STORE} — Actual Sales vs Counterfactual with Credible Interval",
+             fontsize=14, fontweight="bold")
+ax.set_xlabel("Date")
+ax.set_ylabel("Daily Sales (€)")
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
+ax.legend(fontsize=9)
+plt.xticks(rotation=30)
+plt.tight_layout()
+plt.savefig("11_actual_vs_counterfactual.png", dpi=150)
+plt.show()
+
+# Plot 12: Daily causal effect (point effect)
+fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
+ax.plot(point_effect.index, point_effect,
+        color="steelblue", linewidth=1.0, label="Daily Causal Effect")
+ax.fill_between(point_effect.index, effect_lower, effect_upper,
+                color="steelblue", alpha=0.15, label="95% Credible Interval")
+ax.axhline(0, color="crimson", linestyle="--", linewidth=1.5, label="Zero Effect Line")
+ax.set_title("Daily Causal Effect of Intervention on Sales",
+             fontsize=14, fontweight="bold")
+ax.set_xlabel("Date")
+ax.set_ylabel("Estimated Effect (€)")
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
+ax.legend()
+plt.xticks(rotation=30)
+plt.tight_layout()
+plt.savefig("12_daily_causal_effect.png", dpi=150)
+plt.show()
+
+# Plot 13: Cumulative causal effect
+
+fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
+ax.plot(cum_effect_ts.index, cum_effect_ts,
+        color="steelblue", linewidth=1.5, label="Cumulative Causal Effect")
+ax.fill_between(cum_effect_ts.index, cum_lower_ts, cum_upper_ts,
+                color="steelblue", alpha=0.15, label="95% Credible Interval")
+ax.axhline(0, color="crimson", linestyle="--", linewidth=1.5, label="Zero Effect Line")
+ax.set_title("Cumulative Causal Effect of Intervention on Sales",
+             fontsize=14, fontweight="bold")
+ax.set_xlabel("Date")
+ax.set_ylabel("Cumulative Effect (€)")
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
+ax.legend()
+plt.xticks(rotation=30)
+plt.tight_layout()
+plt.savefig("13_cumulative_causal_effect.png", dpi=150)
+plt.show()
+
+# Plot 14: Monthly average actual vs counterfactual (post)
+post_comparison = pd.DataFrame({
+    "Actual"        : post_actual,
+    "Counterfactual": post_predicted
+})
+post_comparison["Month"] = post_comparison.index.month
+monthly_post = post_comparison.groupby("Month")[["Actual", "Counterfactual"]].mean().reset_index()
+monthly_post_melt = monthly_post.melt(id_vars="Month",
+                                       value_vars=["Actual", "Counterfactual"],
+                                       var_name="Series", value_name="Avg Daily Sales")
+
+fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
+sns.barplot(data=monthly_post_melt, x="Month", y="Avg Daily Sales",
+            hue="Series", palette=["steelblue", "darkorange"],
+            ax=ax, errorbar=None)
+ax.set_title("Post-Intervention: Monthly Avg Actual vs Counterfactual Sales",
+             fontsize=14, fontweight="bold")
+ax.set_xlabel("Month")
+ax.set_ylabel("Average Daily Sales (€)")
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"€{x:,.0f}"))
+ax.legend(title="Series")
+plt.tight_layout()
+plt.savefig("14_monthly_actual_vs_counterfactual.png", dpi=150)
+plt.show()
+
+# Plot 15: Effect distribution across post-period days
+fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
+sns.histplot(point_effect, bins=40, kde=True, color="seagreen", ax=ax)
+ax.axvline(0, color="crimson", linestyle="--", linewidth=1.5, label="Zero Effect")
+ax.axvline(point_effect.mean(), color="steelblue", linestyle="-",
+           linewidth=1.5, label=f"Mean Effect: €{point_effect.mean():,.0f}")
+ax.set_title("Distribution of Daily Causal Effect Estimates (Post-Period)",
+             fontsize=14, fontweight="bold")
+ax.set_xlabel("Daily Effect (€)")
+ax.set_ylabel("Frequency")
+ax.legend()
+plt.tight_layout()
+plt.savefig("15_effect_distribution.png", dpi=150)
+plt.show()
 
 # Track time to complete process
 t1 = time.time()  # Add at end of process
