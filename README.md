@@ -32,6 +32,7 @@ The examples are purposely simple for the sake of clarity, to focus on demonstra
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
 * ### [Association Rule](/association-rule/)
 * ### [Causal Impact Analysis](/causal-impact-analysis/)
+  * ### [Causal Impact Analysis - Part 2](/causal-impact-analysis-2/)
 * ### [Great Expectations (Validation)](/great-expectations/)
 * ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
 * ### Text Summarisation (Deep Learning)
