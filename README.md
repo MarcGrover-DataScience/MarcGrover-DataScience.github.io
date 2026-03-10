@@ -19,32 +19,40 @@ All projects are implemented in Python, reflecting the language's central role i
 * ### [Two-Way ANOVA with replication](/2-way-anova-with-rep/)
 * ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
 * ### [A/B Testing (Chi-squared test)](/ab-test/)
-* ### Chi-squared goodness-of-fit test  
+* ### Chi-squared goodness-of-fit test
+
 ## Regression & Predictive Modelling
 * ### [Multiple linear regression](/multi-linear-regression/)
-* ### [Logistic regression](/logistic-regression/)  
+* ### [Logistic regression](/logistic-regression/)
+
 ## Time-Series Analysis
 * ### [Time-series analysis (moving averages)](/moving-averages/)
-* ### [Time-series analysis (ARIMA)](/arima/)  
+* ### [Time-series analysis (ARIMA)](/arima/)
+
 ## Machine Learning — Supervised
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
-* ### K-Nearest Neighbours  
+* ### K-Nearest Neighbours
+
 ## Machine Learning — Unsupervised
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
-* ### [Association Rule Mining](/association-rule/)  
+* ### [Association Rule Mining](/association-rule/)
+
 ## Causal & Experimental Analysis
 * ### [Causal Impact Analysis](/causal-impact-analysis/)
-  * ### [Causal Impact Analysis - Part 2](/causal-impact-analysis-2/)  
+  * ### [Causal Impact Analysis - Part 2](/causal-impact-analysis-2/)
+
 ## Deep Learning & NLP
 * ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
 * ### Text Summarisation (Deep Learning)
 * ### Topic Modelling and Clustering (Deep Learning)
-* ### [Image Classification (Deep Learning)](/image-classification/)  
+* ### [Image Classification (Deep Learning)](/image-classification/)
+
 ## Data Quality & Validation
-* ### [Great Expectations (Validation)](/great-expectations/)  
+* ### [Great Expectations (Validation)](/great-expectations/)
+
 <!-- * ### Fine Tuning / RAG / Transfer Learning -->
 <!-- * ### Text preprocessing (NLP) -->
 <!-- * ### Sentiment Analysis (NLP) -->
