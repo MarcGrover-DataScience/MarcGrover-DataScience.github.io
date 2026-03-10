@@ -70,13 +70,13 @@ Candidate control stores were filtered to match Store 30 on both store type and 
 
 From the qualifying candidates with complete trading data across the pre-period, the five stores with the highest Pearson correlation to Store 30's daily sales were selected. Pearson correlation was used as the selection criterion because a high pre-period correlation confirms that a control store's sales moved in close alignment with the treated store before the intervention, which is the strongest available evidence that the two stores would have continued on parallel trajectories had the promotion not been activated.
 
-The top five control stores identified were as follows, with their pre-period Pearson correlation coefficients to Store 30 stated, each of which indicate a very high correlation to Store 30:
+The top five control stores identified were as follows, with their pre-period Pearson correlation coefficients to Store 56 stated, each of which indicate a very high correlation to Store 56:
 
-* Store  905   Correlation = 0.9660
-* Store  651   Correlation = 0.9650
-* Store  621   Correlation = 0.9631
-* Store  475   Correlation = 0.9623
-* Store  341   Correlation = 0.9616
+* Store  661   Correlation = 0.9660
+* Store  790   Correlation = 0.9653
+* Store  369   Correlation = 0.9626
+* Store  241   Correlation = 0.9560
+* Store  618   Correlation = 0.9557
 
 **Stage 5 — Pre-Intervention Correlation Validation**
 
@@ -88,15 +88,15 @@ The pre-period time series overlay plots the daily sales of Store 30 alongside e
 
 ![08_pre_period_overlay](08_pre_period_overlay.png)
 
-In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 30 and the control stores across the pre-period. 
+In addition to the visual assessment, a quantitative parallel trends check was performed by comparing the mean weekly sales growth rates of Store 56 and the control stores across the pre-period. 
 
-The mean weekly sales growth rate of Store 30 was identified to be 5.75%.  A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption.  The mean weekly sales growth rates for the 5 control stores are below, each of which are within 2% of the treated store, supporting the conclusion that the control store selection is appropriate for the causal analysis that follows:
+The mean weekly sales growth rate of Store 30 was identified to be 4.82%.  A difference of less than 2% between the treated and control growth rates is considered supportive of the parallel trends assumption.  The mean weekly sales growth rates for the 5 control stores are below, each of which are within 2% of the treated store, supporting the conclusion that the control store selection is appropriate for the causal analysis that follows:
 
-* Store 905   sales growth rate = 5.42%  
-* Store 651   sales growth rate = 5.54%  
-* Store 621   sales growth rate = 7.54%  
-* Store 475   sales growth rate = 6.75%  
-* Store 341   sales growth rate = 6.19%  
+* Store 661   sales growth rate = 3.76%
+* Store 790   sales growth rate = 4.01%
+* Store 369   sales growth rate = 4.29%
+* Store 241   sales growth rate = 4.78%
+* Store 618   sales growth rate = 5.33%
 
 The correlation heatmap and pre-period time series overlay charts produced in the subsequent validation stage provide a visual confirmation of the strength of these relationships, and the parallel trends check quantifies that the mean weekly growth rates of the treated and control stores are sufficiently similar in the pre-period to satisfy the core assumption underpinning the causal inference framework.
 
@@ -110,11 +110,11 @@ The model then projected this learned relationship forward through the post-peri
 
 Six validation checks were applied to assess the reliability and integrity of the model outputs, with the results summarised below.  
 
-The **pre-period model fit** produced a MAPE of 8.94% and an R² of 0.843 were produced.  As the MAPE is below 10% and R² close to 1.0, this indicates that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known, confirming a strong model fit, and providing confidence that the control stores are a credible basis for the counterfactual projection into the post-period.
+The **pre-period model fit** produced a MAPE of 6.62% and an R² of 0.880 were produced.  As the MAPE is below 10% and R² close to 1.0, this indicates that the counterfactual closely tracks Store 30's observed sales in the period where the true outcome is known, confirming a strong model fit, and providing confidence that the control stores are a credible basis for the counterfactual projection into the post-period.
 
-The **Shapiro-Wilk test for residual normality** returned a p-value of 0.3952, which as above 0.05 indicates that the pre-period residuals are approximately normally distributed, supporting the reliability of the credible intervals produced by the model. 
+The **Shapiro-Wilk test for residual normality** returned a p-value of 0.662, which as above 0.05 indicates that the pre-period residuals are approximately normally distributed, supporting the reliability of the credible intervals produced by the model. 
 
-The **Bayesian posterior tail probability** of 0.151 represents the probability of observing a causal effect of the magnitude identified purely by chance. A value below 0.05 is conventionally considered statistically significant. The result should be interpreted alongside the credible interval — where the p-value is above 0.05 but the credible interval of the average daily effect excludes zero, the evidence is suggestive of a genuine promotional effect but falls short of the conventional significance threshold as p>0.05, and should be considered as indicative rather than conclusive.
+The **Bayesian posterior tail probability** of 0.012 represents the probability of observing a causal effect of the magnitude identified purely by chance. A value below 0.05 is conventionally considered statistically significant. The result should be interpreted alongside the credible interval — where the p-value is above 0.05 but the credible interval of the average daily effect excludes zero, the evidence is suggestive of a genuine promotional effect as below the conventional significance threshold as p>0.05, and should be considered as conclusive.
 
 The **95% credible interval for the average daily causal effect** of €-894 to €261 provides a direct probability statement about the range within which the true average daily effect most plausibly lies.  Should this interval be entirely positive it provides supporting evidence of a genuine sales uplift attributable to the Promo2 promotion, even where the posterior tail probability does not clear the 0.05 threshold.  As the interval spans zero, the effect direction of the promotion is uncertain.
 
