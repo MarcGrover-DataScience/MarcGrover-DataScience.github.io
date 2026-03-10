@@ -1,4 +1,4 @@
-# Marc Grover | Data Science & Advanced Analytics
+# Marc Grover - Data Science & Advanced Analytics
 Hello, my name is Marc Grover. I hold a Master's degree in Mathematics and have built my career around working with data — extracting meaningful insights to support business decisions and delivering tangible business benefits for customers across a range of sectors.
 
 My focus is on the Machine Learning and Deep Learning dimensions of AI, underpinned by strong experience in Advanced Analytics.  I am passionate about applying these techniques to real-world problems, translating complex analysis into clear, actionable recommendations that drive business value.
