@@ -38,15 +38,11 @@ Prior to modelling, an exploratory data analysis was conducted to establish an u
 
 Three charts are the same as for the primary CIA project as they analyse the entire Rossmann store estate, and as such not repeated here.  These are:  Distribution of Daily Sales Across All Stores, Average Daily Sales by Store Type, and Average Daily Sales: Promotion vs No Promotion.
 
-
-
-
-**Monthly Average Sales: Store 56 vs All Stores** - This chart compares the monthly average daily sales of Store 56 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 56's performance diverges from the overall business average, providing an early visual indication of where the promotional effect may be most pronounced.
+**Monthly Average Sales: Store 56 vs All Stores** - This chart compares the monthly average daily sales of Store 56 against the average across all stores, calculated across the full 2013–2014 window. The chart reveals the seasonal trading rhythm common to both series, while also highlighting the periods where Store 56's performance diverges slightly from the overall business average, providing an early visual indication of where the promotional effect may be most pronounced.
 
 ![03_monthly_sales_comparison](03_monthly_sales_comparison.png)
 
-
-**Store 30 Daily Sales Time Series with Intervention Marker** - This chart plots Store 30's daily sales across the full 2013–2014 window, with a vertical marker indicating the 1st January 2014 intervention date when the Promo2 continuous promotion was activated. The chart provides a visual baseline for the causal analysis, allowing the reader to observe the pre-intervention sales pattern and form an initial impression of whether sales behaviour appears to shift following the intervention.
+**Store 56 Daily Sales Time Series with Intervention Marker** - This chart plots Store 56's daily sales across the full 2013–2014 window, with a vertical marker indicating the 3rd March 2014 intervention date when the Promo2 continuous promotion was activated. The chart provides a visual baseline for the causal analysis, showing that the sales behaviour appears to increase following the intervention.
 
 ![05_treated_store_time_series](05_treated_store_time_series.png)
 
