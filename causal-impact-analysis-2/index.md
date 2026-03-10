@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Pharmacy Promotion Impact (Causal Impact Analysis)
+title: Pharmacy Promotion Impact - Part 2 (Causal Impact Analysis)
 
 permalink: /causal-impact-analysis-2/
 
