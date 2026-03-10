@@ -241,6 +241,8 @@ The key finding of the analysis is that the Promo2 promotion does not appear to 
 
 It is important to qualify this finding appropriately.  The posterior tail probability of 0.144 does not meet the conventional 0.05 threshold for statistical significance, and the 95% credible interval for both the average daily effect (-€894 to +€261) and the cumulative effect (-€271,670 to +€79,244) span zero, meaning the analysis cannot conclusively rule out the possibility that the true effect is neutral or marginally positive.  The honest conclusion is therefore that the evidence is suggestive of a negative or neutral promotional effect rather than conclusive, and that the result warrants further investigation rather than an immediate definitive judgement on the promotion's value. 
 
+It is important to understand that the sales of any store is effected by multiple factors, and not solely any promotions active during the analysis period.  The 'store.csv' file states that for store 30, competition opened in February 2014 - the month prior to Promo2 initiating - and it is plausible that sales were impacted by this competition, and hypothetically the introduction of Promo2 negated the negative impact of recently opened competition on sales, and as such was positive for sales - noting that this analysis does not investigate this scenario, nor provides evidence to back it up, but indicates how the data suggests potential further investigation in the future.
+
 Notwithstanding these caveats, the analysis successfully demonstrates that Causal Impact Analysis is a powerful and practical technique for evaluating the effect of retail interventions in the absence of a controlled experiment. By constructing a credible counterfactual from comparable control stores and quantifying the uncertainty around the estimated effect, the approach provides a far more rigorous basis for commercial decision-making than a simple before-and-after sales comparison would allow.  
 
 ## Next steps:  
@@ -249,6 +251,8 @@ The findings from this analysis, and the limitations identified within it, point
 
 **Business Implementation**:  
 The most pressing recommendation is that the business should not interpret the negative cumulative effect as definitive evidence that the Promo2 scheme is detrimental to sales for Store 30 without first conducting a broader investigation. The finding should be escalated to the commercial and marketing teams as a prompt to examine whether the promotion is being correctly targeted (e.g. appropriate product categories for customer profile), and whether there are operational factors (e.g. stock availability or staffing levels) that may be suppressing the expected uplift.  
+
+As highlighted above, the opening of competition close to store 30 in February 2014 was identified and may well be a factor in the sales in store 30 in the post-period, which is to be further investigated and analysed.  It is important to understand all the factors that may have affected sales in store 30 in the period of March 2014 to December 2014.
 
 If the negative effect is corroborated by further analysis, the business should consider suspending the Promo2 scheme for Store 30 and redirecting the promotional budget toward short-term targeted promotions, which the EDA showed have a meaningful positive association with daily sales across the entire business.  A structured test — activating and deactivating the promotion in alternating periods across comparable stores — would provide a cleaner experimental basis for evaluating the scheme's true effect.  
 
