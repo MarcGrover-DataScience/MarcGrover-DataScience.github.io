@@ -46,7 +46,7 @@ This approach is applicable across many sectors and scenarios.  Practical exampl
 * Equipment Calibration Impact - Assess whether recalibration improves precision on the same machine.
 * Energy Efficiency Testing - Compare power consumption of machinery before and after implementing efficiency controls.
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
+A/B Testing and Paired Sample t‑Tests are related but significantly different.  A paired sample t‑test is a specific statistical test, whereas a A/B testing is an experimental framework that may use a t‑test (paired or unpaired), but also uses many other statistical methods.  For example, within this portfolio, there is an A/B Test example using chi-squared test of independence.
 
 ## Methodology:  
 
