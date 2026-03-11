@@ -14,7 +14,7 @@ All projects are implemented in Python, reflecting the language's central role i
 ## Statistical Analysis & Hypothesis Testing  
 * ### [Statistical Analysis - One-Sample T-Test](/statistical-analysis/)
 * ### [Statistical Analysis - Two-Sample T-Test](/2-sample-independent-t-test/)
-* ### Paired Sample T-Test
+* ### [Paired Sample T-Test](/paired-sample-t-test/)
 * ### One-Way ANOVA
 * ### [Two-Way ANOVA with replication](/2-way-anova-with-rep/)
 * ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
