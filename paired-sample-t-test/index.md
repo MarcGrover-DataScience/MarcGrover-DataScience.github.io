@@ -12,7 +12,17 @@ permalink: /paired-sample-t-test/
 
 ## Goals and objectives:
 
-The business objective is ...
+For this portfolio project, the simulated business scenario concerns a fictional clinical sleep study involving 30 adult participants, with the goal of determining whether a structured sleep therapy intervention produces a statistically meaningful improvement in sleep duration.  A simple observation that average sleep hours increased after treatment would be insufficient for this purpose, as it cannot distinguish a genuine therapeutic effect from natural night-to-night variability in sleep patterns, regression to the mean, or the placebo effect.
+
+The objective is therefore to apply a rigorous statistical framework that isolates the intervention's contribution with quantified confidence, producing a robust and clinically meaningful assessment of whether the therapy generated a genuine improvement in sleep duration, and if so, by how much and with what degree of certainty.  
+
+A key objective is to demonstrate that evaluating the effectiveness of an intervention requires more than observing that an outcome changed after it was applied.  The analysis aims to show that only by correctly identifying the paired structure of the data — where each participant serves as their own control — and testing the distribution of individual-level differences against a null hypothesis of no effect, can a meaningful statistical conclusion be reached.  This within-subject design, and its implications for assumption testing and effect size interpretation, is central to the project and reflects the kind of methodological precision that separates a rigorous intervention analysis from a superficial before-and-after comparison.  
+
+A secondary objective is to demonstrate awareness of the assumptions that underpin the paired samples t-test, specifically the requirement that the differences between paired observations are approximately normally distributed, and to show how these assumptions are tested and validated in practice — both through the Shapiro-Wilk test and through visual inspection via Q-Q plot. Where assumptions hold, the analysis proceeds with the parametric test; the Wilcoxon signed-rank test is additionally presented as the appropriate non-parametric alternative, with both results compared to illustrate the robustness of the conclusion.  A statistical power analysis is also included to contextualise the result, confirming whether the sample of 30 participants provides adequate sensitivity to detect an effect of the observed magnitude.  
+
+By grounding every analytical decision in a clear methodological rationale, this project aims to demonstrate not only technical proficiency in Python and SciPy-based statistical testing, but also the ability to design, validate, and communicate a complete intervention analysis in a way that is meaningful to both technical and non-technical audiences.  
+
+Ultimately, the project reflects a core principle of applied statistics: that understanding whether a treatment caused a change — and quantifying the size of that change with appropriate uncertainty — is far more valuable than simply observing that a difference exists.
 
 ## Application:  
 
@@ -68,6 +78,10 @@ The methodology adopted for this project follows the end-to-end data science wor
 
 Results from the project related to the business objective.
 
+![paired_difference_decreases](paired_difference_decreases.png)
+
+![paired_before_after_boxplot](paired_before_after_boxplot.png)
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
@@ -79,4 +93,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/x.py)
+[View the Python Script](/Paired Sample T-Test.py)
