@@ -16,7 +16,6 @@ The business objective is ...
 
 ## Application:  
 
-
 A Paired Sample t‑Test (also called a dependent t‑test) is used to determine whether the mean difference between two related sets of observations is statistically significant. 
 
 These “paired” observations come from the same subjects measured twice (before and after), or two conditions applied to the same participant, item, or process.
@@ -33,50 +32,21 @@ This approach is applicable across many sectors and scenarios.  Practical exampl
 * Training Effectiveness for Store Staff - Assess whether customer satisfaction scores for the same team improved after a training programme.
 
 💻 **Technology Sector**:
-1. Software Performance Benchmarking
-
-Compare system performance metrics (e.g., latency, CPU load) before and after code optimisation.
-Identifies whether the new version truly improves performance.
-
-2. User Experience (UX) Improvements
-
-Measure user completion time for tasks before and after a UI redesign.
-Validates design choices based on statistically significant improvements.
-
-3. Cybersecurity Patch Impact
-
-Compare false‑positive detection rates or scan times before vs after new threat‑detection algorithms.
-
+* Software Performance Benchmarking - Compare system performance metrics (e.g., latency, CPU load) before and after code optimisation.  this identifies whether the new version truly improves performance.
+* User Experience (UX) Improvements - Measure user completion time for tasks before and after a UI redesign.  This validates design choices based on statistically significant improvements.
+* Cybersecurity Patch Impact - Compare false‑positive detection rates or scan times before vs after new threat‑detection algorithms.
 
 🔬 **Science & Research Sector**:
-1. Clinical Trials & Experiments
-
-Measure physiological indicators (e.g., heart rate, blood pressure) pre‑ and post‑treatment on the same subjects.
-
-2. Environmental Measurements
-
-Assess changes in pollutant concentration before and after the introduction of a filtering system.
-
-3. Psychology & Behavioural Experiments
-
-Compare participant scores on a cognitive task before and after an intervention such as mindfulness training.
-
+* Clinical Trials & Experiments - Measure physiological indicators (e.g., heart rate, blood pressure) pre‑ and post‑treatment on the same subjects.
+* Environmental Measurements - Assess changes in pollutant concentration before and after the introduction of a filtering system.
+* Psychology & Behavioural Experiments - Compare participant scores on a cognitive task before and after an intervention such as mindfulness training.
 
 🏭 **Manufacturing Sector**:
-1. Process Improvement (Lean / Six Sigma)
-
-Compare defect rates from the same production line before vs after a process optimisation.
-
-2. Equipment Calibration Impact
-
-Assess whether recalibration improves precision on the same machine.
-
-3. Energy Efficiency Testing
-
-Compare power consumption of machinery before and after implementing efficiency controls.
+* Process Improvement (Lean / Six Sigma) - Compare defect rates from the same production line before vs after a process optimisation.
+* Equipment Calibration Impact - Assess whether recalibration improves precision on the same machine.
+* Energy Efficiency Testing - Compare power consumption of machinery before and after implementing efficiency controls.
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
 
 ## Methodology:  
 
