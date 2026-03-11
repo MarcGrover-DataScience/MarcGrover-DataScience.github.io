@@ -50,13 +50,19 @@ A/B Testing and Paired Sample t‑Tests are related but significantly different.
 
 ## Methodology:  
 
-Assumptions need to be tested for the paired sample t-test include
+The methodology adopted for this project follows the end-to-end data science workflow, progressing from raw data through to the extraction and communication of business insight. The project is implemented in Python, using pandas for data manipulation, scipy for statistical validation, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described in detail below.  The dataset used for the analysis is generated as part of the python script.  
 
-A paired t‑test has three core assumptions, and each requires a specific diagnostic check.
+**Data Loading**:  the dataset used for the analysis is generated as part of the python script.
 
-1. **Independence of Pairs (Between‑Pair Independence)** - Each pair of observations must come from independent subjects, i.e. one participant’s data must not influence another’s.  The matched pairs must consist of the same participants, but the pairs themselves must be independent from other pairs.  This is enforced by the generation of the dataset as part of the python script for this portfolio project.
-2. **Normality of the Difference Scores** - The differences (after – before) are tested for approximate normality, noting that the two sets of observations are not tested for normality. This is tested visually using a histogram with a KDE, a Q-Q plot and using the Shapiro-Wilk test for normality.  Note that should the test for normality be violated, then a non‑parametric alternative such as the Wilcoxon Signed‑Rank Test can be used.
-3. **No Extreme Outliers in the Difference Scores** - Outliers can distort the mean difference and inflate the t‑test statistic.  This is checked visualy using a boxplot of the difference scores.
+**Exploratory Data Analysis**:
+
+**Testing assumptions**:  A paired t‑test has three core assumptions, and each requires a specific diagnostic check.
+
+* **Independence of Pairs (Between‑Pair Independence)** - Each pair of observations must come from independent subjects, i.e. one participant’s data must not influence another’s.  The matched pairs must consist of the same participants, but the pairs themselves must be independent from other pairs.  This is enforced by the generation of the dataset as part of the python script for this portfolio project.
+* **Normality of the Difference Scores** - The differences (after – before) are tested for approximate normality, noting that the two sets of observations are not tested for normality. This is tested visually using a histogram with a KDE, a Q-Q plot and using the Shapiro-Wilk test for normality.  Note that should the test for normality be violated, then a non‑parametric alternative such as the Wilcoxon Signed‑Rank Test can be used.
+* **No Extreme Outliers in the Difference Scores** - Outliers can distort the mean difference and inflate the t‑test statistic.  This is checked visualy using a boxplot of the difference scores.
+
+**Business Insight Extraction and Visualisation**
 
 ## Results:
 
