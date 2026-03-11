@@ -15,10 +15,10 @@ import warnings
 warnings.filterwarnings('ignore')
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-from datetime import datetime
+# from datetime import datetime
 from scipy import stats
-from sklearn.preprocessing import StandardScaler
-from causalimpact import CausalImpactAnalysis
+# from sklearn.preprocessing import StandardScaler
+# from causalimpact import CausalImpactAnalysis
 from causalimpact import fit_causalimpact
 from causalimpact import summary
 import time
