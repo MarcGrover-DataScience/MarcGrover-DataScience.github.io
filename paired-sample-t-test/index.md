@@ -16,6 +16,8 @@ The business objective is ...
 
 ## Application:  
 
+The Paired Samples T-Test compares the means from the same group at two different times or under two different conditions.  A common use case is to test the effect of a treatment by comparing a group's measurements before and after the treatment.  The 'Paired' refers to the measurements being in pairs, one related to before the treatment, and one after.
+
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
 
