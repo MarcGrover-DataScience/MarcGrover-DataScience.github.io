@@ -14,11 +14,11 @@ This is an extension to the primary Causal Impact Analysis (CIA) project page - 
 
 In the primary CIA project, a dataset from a fictitious European retail pharmacy chain (Rossmann) was analysed to determine the impact of a promotion campaign (Promo2) on sales.  In that project a single store from the entire estate of 1,115 stores was selected as the treatment store (store 30), to determine if the Promo2 campaign had a significant impact on sales.
 
-As that did not yield a statistically significant result, the analysis was run on another store - store 56 - which is covered in this project extension.  Store 56 was chosen as Promo2 was intitiated on the same day as Store 30 (3rd March 2014), which allows comparison between the two stores.  Unlike store 30, store 56 has established, which exists across the whole of the two-year analysis period, and as such less likely to be a factor when comparing the pre- and post-periods.  Store 56 has Store Type = d, and Assortment Type = c, which is different to store 30, and as such prevents comparison between the two stores.
+As that did not yield a statistically significant result, the analysis was run on another store - store 56 - which is covered in this project extension.  Store 56 was chosen as Promo2 was intitiated on the same day as Store 30 (3rd March 2014), which allows comparison between the two stores.  Unlike store 30, store 56 has established competition, which exists across the whole of the two-year analysis period, and as such a constant factor across the pre- and post-periods.  Store 56 has Store Type = d, and Assortment Type = c, which is different to store 30, and as such prevents direct comparison between the two stores.
 
-See the primary CIA page for full details on the goals and objectives of the analysis, the application of the CIA technique, and the methodology applied - which hasn't been included in this page for simplicity.  It also includes the suggested next steps and python code which are not replicated here, but equally relevant.
+See the primary CIA page for full details on the goals and objectives of the analysis, the application of the CIA technique, and the methodology applied - which haven't been included in this page for simplicity.  It also includes the suggested next steps and python code which are similarly not replicated here, but equally relevant.
 
-The technique and python code used for the analysis of store 56 as the treatment store is the same.  The results of the analysis are below.
+The technique applied and python code used for the analysis of store 56 as the treatment store, is the same as used in the primary CIA analysis.  The results of the analysis of store 56 are below.
 
 ## Results:
 
@@ -50,7 +50,7 @@ Three charts are the same as for the primary CIA project as they analyse the ent
 
 **Stage 4 — Treated and Control Store Selection**
 
-The selected treated store, Store 56, has the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 30 is classified as StoreType 'd' with an Assortment 'c' product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
+The selected treated store, Store 56, has the Promo2 continuous promotional scheme activated in Week 10 of 2014, corresponding to 3rd March 2014. Store 56 is classified as StoreType 'd' with an Assortment 'c' product range, and had no prior Promo2 participation before the intervention date, providing a clean pre-period baseline uncontaminated by the promotional effect being measured.
 
 Candidate control stores were filtered to match Store 56 on both store type and assortment level, and any store with an active Promo2 scheme was excluded to prevent the intervention being measured from also affecting the control series.
 
@@ -140,9 +140,9 @@ The **distribution of daily causal effect estimates** provides a summary view of
 
 ## Conclusions:
 
-This project demonstrated the application of Causal Impact Analysis to real-world retail sales data, following a rigorous end-to-end analytical workflow from data ingestion and pre-processing through to the extraction and communication of causal inference results. The analysis was grounded in a clearly defined and defensible intervention event — the activation of the Promo2 continuous loyalty promotion for Store 30 on 3rd March 2014 — with control stores selected on the basis of structural similarity and pre-period sales correlation to satisfy the parallel trends assumption underpinning the causal inference framework.  
+This project demonstrated the application of Causal Impact Analysis to real-world retail sales data, following a rigorous end-to-end analytical workflow from data ingestion and pre-processing through to the extraction and communication of causal inference results. The analysis was grounded in a clearly defined and defensible intervention event — the activation of the Promo2 continuous loyalty promotion for Store 56 on 3rd March 2014 — with control stores selected on the basis of structural similarity and pre-period sales correlation to satisfy the parallel trends assumption underpinning the causal inference framework.  
 
-The key finding of the analysis is that the Promo2 promotion does not appear to have generated a positive sales uplift for Store 56 during the post-intervention period. The average daily causal effect of +€881, the consistently positive trajectory of the cumulative effect chart, and a cumulative point estimate of €267,769 across the post-period all point in the same direction — that Store 30's actual sales were above the modelled counterfactual throughout the period following the promotion's activation. This is a commercially significant result, suggesting that the continuous loyalty promotion had driven the incremental revenue that would typically be expected from a sustained promotional intervention.  
+The key finding of the analysis is that the Promo2 promotion does not appear to have generated a positive sales uplift for Store 56 during the post-intervention period. The average daily causal effect of +€881, the consistently positive trajectory of the cumulative effect chart, and a cumulative point estimate of €267,769 across the post-period all point in the same direction — that Store 56's actual sales were above the modelled counterfactual throughout the period following the promotion's activation. This is a commercially significant result, suggesting that the continuous loyalty promotion had driven the incremental revenue that would typically be expected from a sustained promotional intervention.  
 
 The posterior tail probability of 0.012 does meet the conventional 0.05 threshold for statistical significance, and the 95% credible interval for both the average daily effect (€138 to €1,657) and the cumulative effect (€41,981 to €503,820) do not span zero, meaning the analysis provides supporting evidence that the true effect is positive.   
 
