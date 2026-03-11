@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Paired Sample T-Test)
+title: Sleep Therapy Intervention (Paired Sample T-Test)
 
 permalink: /paired-sample-t-test/
 
@@ -50,7 +50,15 @@ A/B Testing and Paired Sample t‑Tests are related but significantly different.
 
 ## Methodology:  
 
-Details of the methodology applied in the project.
+Assumptions need to be tested for the paired sample t-test include
+
+A paired t‑test has three core assumptions, and each requires a specific diagnostic check.
+
+1. **Independence of Pairs (Between‑Pair Independence)** - Each pair of observations must come from independent subjects, i.e. one participant’s data must not influence another’s.  The matched pairs must consist of the same participants, but the pairs themselves must be independent from other pairs.  This is enforced by the generation of the dataset as part of the python script for this portfolio project.
+2. **Normality of the Difference Scores** - 
+3. **No Extreme Outliers in the Difference Scores** - 
+
+
 
 ## Results:
 
