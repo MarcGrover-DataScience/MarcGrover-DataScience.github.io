@@ -12,8 +12,8 @@ The data used is either publicly available or synthetically generated. None of t
 All projects are implemented in Python, reflecting the language's central role in modern data science and demonstrating practical proficiency across key libraries for data manipulation, statistical analysis, machine learning, and deep learning.
 
 ## Statistical Analysis & Hypothesis Testing  
-* ### [Statistical Analysis - One-Sample T-Test](/statistical-analysis/)
-* ### [Statistical Analysis - Two-Sample T-Test](/2-sample-independent-t-test/)
+* ### [One-Sample T-Test](/statistical-analysis/)
+* ### [Two-Sample T-Test](/2-sample-independent-t-test/)
 * ### [Paired Sample T-Test](/paired-sample-t-test/)
 * ### One-Way ANOVA
 * ### [Two-Way ANOVA with replication](/2-way-anova-with-rep/)
