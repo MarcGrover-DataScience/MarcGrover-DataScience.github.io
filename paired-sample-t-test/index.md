@@ -60,11 +60,11 @@ A/B Testing and Paired Sample t‑Tests are related but significantly different.
 
 ## Methodology:  
 
-The methodology adopted for this project follows the end-to-end data science workflow, progressing from raw data through to the extraction and communication of business insight. The project is implemented in Python, using pandas for data manipulation, scipy for statistical validation, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described in detail below.  The dataset used for the analysis is generated as part of the python script.  
+The methodology adopted for this project follows the end-to-end data science workflow, progressing from raw data through to the extraction and communication of business insight. The project is implemented in Python, using pandas for data manipulation, scipy for statistical testing, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described in detail below.  
 
-**Data Loading**:  the dataset used for the analysis is generated as part of the python script.
+**Data Generation**:  The dataset is synthetically generated as part of the Python script, simulating a clinical sleep study involving 30 adult participants. Sleep hours before treatment are drawn from a normal distribution with a mean of 5.5 hours and a standard deviation of 1.2 hours, clipped to the realistic range of 3–8 hours.  Individual improvement scores are then sampled from a separate normal distribution (mean 0.5 hours, SD 0.5 hours) and added to each participant's pre-treatment value to produce their post-treatment sleep duration, clipped to a maximum of 10 hours. This design introduces realistic between-participant variability in treatment response, ensuring the simulated data reflects the heterogeneity typical of real clinical populations while remaining fully reproducible via a fixed random seed.
 
-**Exploratory Data Analysis**:
+**Exploratory Data Analysis**:  Exploratory analysis is performed on the Before treatment values, the After treatment values, and most critically the pairwise Differences (After − Before), which are the direct subject of the paired t-test.  Descriptive statistics are computed for all three series, including the mean, standard deviation, minimum, and maximum.  For the Difference scores specifically, the Standard Error of the Mean is also calculated, which quantifies the uncertainty around the observed mean difference as an estimate of the true population effect.
 
 **Testing assumptions**:  A paired t‑test has three core assumptions, and each requires a specific diagnostic check.
 
@@ -77,6 +77,14 @@ The methodology adopted for this project follows the end-to-end data science wor
 ## Results:
 
 Results from the project related to the business objective.
+
+Five charts are produced to support exploratory and diagnostic analysis:
+
+* A slope plot connecting each participant's Before and After values, with the group mean highlighted, providing an immediate visual impression of the direction and consistency of change across participants.
+* A boxplot with overlaid strip plot, comparing the Before and After distributions side-by-side, making shifts in central tendency and spread visible at a glance.
+* A histogram with KDE of the Difference scores, with reference lines at the mean difference and at zero (no change), used to visually assess the shape and approximate normality of the differences.
+* A Q-Q plot of the Difference scores, used in conjunction with the Shapiro-Wilk test to assess the normality assumption visually.
+* A slope plot with outcome-coded colouring, distinguishing participants whose sleep improved (grey) from those whose sleep worsened (orange), allowing the proportion and pattern of non-responders to be identified at a glance.
 
 ![paired_difference_decreases](paired_difference_decreases.png)
 
