@@ -80,6 +80,7 @@ Four charts are produced to support exploratory and diagnostic analysis, two of 
 * **No Extreme Outliers in the Difference Scores** — Outliers in the Difference scores can distort the mean difference and inflate the t-statistic, potentially producing a misleading result. This is assessed visually using a boxplot of the Difference scores, with any flagged values inspected individually.
 
 **Statistical Testing and Effect Size**: The paired samples t-test is performed using scipy.stats.ttest_rel(), comparing After against Before values. The test computes the mean of the Difference scores, assesses how far this departs from zero relative to the variability in the differences, and returns a t-statistic and two-tailed p-value. The result is evaluated against a significance threshold of α = 0.05.  
+
 In addition to the p-value, Cohen's d is calculated as the effect size measure, defined as the mean difference divided by the standard deviation of the differences. This quantifies the practical magnitude of the treatment effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.2, small: 0.2–0.5, medium: 0.5–0.8, large: >0.8).  
 A 95% confidence interval for the mean difference is also constructed, providing a plausible range for the true population-level effect.  
 
@@ -94,36 +95,43 @@ Using the stated methodology the following results were obtained:
 The descriptive statistics for the Before, After and Difference statistics were:
 
 Before Treatment:  
-  Mean: 5.274 hours  
-  SD:   1.080 hours  
-  Min:  3.204 hours  
-  Max:  7.395 hours  
+* Mean: 5.274 hours  
+* SD:   1.080 hours  
+* Min:  3.204 hours  
+* Max:  7.395 hours  
 
 After Treatment:  
-  Mean: 5.714 hours  
-  SD:   1.218 hours  
-  Min:  3.191 hours  
-  Max:  7.999 hours  
+* Mean: 5.714 hours  
+* SD:   1.218 hours  
+* Min:  3.191 hours  
+* Max:  7.999 hours  
 
 Difference (After - Before):  
-  Mean: 0.439 hours  
-  SD:   0.466 hours  
-  SE:   0.085 hours  (the variability of the sample mean across different possible samples)  
+* Mean: 0.439 hours  
+* SD:   0.466 hours  
+* SE:   0.085 hours  (the variability of the sample mean across different possible samples)  
 
 The slope plot connects each participant's Before and After values.  The outcome-coded colouring, distinguishes participants whose sleep improved (grey) from those whose sleep worsened (orange), allowing the proportion and pattern of non-responders to be identified.  The group mean is highlighted red.  This shows that 24 of the 30 participants recorded improved sleep, and also provides a visual overview of the magnitude of the increases and decreases.  
 
 ![paired_difference_decreases](paired_difference_decreases.png)
 
-The boxplot with overlaid strip plot, comparing the Before and After distributions side-by-side, making shifts in central tendency and spread visible at a glance.  
+The boxplot with overlaid strip plot, compares the Before and After distributions side-by-side, highlighting the shifts in central tendency and spread visible, which shows that mean is higher in the After measurements, and the spread of the quartiles also seems greater in the After measurements (which is backed up by the higher standard deviation identified previously).  
+
 ![paired_before_after_boxplot](paired_before_after_boxplot.png)
 
-The histogram with KDE of the Difference scores, with reference lines at the mean difference and at zero (no change), used to visually assess the shape and approximate normality of the differences.  
+The histogram with KDE of the Difference scores allows visual confirmation that the approximate normality of the distribution.  It also shows the mean difference is greater than (0.439), and the distribution is predominantly greater than zero. and at zero (no change), used to visually assess the shape and approximate normality of the differences.  
 
 ![paired_difference_distribution](paired_difference_distribution.png)
 
-The Q-Q plot of the Difference scores, used in conjunction with the Shapiro-Wilk test to assess the normality assumption visually.  
+The Q-Q plot of the Difference scores, visually supports that the distribution of the Differences is normal.  This is used in conjunction with the Differences histogram, and Shapiro-Wilk test to assess the normality assumption visually (see the Testing assumptions below).  
 
 ![paired_q_q](paired_q_q.png)
+
+**Testing assumptions**:
+
+**Statistical Testing and Effect Size**:
+
+**Statistical Power Analysis**:
 
 ## Conclusions:
 
