@@ -87,11 +87,9 @@ In addition to the p-value, Cohen's d is calculated as the effect size measure, 
 
 ## Results:
 
-Using the stated methodology the following results were obtained:
+Using the stated methodology the following results were generated.
 
-**Exploratory Data Analysis**:  
-
-The descriptive statistics for the Before, After and Difference statistics were:
+**Exploratory Data Analysis**: The descriptive statistics for the Before, After and Difference statistics were:
 
 Before Treatment:  
 * Mean: 5.274 hours  
@@ -126,15 +124,47 @@ The Q-Q plot of the Difference scores, visually supports that the distribution o
 
 ![paired_q_q](paired_q_q.png)
 
-**Testing assumptions**:
+**Testing assumptions**: Before proceeding with the paired samples t-test, the three core assumptions of the test were validated.
 
-**Statistical Testing and Effect Size**:
+* **Independence of Pairs (Between-Pair Independence)** is satisfied by design. Each participant's data was generated independently, and no participant's values influence those of any other. This assumption requires no further diagnostic testing.
+* **Normality of the Difference scores** was assessed using three complementary approaches. Visually, the histogram of Difference scores (After − Before) shows a roughly bell-shaped distribution centred slightly above zero, with the KDE overlay confirming an approximately normal shape and no evidence of heavy tails or strong skew.  The histogram is shown above.
+
+The Q-Q plot (aalso above) provides further visual confirmation as the sample quantiles track closely along the theoretical normal line across the full range of the data, with only minor deviations at the tails, consistent with normal sampling variation rather than a systematic departure from normality.
+
+The Shapiro-Wilk test formalises this visual assessment. The test returned a W-statistic of 0.98 and a p-value of 0.91 - which is greater than 0.05.  This means we fail to reject the null hypothesis of normality. The Difference scores are consistent with a normally distributed population, and the parametric paired t-test is therefore appropriate.
+* **No Extreme Outliers in the Difference Scores** were confirmed by visual inspection of the boxplot, shown above. The interquartile range is compact and symmetrically positioned, with no data points falling beyond the whiskers. The assumption is satisfied.
+
+As such all three assumptions are met. Therefore the analysis proceeds with the parametric paired samples t-test.  For the sake of completeness, the Wilcoxon signed-rank test is additionally presented as a robustness check.
+
+**Statistical Testing and Effect Size**: The paired samples t-test was performed using scipy.stats.ttest_rel(), comparing After against Before sleep hours across all 30 participants. The null hypothesis states that the mean difference in sleep duration is zero — i.e. that the therapy produced no systematic effect.  
+
+The test returned a t-statistic of 5.17 and a p-value of < 0.001 (29 degrees of freedom). As this is well below the significance threshold of α = 0.05, the null hypothesis is rejected. There is strong statistical evidence that the sleep therapy intervention produced a genuine improvement in sleep duration.  
+
+The mean difference in sleep hours was +0.44 hours (approximately 26 minutes), with a standard deviation of 0.47 hours and a standard error of 0.085 hours. The 95% confidence interval for the mean difference is [0.27, 0.61] hours, meaning we can be 95% confident that the true population-level effect of the therapy lies between approximately 16 and 36 minutes of additional sleep per night.  
+
+The CI forest plot below places this finding in its clearest form: the mean difference and its confidence interval sit entirely to the right of the zero line, confirming that a null effect is not a plausible explanation for the observed data.
 
 ![paired_ci_forest_plot](paired_ci_forest_plot.png)
 
+Cohen's d was calculated as 0.97, which by conventional benchmarks represents a large effect. This is a practically significant finding: the therapy not only cleared the bar of statistical significance but produced an effect of substantial real-world magnitude relative to the variability in individual responses.  
+
+As a robustness check, the Wilcoxon signed-rank test was also applied. This non-parametric alternative makes no assumption about the distribution of differences and is appropriate as a cross-validation of the parametric result. The Wilcoxon test returned a p-value of < 0.05, consistent with the t-test conclusion, confirming that the result is not sensitive to the normality assumption.  
+
+The slope plots below visualise the individual-level data underlying these statistics. The first shows all participants' trajectories with the group mean highlighted in red; the second colour-codes the minority of participants whose sleep worsened after treatment (orange), illustrating that while the intervention was not universally effective, improvement was the clear dominant pattern.
+
+The boxplot comparison further reinforces the shift: the After distribution is visibly shifted upward relative to Before, with the median and interquartile range both higher, and with no meaningful increase in spread.
+
 **Statistical Power Analysis**:
 
+A post-hoc power analysis was conducted to assess whether the sample of 30 participants was adequate to reliably detect an effect of the observed magnitude. Power is defined as the probability of correctly rejecting the null hypothesis when a true effect exists — in other words, the sensitivity of the study design.  
+
+Using the observed Cohen's d of 0.97 and a significance level of α = 0.05 (two-tailed), the achieved statistical power for this study is > 0.99. This substantially exceeds the conventional threshold of 0.80, confirming that the sample was more than sufficiently powered to detect an effect of this size.  
+
+The power curve below contextualises this result across a range of sample sizes. It shows the relationship between sample size and achieved power for the observed effect size, with reference lines marking the 80% power threshold and the actual sample of 30 participants. This illustrates that even a considerably smaller sample would have been sufficient to reliably detect an effect of this magnitude — a reflection of how large the true effect is.
+
 ![paired_power_curve](paired_power_curve.png)
+
+It is worth noting that because this is a post-hoc analysis — computed after observing the effect size — the power result should be interpreted as a characterisation of the study's sensitivity given the observed data, rather than as a prospective design justification. In a real clinical context, a pre-specified power analysis would be conducted before data collection to determine the minimum required sample size.
 
 ## Conclusions:
 
