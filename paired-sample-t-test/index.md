@@ -127,11 +127,10 @@ The Q-Q plot of the Difference scores, visually supports that the distribution o
 **Testing assumptions**: Before proceeding with the paired samples t-test, the three core assumptions of the test were validated.
 
 * **Independence of Pairs (Between-Pair Independence)** is satisfied by design. Each participant's data was generated independently, and no participant's values influence those of any other. This assumption requires no further diagnostic testing.
-* **Normality of the Difference scores** was assessed using three complementary approaches. Visually, the histogram of Difference scores (After − Before) shows a roughly bell-shaped distribution centred slightly above zero, with the KDE overlay confirming an approximately normal shape and no evidence of heavy tails or strong skew.  The histogram is shown above.
-
-The Q-Q plot (aalso above) provides further visual confirmation as the sample quantiles track closely along the theoretical normal line across the full range of the data, with only minor deviations at the tails, consistent with normal sampling variation rather than a systematic departure from normality.
-
-The Shapiro-Wilk test formalises this visual assessment. The test returned a W-statistic of 0.98 and a p-value of 0.91 - which is greater than 0.05.  This means we fail to reject the null hypothesis of normality. The Difference scores are consistent with a normally distributed population, and the parametric paired t-test is therefore appropriate.
+* **Normality of the Difference scores** was assessed using three complementary approaches.
+  * Visually, the histogram shown above of Difference scores (After − Before) shows a roughly bell-shaped distribution centred slightly above zero, with the KDE overlay confirming an approximately normal shape and no evidence of heavy tails or strong skew.  
+  * The Q-Q plot (see above) provides further visual confirmation as the sample quantiles track closely along the theoretical normal line across the full range of the data, with only minor deviations at the tails, consistent with normal sampling variation rather than a systematic departure from normality.  
+  * The Shapiro-Wilk test formalises this visual assessment. The test returned a W-statistic of 0.98 and a p-value of 0.91 - which is greater than 0.05.  This means we fail to reject the null hypothesis of normality. The Difference scores are consistent with a normally distributed population, and the parametric paired t-test is therefore appropriate.  
 * **No Extreme Outliers in the Difference Scores** were confirmed by visual inspection of the boxplot, shown above. The interquartile range is compact and symmetrically positioned, with no data points falling beyond the whiskers. The assumption is satisfied.
 
 As such all three assumptions are met. Therefore the analysis proceeds with the parametric paired samples t-test.  For the sake of completeness, the Wilcoxon signed-rank test is additionally presented as a robustness check.
@@ -150,7 +149,7 @@ Cohen's d was calculated as 0.94, which by conventional benchmarks represents a 
 
 As a robustness check, the Wilcoxon signed-rank test was also applied. This non-parametric alternative makes no assumption about the distribution of differences and is appropriate as a cross-validation of the parametric result. The Wilcoxon test returned a p-value of < 0.001, consistent with the t-test conclusion, confirming that the result is not sensitive to the normality assumption.  
 
-The slope plot shown above visualises the individual-level data underlying these statistics, showing all participants' trajectories with the group mean highlighted in red; the second colour-codes the minority of participants whose sleep worsened after treatment (orange), illustrating that while the intervention was not universally effective, improvement was the clear dominant pattern.
+The slope plot shown above visualises the individual-level data underlying these statistics, showing all participants' trajectories with the group mean highlighted in red; the minority of participants whose sleep worsened after treatment are shown in orange.  The plot illustrates that while the intervention was not universally effective, improvement was the clear dominant pattern.
 
 **Statistical Power Analysis**:
 
@@ -172,7 +171,7 @@ Two aspects of the result are worth highlighting beyond the headline significanc
 
 ## Next steps:  
 
-The most immediately valuable extension would be to move beyond the group-level result and examine heterogeneity in treatment response. Segmenting participants by baseline sleep duration — for example, comparing those who were severely sleep-deprived before treatment against those with near-normal baseline values — could reveal whether the therapy is differentially effective depending on the severity of the presenting condition. This kind of subgroup analysis would transform the binary conclusion of the t-test into an actionable insight about which patients are most likely to benefit.  
+The most immediately valuable extension would be to move beyond the group-level result and examine heterogeneity in treatment response.  Segmenting participants by baseline sleep duration — for example, comparing those who were severely sleep-deprived before treatment against those with near-normal baseline values — could reveal whether the therapy is differentially effective depending on the severity of the presenting condition.  This kind of subgroup analysis would transform the binary conclusion of the t-test into an actionable insight about which patients are most likely to benefit.  
 
 A longer-term extension would be to apply a mixed-effects model to a richer version of the dataset, incorporating additional follow-up measurements taken weeks or months after the intervention. This would allow the durability of the treatment effect to be assessed over time, addressing the clinically important question of whether the improvement in sleep duration is sustained or whether participants revert toward their baseline once the structured therapy programme ends.
 
