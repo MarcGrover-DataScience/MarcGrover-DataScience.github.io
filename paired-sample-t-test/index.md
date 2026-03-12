@@ -93,36 +93,37 @@ Using the stated methodology the following results were obtained:
 
 The descriptive statistics for the Before, After and Difference statistics were:
 
-Before Treatment:
-  Mean: 5.274 hours
-  SD:   1.080 hours
-  Min:  3.204 hours
-  Max:  7.395 hours
+Before Treatment:  
+  Mean: 5.274 hours  
+  SD:   1.080 hours  
+  Min:  3.204 hours  
+  Max:  7.395 hours  
 
-After Treatment:
-  Mean: 5.714 hours
-  SD:   1.218 hours
-  Min:  3.191 hours
-  Max:  7.999 hours
+After Treatment:  
+  Mean: 5.714 hours  
+  SD:   1.218 hours  
+  Min:  3.191 hours  
+  Max:  7.999 hours  
 
-Difference (After - Before):
-  Mean: 0.439 hours
-  SD:   0.466 hours
-  SE:   0.085 hours  (the variability of the sample mean across different possible samples)
+Difference (After - Before):  
+  Mean: 0.439 hours  
+  SD:   0.466 hours  
+  SE:   0.085 hours  (the variability of the sample mean across different possible samples)  
 
-
-Five charts are produced to support exploratory and diagnostic analysis:
-
-* A slope plot connecting each participant's Before and After values, with the group mean highlighted, providing an immediate visual impression of the direction and consistency of change across participants.
-* A slope plot with outcome-coded colouring, distinguishing participants whose sleep improved (grey) from those whose sleep worsened (orange), allowing the proportion and pattern of non-responders to be identified at a glance.
-* A boxplot with overlaid strip plot, comparing the Before and After distributions side-by-side, making shifts in central tendency and spread visible at a glance.
-* A histogram with KDE of the Difference scores, with reference lines at the mean difference and at zero (no change), used to visually assess the shape and approximate normality of the differences.
-* A Q-Q plot of the Difference scores, used in conjunction with the Shapiro-Wilk test to assess the normality assumption visually.
-
+The slope plot connects each participant's Before and After values.  The outcome-coded colouring, distinguishes participants whose sleep improved (grey) from those whose sleep worsened (orange), allowing the proportion and pattern of non-responders to be identified.  The group mean is highlighted red.  This shows that 24 of the 30 participants recorded improved sleep, and also provides a visual overview of the magnitude of the increases and decreases.  
 
 ![paired_difference_decreases](paired_difference_decreases.png)
 
+The boxplot with overlaid strip plot, comparing the Before and After distributions side-by-side, making shifts in central tendency and spread visible at a glance.  
 ![paired_before_after_boxplot](paired_before_after_boxplot.png)
+
+The histogram with KDE of the Difference scores, with reference lines at the mean difference and at zero (no change), used to visually assess the shape and approximate normality of the differences.  
+
+![paired_difference_distribution](paired_difference_distribution.png)
+
+The Q-Q plot of the Difference scores, used in conjunction with the Shapiro-Wilk test to assess the normality assumption visually.  
+
+![paired_q_q](paired_q_q.png)
 
 ## Conclusions:
 
