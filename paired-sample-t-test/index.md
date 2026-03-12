@@ -64,27 +64,61 @@ The methodology adopted for this project follows the end-to-end data science wor
 
 **Data Generation**:  The dataset is synthetically generated as part of the Python script, simulating a clinical sleep study involving 30 adult participants. Sleep hours before treatment are drawn from a normal distribution with a mean of 5.5 hours and a standard deviation of 1.2 hours, clipped to the realistic range of 3–8 hours.  Individual improvement scores are then sampled from a separate normal distribution (mean 0.5 hours, SD 0.5 hours) and added to each participant's pre-treatment value to produce their post-treatment sleep duration, clipped to a maximum of 10 hours. This design introduces realistic between-participant variability in treatment response, ensuring the simulated data reflects the heterogeneity typical of real clinical populations while remaining fully reproducible via a fixed random seed.
 
-**Exploratory Data Analysis**:  Exploratory analysis is performed on the Before treatment values, the After treatment values, and most critically the pairwise Differences (After − Before), which are the direct subject of the paired t-test.  Descriptive statistics are computed for all three series, including the mean, standard deviation, minimum, and maximum.  For the Difference scores specifically, the Standard Error of the Mean is also calculated, which quantifies the uncertainty around the observed mean difference as an estimate of the true population effect.
+**Exploratory Data Analysis**:  Exploratory analysis is performed on the Before treatment values, the After treatment values, and most critically the pairwise Differences (After − Before), which are the direct subject of the paired t-test.  Descriptive statistics are computed for all three series, including the mean, standard deviation, minimum, and maximum.  For the Difference scores specifically, the Standard Error of the Mean is also calculated, which quantifies the uncertainty around the observed mean difference as an estimate of the true population effect.  
 
-**Testing assumptions**:  A paired t‑test has three core assumptions, and each requires a specific diagnostic check.
+Four charts are produced to support exploratory and diagnostic analysis, two of which further support the Testing Assumptions:
 
-* **Independence of Pairs (Between‑Pair Independence)** - Each pair of observations must come from independent subjects, i.e. one participant’s data must not influence another’s.  The matched pairs must consist of the same participants, but the pairs themselves must be independent from other pairs.  This is enforced by the generation of the dataset as part of the python script for this portfolio project.
-* **Normality of the Difference Scores** - The differences (after – before) are tested for approximate normality, noting that the two sets of observations are not tested for normality. This is tested visually using a histogram with a KDE, a Q-Q plot and using the Shapiro-Wilk test for normality.  Note that should the test for normality be violated, then a non‑parametric alternative such as the Wilcoxon Signed‑Rank Test can be used.
-* **No Extreme Outliers in the Difference Scores** - Outliers can distort the mean difference and inflate the t‑test statistic.  This is checked visualy using a boxplot of the difference scores.
+* A slope plot connecting each participant's Before and After values.
+* A boxplot with overlaid strip plot, comparing the Before and After distributions side-by-side.
+* A histogram with KDE of the Difference scores
+* A Q-Q plot of the Difference scores
 
-**Business Insight Extraction and Visualisation**
+**Testing assumptions**:  A paired t-test has three core assumptions, each requiring a specific diagnostic check.  
+
+* **Independence of Pairs (Between-Pair Independence)** — Each pair of observations must come from an independent subject; one participant's data must not influence another's. While each participant contributes two measurements, the pairs themselves must be independent of one another. This is satisfied by design in the data generation process, where each participant's values are drawn independently.
+* **Normality of the Difference Scores** — The paired t-test requires that the pairwise differences (After − Before) are approximately normally distributed. Importantly, normality is not required of the Before or After values individually — only of their differences. This assumption is assessed using three complementary approaches: a histogram with KDE overlay, a Q-Q plot, and the Shapiro-Wilk test. If this assumption were violated, the appropriate non-parametric alternative would be the Wilcoxon Signed-Rank Test, which is also presented in this analysis for comparison.
+* **No Extreme Outliers in the Difference Scores** — Outliers in the Difference scores can distort the mean difference and inflate the t-statistic, potentially producing a misleading result. This is assessed visually using a boxplot of the Difference scores, with any flagged values inspected individually.
+
+**Statistical Testing and Effect Size**: The paired samples t-test is performed using scipy.stats.ttest_rel(), comparing After against Before values. The test computes the mean of the Difference scores, assesses how far this departs from zero relative to the variability in the differences, and returns a t-statistic and two-tailed p-value. The result is evaluated against a significance threshold of α = 0.05.  
+In addition to the p-value, Cohen's d is calculated as the effect size measure, defined as the mean difference divided by the standard deviation of the differences. This quantifies the practical magnitude of the treatment effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.2, small: 0.2–0.5, medium: 0.5–0.8, large: >0.8).  
+A 95% confidence interval for the mean difference is also constructed, providing a plausible range for the true population-level effect.  
+
+**Statistical Power Analysis**: A power analysis is conducted to contextualise the result and assess whether the sample of 30 participants provides sufficient sensitivity to detect an effect of the observed magnitude. Power is calculated using the observed Cohen's d and a significance level of α = 0.05. A study is conventionally considered adequately powered when it achieves 80% power or above — meaning there is at least an 80% probability of correctly rejecting the null hypothesis when a true effect of the observed size exists.  
 
 ## Results:
 
-Results from the project related to the business objective.
+Using the stated methodology the following results were obtained:
+
+**Exploratory Data Analysis**:  
+
+The descriptive statistics for the Before, After and Difference statistics were:
+
+Before Treatment:
+  Mean: 5.274 hours
+  SD:   1.080 hours
+  Min:  3.204 hours
+  Max:  7.395 hours
+
+After Treatment:
+  Mean: 5.714 hours
+  SD:   1.218 hours
+  Min:  3.191 hours
+  Max:  7.999 hours
+
+Difference (After - Before):
+  Mean: 0.439 hours
+  SD:   0.466 hours
+  SE:   0.085 hours  (the variability of the sample mean across different possible samples)
+
 
 Five charts are produced to support exploratory and diagnostic analysis:
 
 * A slope plot connecting each participant's Before and After values, with the group mean highlighted, providing an immediate visual impression of the direction and consistency of change across participants.
+* A slope plot with outcome-coded colouring, distinguishing participants whose sleep improved (grey) from those whose sleep worsened (orange), allowing the proportion and pattern of non-responders to be identified at a glance.
 * A boxplot with overlaid strip plot, comparing the Before and After distributions side-by-side, making shifts in central tendency and spread visible at a glance.
 * A histogram with KDE of the Difference scores, with reference lines at the mean difference and at zero (no change), used to visually assess the shape and approximate normality of the differences.
 * A Q-Q plot of the Difference scores, used in conjunction with the Shapiro-Wilk test to assess the normality assumption visually.
-* A slope plot with outcome-coded colouring, distinguishing participants whose sleep improved (grey) from those whose sleep worsened (orange), allowing the proportion and pattern of non-responders to be identified at a glance.
+
 
 ![paired_difference_decreases](paired_difference_decreases.png)
 
