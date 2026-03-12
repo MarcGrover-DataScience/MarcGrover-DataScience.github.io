@@ -32,7 +32,7 @@ These “paired” observations come from the same subjects measured twice (befo
 
 It answers the question:  “Did something change in a meaningful way?”
 
-The technique computes the differences in observations, and using the mean and standard deviation of the differences, determines if this difference is statistically significant, and as a consequnce if there is a meaningful difference in the two sets of observations.
+The technique computes the differences in observations, and using the mean and standard deviation of the differences, determines if this difference is statistically significant, and as a consequence if there is a meaningful difference in the two sets of observations.
 
 This approach is applicable across many sectors and scenarios.  Practical examples showing where a paired t‑test provides clear business value include:
 

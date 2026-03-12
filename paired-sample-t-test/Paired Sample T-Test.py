@@ -156,7 +156,7 @@ else:
 
 # STEP 5 - CHECK ASSUMPTIONS
 
-print("\nASSUMPTION CHECKS\n")
+print("\nASSUMPTION CHECKS")
 
 # 1. Normality of differences (Shapiro-Wilk test)
 shapiro_stat, shapiro_p = stats.shapiro(df['Difference'])
@@ -171,8 +171,6 @@ else:
     print("   Note: With larger samples (n>30), t-test is robust to violations")
 
 # Visualizations
-print("\nGenerating visualizations...\n")
-
 
 # 1. Before vs After comparison
 plt.figure(figsize=(8, 8))
@@ -248,14 +246,15 @@ mean_diff = df['Difference'].mean()
 
 # Create the histogram with KDE
 plt.figure(figsize=(10, 6))
-sns.histplot(data=df,
+ax =sns.histplot(data=df,
              x='Difference',
              bins=8,
              kde=True,
              color='seagreen',
              alpha=0.7,
-             edgecolor='black',
-             linewidth=1.5)
+             edgecolor='grey',
+             linewidth=0.5)
+ax.lines[0].set_color('darkgreen')
 
 # Add mean line
 plt.axvline(mean_diff, color='red', linestyle='--', linewidth=2,
@@ -432,7 +431,7 @@ plt.show()
 # Convention: 80% power is the widely accepted minimum threshold.
 # A study with low power risks a Type II error (missing a real effect).
 
-print("\n\nPOWER ANALYSIS")
+print("\nPOWER ANALYSIS")
 
 def paired_ttest_power(effect_size, n, alpha=0.05):
     """
@@ -551,7 +550,7 @@ plt.show()
 #
 # Running both tests is considered good practice: agreement between them strengthens confidence in the conclusion; divergence warrants investigation.
 
-print("\n\nWILCOXON SIGNED-RANK TEST (Non-Parametric Alternative)")
+print("\nWILCOXON SIGNED-RANK TEST (Non-Parametric Alternative)")
 
 print("\nNull Hypothesis (H0): Median difference in sleep hours = 0")
 print("Alternative Hypothesis (H1): Median difference in sleep hours ≠ 0")
