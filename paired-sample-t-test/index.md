@@ -81,8 +81,7 @@ Four charts are produced to support exploratory and diagnostic analysis, two of 
 
 **Statistical Testing and Effect Size**: The paired samples t-test is performed using scipy.stats.ttest_rel(), comparing After against Before values. The test computes the mean of the Difference scores, assesses how far this departs from zero relative to the variability in the differences, and returns a t-statistic and two-tailed p-value. The result is evaluated against a significance threshold of α = 0.05.  
 
-In addition to the p-value, Cohen's d is calculated as the effect size measure, defined as the mean difference divided by the standard deviation of the differences. This quantifies the practical magnitude of the treatment effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.2, small: 0.2–0.5, medium: 0.5–0.8, large: >0.8).  
-A 95% confidence interval for the mean difference is also constructed, providing a plausible range for the true population-level effect.  
+In addition to the p-value, Cohen's d is calculated as the effect size measure, defined as the mean difference divided by the standard deviation of the differences. This quantifies the practical magnitude of the treatment effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.2, small: 0.2–0.5, medium: 0.5–0.8, large: >0.8).  A 95% confidence interval for the mean difference is also constructed, providing a plausible range for the true population-level effect.  
 
 **Statistical Power Analysis**: A power analysis is conducted to contextualise the result and assess whether the sample of 30 participants provides sufficient sensitivity to detect an effect of the observed magnitude. Power is calculated using the observed Cohen's d and a significance level of α = 0.05. A study is conventionally considered adequately powered when it achieves 80% power or above — meaning there is at least an 80% probability of correctly rejecting the null hypothesis when a true effect of the observed size exists.  
 
@@ -131,7 +130,11 @@ The Q-Q plot of the Difference scores, visually supports that the distribution o
 
 **Statistical Testing and Effect Size**:
 
+![paired_ci_forest_plot](paired_ci_forest_plot.png)
+
 **Statistical Power Analysis**:
+
+![paired_power_curve](paired_power_curve.png)
 
 ## Conclusions:
 
