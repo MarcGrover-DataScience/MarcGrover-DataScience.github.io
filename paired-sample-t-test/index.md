@@ -146,25 +146,23 @@ The CI forest plot below places this finding in its clearest form: the mean diff
 
 ![paired_ci_forest_plot](paired_ci_forest_plot.png)
 
-Cohen's d was calculated as 0.97, which by conventional benchmarks represents a large effect. This is a practically significant finding: the therapy not only cleared the bar of statistical significance but produced an effect of substantial real-world magnitude relative to the variability in individual responses.  
+Cohen's d was calculated as 0.94, which by conventional benchmarks represents a large effect. This is a practically significant finding: the therapy not only cleared the bar of statistical significance but produced an effect of substantial real-world magnitude relative to the variability in individual responses.  
 
-As a robustness check, the Wilcoxon signed-rank test was also applied. This non-parametric alternative makes no assumption about the distribution of differences and is appropriate as a cross-validation of the parametric result. The Wilcoxon test returned a p-value of < 0.05, consistent with the t-test conclusion, confirming that the result is not sensitive to the normality assumption.  
+As a robustness check, the Wilcoxon signed-rank test was also applied. This non-parametric alternative makes no assumption about the distribution of differences and is appropriate as a cross-validation of the parametric result. The Wilcoxon test returned a p-value of < 0.001, consistent with the t-test conclusion, confirming that the result is not sensitive to the normality assumption.  
 
-The slope plots below visualise the individual-level data underlying these statistics. The first shows all participants' trajectories with the group mean highlighted in red; the second colour-codes the minority of participants whose sleep worsened after treatment (orange), illustrating that while the intervention was not universally effective, improvement was the clear dominant pattern.
-
-The boxplot comparison further reinforces the shift: the After distribution is visibly shifted upward relative to Before, with the median and interquartile range both higher, and with no meaningful increase in spread.
+The slope plot shown above visualises the individual-level data underlying these statistics, showing all participants' trajectories with the group mean highlighted in red; the second colour-codes the minority of participants whose sleep worsened after treatment (orange), illustrating that while the intervention was not universally effective, improvement was the clear dominant pattern.
 
 **Statistical Power Analysis**:
 
-A post-hoc power analysis was conducted to assess whether the sample of 30 participants was adequate to reliably detect an effect of the observed magnitude. Power is defined as the probability of correctly rejecting the null hypothesis when a true effect exists — in other words, the sensitivity of the study design.  
+A post-hoc power analysis was conducted to assess whether the sample of 30 participants was adequate to reliably detect an effect of the observed magnitude.  Power is defined as the probability of correctly rejecting the null hypothesis when a true effect exists — in other words, the sensitivity of the study design.  
 
-Using the observed Cohen's d of 0.97 and a significance level of α = 0.05 (two-tailed), the achieved statistical power for this study is > 0.99. This substantially exceeds the conventional threshold of 0.80, confirming that the sample was more than sufficiently powered to detect an effect of this size.  
+Using the observed Cohen's d of 0.94 and a significance level of α = 0.05 (two-tailed), the achieved statistical power for this study is > 0.99. This substantially exceeds the conventional threshold of 0.80, confirming that the sample was more than sufficiently powered to detect an effect of this size.  
 
-The power curve below contextualises this result across a range of sample sizes. It shows the relationship between sample size and achieved power for the observed effect size, with reference lines marking the 80% power threshold and the actual sample of 30 participants. This illustrates that even a considerably smaller sample would have been sufficient to reliably detect an effect of this magnitude — a reflection of how large the true effect is.
+The power curve below contextualises this result across a range of sample sizes. It shows the relationship between sample size and achieved power for the observed effect size, with reference lines marking the 80% power threshold and the actual sample of 30 participants. This illustrates that even a considerably smaller sample would have been sufficient to reliably detect an effect of this magnitude — a reflection of how large the true effect is.  A sample of 11 would have exceeded the 80% power threshold, and a sample of 17 would have exceeded the 95% power threshold.
 
 ![paired_power_curve](paired_power_curve.png)
 
-It is worth noting that because this is a post-hoc analysis — computed after observing the effect size — the power result should be interpreted as a characterisation of the study's sensitivity given the observed data, rather than as a prospective design justification. In a real clinical context, a pre-specified power analysis would be conducted before data collection to determine the minimum required sample size.
+It should be noted that because this was computed after observing the effect size, the power result should be interpreted as a characterisation of the study's sensitivity given the observed data, rather than as a prospective design justification.  In a real clinical context, a pre-specified power analysis would be conducted before data collection to determine the minimum required sample size.
 
 ## Conclusions:
 
