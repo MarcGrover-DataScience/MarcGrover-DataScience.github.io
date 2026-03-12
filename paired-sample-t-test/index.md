@@ -166,12 +166,15 @@ It should be noted that because this was computed after observing the effect siz
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+The analysis provides strong and consistent evidence that the sleep therapy intervention produced a genuine improvement in sleep duration. All three test assumptions were satisfied, the paired t-test result was highly significant, and the Wilcoxon signed-rank test confirmed the conclusion under a more conservative non-parametric framework. The effect size was large by conventional standards, and the study was more than adequately powered to detect it.  
+
+Two aspects of the result are worth highlighting beyond the headline significance finding. First, the 95% confidence interval sits entirely above zero, meaning a null effect is not a statistically plausible outcome — the therapy improved sleep, and the analysis quantifies the likely range of that improvement with precision. Second, the slope plots reveal that while improvement was the dominant pattern, a minority of participants did not respond positively to the intervention. In a real clinical context, understanding who responds and who does not would be as valuable as the group-level finding itself, and would represent a natural direction for further investigation.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+The most immediately valuable extension would be to move beyond the group-level result and examine heterogeneity in treatment response. Segmenting participants by baseline sleep duration — for example, comparing those who were severely sleep-deprived before treatment against those with near-normal baseline values — could reveal whether the therapy is differentially effective depending on the severity of the presenting condition. This kind of subgroup analysis would transform the binary conclusion of the t-test into an actionable insight about which patients are most likely to benefit.  
 
+A longer-term extension would be to apply a mixed-effects model to a richer version of the dataset, incorporating additional follow-up measurements taken weeks or months after the intervention. This would allow the durability of the treatment effect to be assessed over time, addressing the clinically important question of whether the improvement in sleep duration is sustained or whether participants revert toward their baseline once the structured therapy programme ends.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
