@@ -61,73 +61,91 @@ Where the species-level exploration identifies a group whose mean appears consis
 ### Business Insight Extraction and Visualisation
 The outputs of the hypothesis testing stages are synthesised into a structured interpretation that addresses the original business question directly. Results are communicated using clear, non-technical language supported by the visualisations produced during the exploratory and assumption-checking phases, ensuring the findings are accessible to both technical and non-technical stakeholders.
 
-## Results and conclusions:
+## Results:
 
 ### Descriptive statistics:  
 
-Initially a histogram and KDE of the iris petal lengths was created to visually inspect the distribution.    
+A histogram with KDE overlay was produced to visually inspect the distribution of sepal lengths across all 150 observations.  
+
 ![Histogram of petal length](/ttest_histogram.png)  
 
-A boxplot of the values was also produced, to provide more understanding of the values, including the validation of absence of outliers.
+The distribution appears broadly normal in shape, however three distinct peaks are visible in the histogram. This suggests the data may not be drawn from a single homogeneous population, and motivates a closer examination of the data by species later in the analysis.  
+
+A boxplot was also produced to inspect the central tendency, spread, and presence of outliers.
 
 ![Boxplot of petal length](/ttest_boxplot.png)  
 
-The mean sepal length is 5.843cm with a standard deviation of 0.828cm.  
+The boxplot confirms no extreme outliers are present in the data. The interquartile range is compact and the whiskers are of reasonable length, indicating no individual observations that would distort the t-statistic. The outlier assumption of the One-Sample T-Test is satisfied.
 
-An inspection of the images and descriptive analysis lead us to believe that the hypothesis may possibly be true, as 6.0cm is towards the centre of the distribution, but we can be more scientific that that.  
+The mean sepal length across the full sample is **5.843cm**, with a standard deviation of **0.828cm** and a standard error of **0.068cm**. With a sample mean of 5.843cm, the hypothesised value of 6.0cm falls toward the upper end of the distribution — providing an initial visual suggestion that the hypothesis may not hold, though a formal test is required before any reliable conclusion can be drawn.
 
-It is noted that the histogram looks broadly normal, but there appear to be three peaks of 'bins' which may require closer inspection.
+### Hypothesis Test - Full Sample:
 
-### Hypothesis Test:
+The One-Sample T-Test was applied to the full dataset of 150 observations, with a significance threshold of α = 0.05. The null and alternative hypotheses are:
 
-The One-Sample T-Test was applied to the data as a whole, where the alpha was set to 0.05 - i.e. 95% confidence level. The results were: 
+* **H₀**: The mean sepal length = 6.0cm
+* **H₁**: The mean sepal length ≠ 6.0cm
+
+The results were: 
 
 T-Statistic: -2.3172  
-P-Value: 0.0219  
-As 0.0219 < 0.05 we can reject the null hypothesis (H₀) and there is evidence that the mean significantly differs from 6.0cm.
+P-Value: 0.0219   
+Degrees of freedom: 149  
+Cohen's d: -0.1903  
 
-Taking this further, we can further conclude that: 
-95% Confidence Interval (CI) of the mean is: (5.710cm, 5.977cm) - noting that 6.00cm is not within this range.
+As p = 0.0219 < 0.05 we can reject the null hypothesis (H₀).  The 95% confidence interval for the mean is (5.710cm, 5.977cm), which does not contain 6.0cm, consistent with the p-value conclusion.
 
-The Cohen's d was calculated as -0.189.
+Cohen's d of -0.19 indicates a **negligible effect size** by conventional benchmarks. While the result is statistically significant — aided by the relatively large sample of 150 observations — the practical departure from 6.0cm is small. This is an important distinction: statistical significance confirms the difference is real, but the effect size clarifies that the mean is only marginally below the hypothesised value.  
 
-Please note that a test for normality was not undertaken in this example (this is covered in multiple other projects however), due to the Central Limit Theorem (CLT) and the size of population being above the common CLT threshold of 30.  Also, the histogram showed that the distribution was broadly normal with no significant outliers.  The T-Test is considered a robust test against deviations from a normal distribution.  Should the sample size be less than 30, then a test for normality would be more meaningful. 
+A formal normality test was not conducted for this stage of the analysis. With n = 150 well above the Central Limit Theorem threshold of 30, the sampling distribution of the mean is reliably normal regardless of the underlying distribution, and Shapiro-Wilk adds no further diagnostic value here.  The T-Test is considered a robust test against deviations from a normal distribution.
 
-### Further investigation by species:
+### Species-Level Investigation
 
-While analysing the data it was noted that there was a column stating the species of iris, so lets analyse the observations by species so determine if there are any patterns or insights for each species.
-
-The histograms (with associated KDE plots), and boxplots were generated for each species:
+The three peaks visible in the full-sample histogram prompted a breakdown of the data by species. Histograms with KDE overlays and a boxplot were produced for each of the three groups.
 
 ![Histogram of petal length by species](/ttest_histogram_species.png) 
 
 ![Boxplot of petal length](/ttest_boxplot_species.png)
 
-The forest plot shows all three species' means and CIs against the μ=6.0 reference line, providing a powerful single visual that tells the whole story of the analysis at a glance.
+The plots reveal clearly distinct distributions for each species. Descriptive statistics by species, expressed as mean ± one standard deviation, are:
+* Setosa: 5.006 ± 0.352 cm  
+* Versicolor: 5.936 ± 0.516 cm  
+* Virginica: 6.588 ± 0.636 cm
+
+The forest plot below places these findings in their clearest form, showing the 95% confidence interval for each species alongside the hypothesised mean of 6.0cm. It is immediately apparent that the confidence intervals for setosa and virginica sit well clear of the 6.0cm reference line, while versicolor's interval straddles it closely.
 
 ![ttest_forest_plot_species](/ttest_forest_plot_species.png)
 
-Visually these plots suggest that the sepal length varies by species.  Basic descriptive analysis by species, showed that the mean sepal length by species, within one standard deviation is:  
-Setosa: 5.006 ± 0.352 cm  
-Versicolor: 5.936 ± 0.516 cm  
-Virginica: 6.588 ± 0.636 cm  
+This observation motivates a second One-Sample T-Test applied specifically to the versicolor subgroup.
 
-From an assessment of these plots and results, it looks like the 'versicolor' species may have a sepal length mean of 6.0cm (the original hypothesised mean), so lets run a One-Sample T-Test for the observations of the 'versicolor' species, again with a 95% confidence interval set.  The results were: 
+### Hypothesis Test — Versicolor
+
+The One-Sample T-Test was applied to the 50 versicolor observations, again at α = 0.05, testing the same hypotheses:
+
+* **H₀**: The mean sepal length of versicolor = 6.0cm
+* **H₁**: The mean sepal length of versicolor ≠ 6.0cm
+
+The results were:
 
 T-Statistic: -0.8767  
 P-Value: 0.3849  
-As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that the data supports the hypothesis that the mean is 6.0cm.
+Degrees of freedom: 49  
+Cohen's d: -0.124
 
-Taking this further, we can further conclude that: 
-95% Confidence Interval (CI) of the mean of sepal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00cm is within this range.
+As p = 0.3849 > 0.05, we fail to reject the null hypothesis. The 95% confidence interval for the versicolor mean is (5.789cm, 6.083cm), which contains 6.0cm, consistent with the p-value conclusion. Cohen's d of -0.12 confirms the effect is negligible — the versicolor mean sits very close to the hypothesised value, and the data provides no meaningful evidence of a departure from 6.0cm.
 
-The Cohen's d was calculated as -0.124.
+## Conclusions:
+
+The full-sample test provides statistically significant evidence that the mean sepal length across all 150 iris observations is not 6.0cm, with the true population mean estimated to lie between 5.710cm and 5.977cm at 95% confidence. However, the negligible Cohen's d makes clear that this is a marginal departure in practical terms — the result is driven in part by the statistical power that comes with a sample of 150 observations.  
+
+The more substantive finding emerges from the species-level investigation. The aggregate result obscures meaningful differences between groups: setosa and virginica have mean sepal lengths that sit well below and above 6.0cm respectively, while versicolor — with a mean of 5.936cm and a confidence interval of (5.789cm, 6.083cm) — is the only species whose data is statistically consistent with the hypothesised value. The forest plot makes this pattern visually immediate in a way the aggregate test cannot.  
+
+This project also illustrates an important general principle: that failing to reject H₀ is not the same as proving H₀ to be true. The versicolor result tells us that a population mean of 6.0cm is a plausible explanation for the observed data — not that the mean is definitively 6.0cm. That distinction matters in any applied statistical context.
 
 ## Next steps:
 Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, there is evidence to support that one species 'versicolor' does have a mean sepal length of 6.0cm, whereas setosa and virginica species do not.  
 
 It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal lengths are different by species of iris, and determine the likely range for each species.  
-
 Additional data would likely be gathered to support further analysis, and expand the species included, based on the business objectives.  2-Sample T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
 
 ## Python code:
