@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Iris Sepal Petal Lengths (One Sample T-Test)
+title: Iris Sepal Lengths (One Sample T-Test)
 
 permalink: /1-sample-t-test/
 
@@ -10,9 +10,9 @@ permalink: /1-sample-t-test/
 
 ## Goals and objectives:
 
-The business objective is to undertake statistical analysis of iris sepal petal lengths, to test the hypothesis that the average length is 6.0cm.  This project demonstrates how a One-Sample T-Test was used to assess the null hypothesis, that the mean is 6.0cm, using the 150 observations of sepal petal length recorded.  
+The business objective is to undertake statistical analysis of iris sepal lengths, to test the hypothesis that the average length is 6.0cm.  This project demonstrates how a One-Sample T-Test was used to assess the null hypothesis, that the mean is 6.0cm, using the 150 observations of sepal length recorded.  
 
-There was sufficient evidence to reject the null hypothesis, and supported the alternate hypothesis that the mean sepal petal length is not 6.0cm.  However based on the descriptive statistics, there was evidence that the mean sepal petal length was different for the three different species of iris in the sample.  Applying the One-Sample T-Test to the observations related to the iris species 'versicolor', supported the null hypothesis that the mean sepal length is 6.0cm for that species.
+There was sufficient evidence to reject the null hypothesis, and supported the alternate hypothesis that the mean sepal length is not 6.0cm.  However based on the descriptive statistics, there was evidence that the mean sepal length was different for the three different species of iris in the sample.  Applying the One-Sample T-Test to the observations related to the iris species 'versicolor', supported the null hypothesis that the mean sepal length is 6.0cm for that species.
 
 ## Application:  
 
@@ -28,7 +28,7 @@ The One-Sample T-Test is a statistical tool used to determine if the mean of a s
 
 A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publicly available dataset of iris measurements from the library scikit-learn.     
 
-The One-Sample T-Test was used to test the null hypothesis that the mean sepal petal length is 6.0cm, which along with the visuals enabled full insight into the sepal petal lengths.  
+The One-Sample T-Test was used to test the null hypothesis that the mean sepal length is 6.0cm, which along with the visuals enabled full insight into the sepal lengths.  
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
 
@@ -72,24 +72,24 @@ The histograms (with associated KDE plots), and boxplots were generated for each
 
 ![Boxplot of petal length](/ttest_boxplot_species.png)
 
-Visually these plots suggest that the sepal petal length varies by species.  Basic descriptive analysis by species, showed that the mean sepal length by species, within one standard deviation is:  
+Visually these plots suggest that the sepal length varies by species.  Basic descriptive analysis by species, showed that the mean sepal length by species, within one standard deviation is:  
 Setosa: 5.006 ± 0.352 cm  
 Versicolor: 5.936 ± 0.516 cm  
 Virginica: 6.588 ± 0.636 cm  
 
-From an assessment of these plots and results, it looks like the 'versicolor' species may have a sepal petal length mean of 6.0cm (the original hypothesised mean), so lets run a One-Sample T-Test for the observations of the 'versicolor' species, again with a 95% confidence interval set.  The results were: 
+From an assessment of these plots and results, it looks like the 'versicolor' species may have a sepal length mean of 6.0cm (the original hypothesised mean), so lets run a One-Sample T-Test for the observations of the 'versicolor' species, again with a 95% confidence interval set.  The results were: 
 
 T-Statistic: -0.8767  
 P-Value: 0.3849  
 As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that the data supports the hypothesis that the mean is 6.0cm.
 
 Taking this further, we can further conclude that: 
-95% Confidence Interval (CI) of the mean of sepal petal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00cm is within this range.
+95% Confidence Interval (CI) of the mean of sepal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00cm is within this range.
 
 ## Next steps:
 Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, there is evidence to support that one species 'versicolor' does have a mean sepal length of 6.0cm, whereas setosa and virginica species do not.  
 
-It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal petal lengths are different by species of iris, and determine the likely range for each species.  
+It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal lengths are different by species of iris, and determine the likely range for each species.  
 
 Additional data would likely be gathered to support further analysis, and expand the species included, based on the business objectives.  2-Sample T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
 
