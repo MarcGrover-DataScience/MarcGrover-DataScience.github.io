@@ -89,6 +89,8 @@ As 0.0219 < 0.05 we can reject the null hypothesis (H₀) and there is evidence 
 Taking this further, we can further conclude that: 
 95% Confidence Interval (CI) of the mean is: (5.710cm, 5.977cm) - noting that 6.00cm is not within this range.
 
+The Cohen's d was calculated as -0.189.
+
 Please note that a test for normality was not undertaken in this example (this is covered in multiple other projects however), due to the Central Limit Theorem (CLT) and the size of population being above the common CLT threshold of 30.  Also, the histogram showed that the distribution was broadly normal with no significant outliers.  The T-Test is considered a robust test against deviations from a normal distribution.  Should the sample size be less than 30, then a test for normality would be more meaningful. 
 
 ### Further investigation by species:
@@ -114,6 +116,8 @@ As 0.3849 > 0.05 we cannot reject the null hypothesis (H₀) and conclude that t
 
 Taking this further, we can further conclude that: 
 95% Confidence Interval (CI) of the mean of sepal length for the versicolor iris species is: (5.789cm , 6.083cm) - noting 6.00cm is within this range.
+
+The Cohen's d was calculated as -0.124.
 
 ## Next steps:
 Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, there is evidence to support that one species 'versicolor' does have a mean sepal length of 6.0cm, whereas setosa and virginica species do not.  
