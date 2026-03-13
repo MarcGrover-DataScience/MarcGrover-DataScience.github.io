@@ -103,6 +103,10 @@ The histograms (with associated KDE plots), and boxplots were generated for each
 
 ![Boxplot of petal length](/ttest_boxplot_species.png)
 
+The forest plot shows all three species' means and CIs against the μ=6.0 reference line, providing a powerful single visual that tells the whole story of the analysis at a glance.
+
+![ttest_forest_plot_species](/ttest_forest_plot_species.png)
+
 Visually these plots suggest that the sepal length varies by species.  Basic descriptive analysis by species, showed that the mean sepal length by species, within one standard deviation is:  
 Setosa: 5.006 ± 0.352 cm  
 Versicolor: 5.936 ± 0.516 cm  
