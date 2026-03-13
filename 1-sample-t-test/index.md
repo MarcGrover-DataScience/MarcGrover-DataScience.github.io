@@ -143,10 +143,12 @@ The more substantive finding emerges from the species-level investigation. The a
 This project also illustrates an important general principle: that failing to reject H₀ is not the same as proving H₀ to be true. The versicolor result tells us that a population mean of 6.0cm is a plausible explanation for the observed data — not that the mean is definitively 6.0cm. That distinction matters in any applied statistical context.
 
 ## Next steps:
-Having concluded that the mean iris sepal length is not 6.0cm as hypothesised, there is evidence to support that one species 'versicolor' does have a mean sepal length of 6.0cm, whereas setosa and virginica species do not.  
 
-It would be suggested that further analysis be undertaken to further test hypothesis that the mean sepal lengths are different by species of iris, and determine the likely range for each species.  
-Additional data would likely be gathered to support further analysis, and expand the species included, based on the business objectives.  2-Sample T-Tests and ANOVA methods could be used to gain further insight on each species and how they differ (or not) from each other.
+The species-level analysis conducted here raises a question that the One-Sample T-Test is not designed to answer: are the differences in mean sepal length between setosa, versicolor, and virginica statistically significant, or could they plausibly be explained by sampling variation? 
+
+The natural methodological progression is to apply a one-way ANOVA, which tests whether the means of three or more independent groups differ significantly without inflating the Type I error rate that would result from running multiple pairwise t-tests. Should the ANOVA confirm that at least one group mean differs significantly from the others, post-hoc testing — such as Tukey's HSD — would identify precisely which species pairs drive that difference. Both techniques are covered elsewhere in this portfolio.
+
+A further extension would be to broaden the analysis beyond sepal length to the remaining three measurements in the dataset — sepal width, petal length, and petal width — and assess whether the same species-level patterns hold across all four features simultaneously. This would move the analysis from univariate hypothesis testing into multivariate territory, where techniques such as MANOVA or discriminant analysis become appropriate. Such an extension would also raise the question of whether the four measurements together can reliably distinguish between species — a classification problem that connects naturally to supervised machine learning methods also represented in this portfolio.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
