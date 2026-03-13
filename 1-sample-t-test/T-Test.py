@@ -76,6 +76,10 @@ if p_value < alpha:
 else:
     print(f"Fail to reject H₀: No significant difference from {mu_0}")
 
+# Cohen's d for one-sample test
+cohens_d = (sample_mean - mu_0) / sample_std
+print(f"Cohen's d: {cohens_d:.4f}")
+
 
 # Visualization
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -156,6 +160,31 @@ plt.suptitle('Sepal Length Distribution with KDE by Species', fontsize=14, fontw
 plt.tight_layout()
 plt.show()
 
+# Per-species CI and forest plot
+fig, ax = plt.subplots(figsize=(8, 5))
+species_list = ['setosa', 'versicolor', 'virginica']
+colors = ['#FF6B6B', '#4ECDC4', '#45B7D1']
+
+for i, (species, color) in enumerate(zip(species_list, colors)):
+    data = df_iris[df_iris['species'] == species]['sepal length (cm)']
+    m = data.mean()
+    se = stats.sem(data)
+    ci_s = stats.t.interval(0.95, df=len(data)-1, loc=m, scale=se)
+    ax.errorbar(m, i, xerr=[[m - ci_s[0]], [ci_s[1] - m]],
+                fmt='o', color=color, capsize=6, capthick=2,
+                markersize=8, label=species.capitalize())
+
+ax.axvline(6.0, color='red', linestyle='--', linewidth=1.5, label='μ₀ = 6.0cm')
+ax.set_yticks(range(3))
+ax.set_yticklabels([s.capitalize() for s in species_list])
+ax.set_xlabel('Sepal Length (cm)', fontsize=12)
+ax.set_title('95% CI Forest Plot by Species', fontsize=14, fontweight='bold')
+ax.legend()
+ax.grid(axis='x', alpha=0.3)
+plt.tight_layout()
+plt.savefig("ttest_forest_plot_species.png", dpi=150)
+plt.show()
+
 
 
 #========================================
@@ -201,3 +230,7 @@ if p_value < alpha:
     print(f"Reject H₀: Mean significantly differs from {mu_0}")
 else:
     print(f"Fail to reject H₀: No significant difference from {mu_0}")
+
+# Cohen's d for one-sample test
+cohens_d = (sample_mean - mu_0) / sample_std
+print(f"Cohen's d: {cohens_d:.4f}")
