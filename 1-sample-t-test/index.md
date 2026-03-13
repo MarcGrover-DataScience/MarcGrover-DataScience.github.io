@@ -30,12 +30,6 @@ The One-Sample T-Test is a statistical tool used to determine if the mean of a s
 
 ## Methodology:  
 
-A workflow in Python was developed using packages Scipy, Pandas and Numpy, using Matplotlib and Seaborn for visualisations.  The data came from a publicly available dataset of iris measurements from the library scikit-learn.     
-
-The One-Sample T-Test was used to test the null hypothesis that the mean sepal length is 6.0cm, which along with the visuals enabled full insight into the sepal lengths.  
-
-Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
-
 The methodology adopted for this project follows the end-to-end data science workflow, progressing from data loading and exploratory analysis through to hypothesis testing and the extraction of business insight. The project is implemented in Python, using pandas for data manipulation, scipy for statistical testing, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described below.
 
 ### Data Loading and Preparation
