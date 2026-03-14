@@ -35,6 +35,19 @@ Details of the methodology applied in the project.
 
 Results from the project related to the business objective.
 
+![1way_boxplot](/1way_boxplot.png)  
+
+![1way_violin](/1way_violin.png)  
+
+![1way_histograms_group](/1way_histograms_group.png)  
+
+
+![1way_qq_plots](/1way_qq_plots.png)  
+
+![1way_tukey_plot](/1way_tukey_plot.png)  
+
+![1way_point_plot](/1way_point_plot.png)  
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
@@ -46,4 +59,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/DecisionTree_BreastCancer.py)
+[View the Python Script](/ANOVA_1-way_Exam_pt2.py)
