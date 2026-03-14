@@ -133,17 +133,47 @@ The test returned the following results:
 * P-value: 0.0453
 * Eta-squared (η²): 0.0206
 
-As p = 0.0453 < 0.05, the null hypothesis is rejected. There is statistically significant evidence that the teaching method has an effect on exam performance — at least one group mean is significantly different from the others.
-The effect size, measured by eta-squared, is 0.0206, which by conventional benchmarks represents a **small effect**. The teaching method accounts for approximately 2.1% of the total variance in exam scores. This is an important and realistic finding: the result is statistically significant, but the practical mxxxxxxx
+As p = 0.0453 < 0.05, the null hypothesis is rejected. There is statistically significant evidence that the teaching method has an effect on exam performance — at least one group mean is significantly different from the others.  
 
+The effect size, measured by eta-squared, is 0.0206, indicates that approximately 2.1% of the total variance in exam scores is attributable to the group factor — i.e. to the choice of teaching method. By conventional benchmarks this is a small effect, which is consistent with the modest separation between group means observed in the descriptive statistics. The result is statistically significant, but the practical magnitude of the teaching method's influence on exam performance is limited in this dataset.
 
-![1way_tukey_plot](/1way_tukey_plot.png)  
+The interval plot below shows the mean and 95% confidence interval for each group, making the relative positions and uncertainty around each group mean clear at a glance.
+
+📊 [Insert: 1way_interval_plot.png — Interval plot of means with 95% CIs]
 
 ![1way_point_plot](/1way_point_plot.png)  
 
+The confidence intervals for all three groups overlap substantially, which is consistent with both the small effect size and the marginal p-value. Group 2 has the highest mean but its interval overlaps considerably with both Group 1 and Group 3.
+
+**Post-Hoc Analysis — Tukey's HSD**  
+The One-Way ANOVA confirms that at least one group mean differs significantly, but does not identify which specific pairs of groups are responsible. Tukey's Honest Significant Difference (HSD) post-hoc test was applied to resolve this, comparing all three pairwise combinations while controlling the family-wise error rate at α = 0.05.
+
+```
+        Comparison   Mean Difference  P-value (adjusted)            95% CI     Significant
+Group 1 vs Group 2            +1.660              0.4777   (−1.709, 5.029)              No
+Group 1 vs Group 3            −1.914              0.3751    (−5.283, 1.455)             No
+Group 2 vs Group 3            −3.574              0.0346   (−6.943, −0.205)            Yes
+```
+
+The source of the significant ANOVA result is the difference between Group 2 and Group 3. With an adjusted p-value of 0.035, the mean score difference of 3.574 points between these two groups is statistically significant after controlling for multiple comparisons. The confidence interval for this difference lies entirely below zero, confirming that Group 2 outperformed Group 3 by a meaningful and statistically reliable margin. The comparisons between Group 1 and Group 2, and between Group 1 and Group 3, do not reach significance — Group 1 occupies an intermediate position that is statistically indistinguishable from either of the other two groups.
+The Tukey simultaneous confidence interval plot below visualises these pairwise comparisons directly.
+
+![1way_tukey_plot](/1way_tukey_plot.png)  
+
+**Welch's ANOVA**
+As a robustness check, Welch's ANOVA was additionally applied. This variant does not assume equal variances across groups and is therefore more conservative in the presence of heteroscedasticity. Given the visible upward trend in group variances noted during assumption testing, this provides a useful cross-validation of the standard ANOVA result.  
+Welch's ANOVA returned an F-statistic of 2.837 and a p-value of 0.061. This narrowly exceeds the significance threshold of α = 0.05, meaning that under the more conservative framework that relaxes the equal variance assumption, the result does not reach conventional significance. This is an important nuance: while the standard ANOVA result is technically valid given that Levene's test was passed, the Welch's result signals that the conclusion sits close to the boundary and should be interpreted with appropriate caution. In a real-world context, this would warrant collecting additional data to determine whether the effect is robust, rather than treating the ANOVA result as a definitive finding.  
+
+
 ## Conclusions:
 
-Conclusions from the project findings and results.
+Conclusions from the project findings and results.#
+
+The One-Way ANOVA returns a statistically significant result (F = 3.128, p = 0.045), providing evidence that the choice of teaching method does have a measurable effect on exam performance. However, the result demands careful interpretation on two fronts.  
+First, the effect size is small — eta-squared of 0.021 indicates that the teaching method accounts for only around 2% of the total variance in scores. The vast majority of the variability in student performance is driven by factors other than which group a student was assigned to, such as individual aptitude, prior knowledge, and study habits. Statistical significance confirms the effect is real; it does not imply that the teaching method is a dominant driver of outcomes.  
+Second, the Tukey post-hoc analysis reveals that the significant ANOVA result is driven entirely by a single pairwise difference: Group 2 outperforming Group 3 by a mean of 3.57 points (adjusted p = 0.035). Group 1 is statistically indistinguishable from either Group 2 or Group 3. Any practical recommendation arising from this analysis would therefore focus on the relative underperformance of Group 3's teaching method compared to Group 2's, rather than on a broad conclusion that all three methods differ.  
+Third, the Welch's ANOVA result of p = 0.061 — which narrowly misses significance under a framework that relaxes the equal variance assumption — adds an important caveat. The standard ANOVA conclusion is technically valid given that Levene's test was passed, but the proximity of the Welch's result to the significance threshold suggests the finding should be treated as indicative rather than conclusive. In a genuine business or research context, this would be a strong prompt to collect additional data before acting on the result.  
+Taken together, the analysis demonstrates that the formal statistical framework of the One-Way ANOVA can surface real but subtle effects that would be invisible to visual inspection alone — and equally importantly, that interpreting the result responsibly requires looking beyond the p-value to the effect size, the post-hoc structure, and the robustness of the conclusion under alternative assumptions.  
 
 ## Next steps:  
 
