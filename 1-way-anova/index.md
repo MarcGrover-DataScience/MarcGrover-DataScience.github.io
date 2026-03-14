@@ -44,13 +44,13 @@ This approach is applicable across many sectors and scenarios. Practical example
 * **User Engagement by Onboarding Flow** — Assess whether mean session duration or feature adoption rates differ significantly across different onboarding experiences assigned to separate user cohorts.
 * **Infrastructure Configuration Testing** — Compare mean system latency or error rates across multiple server configurations or cloud regions to determine whether the choice of configuration has a genuine effect on performance.
 
-🔬 Science & Research Sector:
+🔬 **Science & Research Sector**:
 
 * **Drug Dosage Trials** — Compare mean physiological outcomes (e.g. blood pressure reduction, biomarker levels) across patients assigned to different dosage groups to assess whether dosage level has a statistically significant effect on treatment response.  
 * **Material Testing** — Assess whether mean tensile strength or thermal resistance differs significantly across samples produced using different manufacturing processes or chemical formulations.
 * **Educational Interventions** — Test whether mean assessment scores differ significantly across student cohorts assigned to different pedagogical approaches, as demonstrated in this project.
 
-🏭 Manufacturing Sector:
+🏭 **Manufacturing Sector**:
 
 * **Supplier Quality Comparison** — Compare mean defect rates across components sourced from three or more suppliers to determine whether supplier choice has a statistically significant impact on production quality.
 * **Machine Calibration Settings** — Assess whether mean output precision differs significantly across multiple calibration configurations on the same production line, to identify the optimal setting.
@@ -64,7 +64,28 @@ Details of the methodology applied in the project.
 
 ## Results:
 
-Results from the project related to the business objective.
+**Descriptive Statistics**
+Descriptive statistics were calculated for each of the three groups across all 100 participants per group. The results are summarised below.
+Group 1 (Teaching Method A):
+
+* Mean: 74.463
+* SD: 9.035
+* SE: 0.908
+* Min: 49.3    Max: 94.0
+
+Group 2 (Teaching Method B):
+
+* Mean: 76.123
+* SD: 10.136
+* SE: 1.019
+* Min: 54.9    Max: 99.0
+
+Group 3 (Teaching Method C):
+
+* Mean: 72.549
+* SD: 10.925
+* SE: 1.098
+* Min: 38.0    Max: 99.0
 
 ![1way_boxplot](/1way_boxplot.png)  
 
