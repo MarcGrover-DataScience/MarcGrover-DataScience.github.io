@@ -87,14 +87,55 @@ Group 3 (Teaching Method C):
 * SE: 1.098
 * Min: 38.0    Max: 99.0
 
+The group means are close together — spanning a range of just 3.6 points — and the distributions overlap substantially. Group 2 has the highest mean score and Group 3 the lowest, but neither the raw means nor the descriptive statistics alone are sufficient to determine whether these differences are statistically meaningful or simply the product of natural variability between students. This is precisely the scenario where a formal hypothesis test adds value over visual inspection alone.
+The boxplot and violin plot below illustrate the distributions for each group. Both confirm the overlapping nature of the score distributions, with similar medians and interquartile ranges across all three groups. No extreme outliers are present in any group.
+
 ![1way_boxplot](/1way_boxplot.png)  
 
 ![1way_violin](/1way_violin.png)  
 
+The histograms with KDE overlays provide a clearer view of the shape of each group's distribution individually.
+
 ![1way_histograms_group](/1way_histograms_group.png)  
 
+**Testing Assumptions**  
+
+Before proceeding with the One-Way ANOVA, the three core assumptions of the test were validated.  
+**Independence of observations** is satisfied by design. Each student belongs to exactly one group, their exam score is recorded once, and no student's result influences that of any other. This assumption requires no further diagnostic testing.
+**Normality within each group** was assessed using the Shapiro-Wilk test applied to each group's scores individually, supported by visual inspection of Q-Q plots for each group.  
+
+* Group 1: W = 0.9899, p = 0.6526 — normally distributed (p > 0.05)  
+* Group 2: W = 0.9772, p = 0.0800 — normally distributed (p > 0.05)  
+* Group 3: W = 0.9912, p = 0.7568 — normally distributed (p > 0.05)  
+
+All three groups pass the Shapiro-Wilk test comfortably. The Q-Q plots below provide consistent visual confirmation, with sample quantiles tracking closely along the theoretical normal line across the full range of each group's data.
 
 ![1way_qq_plots](/1way_qq_plots.png)  
+
+**Homogeneity of variance** (homoscedasticity) was assessed using Levene's test, which tests the null hypothesis that the variances of all three groups are equal. The raw group variances provide useful context ahead of the formal test:
+
+* Group 1 variance: 81.64
+* Group 2 variance: 102.73
+* Group 3 variance: 119.36
+
+While the variances increase from Group 1 to Group 3, Levene's test assesses whether this spread is statistically significant. The test returned a Levene statistic of 1.7464 and a p-value of 0.1762. As p > 0.05, we fail to reject the null hypothesis — the variances are not significantly different, and the homoscedasticity assumption is satisfied. The standard One-Way ANOVA is therefore appropriate.  
+All three assumptions are met and the analysis proceeds with the parametric One-Way ANOVA. Welch's ANOVA is additionally presented as a robustness check, given the visible trend in group variances.  
+
+**One-Way ANOVA**
+The One-Way ANOVA was performed using scipy.stats.f_oneway(), testing the null and alternative hypotheses:
+
+* **H₀**: The mean exam scores are equal across all three groups (μ₁ = μ₂ = μ₃)
+* **H₁**: At least one group mean differs significantly from the others
+
+The test returned the following results:
+
+* F-statistic: 3.1279
+* P-value: 0.0453
+* Eta-squared (η²): 0.0206
+
+As p = 0.0453 < 0.05, the null hypothesis is rejected. There is statistically significant evidence that the teaching method has an effect on exam performance — at least one group mean is significantly different from the others.
+The effect size, measured by eta-squared, is 0.0206, which by conventional benchmarks represents a **small effect**. The teaching method accounts for approximately 2.1% of the total variance in exam scores. This is an important and realistic finding: the result is statistically significant, but the practical mxxxxxxx
+
 
 ![1way_tukey_plot](/1way_tukey_plot.png)  
 
