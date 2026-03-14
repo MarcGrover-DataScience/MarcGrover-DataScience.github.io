@@ -24,8 +24,39 @@ By grounding every analytical decision in a clear methodological rationale, this
 
 ## Application:  
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
+A One-Way ANOVA (Analysis of Variance) is a statistical test used to determine whether the means of three or more independent groups are significantly different from one another. It extends the logic of a two-sample t-test to situations involving multiple groups, while avoiding the inflation of Type I error that would result from running repeated pairwise t-tests across all group combinations.  
 
+It answers the question: "Is there a statistically meaningful difference in outcomes between these groups, or could the observed variation be explained by chance alone?"  
+
+The technique works by partitioning the total variance in the data into two components: the variance between groups (reflecting genuine differences in group means) and the variance within groups (reflecting natural variability among individuals within the same group). The F-statistic is the ratio of these two quantities — a large F indicates that the between-group differences are substantial relative to within-group noise, and therefore unlikely to have arisen by chance. Where the ANOVA confirms that at least one group mean differs significantly, a post-hoc test such as Tukey's HSD is applied to identify precisely which group pairs are responsible for the difference.  
+
+This approach is applicable across many sectors and scenarios. Practical examples showing where a One-Way ANOVA provides clear business value include: 
+
+🛍️ **Retail Sector**:
+
+* **Promotional Strategy Testing** — Compare average basket size across three or more different promotional strategies (e.g. percentage discount, buy-one-get-one, and loyalty points) applied to separate customer groups, to determine whether promotion type has a statistically significant effect on spend per visit.
+* **Store Format Performance** — Assess whether mean weekly revenue differs significantly across different store formats (e.g. high street, retail park, and outlet) to inform future investment decisions.
+* **Customer Satisfaction by Region** — Test whether mean customer satisfaction scores differ significantly across geographic regions to identify where service improvements are most needed.
+
+💻 **Technology Sector**:
+
+* **Algorithm Benchmarking** — Compare the mean execution time or accuracy of three or more competing algorithms on the same task, to determine whether performance differences are statistically significant rather than artefacts of random variation in test conditions.
+* **User Engagement by Onboarding Flow** — Assess whether mean session duration or feature adoption rates differ significantly across different onboarding experiences assigned to separate user cohorts.
+* **Infrastructure Configuration Testing** — Compare mean system latency or error rates across multiple server configurations or cloud regions to determine whether the choice of configuration has a genuine effect on performance.
+
+🔬 Science & Research Sector:
+
+* **Drug Dosage Trials** — Compare mean physiological outcomes (e.g. blood pressure reduction, biomarker levels) across patients assigned to different dosage groups to assess whether dosage level has a statistically significant effect on treatment response.  
+* **Material Testing** — Assess whether mean tensile strength or thermal resistance differs significantly across samples produced using different manufacturing processes or chemical formulations.
+* **Educational Interventions** — Test whether mean assessment scores differ significantly across student cohorts assigned to different pedagogical approaches, as demonstrated in this project.
+
+🏭 Manufacturing Sector:
+
+* **Supplier Quality Comparison** — Compare mean defect rates across components sourced from three or more suppliers to determine whether supplier choice has a statistically significant impact on production quality.
+* **Machine Calibration Settings** — Assess whether mean output precision differs significantly across multiple calibration configurations on the same production line, to identify the optimal setting.
+* **Shift Performance Analysis** — Test whether mean units produced or mean defect rate differs significantly across morning, afternoon, and night shifts, to identify whether time of shift is a meaningful driver of production variability.
+
+It is worth noting the relationship between One-Way ANOVA and other hypothesis tests in this portfolio. Where only two groups are being compared, an independent samples t-test is the appropriate tool. Where the same subjects are measured under multiple conditions, a repeated measures ANOVA is more appropriate than a one-way design. And where the outcome variable is categorical rather than continuous, a chi-squared test of independence becomes the relevant framework — all of which are covered elsewhere in this portfolio.
 
 ## Methodology:  
 
@@ -55,7 +86,6 @@ Conclusions from the project findings and results.
 ## Next steps:  
 
 With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
-
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
