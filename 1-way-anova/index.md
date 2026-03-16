@@ -18,9 +18,9 @@ The objective is therefore to apply a One-Way Analysis of Variance (ANOVA), whic
 
 A key objective is to demonstrate correct application of the full ANOVA workflow, from assumption validation through to post-hoc testing. Where the ANOVA identifies that at least one group mean differs significantly from the others, it cannot on its own identify which specific pairs of groups are responsible for that difference. Tukey's Honest Significant Difference (HSD) post-hoc test is therefore applied to resolve this, controlling the family-wise error rate across all pairwise comparisons and identifying precisely where the significant differences lie. This two-stage structure is central to the project and reflects the precision required when comparing more than two groups.  
 
-A secondary objective is to demonstrate awareness of the assumptions that underpin the One-Way ANOVA, specifically the requirements that observations are independent, that the residuals within each group are approximately normally distributed, and that the variances across groups are approximately equal (homoscedasticity). Each assumption is tested in practice; normality via the Shapiro-Wilk test and Q-Q plots, and homogeneity of variance via Levene's test. Where the equal variance assumption is questioned, Welch's ANOVA is additionally presented as the appropriate robust alternative, with both results compared to confirm the stability of the conclusion.  
+A secondary objective is to demonstrate awareness of the assumptions that underpin the One-Way ANOVA, specifically the requirements that observations are independent, that the residuals within each group are approximately normally distributed, and that the variances across groups are approximately equal (homoscedasticity).  Each assumption is tested in practice; normality via the Shapiro-Wilk test and Q-Q plots, and homogeneity of variance via Levene's test.  Where the equal variance assumption is questioned, Welch's ANOVA is additionally presented as the appropriate robust alternative, with both results compared to confirm the stability of the conclusion.  
 
-By grounding every analytical decision in a clear methodological rationale, this project aims to demonstrate not only technical proficiency in Python-based statistical testing, but also the ability to select the right tool for the structure of the data, validate the conditions under which that tool is appropriate, and communicate findings in a way that is meaningful to both technical and non-technical audiences.
+By grounding every analytical decision in a clear methodological rationale, this project demonstrates not only technical proficiency in Python-based statistical testing, but also the ability to select the right tool for the structure of the data, validate the conditions under which that tool is appropriate, and communicate findings in a way that is meaningful to both technical and non-technical audiences.
 
 ## Application:  
 
@@ -139,8 +139,6 @@ The effect size, measured by eta-squared, is 0.0206, indicates that approximatel
 
 The interval plot below shows the mean and 95% confidence interval for each group, making the relative positions and uncertainty around each group mean clear at a glance.
 
-📊 [Insert: 1way_interval_plot.png — Interval plot of means with 95% CIs]
-
 ![1way_point_plot](/1way_point_plot.png)  
 
 The confidence intervals for all three groups overlap substantially, which is consistent with both the small effect size and the marginal p-value. Group 2 has the highest mean but its interval overlaps considerably with both Group 1 and Group 3.
@@ -150,7 +148,7 @@ The One-Way ANOVA confirms that at least one group mean differs significantly, b
 
 ```
         Comparison   Mean Difference  P-value (adjusted)            95% CI     Significant
-Group 1 vs Group 2            +1.660              0.4777   (−1.709, 5.029)              No
+Group 1 vs Group 2            +1.660              0.4777    (−1.709, 5.029)             No
 Group 1 vs Group 3            −1.914              0.3751    (−5.283, 1.455)             No
 Group 2 vs Group 3            −3.574              0.0346   (−6.943, −0.205)            Yes
 ```
