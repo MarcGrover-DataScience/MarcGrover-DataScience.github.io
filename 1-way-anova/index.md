@@ -83,48 +83,47 @@ The One-Way ANOVA has three core assumptions, each requiring a specific diagnost
 
 **Statistical Testing and Effect Size**:
 
-The One-Way ANOVA is performed using scipy.stats.f_oneway(), testing the null hypothesis that the mean exam score is equal across all three groups against the alternative that at least one group mean differs significantly. The result is evaluated against a significance threshold of α = 0.05.
+The One-Way ANOVA is performed using scipy, testing the null hypothesis that the mean exam score is equal across all three groups against the alternative that at least one group mean differs significantly. The result is evaluated against a significance threshold of α = 0.05.
 
-In addition to the F-statistic and p-value, eta-squared (η²) is calculated as the effect size measure, defined as the proportion of total variance in exam scores attributable to the group factor. This quantifies the practical magnitude of any teaching method effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.01, small: 0.01–0.06, medium: 0.06–0.14, large: >0.14). A 95% confidence interval for the mean is also calculated for each group and presented visually via an interval plot.
+In addition to the F-statistic and p-value, eta-squared (η²) is calculated as the effect size measure, defined as the proportion of total variance in exam scores attributable to the group of teaching method chosen. This quantifies the practical magnitude of any teaching method effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.01, small: 0.01–0.06, medium: 0.06–0.14, large: >0.14). A 95% confidence interval for the mean is also calculated for each group and presented visually via an interval plot.
 
 **Post-Hoc Analysis — Tukey's HSD**:
 
-Where the ANOVA returns a significant result, Tukey's Honest Significant Difference (HSD) post-hoc test is applied using statsmodels.stats.multicomp.pairwise_tukeyhsd(). This test compares all three pairwise group combinations simultaneously, controlling the family-wise error rate at α = 0.05 to avoid the inflation of Type I error that would result from running multiple independent t-tests. The output identifies precisely which group pairs drive the significant ANOVA result, and a simultaneous confidence interval plot is produced to visualise the pairwise differences directly.
+Where the ANOVA returns a significant result, Tukey's Honest Significant Difference (HSD) post-hoc test is applied using statsmodels. This test compares all three pairwise group combinations simultaneously, controlling the error rate at α = 0.05 to avoid the inflation of Type I error that would result from running multiple independent t-tests. The output identifies precisely which group pairs drive the significant ANOVA result, and a simultaneous confidence interval plot is produced to visualise the pairwise differences directly.
 
 **Welch's ANOVA**:
 
-Welch's ANOVA is performed using pingouin.welch_anova() as a robustness check, providing a cross-validation of the standard ANOVA result under a framework that does not assume equal variances. Both results are compared to assess the stability of the conclusion.
+Welch's ANOVA is performed, using pingouin, as a robustness check, providing a cross-validation of the standard ANOVA result under a framework that does not assume equal variances. Both results are compared to assess the stability of the conclusion.
 
 **Business Insight Extraction and Visualisation**:
 
-The outputs of the hypothesis testing and post-hoc stages are synthesised into a structured interpretation that addresses the original business question directly: does teaching method have a statistically significant and practically meaningful effect on exam performance, and if so, which specific methods differ? Results are communicated using clear, non-technical language supported by the visualisations produced during the exploratory and assumption-checking phases, ensuring the findings are accessible to both technical and non-technical stakeholders.
+The outputs of the hypothesis testing results are synthesised into a structured interpretation that addresses the original business question directly: does teaching method have a statistically significant and practically meaningful effect on exam performance, and if so, which specific methods differ? Results are communicated using clear, non-technical language supported by the visualisations produced during the exploratory and assumption-checking phases, ensuring the findings are accessible to both technical and non-technical stakeholders.
 
 ## Results:
 
 **Descriptive Statistics**
 Descriptive statistics were calculated for each of the three groups across all 100 participants per group. The results are summarised below.
-Group 1 (Teaching Method A):
 
+**Group 1 (Teaching Method A)**:
 * Mean: 74.463
 * SD: 9.035
 * SE: 0.908
 * Min: 49.3    Max: 94.0
 
-Group 2 (Teaching Method B):
-
+**Group 2 (Teaching Method B)**:
 * Mean: 76.123
 * SD: 10.136
 * SE: 1.019
 * Min: 54.9    Max: 99.0
 
-Group 3 (Teaching Method C):
-
+**Group 3 (Teaching Method C)**:
 * Mean: 72.549
 * SD: 10.925
 * SE: 1.098
 * Min: 38.0    Max: 99.0
 
-The group means are close together — spanning a range of just 3.6 points — and the distributions overlap substantially. Group 2 has the highest mean score and Group 3 the lowest, but neither the raw means nor the descriptive statistics alone are sufficient to determine whether these differences are statistically meaningful or simply the product of natural variability between students. This is precisely the scenario where a formal hypothesis test adds value over visual inspection alone.
+The group means are close together — spanning a range of just 3.6 points — and the distributions overlap substantially. Group 2 has the highest mean score and Group 3 the lowest, but neither the raw means nor the descriptive statistics alone are sufficient to determine whether these differences are statistically meaningful or simply the product of natural variability between students. This is precisely the scenario where a formal hypothesis test adds value over visual inspection alone.  
+
 The boxplot and violin plot below illustrate the distributions for each group. Both confirm the overlapping nature of the score distributions, with similar medians and interquartile ranges across all three groups. No extreme outliers are present in any group.
 
 ![1way_boxplot](/1way_boxplot.png)  
