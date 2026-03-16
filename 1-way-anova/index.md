@@ -165,14 +165,20 @@ Welch's ANOVA returned an F-statistic of 2.837 and a p-value of 0.061. This narr
 ## Conclusions:
 
 The One-Way ANOVA returns a statistically significant result (F = 3.128, p = 0.045), providing evidence that the choice of teaching method does have a measurable effect on exam performance. However, the result demands careful interpretation on two fronts.  
+
 First, the effect size is small — eta-squared of 0.021 indicates that the teaching method accounts for only around 2% of the total variance in scores. The vast majority of the variability in student performance is driven by factors other than which group a student was assigned to, such as individual aptitude, prior knowledge, and study habits. Statistical significance confirms the effect is real; it does not imply that the teaching method is a dominant driver of outcomes.  
+
 Second, the Tukey post-hoc analysis reveals that the significant ANOVA result is driven entirely by a single pairwise difference: Group 2 outperforming Group 3 by a mean of 3.57 points (adjusted p = 0.035). Group 1 is statistically indistinguishable from either Group 2 or Group 3. Any practical recommendation arising from this analysis would therefore focus on the relative underperformance of Group 3's teaching method compared to Group 2's, rather than on a broad conclusion that all three methods differ.  
+
 Third, the Welch's ANOVA result of p = 0.061 — which narrowly misses significance under a framework that relaxes the equal variance assumption — adds an important caveat. The standard ANOVA conclusion is technically valid given that Levene's test was passed, but the proximity of the Welch's result to the significance threshold suggests the finding should be treated as indicative rather than conclusive. In a genuine business or research context, this would be a strong prompt to collect additional data before acting on the result.  
+
 Taken together, the analysis demonstrates that the formal statistical framework of the One-Way ANOVA can surface real but subtle effects that would be invisible to visual inspection alone — and equally importantly, that interpreting the result responsibly requires looking beyond the p-value to the effect size, the post-hoc structure, and the robustness of the conclusion under alternative assumptions.  
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+The most immediately valuable extension would be to enrich the dataset with student-level covariates — such as prior academic performance, study hours, or attendance rate — and incorporate these into the analysis using a one-way ANCOVA (Analysis of Covariance). By controlling for pre-existing differences between students, ANCOVA would reduce within-group noise and increase the sensitivity of the test, potentially strengthening the marginal result observed here and providing a cleaner estimate of the teaching method's true effect. This would also begin to address the question of why Group 3 underperforms relative to Group 2 — whether it reflects a genuine weakness in the teaching method itself, or a confounding difference in the students assigned to that group.  
+
+Another suggested extension would be to apply a Two-Way ANOVA, introducing a second categorical factor such as student cohort, school, or class size alongside teaching method. This would allow the analysis to test not only the main effect of each factor independently, but also whether an interaction effect exists — for example, whether a particular teaching method is more effective in smaller classes or with higher-attaining cohorts. Interaction effects of this kind can be the most actionable finding in educational research, and the Two-Way ANOVA framework for detecting such interaction effects is covered in a subsequent project in this portfolio.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
