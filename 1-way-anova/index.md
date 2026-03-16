@@ -106,19 +106,19 @@ Descriptive statistics were calculated for each of the three groups across all 1
 
 **Group 1 (Teaching Method A)**:
 * Mean: 74.463
-* SD: 9.035
+* SD: 9.081
 * SE: 0.908
 * Min: 49.3    Max: 94.0
 
 **Group 2 (Teaching Method B)**:
 * Mean: 76.123
-* SD: 10.136
+* SD: 10.187
 * SE: 1.019
 * Min: 54.9    Max: 99.0
 
 **Group 3 (Teaching Method C)**:
 * Mean: 72.549
-* SD: 10.925
+* SD: 10.980
 * SE: 1.098
 * Min: 38.0    Max: 99.0
 
@@ -137,14 +137,16 @@ The histograms with KDE overlays provide a clearer view of the shape of each gro
 **Testing Assumptions**  
 
 Before proceeding with the One-Way ANOVA, the three core assumptions of the test were validated.  
-**Independence of observations** is satisfied by design. Each student belongs to exactly one group, their exam score is recorded once, and no student's result influences that of any other. This assumption requires no further diagnostic testing.
+
+**Independence of observations** is satisfied by design. Each student belongs to exactly one group, their exam score is recorded once, and no student's result influences that of any other. This assumption requires no further diagnostic testing.  
+
 **Normality within each group** was assessed using the Shapiro-Wilk test applied to each group's scores individually, supported by visual inspection of Q-Q plots for each group.  
 
 * Group 1: W = 0.9899, p = 0.6526 — normally distributed (p > 0.05)  
 * Group 2: W = 0.9772, p = 0.0800 — normally distributed (p > 0.05)  
 * Group 3: W = 0.9912, p = 0.7568 — normally distributed (p > 0.05)  
 
-All three groups pass the Shapiro-Wilk test comfortably. The Q-Q plots below provide consistent visual confirmation, with sample quantiles tracking closely along the theoretical normal line across the full range of each group's data.
+All three groups pass the Shapiro-Wilk test, noting that with n=100 each, the Central Limit Theory (CLT) ensures robustness to non-normality. The Q-Q plots below provide consistent visual confirmation, with sample quantiles tracking closely along the theoretical normal line across the full range of each group's data.
 
 ![1way_qq_plots](/1way_qq_plots.png)  
 
@@ -154,7 +156,8 @@ All three groups pass the Shapiro-Wilk test comfortably. The Q-Q plots below pro
 * Group 2 variance: 102.73
 * Group 3 variance: 119.36
 
-While the variances increase from Group 1 to Group 3, Levene's test assesses whether this spread is statistically significant. The test returned a Levene statistic of 1.7464 and a p-value of 0.1762. As p > 0.05, we fail to reject the null hypothesis — the variances are not significantly different, and the homoscedasticity assumption is satisfied. The standard One-Way ANOVA is therefore appropriate.  
+While the variances increase from Group 1 to Group 3, Levene's test assesses whether this spread is statistically significant. The test returned a Levene statistic of 1.7464 and a p-value of 0.1762. As p > 0.05, we fail to reject the null hypothesis, providing evidence that the variances are not significantly different, and the homoscedasticity assumption is satisfied. The standard One-Way ANOVA is therefore appropriate.  
+
 All three assumptions are met and the analysis proceeds with the parametric One-Way ANOVA. Welch's ANOVA is additionally presented as a robustness check, given the visible trend in group variances.  
 
 **One-Way ANOVA**
@@ -196,6 +199,7 @@ The Tukey simultaneous confidence interval plot below visualises these pairwise 
 
 **Welch's ANOVA**
 As a robustness check, Welch's ANOVA was additionally applied. This variant does not assume equal variances across groups and is therefore more conservative in the presence of heteroscedasticity. Given the visible upward trend in group variances noted during assumption testing, this provides a useful cross-validation of the standard ANOVA result.  
+
 Welch's ANOVA returned an F-statistic of 2.837 and a p-value of 0.061. This narrowly exceeds the significance threshold of α = 0.05, meaning that under the more conservative framework that relaxes the equal variance assumption, the result does not reach conventional significance. This is an important nuance: while the standard ANOVA result is technically valid given that Levene's test was passed, the Welch's result signals that the conclusion sits close to the boundary and should be interpreted with appropriate caution. In a real-world context, this would warrant collecting additional data to determine whether the effect is robust, rather than treating the ANOVA result as a definitive finding.  
 
 ## Conclusions:
