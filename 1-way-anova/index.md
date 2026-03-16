@@ -193,7 +193,8 @@ Group 2 vs Group 3            −3.574              0.0346   (−6.943, −0.205
 ```
 
 The source of the significant ANOVA result is the difference between Group 2 and Group 3. With an adjusted p-value of 0.035, the mean score difference of 3.574 points between these two groups is statistically significant after controlling for multiple comparisons. The confidence interval for this difference lies entirely below zero, confirming that Group 2 outperformed Group 3 by a meaningful and statistically reliable margin. The comparisons between Group 1 and Group 2, and between Group 1 and Group 3, do not reach significance — Group 1 occupies an intermediate position that is statistically indistinguishable from either of the other two groups.
-The Tukey simultaneous confidence interval plot below visualises these pairwise comparisons directly.
+
+The pairwise difference plot below visualises the Tukey HSD results directly: each row shows the 95% confidence interval for the mean score difference between one pair of groups, with the red dashed line marking zero — a confidence interval that does not cross zero indicates a statistically significant difference between that pair, and it is immediately clear that only the Group 2 vs Group 3 comparison meets this criterion.
 
 ![1way_tukey_plot](/1way_tukey_plot.png)  
 
