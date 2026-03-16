@@ -60,7 +60,41 @@ It is worth noting the relationship between One-Way ANOVA and other hypothesis t
 
 ## Methodology:  
 
-Details of the methodology applied in the project.
+The methodology adopted for this project follows the end-to-end data science workflow, progressing from data generation and exploratory analysis through to hypothesis testing, post-hoc investigation, and the extraction of business insight. The project is implemented in Python, using pandas for data manipulation, scipy and pingouin for statistical testing, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described below. 
+
+**Data Generation**:
+
+The dataset is synthetically generated as part of the Python script, simulating an educational study in which 300 students are assigned equally across three groups of 100, each taught using a different teaching method. Exam scores for each group are drawn from a normal distribution with group-specific means — 75.5 for Group 1, 76.0 for Group 2, and 72.0 for Group 3 — and standard deviations of 10.0, 11.0, and 10.5 respectively, reflecting realistic between-student variability. Scores are clipped to the range 25–99 and rounded to one decimal place. The group means are deliberately set close together, with substantial distributional overlap across groups, ensuring the dataset reflects the kind of scenario where a formal statistical test is necessary to reach a reliable conclusion. All results are fully reproducible via a fixed random seed.
+
+**Exploratory Data Analysis**: 
+
+Descriptive statistics are calculated for each group individually, including the mean, standard deviation, standard error, minimum, and maximum. Three charts are produced to support visual inspection of the data:
+
+A boxplot, providing a side-by-side comparison of the central tendency, spread, and absence of extreme outliers across the three groups.
+A violin plot, combining the boxplot summary with a kernel density estimate to show the full shape of each group's distribution.
+Histograms with KDE overlays, one per group, allowing the distributional shape of each group to be assessed individually and the approximate normality of the data to be visually inspected.
+
+**Testing Assumptions**:
+The One-Way ANOVA has three core assumptions, each requiring a specific diagnostic check.
+
+Independence of Observations — Each student belongs to exactly one group and contributes exactly one score. No student's result influences any other. This assumption is satisfied by design in the data generation process and requires no further diagnostic testing.
+Normality Within Each Group — The ANOVA assumes that the scores within each group are approximately normally distributed. This is assessed using two complementary approaches: Q-Q plots for each group provide visual confirmation, and the Shapiro-Wilk test formalises the assessment with a p-value for each group individually. If this assumption were violated, the appropriate non-parametric alternative would be the Kruskal-Wallis H test.
+Homogeneity of Variance (Homoscedasticity) — The ANOVA assumes that the variance of scores is approximately equal across all groups. The raw group variances are inspected as context, and Levene's test is applied as the formal diagnostic. If this assumption were violated, Welch's ANOVA — which relaxes the equal variance requirement — would be the appropriate alternative, and is additionally presented in this analysis as a robustness check regardless of the Levene's outcome.
+
+**Statistical Testing and Effect Size**:
+
+The One-Way ANOVA is performed using scipy.stats.f_oneway(), testing the null hypothesis that the mean exam score is equal across all three groups against the alternative that at least one group mean differs significantly. The result is evaluated against a significance threshold of α = 0.05.
+In addition to the F-statistic and p-value, eta-squared (η²) is calculated as the effect size measure, defined as the proportion of total variance in exam scores attributable to the group factor. This quantifies the practical magnitude of any teaching method effect independently of sample size, and is interpreted using conventional benchmarks (negligible: <0.01, small: 0.01–0.06, medium: 0.06–0.14, large: >0.14). A 95% confidence interval for the mean is also calculated for each group and presented visually via an interval plot.
+
+**Post-Hoc Analysis — Tukey's HSD**:
+
+Where the ANOVA returns a significant result, Tukey's Honest Significant Difference (HSD) post-hoc test is applied using statsmodels.stats.multicomp.pairwise_tukeyhsd(). This test compares all three pairwise group combinations simultaneously, controlling the family-wise error rate at α = 0.05 to avoid the inflation of Type I error that would result from running multiple independent t-tests. The output identifies precisely which group pairs drive the significant ANOVA result, and a simultaneous confidence interval plot is produced to visualise the pairwise differences directly.
+
+**Welch's ANOVA**:
+
+Welch's ANOVA is performed using pingouin.welch_anova() as a robustness check, providing a cross-validation of the standard ANOVA result under a framework that does not assume equal variances. Both results are compared to assess the stability of the conclusion.
+Business Insight Extraction and Visualisation
+The outputs of the hypothesis testing and post-hoc stages are synthesised into a structured interpretation that addresses the original business question directly: does teaching method have a statistically significant and practically meaningful effect on exam performance, and if so, which specific methods differ? Results are communicated using clear, non-technical language supported by the visualisations produced during the exploratory and assumption-checking phases, ensuring the findings are accessible to both technical and non-technical stakeholders.
 
 ## Results:
 
