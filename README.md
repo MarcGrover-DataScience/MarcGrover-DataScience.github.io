@@ -19,7 +19,7 @@ All projects are implemented in Python, reflecting the language's central role i
 * ### [Two-Way ANOVA with replication](/2-way-anova-with-rep/)
 * ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
 * ### [A/B Testing (Chi-squared test)](/ab-test/)
-* ### Chi-squared goodness-of-fit test
+* ### [Chi-squared goodness-of-fit test](/chi-squared/)
 
 ## Regression & Predictive Modelling
 * ### [Multiple linear regression](/multi-linear-regression/)
@@ -33,7 +33,7 @@ All projects are implemented in Python, reflecting the language's central role i
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
-* ### K-Nearest Neighbours
+* ### [K-Nearest Neighbours](/k-nearest-neighbours/)
 
 ## Machine Learning — Unsupervised
 * ### [K-Means Clustering](/k-means-clustering/)
