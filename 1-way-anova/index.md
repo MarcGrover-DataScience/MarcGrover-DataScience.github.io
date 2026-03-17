@@ -8,8 +8,6 @@ permalink: /1-way-anova/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 For this portfolio project, the simulated business scenario concerns a fictional educational study involving 300 students assigned across three groups, each subject to a different teaching method, with the goal of determining whether the choice of teaching method produces a statistically meaningful difference in exam performance. A simple observation that the group means differ would be insufficient for this purpose, where raw differences between sample means are always present to some degree, and without a formal statistical framework there is no basis for distinguishing a genuine effect of the teaching method from differences that could plausibly arise from natural variability between students.  
@@ -219,7 +217,7 @@ Taken together, the analysis demonstrates that the formal statistical framework 
 
 The most immediately valuable extension would be to enrich the dataset with student-level covariates — such as prior academic performance, study hours, or attendance rate — and incorporate these into the analysis using a one-way ANCOVA (Analysis of Covariance). By controlling for pre-existing differences between students, ANCOVA would reduce within-group noise and increase the sensitivity of the test, potentially strengthening the marginal result observed here and providing a cleaner estimate of the teaching method's true effect. This would also begin to address the question of why Group 3 underperforms relative to Group 2 — whether it reflects a genuine weakness in the teaching method itself, or a confounding difference in the students assigned to that group.  
 
-Another suggested extension would be to apply a Two-Way ANOVA, introducing a second categorical factor such as student cohort, school, or class size alongside teaching method. This would allow the analysis to test not only the main effect of each factor independently, but also whether an interaction effect exists — for example, whether a particular teaching method is more effective in smaller classes or with higher-attaining cohorts. Interaction effects of this kind can be the most actionable finding in educational research, and the Two-Way ANOVA framework for detecting such interaction effects is covered in a subsequent project in this portfolio.
+Another suggested extension would be to apply a Two-Way ANOVA, introducing a second categorical factor such as student cohort, school, or class size alongside teaching method. This would allow the analysis to test not only the main effect of each factor independently, but also whether an interaction effect exists, for example, whether a particular teaching method is more effective in smaller classes or with higher-attaining cohorts. Interaction effects of this kind can be the most actionable finding in educational research, and the Two-Way ANOVA framework for detecting such interaction effects is covered in a subsequent project in this portfolio.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
