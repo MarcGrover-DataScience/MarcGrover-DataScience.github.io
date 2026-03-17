@@ -225,12 +225,67 @@ print("\nTukey's HSD Post-Hoc Test Results")
 print(tukey_result)
 print("\n")
 
-#  Tukey HSD Visualisation
-tukey_result.plot_simultaneous(figsize=(8, 5), ylabel='Group', xlabel='Score')
-plt.title("Tukey's HSD — Simultaneous 95% Confidence Intervals", fontsize=14, fontweight='bold')
+# #  Tukey HSD Visualisation
+# tukey_result.plot_simultaneous(figsize=(8, 5), ylabel='Group', xlabel='Score')
+# plt.title("Tukey's HSD — Simultaneous 95% Confidence Intervals", fontsize=14, fontweight='bold')
+# plt.tight_layout()
+# plt.savefig("1way_tukey_plot.png", dpi=150)
+# plt.show()
+
+
+# Tukey HSD Pairwise Difference Plot
+tukey_summary = tukey_result.summary()
+tukey_data = tukey_summary.data[1:]  # skip header row
+
+pair_labels = []
+mean_diffs = []
+lower_cis = []
+upper_cis = []
+significant = []
+
+for row in tukey_data:
+    pair_labels.append(f"{row[0]} vs {row[1]}")
+    mean_diffs.append(float(row[2]))
+    lower_cis.append(float(row[4]))
+    upper_cis.append(float(row[5]))
+    significant.append(row[6])       # True/False
+
+# Calculate error bar sizes (distance from mean diff to each bound)
+errors_lower = [md - lci for md, lci in zip(mean_diffs, lower_cis)]
+errors_upper = [uci - md for md, uci in zip(mean_diffs, upper_cis)]
+
+fig, ax = plt.subplots(figsize=(9, 5))
+
+for i, (label, md, el, eu, sig) in enumerate(zip(pair_labels, mean_diffs,
+                                                   errors_lower, errors_upper,
+                                                   significant)):
+    color = 'seagreen' if sig == True else 'steelblue'
+    ax.errorbar(md, i,
+                xerr=[[el], [eu]],
+                fmt='o',
+                color=color,
+                capsize=6,
+                capthick=2,
+                markersize=8,
+                linewidth=2,
+                label='Significant' if (sig == True and i == 0) else
+                      ('Not significant' if (sig == False and i == 1) else ''))
+
+# Zero reference line
+ax.axvline(0, color='red', linestyle='--', linewidth=1.5, label='No difference (0)')
+
+ax.set_yticks(range(len(pair_labels)))
+ax.set_yticklabels(pair_labels, fontsize=11)
+ax.set_xlabel('Mean Difference in Score', fontsize=12)
+ax.set_title("Tukey's HSD — Pairwise Mean Differences with 95% CIs",
+             fontsize=14, fontweight='bold')
+ax.legend(fontsize=10)
+ax.grid(axis='x', alpha=0.3)
 plt.tight_layout()
 plt.savefig("1way_tukey_plot.png", dpi=150)
 plt.show()
+
+
 
 
 # --- Calculate Means and 95% Confidence Intervals for each group ---
