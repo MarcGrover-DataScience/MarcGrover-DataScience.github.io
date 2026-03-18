@@ -58,7 +58,11 @@ Details of the methodology applied in the project.
 
 Results from the project related to the business objective.
 
+![chart1_observed_vs_expected](chart1_observed_vs_expected.png)
 
+![chart2_deviation_from_expected](chart2_deviation_from_expected.png)
+
+![chart4_chi2_contributions](chart4_chi2_contributions.png)
 
 ## Conclusions:
 
