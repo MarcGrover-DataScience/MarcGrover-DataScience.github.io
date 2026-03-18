@@ -58,6 +58,8 @@ Details of the methodology applied in the project.
 
 Results from the project related to the business objective.
 
+
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
@@ -69,4 +71,4 @@ With any analysis it is important to assess how the model and application of the
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+[View the Python Script](/chi-squared gof_v1.py)
