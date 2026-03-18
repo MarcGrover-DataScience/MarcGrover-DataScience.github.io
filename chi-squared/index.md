@@ -46,13 +46,18 @@ This approach is applicable across many industry sectors and scenarios. Practica
 * **Sample Size**: Each "cell" or category should have an expected frequency of at least 5.
 * **Mutually Exclusive**: Each subject or item must fit into one, and only one, category.
 
-
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
-
 ## Methodology:  
 
-Details of the methodology applied in the project.
+The analysis was implemented in Python using pandas for data manipulation, scipy for statistical testing, and seaborn and matplotlib for visualisation. The dataset was synthetically generated within the script, simulating 1,200 defect records distributed across six production stations, with a subtle bias embedded in the station probabilities.
+
+**Data Validation**:  
+Prior to analysis, five validation checks were applied: total record count and dtype confirmation, missing value detection, invalid station value detection, confirmation that all six stations were represented, and a minimum expected frequency check — the core assumption of the Chi-Squared Goodness-of-Fit test, requiring all expected cell counts to be at least five. All checks passed.  
+
+**Exploratory Data Analysis**:  
+Descriptive statistics were calculated for each station, including observed count, observed percentage, expected percentage, and deviation in percentage points. Two charts were produced to support visual inspection: a grouped bar chart comparing observed and expected defect counts per station, and a signed deviation chart showing each station's departure from the expected proportion.  
+
+**Statistical Testing**:  
+The Chi-Squared Goodness-of-Fit test was applied using scipy, testing the null hypothesis that defects are uniformly distributed across all six stations against the alternative that the distribution is non-uniform. The significance threshold was set at α = 0.05. The per-station contribution to the chi-squared statistic — calculated as (O−E)²/E for each station — was additionally examined to identify which station was the primary driver of any significant result.  
 
 ## Results:
 
