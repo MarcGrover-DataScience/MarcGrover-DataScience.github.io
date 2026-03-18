@@ -61,7 +61,7 @@ The Chi-Squared Goodness-of-Fit test was applied using scipy, testing the null h
 
 ## Results:
 
-Descriptive Statistics:
+**Descriptive Statistics**:  
 Observed defect counts and their deviation from the expected uniform proportion are summarised below, noting that the expected distribution is normal therefore the percentage expected is 16.67% for each station.
 
 ```
@@ -74,9 +74,14 @@ Station  Observed  Observed %   Deviation %
       6       240       20.00         +3.33
 ```
 
+At a glance, five of the six stations sit within 2 percentage points of the expected 16.67%, and no single station's count appears dramatically out of place. Station 6 records the highest defect count at 240, but a difference of this magnitude is not self-evidently significant from inspection alone — precisely the scenario where a formal hypothesis test adds value. 
 ![chart1_observed_vs_expected](chart1_observed_vs_expected.png)
-
+The deviation chart below makes the directional pattern clearer, with Station 6 the only station showing a meaningful positive deviation and Station 2 the most suppressed.
 ![chart2_deviation_from_expected](chart2_deviation_from_expected.png)
+
+
+
+
 
 ![chart4_chi2_contributions](chart4_chi2_contributions.png)
 
