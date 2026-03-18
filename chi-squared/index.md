@@ -79,15 +79,23 @@ At a glance, five of the six stations sit within 2 percentage points of the expe
 The deviation chart below makes the directional pattern clearer, with Station 6 the only station showing a meaningful positive deviation and Station 2 the most suppressed.
 ![chart2_deviation_from_expected](chart2_deviation_from_expected.png)
 
+**Chi-Squared Goodness-of-Fit Test**:  
+The test was applied with five degrees of freedom (k − 1, where k = 6 stations), against a critical value of 11.070 at α = 0.05.  This produced a Chi-squared statistic of 12.770 and a p-value of 0.0256.  
 
+As χ² = 12.770 exceeds the critical value of 11.070 and p = 0.026 < 0.05, the null hypothesis is rejected. There is statistically significant evidence that defects are not uniformly distributed across the six production stations.
 
-
+**Per-Station Contributions**:
+Decomposing the test statistic reveals that Station 6 accounts for 62.6% of the total χ² value (contribution: 8.000), making it the dominant driver of the significant result. Station 2 is the next largest contributor at 2.880. The chart below illustrates this clearly.
 
 ![chart4_chi2_contributions](chart4_chi2_contributions.png)
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+The Chi-Squared Goodness-of-Fit test returns a statistically significant result (χ² = 12.770, p = 0.026), providing evidence that the distribution of defects across the six production stations is not consistent with the uniform distribution expected under normal operating conditions. The null hypothesis is rejected.  
+
+Decomposition of the test statistic identifies Station 6 as the primary source of this result, contributing 8.000 of the total 12.770 — 62.6% of the statistic — driven by an observed defect count of 240 against an expected count of 200. In a real operational context, this finding would direct quality control resource specifically at Station 6 rather than initiating a broad line-wide investigation, representing a direct efficiency gain from the statistical analysis.  
+
+It is important to note that statistical significance confirms the non-uniformity of the defect distribution is unlikely to be due to chance; it does not identify the root cause. The elevated defect rate at Station 6 could reflect machine wear, calibration drift, a process fault, or an operator factor, and would require further investigation to diagnose. The statistical result narrows the search considerably — it does not complete it.
 
 ## Next steps:  
 
