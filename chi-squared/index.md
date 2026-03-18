@@ -99,8 +99,15 @@ It is important to note that statistical significance confirms the non-uniformit
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+Having established that the defect distribution across the six production stations is statistically non-uniform, with Station 6 identified as the primary driver of the significant result, there are several natural extensions to this analysis.  
 
+The most immediate next step would be to investigate Station 6 further using additional data. The chi-squared test confirms that Station 6's defect rate is significantly higher than expected, but the analysis is based on defect counts alone. Enriching the dataset with covariates such as machine age, operator shift, maintenance history, or production volume would allow a more targeted root cause analysis — for example, determining whether the elevated defect rate is consistent across all shifts or concentrated within a particular time window or operator group.  
+
+With respect to Station 2, which recorded the second largest deviation from the expected proportion in the negative direction (−2.00%, observed count 176 against expected 200), it would be worth formally testing whether this suppression is statistically significant in its own right. A One-Sample T-Test or a proportion test could be applied to Station 2's defect rate in isolation, testing the hypothesis that its true defect rate is below the expected baseline. If confirmed, this would be an equally important operational finding — a station producing significantly fewer defects than expected may indicate best practice in maintenance, calibration, or operator technique that could be identified and replicated across the other stations.  
+
+A further suggested extension would be to apply a Chi-Squared Test of Independence, introducing a second categorical variable such as shift, product type, or time period alongside station. This would allow the analysis to determine not only whether defect rates differ by station, but whether the pattern of defects interacts with another operational factor — for example, whether Station 6's elevated rate is consistent across all product types or is concentrated in a specific production run. This technique is covered in a subsequent project in this portfolio.  
+
+Finally, if defect counts were recorded over time, a control chart approach could complement the statistical testing by monitoring whether Station 6's defect rate is stable, trending, or exhibiting cyclical patterns — providing an ongoing early-warning mechanism rather than a single point-in-time analysis.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
