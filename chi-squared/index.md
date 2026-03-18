@@ -8,8 +8,6 @@ permalink: /chi-squared/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 The business objective for this portfolio project is to apply a Chi-Squared Goodness-of-Fit test within a simulated quality control scenario at a fictional manufacturing facility. The facility operates a six-station production line where defects should, under normal operating conditions, occur with equal probability across all six stations. Any significant deviation from this uniform distribution would indicate that one or more stations are underperforming — whether due to machine wear, calibration drift, or a process fault — and would warrant targeted investigation.
