@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (χ² Chi-Squared Test)
+title: Manufacturing Quality Control (Chi-Squared (χ²) Test)
 
 permalink: /chi-squared/
 
