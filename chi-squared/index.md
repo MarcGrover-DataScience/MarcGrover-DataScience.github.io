@@ -61,7 +61,18 @@ The Chi-Squared Goodness-of-Fit test was applied using scipy, testing the null h
 
 ## Results:
 
-Results from the project related to the business objective.
+Descriptive Statistics:
+Observed defect counts and their deviation from the expected uniform proportion are summarised below, noting that the expected distribution is normal therefore the percentage expected is 16.67% for each station.
+
+```
+Station  Observed  Observed %   Deviation %
+      1       204       17.00         +0.33
+      2       176       14.67         −2.00
+      3       191       15.92         −0.75
+      4       184       15.33         −1.33
+      5       205       17.08         +0.42
+      6       240       20.00         +3.33
+```
 
 ![chart1_observed_vs_expected](chart1_observed_vs_expected.png)
 
