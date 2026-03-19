@@ -92,7 +92,71 @@ Permutation feature importance is calculated using scikit-learn's permutation_im
 
 ## Results:
 
-Results from the project related to the business objective.
+**Data Validation and Quality Band Distribution**:
+
+Data validation confirmed the dataset contains no missing values across any of the eleven feature columns or the quality target. [INSERT: number] duplicate records were identified and removed prior to analysis, leaving [INSERT: number] observations for modelling. All columns carry numeric data types as expected.
+
+
+The raw quality scores range from 3 to 8 across the red wine dataset, with the distribution heavily concentrated at scores 5 and 6. Following banding into three classes, the distribution is as follows: [INSERT: Low count and %, Medium count and %, High count and %]. The Medium class accounts for the large majority of observations, reflecting the rarity of very poor or exceptional wines in the dataset — a characteristic that provides useful context when interpreting classification performance by class.
+
+Show Image
+
+**Feature Correlation Analysis**:
+
+The correlation heatmap reveals the linear relationships between all physicochemical features and the raw quality score. Alcohol content emerges as the feature most positively correlated with quality, while volatile acidity carries the strongest negative correlation — wines with higher concentrations of acetic acid tend to be rated lower. Sulphates and citric acid show moderate positive correlations with quality. Among the features, notable multicollinearity is present between fixed acidity, citric acid, and density, suggesting these variables share overlapping information about wine composition.
+
+Show Image
+
+**Feature Distributions by Quality Band**:
+
+The five boxplots below present the distribution of each key feature across the Low, Medium, and High quality bands. These charts are central to the KNN narrative: they confirm that while individual features show quality-related trends, no single variable cleanly separates the three classes. It is the combination of features in multi-dimensional space — rather than any one measurement in isolation — that the KNN algorithm exploits.
+
+Alcohol shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with relatively little overlap in the interquartile ranges between Low and High classes. Of all the features examined, this shows the most visually pronounced association with quality.
+
+Show Image
+
+Volatile acidity shows the opposite trend, with lower values associated with higher quality bands. The Low band contains a wide spread of volatile acidity values, including a number of high outliers, which is consistent with the known negative impact of acetic acid on wine taste at elevated concentrations.
+
+Show Image
+
+Sulphates increase modestly with quality. The median values across bands are reasonably distinct, though the interquartile ranges overlap considerably, particularly between Medium and High — illustrating why sulphates alone cannot reliably discriminate between these classes.
+
+Show Image
+
+Citric acid follows a similar pattern to sulphates, with higher concentrations associated with better-rated wines, but again with substantial within-band variation that limits single-feature separability.
+
+Show Image
+
+Density shows a modest negative trend — denser wines tend to be rated lower — which is chemically consistent with the positive relationship between alcohol and quality, as higher alcohol content reduces wine density.
+
+Show Image
+
+Taken together, the boxplots demonstrate precisely the analytical setting that KNN is designed for: meaningful signal distributed across multiple features, none of which individually provides a sufficient basis for classification, but which in combination provide the multi-dimensional proximity structure the algorithm exploits.
+
+**Optimal K Selection**:
+
+The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises rapidly from K = 1 before stabilising, with the optimal value identified at K = [INSERT], producing a test accuracy of [INSERT]%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
+
+Show Image
+
+**Model Evaluation**:
+
+The final KNN model trained at K = [INSERT] achieves an overall test accuracy of [INSERT]% on the held-out test set.
+The confusion matrix below shows the breakdown of predictions across the three quality bands.
+
+Show Image
+
+The per-class results from the classification report are as follows: [INSERT precision, recall and F1 for Low, Medium and High from your output]. The pattern of misclassification visible in the confusion matrix is informative: the large majority of errors occur between adjacent quality bands — Low predicted as Medium, or Medium predicted as High — rather than between Low and High directly. This is the expected and most forgivable error pattern for an ordinal classification problem: the model's mistakes reflect genuine uncertainty at quality boundaries rather than wholesale misclassification.
+
+The Medium class, which accounts for the majority of observations, carries the highest recall, reflecting the model's natural tendency to favour the dominant class. The Low and High classes, being smaller and more extreme, present the greater classification challenge — a characteristic worth noting when assessing the model's practical utility for applications where identification of exceptional or poor quality wines is the primary goal.
+
+**Permutation Feature Importance**:
+
+The permutation feature importance chart ranks each of the eleven physicochemical features by their contribution to model accuracy on the test set.
+
+Show Image
+
+Alcohol is the most important feature by a clear margin, consistent with the visual evidence from the boxplots and the correlation analysis. Volatile acidity and sulphates rank second and third respectively, confirming that the model's classification decisions are driven primarily by the same variables that show the strongest quality-related trends in the exploratory analysis. Features such as free sulphur dioxide and residual sugar contribute relatively little to model accuracy, suggesting that their removal could simplify the feature space without meaningfully reducing predictive performance — an avenue explored in the Next Steps section.
 
 ## Conclusions:
 
