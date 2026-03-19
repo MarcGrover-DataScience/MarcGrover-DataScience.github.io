@@ -12,7 +12,15 @@ permalink: /k-nearest-neighbours/
 
 ## Goals and objectives:
 
-The business objective is ...
+For this portfolio project, the business scenario concerns the prediction of red wine quality from physicochemical measurements — a classification problem drawn from the UCI Wine Quality dataset, widely used as a benchmark in applied machine learning. The dataset comprises 1,599 observations of red wine, with eleven continuous chemical measurements including alcohol content, acidity, sulphates, and density, alongside a quality rating assigned by human sensory panels on a scale of three to nine. The objective is to determine whether the quality of a wine can be reliably predicted from its chemical composition alone, using K-Nearest Neighbours (KNN) as the classification framework.
+
+KNN is the appropriate technique for this problem for several reasons. As a distance-based algorithm, it makes no assumption about the functional form of the relationship between features and the target — an important property here, because wine quality is determined by the complex, non-linear interaction of multiple chemical variables rather than by any single dominant measurement. The algorithm classifies a new observation by identifying its K closest neighbours in feature space and assigning the majority class among them, a logic that maps naturally onto the intuition that wines with similar chemical profiles tend to be rated similarly by tasters.
+
+A key design decision in the analysis is the binning of raw quality scores into three ordered classes — Low (scores 3–4), Medium (scores 5–6), and High (scores 7–9). This is motivated by the heavy concentration of scores in the middle of the scale, which would render direct prediction of individual integer scores impractical and would obscure meaningful quality distinctions. The three-class formulation retains the ordinal structure of the problem while producing a classification task that is both analytically tractable and practically interpretable.
+
+A secondary objective is the selection of the optimal value of K through systematic evaluation across a range of candidate values. The choice of K is the primary hyperparameter in KNN and directly governs the bias-variance trade-off of the model: small values of K produce highly flexible boundaries susceptible to overfitting, while large values produce smoother boundaries at the cost of failing to capture local structure in the data. By evaluating model performance across K = 1 to K = 30 on held-out test data, the analysis identifies the value that maximises generalisation accuracy and demonstrates the importance of principled hyperparameter selection.
+
+By the end of the analysis, the project aims to demonstrate not only the correct implementation of KNN classification — including mandatory feature scaling, stratified train-test splitting, and model evaluation — but also the analytical judgement to interpret results in terms of practical significance, and the ability to communicate the findings of a multi-feature classification model clearly to both technical and non-technical audiences.
 
 ## Application:  
 
@@ -47,6 +55,8 @@ This approach is applicable across many sectors and scenarios. Practical example
 ## Methodology:  
 
 Details of the methodology applied in the project.
+
+**Feature Engineering** bins the raw quality scores (3–9) into three classes — Low (≤4), Medium (5–6), High (≥7). This is a deliberate and defensible analytical choice for the portfolio write-up: it addresses the heavy class imbalance in raw scores and makes the classification task more meaningful, while the three-way boundary remains genuinely non-trivial.
 
 ## Results:
 
