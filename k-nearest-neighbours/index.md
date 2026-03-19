@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (K-Nearest Neighbours)
+title: Wine Quality Prediction (K-Nearest Neighbours)
 
 permalink: /k-nearest-neighbours/
 
