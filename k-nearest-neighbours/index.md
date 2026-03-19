@@ -59,9 +59,36 @@ This approach is applicable across many sectors and scenarios. Practical example
 The methodology adopted for this project follows the end-to-end data science workflow, progressing from data loading and validation through exploratory analysis, pre-processing, model fitting, and evaluation. The project is implemented in Python, using pandas for data manipulation, scikit-learn for modelling and evaluation, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described below.
 
 **Data Loading and Validation**:  
+
 The dataset is loaded from the locally downloaded Kaggle CSV file using pandas, specifying the semicolon delimiter used in the UCI Wine Quality format. A structured validation audit is conducted prior to any analysis, checking for missing values across all eleven feature columns and the quality target, identifying and removing duplicate records, and confirming that all columns carry the expected numeric data types. Descriptive statistics are printed for all variables, and the raw distribution of quality scores is inspected to confirm the spread of ratings and motivate the subsequent banding decision.
 
-**Feature Engineering** bins the raw quality scores (3–9) into three classes — Low (≤4), Medium (5–6), High (≥7). This is a deliberate and defensible analytical choice for the portfolio write-up: it addresses the heavy class imbalance in raw scores and makes the classification task more meaningful, while the three-way boundary remains genuinely non-trivial.
+**Feature Engineering — Quality Banding**:
+
+The raw quality scores are binned into three ordered classes: Low (scores 3–4), Medium (scores 5–6), and High (scores 7–9). This decision is driven by the empirical distribution of scores in the red wine dataset, where the overwhelming majority of observations carry scores of five or six, and very few sit at the extremes. Retaining the raw integer scores as a nine-class target would result in severe class imbalance and an effectively unlearnable problem for the minority classes. The three-class formulation preserves the ordinal quality distinction that is meaningful to a wine producer or buyer while producing a balanced enough target for a fair classification evaluation.
+
+**Exploratory Data Analysis**:
+
+Exploratory analysis is conducted to characterise the distribution of quality bands and to understand how the individual physicochemical features relate to quality. The following charts are produced:
+
+* A **bar chart** of quality band counts, confirming the class distribution following banding and validating that the three classes are sufficiently represented for modelling.
+* A **correlation heatmap** of the full feature matrix including the raw quality score, used to identify features with strong linear relationships to quality and to detect multicollinearity between predictors.
+* **Five boxplots** — one each for alcohol, volatile acidity, sulphates, citric acid, and density — showing the distribution of each feature across the three quality bands. These features are selected on the basis of their correlation with quality and their chemical interpretability. The boxplots allow visual assessment of whether quality-related differences exist for individual features in isolation, before the KNN model is used to exploit multi-feature proximity.
+
+**Pre-Processing**:
+
+The feature matrix is separated from the target variable and split into training and test sets using an 80/20 ratio, with stratification on the quality band target to preserve class proportions in both sets. Feature scaling is applied using scikit-learn's StandardScaler, fitted on the training set and applied to both training and test sets. Scaling is a mandatory pre-processing step for KNN: because the algorithm computes Euclidean distances between observations, features measured on different scales — such as total sulphur dioxide (tens to hundreds) and pH (2.5 to 4.0) — would otherwise dominate the distance calculation purely by virtue of their numerical range, producing a distorted notion of similarity that the unscaled data does not support.
+
+**Optimal K Selection**:
+
+A KNN classifier is trained and evaluated for each integer value of K from 1 to 30. For each value, both training accuracy and test accuracy are recorded. The resulting accuracy curves are plotted against K, with the optimal value — defined as the K that maximises test accuracy — identified and marked. This step makes the bias-variance trade-off tangible: the chart typically shows high training accuracy and low test accuracy at very small K (overfitting), converging as K increases and stabilising at the optimal point before gradually declining again.
+
+**Model Fitting and Evaluation**:
+
+A final KNN classifier is trained using the optimal K on the full training set. Predictions are generated on the held-out test set and evaluated using three complementary outputs: a classification report providing per-class precision, recall, and F1-score; an overall test accuracy figure; and a confusion matrix heatmap showing the distribution of correct and incorrect predictions across the three quality bands. The confusion matrix is particularly informative for a multi-class problem, revealing not just the overall error rate but the pattern of misclassification — specifically whether the model tends to confuse adjacent quality bands (a more forgivable error) rather than assigning Low and High classifications incorrectly to one another.
+
+**Permutation Feature Importance**:
+
+Permutation feature importance is calculated using scikit-learn's permutation_importance function with 20 repeat permutations per feature on the test set. This method measures the decrease in model accuracy when each feature's values are randomly shuffled, isolating the contribution of each variable to the model's predictive power. It is model-agnostic and does not rely on internal model parameters, making it well-suited to KNN where no native feature importance measure exists. Results are presented as a ranked horizontal bar chart with standard deviation error bars, providing a stable and interpretable view of which chemical properties drive the model's classification decisions.
 
 ## Results:
 
