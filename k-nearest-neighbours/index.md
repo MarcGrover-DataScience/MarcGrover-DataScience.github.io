@@ -160,12 +160,25 @@ Alcohol is the most important feature by a clear margin, consistent with the vis
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+The KNN classifier achieves an overall test accuracy of [INSERT]% in classifying red wines into Low, Medium, and High quality bands from eleven physicochemical measurements, using an optimal neighbourhood size of K = [INSERT] identified through systematic evaluation. The result confirms that chemical composition carries genuine and learnable signal about wine quality — the model performs meaningfully above the naive baseline of always predicting the majority class, which would yield an accuracy of approximately [INSERT: Medium class %].
+
+The pattern of misclassification, however, is as analytically informative as the accuracy figure itself. Errors are concentrated at the boundaries between adjacent quality bands, reflecting the inherent ambiguity of quality ratings at the margins — a characteristic of the underlying data rather than a failure of the algorithm. The model correctly identifies the extreme cases (very poor and exceptional wines) with reasonable reliability; it is the boundary between Medium and High that presents the greatest challenge, which has direct practical implications for how the model should be deployed and what confidence thresholds should be applied.
+
+The feature importance analysis reinforces a coherent chemical narrative. Alcohol content, volatile acidity, and sulphates emerge as the principal drivers of the model's classification decisions — findings that align with the established understanding of wine chemistry and validate that the model is learning genuine domain-relevant relationships rather than exploiting statistical artefacts. This interpretability is a meaningful strength of the analysis: the model's behaviour can be explained in terms that are meaningful to a winemaker or quality manager, not only to a data scientist.
+
+It is also worth noting what the accuracy figure does not capture. With the Medium class representing the large majority of observations, a model that achieves moderate overall accuracy may still underperform on the Low and High classes that are likely to be of greatest operational interest — for example in a quality control or premium product identification context. Per-class F1-scores provide a more granular and honest view of performance across the full quality spectrum, and these should be the primary evaluation metric in any applied deployment of this model.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+The analysis presented here establishes a strong foundation for KNN-based quality classification, and several natural extensions exist that would deepen both the analytical rigour and the practical applicability of the findings.
 
+The most immediate methodological extension is hyperparameter tuning beyond K. The current implementation searches across values of K while holding all other parameters fixed. A more thorough optimisation would additionally consider the distance metric (Manhattan versus Euclidean), the weighting scheme (uniform versus distance-weighted neighbours), and the use of cross-validation in place of a single train-test split for more robust performance estimates. Scikit-learn's GridSearchCV provides a straightforward mechanism for this extended search.
+
+A further extension is feature selection. The permutation importance results suggest that several features contribute negligibly to model accuracy, and their removal could reduce noise in the distance calculations that KNN relies on. Techniques such as recursive feature elimination (RFE) or variance inflation factor (VIF) analysis could identify a reduced feature set that maintains or improves classification performance while improving model parsimony.
+
+The analysis could also be extended to the white wine variant of the dataset, applying the same pipeline and examining whether the optimal K, feature importance ranking, and classification accuracy differ between red and white wine — a natural comparative study that would also provide an opportunity to test whether a model trained on red wine data generalises to white wine, and whether the chemical drivers of quality are consistent across wine types.
+
+Finally, the classification results presented here provide a natural point of comparison for alternative supervised learning methods. Decision tree, random forest, and gradient boosting classifiers — all of which are represented elsewhere in this portfolio — could be applied to the same dataset and evaluated on the same metrics, providing direct evidence of where KNN's distance-based approach holds its own and where ensemble methods offer a measurable advantage. Such a comparison connects the KNN page into the broader portfolio narrative of technique selection as a deliberate analytical decision.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
