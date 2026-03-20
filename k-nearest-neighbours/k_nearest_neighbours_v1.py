@@ -106,7 +106,7 @@ print(df["quality"].value_counts().sort_index())
 def band_quality(score):
     if score <= 4:
         return "Low"
-    elif score <= 6:
+    elif score <= 5:
         return "Medium"
     else:
         return "High"
