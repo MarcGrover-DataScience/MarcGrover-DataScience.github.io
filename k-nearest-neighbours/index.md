@@ -62,9 +62,11 @@ The methodology adopted for this project follows the end-to-end data science wor
 
 The dataset is loaded from the locally downloaded Kaggle CSV file using pandas, specifying the semicolon delimiter used in the UCI Wine Quality format. A structured validation audit is conducted prior to any analysis, checking for missing values across all eleven feature columns and the quality target, identifying and removing duplicate records, and confirming that all columns carry the expected numeric data types. Descriptive statistics are printed for all variables, and the raw distribution of quality scores is inspected to confirm the spread of ratings and motivate the subsequent banding decision.
 
+The data can be downloaded [here](https://archive.ics.uci.edu/dataset/186/wine+quality)
+
 **Feature Engineering — Quality Banding**:
 
-The raw quality scores are binned into three ordered classes: Low (scores 3–4), Medium (scores 5–6), and High (scores 7–9). This decision is driven by the empirical distribution of scores in the red wine dataset, where the overwhelming majority of observations carry scores of five or six, and very few sit at the extremes. Retaining the raw integer scores as a nine-class target would result in severe class imbalance and an effectively unlearnable problem for the minority classes. The three-class formulation preserves the ordinal quality distinction that is meaningful to a wine producer or buyer while producing a balanced enough target for a fair classification evaluation.
+The raw quality scores are binned into three ordered classes: Low (scores 3–4), Medium (score 5), and High (scores 6–8). The initial approach of assigning scores 5 and 6 jointly to the Medium band was assessed and rejected. Under that definition, the Medium class accounts for approximately 82% of observations, producing a severe class imbalance in which the naive strategy of always predicting "Medium" would yield around 82% accuracy — a baseline so high that overall model accuracy becomes a poor indicator of genuine predictive performance. Reassigning score 6 to the High band reduces the naive baseline to approximately 53% and produces a substantially more balanced class distribution, ensuring that accuracy above that threshold reflects real learning from the feature data. The rebanding is semantically valid: a quality score of 6 represents an above-average wine and is reasonably grouped with scores 7 and 8 as collectively high-quality.
 
 **Exploratory Data Analysis**:
 
@@ -96,8 +98,7 @@ Permutation feature importance is calculated using scikit-learn's permutation_im
 
 Data validation confirmed the dataset contains no missing values across any of the eleven feature columns or the quality target. [INSERT: number] duplicate records were identified and removed prior to analysis, leaving [INSERT: number] observations for modelling. All columns carry numeric data types as expected.
 
-
-The raw quality scores range from 3 to 8 across the red wine dataset, with the distribution heavily concentrated at scores 5 and 6. Following banding into three classes, the distribution is as follows: [INSERT: Low count and %, Medium count and %, High count and %]. The Medium class accounts for the large majority of observations, reflecting the rarity of very poor or exceptional wines in the dataset — a characteristic that provides useful context when interpreting classification performance by class.
+The raw quality scores range from 3 to 8 across the red wine dataset, with the distribution heavily concentrated at scores 5 and 6. Following the application of the final banding scheme — Low (3–4), Medium (5), High (6–8) — the class distribution is as follows: [INSERT: Low count and %, Medium count and %, High count and %]. The naive classifier baseline under this definition is approximately [INSERT: High class %], meaning that a model which always predicts the majority class would achieve that accuracy without learning anything from the feature data. Any accuracy materially above this figure can be attributed to genuine predictive signal in the chemical measurements.
 
 ![plot_01_quality_band_distribution](plot_01_quality_band_distribution.png)
 
@@ -111,19 +112,19 @@ The correlation heatmap reveals the linear relationships between all physicochem
 
 The five boxplots below present the distribution of each key feature across the Low, Medium, and High quality bands. These charts are central to the KNN narrative: they confirm that while individual features show quality-related trends, no single variable cleanly separates the three classes. It is the combination of features in multi-dimensional space — rather than any one measurement in isolation — that the KNN algorithm exploits.
 
-Alcohol shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with relatively little overlap in the interquartile ranges between Low and High classes. Of all the features examined, this shows the most visually pronounced association with quality.
+Alcohol shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low band. Of all the features examined, this shows the most pronounced association with quality.
 
 ![plot_03_boxplot_alcohol](plot_03_boxplot_alcohol.png)
 
-Volatile acidity shows the opposite trend, with lower values associated with higher quality bands. The Low band contains a wide spread of volatile acidity values, including a number of high outliers, which is consistent with the known negative impact of acetic acid on wine taste at elevated concentrations.
+Volatile acidity shows the opposite trend, with lower values associated with higher quality bands. The Low band contains a wide spread of volatile acidity values including a number of elevated outliers, consistent with the known negative impact of acetic acid on wine taste at higher concentrations.
 
 ![plot_04_boxplot_volatile_acidity](plot_04_boxplot_volatile_acidity.png)
 
-Sulphates increase modestly with quality. The median values across bands are reasonably distinct, though the interquartile ranges overlap considerably, particularly between Medium and High — illustrating why sulphates alone cannot reliably discriminate between these classes.
+Sulphates increase modestly with quality. Median values are reasonably distinct across bands, though the interquartile ranges overlap considerably between Medium and High — illustrating why sulphates alone cannot reliably discriminate between these classes.
 
 ![plot_05_boxplot_sulphates](plot_05_boxplot_sulphates.png)
 
-Citric acid follows a similar pattern to sulphates, with higher concentrations associated with better-rated wines, but again with substantial within-band variation that limits single-feature separability.
+Citric acid follows a similar pattern, with higher concentrations associated with better-rated wines, but again with substantial within-band variation that limits single-feature separability.
 
 ![plot_06_boxplot_citric_acid](plot_06_boxplot_citric_acid.png)
 
