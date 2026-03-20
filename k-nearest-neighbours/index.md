@@ -16,7 +16,7 @@ For this portfolio project, the business scenario concerns the prediction of red
 
 KNN is the appropriate technique for this problem for several reasons. As a distance-based algorithm, it makes no assumption about the functional form of the relationship between features and the target — an important property here, because wine quality is determined by the complex, non-linear interaction of multiple chemical variables rather than by any single dominant measurement. The algorithm classifies a new observation by identifying its K closest neighbours in feature space and assigning the majority class among them, a logic that maps naturally onto the intuition that wines with similar chemical profiles tend to be rated similarly by tasters.
 
-A key design decision in the analysis is the binning of raw quality scores into three ordered classes — Low (scores 3–4), Medium (score 5), and High (scores 6–8). The initial approach of defining Medium as scores 5–6 was considered but rejected on the grounds that it produced a severe class imbalance, with approximately 82% of observations falling into the Medium band. Under that definition, a classifier that simply predicted "Medium" for every observation would achieve around 82% accuracy without learning anything meaningful about the data — a phenomenon known as the naive classifier problem. By reassigning score 6 into the High band, the class distribution becomes substantially more balanced, reducing the naive baseline accuracy to approximately 53% and ensuring that any accuracy achieved above that level reflects genuine predictive learning. The rebanding is also semantically defensible: a score of 6 on a sensory quality scale is above average and is reasonably grouped with scores 7 and 8 as collectively good-quality wine.
+A key design decision in the analysis is the binning of raw quality scores into three ordered classes — Low (scores 3–4), Medium (score 5), and High (scores 6–8). The initial approach of defining Medium as scores 5–6 was considered but rejected on the grounds that it produced a severe class imbalance, with approximately 82% of observations falling into the Medium band. Under that definition, a classifier that simply predicted "Medium" for every observation would achieve around 82% accuracy without learning anything meaningful about the data — a phenomenon known as the naive classifier problem. By reassigning score 6 into the High band, the class distribution becomes substantially more balanced, reducing the naive baseline accuracy to approximately 53% and ensuring that any accuracy achieved above that level reflects genuine predictive learning. The rebanding is also logically defensible: a score of 6 on a sensory quality scale is above average and is reasonably grouped with scores 7 and 8 as collectively good-quality wine.
 
 A secondary objective is the selection of the optimal value of K through systematic evaluation across a range of candidate values. The choice of K is the primary hyperparameter in KNN and directly governs the bias-variance trade-off: small values of K produce highly flexible boundaries susceptible to overfitting, while large values produce smoother boundaries at the cost of failing to capture local structure in the data. By evaluating model performance across K = 1 to K = 30 on held-out test data, the analysis identifies the value that maximises generalisation accuracy and demonstrates the importance of principled hyperparameter selection.
 
@@ -26,7 +26,7 @@ By the end of the analysis, the project aims to demonstrate not only the correct
 
 K-Nearest Neighbours is a versatile, interpretable non-parametric supervised machine learning classification algorithm deployed across a wide range of business domains wherever the goal is to assign observations to categories based on their proximity to known examples in a multi-dimensional feature space.  It is used for both classification and regression tasks.
 
-The core principle behind KNN is that data points with similar features exist in close proximity to each other in vector space. When presented with a new, unseen data point, the algorithm calculates the "distance" (typically using Euclidean, Manhattan, or Minkowski metrics) between that point and all other points in the training dataset. It then identifies the $k$ closest data points—the "nearest neighbours"—and assigns the new point the most common class among them (for classification) or the average of their values (for regression). As a "lazy learner," KNN does not build an explicit internal model during a training phase, but rather stores the entire dataset and performs the computation only when a prediction is required.  
+The core principle behind KNN is that data points with similar features exist in close proximity to each other in vector space. When presented with a new, unseen data point, the algorithm calculates the "distance" (typically using Euclidean, Manhattan, or Minkowski metrics) between that point and all other points in the training dataset. It then identifies the $k$ closest data points—the "nearest neighbours", and assigns the new point the most common class among them (for classification) or the average of their values (for regression). As a "lazy learner," KNN does not build an explicit internal model during a training phase, but rather stores the entire dataset and performs the computation only when a prediction is required.  
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where the K-Nearest Neighbours technique provides clear business value include: 
 
@@ -40,7 +40,7 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 **Intrusion Detection**: Cybersecurity systems flag network traffic as a potential cyberattack if its packet characteristics are closest to known historical malicious signatures rather than normal baseline traffic.  
 **Optical Character Recognition (OCR)**: Document scanning software classifies handwritten letters by converting the image pixels into a vector and finding the closest matching confirmed characters in its database.  
-**Content Curation**: Streaming services dynamically predict user ratings for a new movie by analyzing the ratings given to that same movie by the $k$ users who have the most similar overall viewing tastes.
+**Content Curation**: Streaming services dynamically predict user ratings for a new movie by analysing the ratings given to that same movie by the $k$ users who have the most similar overall viewing tastes.
 
 🔬 **Science & Research**:
 
@@ -104,7 +104,7 @@ The raw quality scores range from 3 to 8 across the red wine dataset, with the d
 
 **Feature Correlation Analysis**:
 
-The correlation heatmap reveals the linear relationships between all physicochemical features and the raw quality score. Alcohol content emerges as the feature most positively correlated with quality, while volatile acidity carries the strongest negative correlation — wines with higher concentrations of acetic acid tend to be rated lower. Sulphates and citric acid show moderate positive correlations with quality. Among the features, notable multicollinearity is present between fixed acidity, citric acid, and density, suggesting these variables share overlapping information about wine composition.
+The correlation heatmap reveals the linear relationships between all physicochemical features and the raw quality score. **Alcohol content** emerges as the feature most positively correlated with quality, while **volatile acidity** carries the strongest negative correlation — wines with higher concentrations of acetic acid tend to be rated lower. **Sulphates** and **citric acid** show moderate positive correlations with quality. Among the features, notable multicollinearity is present between fixed acidity, citric acid, and density, suggesting these variables share overlapping information about wine composition.
 
 ![plot_02_correlation_heatmap](plot_02_correlation_heatmap.png)
 
@@ -112,23 +112,23 @@ The correlation heatmap reveals the linear relationships between all physicochem
 
 The five boxplots below present the distribution of each key feature across the Low, Medium, and High quality bands. These charts are central to the KNN narrative: they confirm that while individual features show quality-related trends, no single variable cleanly separates the three classes. It is the combination of features in multi-dimensional space — rather than any one measurement in isolation — that the KNN algorithm exploits.
 
-Alcohol shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low band. Of all the features examined, this shows the most pronounced association with quality.
+**Alcohol** shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low band. Of all the features examined, this shows the most pronounced association with quality.
 
 ![plot_03_boxplot_alcohol](plot_03_boxplot_alcohol.png)
 
-Volatile acidity shows the opposite trend, with lower values associated with higher quality bands. The Low band contains a wide spread of volatile acidity values including a number of elevated outliers, consistent with the known negative impact of acetic acid on wine taste at higher concentrations.
+**Volatile acidity** shows the opposite trend, with lower values associated with higher quality bands. The Low band contains a wide spread of volatile acidity values including a number of elevated outliers, consistent with the known negative impact of acetic acid on wine taste at higher concentrations.
 
 ![plot_04_boxplot_volatile_acidity](plot_04_boxplot_volatile_acidity.png)
 
-Sulphates increase modestly with quality. Median values are reasonably distinct across bands, though the interquartile ranges overlap considerably between Medium and High — illustrating why sulphates alone cannot reliably discriminate between these classes.
+**Sulphates** increase modestly with quality. Median values are reasonably distinct across bands, though the interquartile ranges overlap considerably between Medium and High — illustrating why sulphates alone cannot reliably discriminate between these classes.
 
 ![plot_05_boxplot_sulphates](plot_05_boxplot_sulphates.png)
 
-Citric acid follows a similar pattern, with higher concentrations associated with better-rated wines, but again with substantial within-band variation that limits single-feature separability.
+**Citric acid** follows a similar pattern, with higher concentrations associated with better-rated wines, but again with substantial within-band variation that limits single-feature separability.
 
 ![plot_06_boxplot_citric_acid](plot_06_boxplot_citric_acid.png)
 
-Density shows a modest negative trend — denser wines tend to be rated lower — which is chemically consistent with the positive relationship between alcohol and quality, as higher alcohol content reduces wine density.
+**Density** shows a modest negative trend — denser wines tend to be rated lower — which is chemically consistent with the positive relationship between alcohol and quality, as higher alcohol content reduces wine density.
 
 ![plot_07_boxplot_density](plot_07_boxplot_density.png)
 
