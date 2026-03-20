@@ -136,20 +136,21 @@ Taken together, the boxplots demonstrate precisely the analytical setting that K
 
 **Optimal K Selection**:
 
-The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises rapidly from K = 1 before stabilising, with the optimal value identified at K = [INSERT], producing a test accuracy of [INSERT]%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
+The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises from K = 1 before stabilising, with the optimal value identified at K = [INSERT], producing a test accuracy of [INSERT]%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
 
 ![plot_08_accuracy_vs_k](plot_08_accuracy_vs_k.png)
 
 **Model Evaluation**:
 
-The final KNN model trained at K = [INSERT] achieves an overall test accuracy of [INSERT]% on the held-out test set.
+The final KNN model trained at K = 15 achieves an overall test accuracy of [INSERT]% on the held-out test set. With a naive classifier baseline of approximately [INSERT]% under the current banding definition, the model's accuracy represents a meaningful improvement that reflects genuine learning from the physicochemical features rather than a statistical artefact of class imbalance.
+
 The confusion matrix below shows the breakdown of predictions across the three quality bands.
 
 ![plot_09_confusion_matrix](plot_09_confusion_matrix.png)
 
-The per-class results from the classification report are as follows: [INSERT precision, recall and F1 for Low, Medium and High from your output]. The pattern of misclassification visible in the confusion matrix is informative: the large majority of errors occur between adjacent quality bands — Low predicted as Medium, or Medium predicted as High — rather than between Low and High directly. This is the expected and most forgivable error pattern for an ordinal classification problem: the model's mistakes reflect genuine uncertainty at quality boundaries rather than wholesale misclassification.
+The per-class results from the classification report are as follows: [INSERT precision, recall and F1 for Low, Medium and High from your output]. The pattern of misclassification visible in the confusion matrix is informative: the large majority of errors occur between adjacent quality bands rather than between Low and High directly, which is the expected and most forgivable error pattern for an ordinal classification problem. The model's mistakes reflect genuine uncertainty at quality boundaries rather than wholesale misclassification across the full quality range.
 
-The Medium class, which accounts for the majority of observations, carries the highest recall, reflecting the model's natural tendency to favour the dominant class. The Low and High classes, being smaller and more extreme, present the greater classification challenge — a characteristic worth noting when assessing the model's practical utility for applications where identification of exceptional or poor quality wines is the primary goal.
+The Low class, representing wines with scores of 3 or 4, remains the most challenging to classify correctly owing to its small representation in the dataset — a data limitation rather than a modelling failure. The distinction between Medium and High, which now separates score 5 from scores 6–8, presents the principal classification challenge at volume, and the confusion matrix provides a direct view of how often the model navigates that boundary correctly.
 
 **Permutation Feature Importance**:
 
@@ -157,7 +158,7 @@ The permutation feature importance chart ranks each of the eleven physicochemica
 
 ![plot_10_feature_importance](plot_10_feature_importance.png)
 
-Alcohol is the most important feature by a clear margin, consistent with the visual evidence from the boxplots and the correlation analysis. Volatile acidity and sulphates rank second and third respectively, confirming that the model's classification decisions are driven primarily by the same variables that show the strongest quality-related trends in the exploratory analysis. Features such as free sulphur dioxide and residual sugar contribute relatively little to model accuracy, suggesting that their removal could simplify the feature space without meaningfully reducing predictive performance — an avenue explored in the Next Steps section.
+**Alcohol** is the most important feature by a clear margin, consistent with the visual evidence from the boxplots and the correlation analysis. **Volatile acidity and sulphates** rank second and third respectively, confirming that the model's classification decisions are driven primarily by the same variables that show the strongest quality-related trends in the exploratory analysis. Features such as free sulphur dioxide and residual sugar contribute relatively little to model accuracy, suggesting their removal could simplify the feature space without meaningfully reducing predictive performance — an avenue explored in the Next Steps section.
 
 ## Conclusions:
 
