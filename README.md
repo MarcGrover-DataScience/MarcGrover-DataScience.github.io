@@ -46,8 +46,8 @@ All projects are implemented in Python, reflecting the language's central role i
 
 ## Deep Learning & NLP
 * ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
-* ### Text Summarisation (Deep Learning)
-* ### Topic Modelling and Clustering (Deep Learning)
+<!--* ### Text Summarisation (Deep Learning) -->
+<!--* ### Topic Modelling and Clustering (Deep Learning) -->
 * ### [Image Classification (Deep Learning)](/image-classification/)
 
 ## Data Quality & Validation
