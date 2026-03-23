@@ -160,7 +160,6 @@ The per-class results from the classification report are as follows:
 
 ```
         precision    recall  f1-score   support
-
    Low       0.00      0.00      0.00        13
 Medium       0.71      0.62      0.66       115
   High       0.71      0.84      0.77       144
@@ -180,7 +179,7 @@ The permutation feature importance chart ranks each of the eleven physicochemica
 
 ## Conclusions:
 
-The KNN classifier achieves an overall test accuracy of [INSERT]% in classifying red wines into Low, Medium, and High quality bands from eleven physicochemical measurements, using an optimal neighbourhood size of K = [INSERT] identified through systematic evaluation. Critically, this result should be assessed against the naive classifier baseline of approximately [INSERT]% — the accuracy achievable by always predicting the majority class without reference to any feature data. The model's performance represents a meaningful and genuine improvement above that baseline, confirming that chemical composition carries learnable predictive signal about wine quality.
+The KNN classifier achieves an overall test accuracy of 70.6% in classifying red wines into Low, Medium, and High quality bands from eleven physicochemical measurements, using an optimal neighbourhood size of K = 15 identified through systematic evaluation. Critically, this result should be assessed against the naive classifier baseline of approximately 52.9% — the accuracy achievable by always predicting the majority class without reference to any feature data. The model's performance represents a meaningful and genuine improvement above that baseline, confirming that chemical composition carries learnable predictive signal about wine quality.
 
 This baseline comparison is the central analytical point of the project. An earlier formulation of the quality bands — with Medium defined as scores 5 and 6 — produced an overall accuracy of approximately 85%, which appears strong in isolation. However, under that definition the Medium class accounted for approximately 82% of all observations, meaning a naive classifier would have achieved a similar figure. The decision to redefine Medium as score 5 only, and High as scores 6–8, was deliberately taken to produce a more balanced class distribution and a more honest accuracy baseline — accepting a lower headline accuracy in exchange for a model whose results are genuinely interpretable. That trade-off is analytically sound and reflects the principle that overall accuracy alone is an insufficient evaluation metric whenever class imbalance is present.
 
@@ -194,7 +193,7 @@ The analysis presented here establishes a strong foundation for KNN-based qualit
 
 The most immediate methodological extension is hyperparameter tuning beyond K. The current implementation searches across values of K while holding all other parameters fixed. A more thorough optimisation would additionally consider the distance metric (Manhattan versus Euclidean), the weighting scheme (uniform versus distance-weighted neighbours), and the use of cross-validation in place of a single train-test split for more robust performance estimates. Scikit-learn's GridSearchCV provides a straightforward mechanism for this extended search.
 
-A further extension is feature selection. The permutation importance results suggest that several features contribute negligibly to model accuracy, and their removal could reduce noise in the distance calculations that KNN relies on. Techniques such as recursive feature elimination (RFE) or variance inflation factor (VIF) analysis could identify a reduced feature set that maintains or improves classification performance while improving model parsimony.
+A further extension is feature selection. The permutation importance results suggest that several features contribute negligibly to model accuracy, and their removal could reduce noise in the distance calculations that KNN relies on. Techniques such as recursive feature elimination (RFE) or variance inflation factor (VIF) analysis could identify a reduced feature set that maintains or improves classification performance.
 
 The analysis could also be extended to the white wine variant of the dataset, applying the same pipeline and examining whether the optimal K, feature importance ranking, and classification accuracy differ between red and white wine — a natural comparative study that would also provide an opportunity to test whether a model trained on red wine data generalises to white wine, and whether the chemical drivers of quality are consistent across wine types.
 
@@ -202,4 +201,4 @@ Finally, the classification results presented here provide a natural point of co
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+[View the Python Script](/k_nearest_neighbours_v1.py)
