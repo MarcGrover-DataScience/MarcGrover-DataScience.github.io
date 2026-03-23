@@ -144,19 +144,29 @@ Taken together, the boxplots demonstrate precisely the analytical setting that K
 
 **Optimal K Selection**:
 
-The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises from K = 1 before stabilising, with the optimal value identified at K = 15, producing a test accuracy of 70.59%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
+The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises from K = 1 before stabilising, with the optimal value identified at K = 15, producing a test accuracy of 70.6%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
 
 ![plot_08_accuracy_vs_k](plot_08_accuracy_vs_k.png)
 
 **Model Evaluation**:
 
-The final KNN model trained at K = 15 achieves an overall test accuracy of [INSERT]% on the held-out test set. With a naive classifier baseline of approximately [INSERT]% under the current banding definition, the model's accuracy represents a meaningful improvement that reflects genuine learning from the physicochemical features rather than a statistical artefact of class imbalance.
+The final KNN model trained at K = 15 achieves an overall test accuracy of 70.6% on the held-out test set. With a naive classifier baseline of approximately 52.9% under the current banding definition, the model's accuracy represents a meaningful improvement that reflects genuine learning from the physicochemical features rather than a statistical artefact of class imbalance.
 
 The confusion matrix below shows the breakdown of predictions across the three quality bands.
 
 ![plot_09_confusion_matrix](plot_09_confusion_matrix.png)
 
-The per-class results from the classification report are as follows: [INSERT precision, recall and F1 for Low, Medium and High from your output]. The pattern of misclassification visible in the confusion matrix is informative: the large majority of errors occur between adjacent quality bands rather than between Low and High directly, which is the expected and most forgivable error pattern for an ordinal classification problem. The model's mistakes reflect genuine uncertainty at quality boundaries rather than wholesale misclassification across the full quality range.
+The per-class results from the classification report are as follows:
+
+```
+        precision    recall  f1-score   support
+
+   Low       0.00      0.00      0.00        13
+Medium       0.71      0.62      0.66       115
+  High       0.71      0.84      0.77       144
+```
+
+The pattern of misclassification visible in the confusion matrix is informative: the large majority of errors occur between adjacent quality bands rather than between Low and High directly, which is the expected and most forgivable error pattern for an ordinal classification problem. The model's mistakes reflect genuine uncertainty at quality boundaries rather than wholesale misclassification across the full quality range.
 
 The Low class, representing wines with scores of 3 or 4, remains the most challenging to classify correctly owing to its small representation in the dataset — a data limitation rather than a modelling failure. The distinction between Medium and High, which now separates score 5 from scores 6–8, presents the principal classification challenge at volume, and the confusion matrix provides a direct view of how often the model navigates that boundary correctly.
 
