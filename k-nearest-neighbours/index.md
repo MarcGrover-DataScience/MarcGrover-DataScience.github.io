@@ -120,7 +120,7 @@ The correlation heatmap reveals the linear relationships between all physicochem
 
 The five boxplots below present the distribution of each key feature across the Low, Medium, and High quality bands. These charts are central to the KNN narrative: they confirm that while individual features show quality-related trends, no single variable cleanly separates the three classes. It is the combination of features in multi-dimensional space, rather than any one measurement in isolation, that the KNN algorithm exploits.
 
-**Alcohol** shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low and Medium bands, noting there are many high-value outliers for the medium band. Of all the features examined, this shows the most pronounced association with quality.
+**Alcohol** shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low and Medium bands, noting there are many high-value outliers for the medium band. Of all the features examined, this shows the most pronounced association with quality.  
 
 ![plot_03_boxplot_alcohol](plot_03_boxplot_alcohol.png)
 
@@ -144,7 +144,7 @@ Taken together, the boxplots demonstrate precisely the analytical setting that K
 
 **Optimal K Selection**:
 
-The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises from K = 1 before stabilising, with the optimal value identified at K = [INSERT], producing a test accuracy of [INSERT]%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
+The accuracy vs K plot below shows training and test accuracy evaluated for each value of K from 1 to 30. As expected, training accuracy is highest at K = 1, where the model memorises the training data exactly. Test accuracy rises from K = 1 before stabilising, with the optimal value identified at K = 15, producing a test accuracy of 70.59%. Beyond this point, test accuracy shows a gradual decline as larger values of K smooth out local structure that is genuinely informative.
 
 ![plot_08_accuracy_vs_k](plot_08_accuracy_vs_k.png)
 
