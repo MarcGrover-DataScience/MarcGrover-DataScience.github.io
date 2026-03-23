@@ -26,29 +26,32 @@ All projects are implemented in Python, reflecting the language's central role i
 * ### [Logistic regression](/logistic-regression/)
 
 ## Time-Series Analysis
-* ### [Time-series analysis (moving averages)](/moving-averages/)
-* ### [Time-series analysis (ARIMA)](/arima/)
+* ### [Moving Averages](/moving-averages/)
+* ### [ARIMA](/arima/)
+* ### LSTM Time Series (Deep Learning / Time Series Analysis)
 
 ## Machine Learning — Supervised
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
 * ### [K-Nearest Neighbours](/k-nearest-neighbours/)
+* ### Support Vector Machines (SVM)
 
 ## Machine Learning — Unsupervised
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
 * ### [Association Rule Mining](/association-rule/)
+* ### Anomaly Detection (Isolation Forest)
 
 ## Causal & Experimental Analysis
 * ### [Causal Impact Analysis](/causal-impact-analysis/)
   * ### [Causal Impact Analysis - Part 2](/causal-impact-analysis-2/)
 
 ## Deep Learning & NLP
-* ### [Zero-shot Classification (Deep Learning)](/zero-shot-classification/)
-<!--* ### Text Summarisation (Deep Learning) -->
-<!--* ### Topic Modelling and Clustering (Deep Learning) -->
-* ### [Image Classification (Deep Learning)](/image-classification/)
+* ### [Zero-shot Classification](/zero-shot-classification/)
+* ### Feedforward Neural Network (MLP)
+* ### Sentiment Analysis (Transformers)
+* ### [Image Classification](/image-classification/)
 
 ## Data Quality & Validation
 * ### [Great Expectations (Validation)](/great-expectations/)
@@ -61,5 +64,6 @@ All projects are implemented in Python, reflecting the language's central role i
 <!-- * ### Text Classification (Neural Network) -->
 <!-- * ### Named Entity Recognition (Deep Learning) -->
 <!-- * ### Text Summarisation (Deep Learning) -->
+<!-- * ### Topic Modelling and Clustering (Deep Learning) -->
 
 ![logo](Data Scientist Logo_small.png)
