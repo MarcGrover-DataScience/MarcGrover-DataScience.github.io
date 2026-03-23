@@ -96,23 +96,31 @@ Permutation feature importance is calculated using scikit-learn's permutation_im
 
 **Data Validation and Quality Band Distribution**:
 
-Data validation confirmed the dataset contains no missing values across any of the eleven feature columns or the quality target. [INSERT: number] duplicate records were identified and removed prior to analysis, leaving [INSERT: number] observations for modelling. All columns carry numeric data types as expected.
+Data validation confirmed the dataset contains no missing values across any of the eleven feature columns or the quality target. 240 duplicate records were identified and removed prior to analysis, leaving 1,359 observations for modelling. All columns carry numeric data types as expected.
 
-The raw quality scores range from 3 to 8 across the red wine dataset, with the distribution heavily concentrated at scores 5 and 6. Following the application of the final banding scheme — Low (3–4), Medium (5), High (6–8) — the class distribution is as follows: [INSERT: Low count and %, Medium count and %, High count and %]. The naive classifier baseline under this definition is approximately [INSERT: High class %], meaning that a model which always predicts the majority class would achieve that accuracy without learning anything from the feature data. Any accuracy materially above this figure can be attributed to genuine predictive signal in the chemical measurements.
+The raw quality scores range from 3 to 8 across the red wine dataset, with the distribution heavily concentrated at scores 5 and 6. Following the application of the final banding scheme — Low (3–4), Medium (5), High (6–8) — the class distribution is as follows: 
+
+```
+Low     :   63  (4.6%)
+Medium  :  577  (42.5%)
+High    :  719  (52.9%)
+```
+
+The naive classifier baseline under this definition is approximately 52.9%, meaning that a model which always predicts the majority class would achieve that accuracy without learning anything from the feature data. Any accuracy materially above this figure can be attributed to genuine predictive signal in the chemical measurements.
 
 ![plot_01_quality_band_distribution](plot_01_quality_band_distribution.png)
 
 **Feature Correlation Analysis**:
 
-The correlation heatmap reveals the linear relationships between all physicochemical features and the raw quality score. **Alcohol content** emerges as the feature most positively correlated with quality, while **volatile acidity** carries the strongest negative correlation — wines with higher concentrations of acetic acid tend to be rated lower. **Sulphates** and **citric acid** show moderate positive correlations with quality. Among the features, notable multicollinearity is present between fixed acidity, citric acid, and density, suggesting these variables share overlapping information about wine composition.
+The correlation heatmap reveals the linear relationships between all physicochemical features and the raw quality score. **Alcohol content** emerges as the feature most positively correlated with quality, while **volatile acidity** carries the strongest negative correlation, meaning wines with higher concentrations of acetic acid tend to be rated lower. **Sulphates** and **citric acid** show moderate positive correlations with quality. Among the features, notable multicollinearity is present between **fixed acidity**, **citric acid**, and **density**, suggesting these variables share overlapping information about wine composition.  There is high negative correlation between **pH** and **fixed acidity** suggesting potential redundency between these variables, which logically an expected finding.
 
 ![plot_02_correlation_heatmap](plot_02_correlation_heatmap.png)
 
 **Feature Distributions by Quality Band**:
 
-The five boxplots below present the distribution of each key feature across the Low, Medium, and High quality bands. These charts are central to the KNN narrative: they confirm that while individual features show quality-related trends, no single variable cleanly separates the three classes. It is the combination of features in multi-dimensional space — rather than any one measurement in isolation — that the KNN algorithm exploits.
+The five boxplots below present the distribution of each key feature across the Low, Medium, and High quality bands. These charts are central to the KNN narrative: they confirm that while individual features show quality-related trends, no single variable cleanly separates the three classes. It is the combination of features in multi-dimensional space, rather than any one measurement in isolation, that the KNN algorithm exploits.
 
-**Alcohol** shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low band. Of all the features examined, this shows the most pronounced association with quality.
+**Alcohol** shows a clear and consistent increase across quality bands. High-rated wines carry noticeably higher alcohol content on average, with the interquartile range of the High band sitting visibly above that of the Low and Medium bands, noting there are many high-value outliers for the medium band. Of all the features examined, this shows the most pronounced association with quality.
 
 ![plot_03_boxplot_alcohol](plot_03_boxplot_alcohol.png)
 
