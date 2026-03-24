@@ -28,20 +28,20 @@ All projects are implemented in Python, reflecting the language's central role i
 ## Time-Series Analysis
 * ### [Moving Averages](/moving-averages/)
 * ### [ARIMA](/arima/)
-* ### LSTM Time Series (Deep Learning / Time Series Analysis)
+* ### [LSTM Time Series (Deep Learning / Time Series Analysis)](/lstm-time-series/)
 
 ## Machine Learning — Supervised
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
 * ### [K-Nearest Neighbours](/k-nearest-neighbours/)
-* ### Support Vector Machines (SVM)
+* ### [Support Vector Machines (SVM)](/support-vector-machines/)
 
 ## Machine Learning — Unsupervised
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
 * ### [Association Rule Mining](/association-rule/)
-* ### Anomaly Detection (Isolation Forest)
+* ### [Anomaly Detection (Isolation Forest)](/anomaly-detection/)
 
 ## Causal & Experimental Analysis
 * ### [Causal Impact Analysis](/causal-impact-analysis/)
@@ -49,15 +49,21 @@ All projects are implemented in Python, reflecting the language's central role i
 
 ## Deep Learning & NLP
 * ### [Zero-shot Classification](/zero-shot-classification/)
-* ### Feedforward Neural Network (MLP)
-* ### Sentiment Analysis (Transformers)
+* ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
+* ### [Sentiment Analysis (Transformers)](/sentiment_analysis/)
 * ### [Image Classification](/image-classification/)
+
+## Model Interpretability & Explainability
+* ### [SHAP - SHapley Additive exPlanations](/shap/)
+<!-- * ### LIME (Local Interpretable Model-Agnostic Explanations) -->
+<!-- * ### Partial Dependence Plots -->
+<!-- * ### Counterfactual Explanations -->
 
 ## Data Quality & Validation
 * ### [Great Expectations (Validation)](/great-expectations/)
 
 <!-- * ### Fine Tuning / RAG / Transfer Learning -->
-<!-- * ### Text preprocessing (NLP) -->
+<!-- * ### Text pre-processing (NLP) -->
 <!-- * ### Sentiment Analysis (NLP) -->
 <!-- * ### Review classification (NLP) -->
 <!-- * ### Category Classification Prediction (Neural Network) -->
