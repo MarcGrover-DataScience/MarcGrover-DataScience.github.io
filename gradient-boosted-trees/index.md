@@ -217,7 +217,7 @@ worst concave points    0.1871
 The overall conclusions are summarised as:
 
 * Model Performance:
-  * **Superior Accuracy:** The XGBoost model achieved 97-99% test accuracy, representing a 1-2% improvement over Random Forest (96-97%) and 2-4% improvement over single Decision Trees (95%), demonstrating the power of sequential error correction in gradient boosting.  This demonstrates a common evolution of ensemble models for more accurate predictions; Decision Tree → Random Forest → Gradient Boosted Trees (XGBoost)
+  * **Superior Accuracy:** The XGBoost model achieved 97.4% test accuracy, representing a 1.7% improvement over Random Forest (95.6%) and 3.5% improvement over single Decision Trees (93.9%), demonstrating the power of sequential error correction in gradient boosting.  This demonstrates a common evolution of ensemble models for more accurate predictions; Decision Tree → Random Forest → Gradient Boosted Trees (XGBoost). 
   * **Exceptional Discriminative Ability:** ROC-AUC scores exceeding 0.99 indicate near-perfect ranking capability, meaning the model almost always assigns higher probabilities to malignant tumours than benign ones, providing reliable risk stratification for clinical decision-making.
   * **Excellent Generalisation:** The small gap between training and testing performance (typically <2%) demonstrates that hyperparameter tuning, successfully prevented overfitting despite the model's complexity.
   * **High Prediction Confidence:** Mean confidence scores above 0.95 indicate the model makes decisive predictions rather than borderline calls, with the distribution heavily skewed toward high confidence (0.95-1.0), providing clinicians with trustworthy probability estimates.
