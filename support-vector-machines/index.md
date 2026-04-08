@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Support Vector Machines)
+title: Breast Cancer Predictions (Support Vector Machines)
 
 permalink: /support-vector-machines/
 
