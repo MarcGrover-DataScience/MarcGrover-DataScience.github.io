@@ -200,5 +200,6 @@ The analysis could also be extended to the white wine variant of the dataset, ap
 Finally, the classification results presented here provide a natural point of comparison for alternative supervised learning methods. Decision tree, random forest, and gradient boosting classifiers — all of which are represented elsewhere in this portfolio — could be applied to the same dataset and evaluated on the same metrics, providing direct evidence of where KNN's distance-based approach holds its own and where ensemble methods offer a measurable advantage. Such a comparison connects the KNN page into the broader portfolio narrative of technique selection as a deliberate analytical decision.
 
 ## Python code:
-You can view the full Python script used for the analysis here: 
-[View the Python Script](/k_nearest_neighbours_v1.py)
+You can view the full Python script used for the analysis here:  
+[Kernel Trick Illustration Python Script](/svm_kernel_illustration.py)  
+[Breast Cancer Classification Python Script](/svm_breast_cancer.py)
