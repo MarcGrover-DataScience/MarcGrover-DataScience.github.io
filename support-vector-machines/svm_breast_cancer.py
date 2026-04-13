@@ -14,13 +14,6 @@
 #   This script should be read after svm_kernel_illustration.py, which
 #   establishes the conceptual foundation for kernel selection.
 #
-# Outputs (individual plots, saved as PNG):
-#   plot_01_class_distribution.png          — bar chart of class counts
-#   plot_02_kernel_comparison.png           — linear vs RBF F1-score comparison
-#   plot_03_gridsearch_heatmap.png          — C x gamma accuracy heatmap
-#   plot_04_confusion_matrix.png            — confusion matrix (optimal model)
-#   plot_05_roc_curve.png                   — ROC curve with AUC
-#   plot_06_support_vectors.png             — support vector counts by class
 # =============================================================================
 
 import numpy as np
@@ -48,8 +41,8 @@ from sklearn.metrics import (
 
 sns.set_theme(style="whitegrid", palette="muted", font_scale=1.1)
 
-COLOUR_MALIGNANT = "#E05C5C"   # red
-COLOUR_BENIGN    = "#5B8DB8"   # blue
+# COLOUR_MALIGNANT = "#E05C5C"   # red
+# COLOUR_BENIGN    = "#5B8DB8"   # blue
 COLOUR_LINEAR    = "#A8C5DA"   # light blue — linear kernel bars
 COLOUR_RBF       = "#5B8DB8"   # mid blue   — RBF kernel bars
 COLOUR_HEATMAP   = "Blues"
@@ -64,7 +57,7 @@ FIGURE_DPI       = 150
 # =============================================================================
 
 print("=" * 60)
-print("SECTION 1: DATA LOADING")
+print("\nSECTION 1: DATA LOADING")
 print("=" * 60)
 
 data        = load_breast_cancer()
@@ -75,7 +68,7 @@ target_names = data.target_names        # 0 = malignant, 1 = benign
 print(f"\nDataset          : Wisconsin Breast Cancer Diagnostic (scikit-learn)")
 print(f"Observations     : {X.shape[0]}")
 print(f"Features         : {X.shape[1]}")
-print(f"Target classes   : {list(target_names)}  (0 = malignant, 1 = benign)")
+# print(f"Target classes   : {list(target_names)}  (0 = malignant, 1 = benign)")
 
 print("\n--- Class Distribution ---")
 class_counts = y.value_counts().sort_index()
@@ -83,8 +76,7 @@ class_labels = [target_names[i] for i in class_counts.index]
 for label, count in zip(class_labels, class_counts):
     print(f"  {label:<12}: {count}  ({count / len(y) * 100:.1f}%)")
 
-print("\nNote: Full data validation and exploratory analysis for this dataset")
-print("were conducted in the Decision Tree project and are not repeated here.")
+print("\nNote: Full data validation and exploratory analysis for this dataset were conducted in the Decision Tree project and are not repeated here.")
 
 # =============================================================================
 # 2. PLOT 01 — CLASS DISTRIBUTION
@@ -101,9 +93,10 @@ sns.barplot(
     data     = class_df,
     x        = "Class",
     y        = "Count",
-    palette  = [COLOUR_MALIGNANT, COLOUR_BENIGN],
+    palette  = 'Greens',
     errorbar = None,
-    ax       = ax
+    ax       = ax,
+    hue      = "Class"
 )
 
 for idx, row in class_df.iterrows():
@@ -121,8 +114,7 @@ ax.set_ylim(0, class_df["Count"].max() * 1.18)
 
 plt.tight_layout()
 plt.savefig("plot_01_class_distribution.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("\nSaved: plot_01_class_distribution.png")
+plt.show()
 
 # =============================================================================
 # 3. TRAIN / TEST SPLIT AND FEATURE SCALING
@@ -146,12 +138,9 @@ X_test_scaled  = scaler.transform(X_test)
 print(f"\nTrain / Test split : 80% / 20%")
 print(f"Training set       : {X_train_scaled.shape[0]} observations")
 print(f"Test set           : {X_test_scaled.shape[0]}  observations")
-print(f"\nFeature scaling    : StandardScaler fitted on training set,")
-print(f"                     applied to training and test sets.")
-print(f"Scaling is mandatory for SVM — the algorithm computes distances")
-print(f"between observations and the hyperplane. Without scaling, features")
-print(f"measured on large numerical ranges dominate distance calculations")
-print(f"as an artefact of their units rather than their predictive value.")
+print(f"\nFeature scaling    : StandardScaler fitted on training set, applied to training and test sets.")
+print(f"Scaling is mandatory for SVM — the algorithm computes distances between observations and the hyperplane.")
+print(f"Without scaling, features measured on large numerical ranges dominate distance calculations as an artefact of their units rather than their predictive value.")
 
 # =============================================================================
 # 4. KERNEL COMPARISON — LINEAR VS RBF (DEFAULT HYPERPARAMETERS)
@@ -208,7 +197,8 @@ sns.barplot(
     x        = "Class",
     y        = "F1-Score",
     hue      = "Kernel",
-    palette  = {"Linear": COLOUR_LINEAR, "RBF": COLOUR_RBF},
+    # palette  = {"Linear": COLOUR_LINEAR, "RBF": COLOUR_RBF},
+    palette  = "YlGn_r",
     errorbar = None,
     ax       = ax
 )
@@ -232,8 +222,7 @@ ax.legend(title="Kernel", fontsize=10, title_fontsize=10)
 
 plt.tight_layout()
 plt.savefig("plot_02_kernel_comparison.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("\nSaved: plot_02_kernel_comparison.png")
+plt.show()
 
 # =============================================================================
 # 6. HYPERPARAMETER TUNING — GRIDSEARCHCV (C AND GAMMA, RBF KERNEL)
@@ -323,8 +312,7 @@ ax.tick_params(axis="y", rotation=0)
 
 plt.tight_layout()
 plt.savefig("plot_03_gridsearch_heatmap.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("\nSaved: plot_03_gridsearch_heatmap.png")
+plt.show()
 
 # =============================================================================
 # 8. FINAL MODEL — FIT WITH OPTIMAL HYPERPARAMETERS
@@ -402,8 +390,7 @@ ax.tick_params(axis="y", rotation=0)
 
 plt.tight_layout()
 plt.savefig("plot_04_confusion_matrix.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("\nSaved: plot_04_confusion_matrix.png")
+plt.show()
 
 # =============================================================================
 # 10. PLOT 05 — ROC CURVE
@@ -432,8 +419,7 @@ ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:.1f}"))
 
 plt.tight_layout()
 plt.savefig("plot_05_roc_curve.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("Saved: plot_05_roc_curve.png")
+plt.show()
 
 # =============================================================================
 # 11. SUPPORT VECTOR ANALYSIS
@@ -513,8 +499,7 @@ ax.legend(title="Observation Type", fontsize=10, title_fontsize=10)
 
 plt.tight_layout()
 plt.savefig("plot_06_support_vectors.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("\nSaved: plot_06_support_vectors.png")
+plt.show()
 
 # =============================================================================
 # 13. FINAL SUMMARY

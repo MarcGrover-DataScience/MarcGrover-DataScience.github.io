@@ -1,21 +1,13 @@
 # Support Vector Machine — Kernel Trick Illustration
 #
 # Purpose:
-#   A self-contained illustration of the kernel trick using synthetically
-#   generated concentric circular data (make_circles). Demonstrates that a
-#   linear SVM cannot separate classes that are not linearly separable in
-#   their original feature space, and that an RBF kernel SVM resolves this
-#   by implicitly mapping observations into a higher-dimensional space.
+#   A self-contained illustration of the kernel trick using synthetically generated concentric circular data (make_circles).
+#   Demonstrates that a linear SVM cannot separate classes that are not linearly separable in their original feature space,
+#   and that an RBF kernel SVM resolves this by implicitly mapping observations into a higher-dimensional space.
 #
-#   This script is a companion to svm_breast_cancer.py and is intended to
-#   be read first. It establishes the conceptual foundation for kernel
-#   selection before the main analysis begins.
+#   This script is a companion to svm_breast_cancer.py and is intended to be read first.
+#   It establishes the conceptual foundation for kernel selection before the main analysis begins.
 #
-# Outputs (individual plots, saved as PNG):
-#   plot_01_data_distribution.png       — class distribution of generated data
-#   plot_02_linear_svm_boundary.png     — linear SVM decision boundary
-#   plot_03_rbf_svm_boundary.png        — RBF kernel SVM decision boundary
-#   plot_04_kernel_accuracy_comparison  — bar chart comparing kernel accuracy
 # =============================================================================
 
 import numpy as np
@@ -36,11 +28,11 @@ from sklearn.metrics import accuracy_score, classification_report
 
 sns.set_theme(style="whitegrid", palette="muted", font_scale=1.1)
 
-COLOUR_CLASS_0  = "#E05C5C"   # red  — outer ring
-COLOUR_CLASS_1  = "#5B8DB8"   # blue — inner ring
-COLOUR_BOUNDARY = "#333333"   # dark grey boundary line
-COLOUR_BAR_LIN  = "#A8C5DA"   # bar chart — linear kernel
-COLOUR_BAR_RBF  = "#5B8DB8"   # bar chart — RBF kernel
+COLOUR_CLASS_0  = "red"   # red  — outer ring
+COLOUR_CLASS_1  = "cornflowerblue"   # blue — inner ring
+COLOUR_BOUNDARY = "darkgrey"   # dark grey boundary line
+COLOUR_BAR_LIN  = "mediumseagreen"   # bar chart — linear kernel
+COLOUR_BAR_RBF  = "seagreen"   # bar chart — RBF kernel
 
 RANDOM_STATE    = 42
 FIGURE_DPI      = 150
@@ -49,9 +41,7 @@ FIGURE_DPI      = 150
 # 1. DATA GENERATION
 # =============================================================================
 
-print("=" * 60)
-print("SECTION 1: DATA GENERATION")
-print("=" * 60)
+print("\nSECTION 1: DATA GENERATION")
 
 X, y = make_circles(
     n_samples   = 500,
@@ -72,10 +62,6 @@ df["Class_Label"] = df["Class"].map({0: "Outer (Class 0)", 1: "Inner (Class 1)"}
 print("\n--- Dataset Dimensions ---")
 print(f"Observations : {df.shape[0]}")
 print(f"Features     : {X.shape[1]}  (Feature_1, Feature_2)")
-print(f"Classes      : {sorted(df['Class'].unique())}")
-
-print("\n--- Missing Values ---")
-print(df[["Feature_1", "Feature_2", "Class"]].isnull().sum().to_string())
 
 print("\n--- Class Distribution ---")
 class_counts = df["Class_Label"].value_counts().sort_index()
@@ -122,8 +108,7 @@ ax.legend(title="Class", title_fontsize=10, fontsize=10, loc="upper right")
 
 plt.tight_layout()
 plt.savefig("plot_01_data_distribution.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("\nSaved: plot_01_data_distribution.png")
+plt.show()
 
 # =============================================================================
 # 4. TRAIN / TEST SPLIT AND SCALING
@@ -148,9 +133,7 @@ print(f"Test observations     : {X_test.shape[0]}")
 # 5. MODEL FITTING — LINEAR AND RBF KERNELS
 # =============================================================================
 
-print("\n" + "=" * 60)
-print("SECTION 2: MODEL FITTING")
-print("=" * 60)
+print("\nSECTION 2: MODEL FITTING")
 
 svm_linear = SVC(kernel="linear", C=1.0, random_state=RANDOM_STATE)
 svm_linear.fit(X_train, y_train)
@@ -239,15 +222,14 @@ def plot_decision_boundary(model, X_scaled, y_true, scaler_obj,
     ]
     ax.legend(handles=legend_elements, fontsize=10, loc="upper right")
 
-    ax.set_title(f"{title}\nTest Accuracy: {acc * 100:.2f}%",
+    ax.set_title(f"{title}\nTest Accuracy: {acc * 100:.0f}%",
                  fontsize=14, fontweight="bold", pad=12)
     ax.set_xlabel("Feature 1", fontsize=11)
     ax.set_ylabel("Feature 2", fontsize=11)
 
     plt.tight_layout()
     plt.savefig(filename, dpi=FIGURE_DPI, bbox_inches="tight")
-    plt.close()
-    print(f"Saved: {filename}")
+    plt.show()
 
 
 # =============================================================================
@@ -297,7 +279,8 @@ sns.barplot(
     y       = "Accuracy",
     palette = bar_colours,
     errorbar= None,
-    ax      = ax
+    ax      = ax,
+    hue     = "Kernel"
 )
 
 # Annotate bars with accuracy values
@@ -317,16 +300,13 @@ ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0%}"))
 
 plt.tight_layout()
 plt.savefig("plot_04_kernel_accuracy_comparison.png", dpi=FIGURE_DPI, bbox_inches="tight")
-plt.close()
-print("Saved: plot_04_kernel_accuracy_comparison.png")
+plt.show()
 
 # =============================================================================
 # 10. SUMMARY
 # =============================================================================
 
-print("\n" + "=" * 60)
-print("SUMMARY")
-print("=" * 60)
+print("\nSUMMARY")
 print(f"\nDataset           : make_circles  (n=500, noise=0.12, factor=0.45)")
 print(f"Train / Test split: 80% / 20%  ({X_train.shape[0]} / {X_test.shape[0]} observations)")
 print(f"\nLinear SVM")
@@ -337,5 +317,3 @@ print(f"  Test Accuracy   : {acc_rbf * 100:.2f}%")
 print(f"  Support Vectors : {svm_rbf.n_support_}  (class 0, class 1)")
 print(f"\nAccuracy improvement (RBF over Linear) : "
       f"{(acc_rbf - acc_linear) * 100:.2f} percentage points")
-print("\nAll plots saved. Proceed to svm_breast_cancer.py for the main analysis.")
-print("=" * 60)
