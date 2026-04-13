@@ -191,6 +191,8 @@ A support vector count of [INSERT]% of the training set indicates [INSERT — ch
 * [If low, e.g. under 20%]: a well-defined, wide margin — the decision boundary is determined by a compact set of boundary observations, and the model's generalisation properties are strong. The classifier is not overly sensitive to individual training points away from the boundary.
 * [If high, e.g. over 40%]: a narrow margin, suggesting the decision boundary passes close to many training observations. This can indicate that the classes overlap substantially in feature space, that the value of C is permitting significant misclassification tolerance, or that the gamma parameter is producing a broad kernel reach. It does not necessarily indicate a poorly performing model, but it does mean the boundary is influenced by a larger proportion of the data than an idealised wide-margin classifier would require.
 
+CONFIRM CLEAR INCLUSION OF SUPPORT VECTORS - I.E THOSE NEAR THE BORDER / EDGE
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
