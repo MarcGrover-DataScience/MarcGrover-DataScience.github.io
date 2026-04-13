@@ -133,17 +133,17 @@ This illustration establishes the analytical foundation for the kernel selection
 
 Prior to hyperparameter tuning, a direct comparison of the linear and RBF kernels is conducted on the Breast Cancer data using default values for C and gamma, providing a principled basis for focusing the grid search on the RBF kernel.
 
-The linear SVM achieves a test accuracy of [INSERT]%, with per-class F1-scores of [INSERT] for malignant and [INSERT] for benign. The RBF kernel SVM achieves a test accuracy of [INSERT]%, with per-class F1-scores of [INSERT] for malignant and [INSERT] for benign. The grouped bar chart below presents the F1-score comparison across both kernels and both classes, alongside the macro-averaged F1-score.
+The linear SVM achieves a test accuracy of 97.37%, with per-class F1-scores of 0.9647 for malignant and 0.9790 for benign. The RBF kernel SVM achieves a test accuracy of 98.25%, with per-class F1-scores of 0.9762 for malignant and 0.9861 for benign. The grouped bar chart below presents the F1-score comparison across both kernels and both classes, alongside the macro-averaged F1-score.
 
-Show Image
+![plot_02_kernel_comparison](plot_02_kernel_comparison.png)
 
-The RBF kernel outperforms the linear kernel across [INSERT — all / most] metrics at default hyperparameter values, consistent with the expectation that the relationship between 30 continuous cell nucleus measurements and tumour classification is not purely linear in the original feature space. The RBF kernel is therefore selected as the focus of the subsequent hyperparameter search. Importantly, neither result at this stage represents the optimised model — the purpose of this comparison is kernel selection, not final evaluation.
+The RBF kernel outperforms the linear kernel across all metrics at default hyperparameter values, consistent with the expectation that the relationship between 30 continuous cell nucleus measurements and tumour classification is not purely linear in the original feature space. The RBF kernel is therefore selected as the focus of the subsequent hyperparameter search. Importantly, neither result at this stage represents the optimised model — the purpose of this comparison is kernel selection, not final evaluation.
 
 **Hyperparameter Tuning — GridSearchCV (C and Gamma)**
 
 A systematic grid search is conducted over C ∈ {0.1, 1, 10, 100, 1000} and gamma ∈ {0.0001, 0.001, 0.01, 0.1, 1}, using five-fold stratified cross-validation on the training set. The heatmap below presents the mean cross-validation accuracy for every combination of C and gamma evaluated across the 25-cell grid, with the optimal combination highlighted.
 
-Show Image
+![plot_03_gridsearch_heatmap](plot_03_gridsearch_heatmap.png)
 
 The optimal hyperparameters identified are C = [INSERT] and gamma = [INSERT], producing a mean cross-validation accuracy of [INSERT]%. The heatmap illustrates the interaction between the two parameters clearly. High values of gamma combined with high values of C produce complex, tightly-fitted decision boundaries that overfit the training data, visible as lower cross-validation accuracy in the upper-right region of the grid. Low values of both parameters produce overly smooth boundaries that fail to capture the genuine structure of the data, visible in the lower-left region. The optimal combination sits in the region where the margin is wide enough to generalise, but the kernel reach is sufficiently local to model the non-linear class boundary correctly.
 
@@ -168,13 +168,13 @@ The per-class results from the classification report are:
 
 The confusion matrix below shows the full breakdown of correct and incorrect predictions across both classes.
 
-Show Image
+![plot_04_confusion_matrix](plot_04_confusion_matrix.png)
 
 The model correctly classifies [INSERT] of the [INSERT] malignant test observations and [INSERT] of the [INSERT] benign observations. [INSERT — false negative commentary, e.g.: There are [n] false negatives — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up investigation.] This pattern of misclassification is consistent with the class imbalance in the dataset, where the benign class accounts for approximately 62.7% of observations.
 
 The ROC curve below plots the true positive rate against the false positive rate across all classification thresholds, providing a threshold-independent view of the model's discriminative ability.
 
-Show Image
+![plot_05_roc_curve](plot_05_roc_curve.png)
 
 An ROC-AUC of [INSERT] indicates that the model correctly ranks a randomly selected malignant observation above a randomly selected benign observation [INSERT]% of the time. [INSERT — comparison sentence, e.g.: This compares to the ROC-AUC of 0.9964 reported for the Gradient Boosted Trees model, placing SVM [above / below / broadly in line with] the previous benchmark on this dataset.]
 
@@ -182,7 +182,7 @@ An ROC-AUC of [INSERT] indicates that the model correctly ranks a randomly selec
 
 The fitted model identifies [INSERT] support vectors from the training set — [INSERT] from the malignant class and [INSERT] from the benign class — representing [INSERT]% of the [INSERT] training observations. The chart below shows the breakdown of support vectors versus non-support vectors by class.
 
-Show Image
+![plot_06_support_vectors](plot_06_support_vectors.png)
 
 Support vectors are the subset of training observations that lie on or within the margin boundary and directly determine the position of the decision hyperplane. Every other training observation — regardless of how many there are — has no influence on the boundary whatsoever. This is a defining characteristic of SVM that has no direct equivalent in the tree-based methods applied to this dataset in previous projects: where a Gradient Boosted Tree ensemble aggregates information from all training observations across hundreds of sequential trees, the SVM decision boundary is determined entirely by this small, geometrically critical subset.
 
