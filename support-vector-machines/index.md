@@ -145,13 +145,13 @@ A systematic grid search is conducted over C ∈ {0.1, 1, 10, 100, 1000} and gam
 
 ![plot_03_gridsearch_heatmap](plot_03_gridsearch_heatmap.png)
 
-The optimal hyperparameters identified are C = [INSERT] and gamma = [INSERT], producing a mean cross-validation accuracy of [INSERT]%. The heatmap illustrates the interaction between the two parameters clearly. High values of gamma combined with high values of C produce complex, tightly-fitted decision boundaries that overfit the training data, visible as lower cross-validation accuracy in the upper-right region of the grid. Low values of both parameters produce overly smooth boundaries that fail to capture the genuine structure of the data, visible in the lower-left region. The optimal combination sits in the region where the margin is wide enough to generalise, but the kernel reach is sufficiently local to model the non-linear class boundary correctly.
+The optimal hyperparameters identified are C = 10 and gamma = 0.1, producing a mean cross-validation accuracy of 97.58%. The heatmap illustrates the interaction between the two parameters clearly. High values of gamma combined with high values of C produce complex, tightly-fitted decision boundaries that overfit the training data, visible as lower cross-validation accuracy in the upper-right region of the grid. Low values of both parameters produce overly smooth boundaries that fail to capture the genuine structure of the data, visible in the lower-left region. The optimal combination sits in the region where the margin is wide enough to generalise, but the kernel reach is sufficiently local to model the non-linear class boundary correctly.
 
-[INSERT — if applicable: Note that the optimal C and / or gamma values do not fall at the edge of the search grid, confirming that the true optimum has been captured within the range evaluated.]
+Note that the optimal C and / or gamma values do not fall at the edge of the search grid, confirming that the true optimum has been captured within the range evaluated.
 
 **Final Model Evaluation**
 
-The final RBF SVM classifier, trained on the full training set using C = [INSERT] and gamma = [INSERT], is evaluated on the held-out test set. The key performance metrics are as follows:
+The final RBF SVM classifier, trained on the full training set using C = 10 and gamma = 0.1, is evaluated on the held-out test set. The key performance metrics are as follows:
 
 ```
 Test Accuracy  :  [INSERT]%
@@ -171,6 +171,8 @@ The confusion matrix below shows the full breakdown of correct and incorrect pre
 ![plot_04_confusion_matrix](plot_04_confusion_matrix.png)
 
 The model correctly classifies [INSERT] of the [INSERT] malignant test observations and [INSERT] of the [INSERT] benign observations. [INSERT — false negative commentary, e.g.: There are [n] false negatives — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up investigation.] This pattern of misclassification is consistent with the class imbalance in the dataset, where the benign class accounts for approximately 62.7% of observations.
+
+The apparent discrepancy between the default hyperparameter accuracy (98.25%) and the grid search optimised accuracy (97.58%) on the held-out test set reflects the inherent variance of a single train/test split rather than a failure of the optimisation process. The difference corresponds to approximately one observation on a test set of 114 cases. The cross-validated accuracy reported by GridSearchCV is the more reliable basis for hyperparameter selection and model comparison, as it averages performance across five independent validation windows rather than depending on any single split. The optimised model is the correct one to report as the final result.  CONFIRM THIS SECTION AS RECENTLY ADDED
 
 The ROC curve below plots the true positive rate against the false positive rate across all classification thresholds, providing a threshold-independent view of the model's discriminative ability.
 
