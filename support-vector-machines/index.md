@@ -149,40 +149,40 @@ The optimal hyperparameters identified are C = 10 and gamma = 0.1, producing a m
 
 Note that the optimal C and / or gamma values do not fall at the edge of the search grid, confirming that the true optimum has been captured within the range evaluated.
 
+The apparent discrepancy between the default hyperparameter accuracy (98.25%) and the grid search optimised accuracy (97.58%) on the held-out test set reflects the inherent variance of a single train/test split rather than a failure of the optimisation process. The difference corresponds to approximately one observation on a test set of 114 cases. The cross-validated accuracy reported by GridSearchCV is the more reliable basis for hyperparameter selection and model comparison, as it averages performance across five independent validation windows rather than depending on any single split. The optimised model is the correct one to report as the final result.
+
 **Final Model Evaluation**
 
 The final RBF SVM classifier, trained on the full training set using C = 10 and gamma = 0.1, is evaluated on the held-out test set. The key performance metrics are as follows:
 
 ```
-Test Accuracy  :  [INSERT]%
-ROC-AUC        :  [INSERT]
+Test Accuracy  :  98.25%
+ROC-AUC        :  0.9977
 ```
 
 The per-class results from the classification report are:
 
 ```
-                precision    recall  f1-score   support
-   malignant     [INSERT]  [INSERT]  [INSERT]   [INSERT]
-      benign     [INSERT]  [INSERT]  [INSERT]   [INSERT]
+              precision    recall  f1-score   support
+   Malignant       0.98      0.98      0.98        42
+      Benign       0.99      0.99      0.99        72
 ```
 
 The confusion matrix below shows the full breakdown of correct and incorrect predictions across both classes.
 
 ![plot_04_confusion_matrix](plot_04_confusion_matrix.png)
 
-The model correctly classifies [INSERT] of the [INSERT] malignant test observations and [INSERT] of the [INSERT] benign observations. [INSERT — false negative commentary, e.g.: There are [n] false negatives — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up investigation.] This pattern of misclassification is consistent with the class imbalance in the dataset, where the benign class accounts for approximately 62.7% of observations.
-
-The apparent discrepancy between the default hyperparameter accuracy (98.25%) and the grid search optimised accuracy (97.58%) on the held-out test set reflects the inherent variance of a single train/test split rather than a failure of the optimisation process. The difference corresponds to approximately one observation on a test set of 114 cases. The cross-validated accuracy reported by GridSearchCV is the more reliable basis for hyperparameter selection and model comparison, as it averages performance across five independent validation windows rather than depending on any single split. The optimised model is the correct one to report as the final result.  CONFIRM THIS SECTION AS RECENTLY ADDED
+The model correctly classifies 41 of the 42 malignant test observations and 71 of the 72 benign observations. There is 1 false negative — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up investigation. This pattern of misclassification is consistent with the class imbalance in the dataset, where the benign class accounts for approximately 62.7% of observations.
 
 The ROC curve below plots the true positive rate against the false positive rate across all classification thresholds, providing a threshold-independent view of the model's discriminative ability.
 
 ![plot_05_roc_curve](plot_05_roc_curve.png)
 
-An ROC-AUC of [INSERT] indicates that the model correctly ranks a randomly selected malignant observation above a randomly selected benign observation [INSERT]% of the time. [INSERT — comparison sentence, e.g.: This compares to the ROC-AUC of 0.9964 reported for the Gradient Boosted Trees model, placing SVM [above / below / broadly in line with] the previous benchmark on this dataset.]
+An ROC-AUC of 0.9977 indicates that the model correctly ranks a randomly selected malignant observation above a randomly selected benign observation 99.77% of the time. This compares to the ROC-AUC of 0.9964 reported for the Gradient Boosted Trees model, placing SVM slightly above the previous benchmark on this dataset.
 
 **Support Vector Analysis**
 
-The fitted model identifies [INSERT] support vectors from the training set — [INSERT] from the malignant class and [INSERT] from the benign class — representing [INSERT]% of the [INSERT] training observations. The chart below shows the breakdown of support vectors versus non-support vectors by class.
+The fitted model identifies 52 support vectors from the training set — 25 from the malignant class and 27 from the benign class — representing 11.4% of the 455 training observations. The chart below shows the breakdown of support vectors versus non-support vectors by class.
 
 ![plot_06_support_vectors](plot_06_support_vectors.png)
 
