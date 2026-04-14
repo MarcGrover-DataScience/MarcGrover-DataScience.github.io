@@ -385,7 +385,7 @@ ax.set_title(
 )
 ax.set_xlabel("Predicted Class", fontsize=11)
 ax.set_ylabel("Actual Class", fontsize=11)
-ax.tick_params(axis="x", rotation=15)
+ax.tick_params(axis="x", rotation=0)
 ax.tick_params(axis="y", rotation=0)
 
 plt.tight_layout()
@@ -472,7 +472,8 @@ sns.barplot(
     x        = "Class",
     y        = "Count",
     hue      = "Type",
-    palette  = {"Support Vectors": "#5B8DB8", "Non-Support Vectors": "#D4E6F1"},
+    palette  = "Greens",
+    # palette  = {"Support Vectors": "#5B8DB8", "Non-Support Vectors": "#D4E6F1"},
     errorbar = None,
     ax       = ax
 )
