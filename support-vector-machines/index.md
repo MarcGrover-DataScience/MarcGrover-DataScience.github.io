@@ -188,12 +188,7 @@ The fitted model identifies 52 support vectors from the training set — 25 from
 
 Support vectors are the subset of training observations that lie on or within the margin boundary and directly determine the position of the decision hyperplane. Every other training observation — regardless of how many there are — has no influence on the boundary whatsoever. This is a defining characteristic of SVM that has no direct equivalent in the tree-based methods applied to this dataset in previous projects: where a Gradient Boosted Tree ensemble aggregates information from all training observations across hundreds of sequential trees, the SVM decision boundary is determined entirely by this small, geometrically critical subset.
 
-A support vector count of [INSERT]% of the training set indicates [INSERT — choose the appropriate interpretation below and delete the other]:
-
-* [If low, e.g. under 20%]: a well-defined, wide margin — the decision boundary is determined by a compact set of boundary observations, and the model's generalisation properties are strong. The classifier is not overly sensitive to individual training points away from the boundary.
-* [If high, e.g. over 40%]: a narrow margin, suggesting the decision boundary passes close to many training observations. This can indicate that the classes overlap substantially in feature space, that the value of C is permitting significant misclassification tolerance, or that the gamma parameter is producing a broad kernel reach. It does not necessarily indicate a poorly performing model, but it does mean the boundary is influenced by a larger proportion of the data than an idealised wide-margin classifier would require.
-
-CONFIRM CLEAR INCLUSION OF SUPPORT VECTORS - I.E THOSE NEAR THE BORDER / EDGE
+A support vector count of 11.4% of the training set indicates a well-defined, wide margin — the decision boundary is determined by a compact set of boundary observations, and the model's generalisation properties are strong. The classifier is not overly sensitive to individual training points away from the boundary.
 
 ## Conclusions:
 
