@@ -97,7 +97,7 @@ Prior to hyperparameter tuning, a direct comparison of the linear and RBF kernel
 
 **Hyperparameter Tuning — Grid Search over C and gamma**:
 
-A systematic grid search is conducted over a range of values for the regularisation parameter C and the RBF kernel coefficient gamma, using scikit-learn's GridSearchCV with five-fold stratified cross-validation. C and gamma are searched jointly rather than sequentially, as their effects on the decision boundary interact: a high C combined with a high gamma produces a tightly fitted, complex boundary prone to overfitting, while a low C combined with a low gamma produces an overly smooth boundary that may underfit. The grid spans multiple orders of magnitude for both parameters — for example, C ∈ {0.1, 1, 10, 100, 1000} and gamma ∈ {0.0001, 0.001, 0.01, 0.1, 1} — ensuring that both extremes of the bias-variance spectrum are evaluated. The cross-validation accuracy scores across the full C–gamma grid are visualised as a heatmap, providing an intuitive view of how the two parameters interact and where performance is maximised. The optimal combination is identified and reported.
+A systematic grid search is conducted over a range of values for the regularisation parameter C and the RBF kernel coefficient gamma, using scikit-learn's GridSearchCV with five-fold stratified cross-validation. C and gamma are searched jointly rather than sequentially, as their effects on the decision boundary interact: a high C combined with a high gamma produces a tightly fitted, complex boundary prone to overfitting, while a low C combined with a low gamma produces an overly smooth boundary that may underfit. The grid spans multiple orders of magnitude for both parameters — C ∈ {0.1, 1, 10, 100, 1000} and gamma ∈ {0.0001, 0.001, 0.01, 0.1, 1} — ensuring that both extremes of the bias-variance spectrum are evaluated. The cross-validation accuracy scores across the full C–gamma grid are visualised as a heatmap, providing an intuitive view of how the two parameters interact and where performance is maximised. The optimal combination is identified and reported.
 
 **Model Fitting and Evaluation**:
 
@@ -143,7 +143,7 @@ A systematic grid search is conducted over C ∈ {0.1, 1, 10, 100, 1000} and gam
 
 ![plot_03_gridsearch_heatmap](plot_03_gridsearch_heatmap.png)
 
-The optimal hyperparameters identified are C = 10 and gamma = 0.1, producing a mean cross-validation accuracy of 97.58%. The heatmap illustrates the interaction between the two parameters clearly. High values of gamma combined with high values of C produce complex, tightly-fitted decision boundaries that overfit the training data, visible as lower cross-validation accuracy in the upper-right region of the grid. Low values of both parameters produce overly smooth boundaries that fail to capture the genuine structure of the data, visible in the lower-left region. The optimal combination sits in the region where the margin is wide enough to generalise, but the kernel reach is sufficiently local to model the non-linear class boundary correctly.
+The optimal hyperparameters identified are C = 10 and gamma = 0.01, producing a mean cross-validation accuracy of 97.58%. The heatmap illustrates the interaction between the two parameters clearly. High values of gamma combined with high values of C produce complex, tightly-fitted decision boundaries that overfit the training data, visible as lower cross-validation accuracy in the upper-right region of the grid. Low values of both parameters produce overly smooth boundaries that fail to capture the genuine structure of the data, visible in the lower-left region. The optimal combination sits in the region where the margin is wide enough to generalise, but the kernel reach is sufficiently local to model the non-linear class boundary correctly.
 
 Note that the optimal C and / or gamma values do not fall at the edge of the search grid, confirming that the true optimum has been captured within the range evaluated.
 
@@ -151,7 +151,7 @@ The apparent discrepancy between the default hyperparameter accuracy (98.25%) an
 
 **Final Model Evaluation**
 
-The final RBF SVM classifier, trained on the full training set using C = 10 and gamma = 0.1, is evaluated on the held-out test set. The key performance metrics are as follows:
+The final RBF SVM classifier, trained on the full training set using C = 10 and gamma = 0.01, is evaluated on the held-out test set. The key performance metrics are as follows:
 
 * Test Accuracy  :  98.25%
 * ROC-AUC        :  0.9977
@@ -168,7 +168,7 @@ The confusion matrix below shows the full breakdown of correct and incorrect pre
 
 ![plot_04_confusion_matrix](plot_04_confusion_matrix.png)
 
-The model correctly classifies 41 of the 42 malignant test observations and 71 of the 72 benign observations. There is 1 false negative — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up investigation. This pattern of misclassification is consistent with the class imbalance in the dataset, where the benign class accounts for approximately 62.7% of observations.
+The model correctly classifies 41 of the 42 malignant test observations and 71 of the 72 benign observations. There is 1 false negative — malignant tumours predicted as benign — which in a clinical context represents the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up investigation. This pattern of misclassification is consistent with the class imbalance in the dataset, where the benign class accounts for approximately 62.7% of observations.
 
 The ROC curve below plots the true positive rate against the false positive rate across all classification thresholds, providing a threshold-independent view of the model's discriminative ability.
 
