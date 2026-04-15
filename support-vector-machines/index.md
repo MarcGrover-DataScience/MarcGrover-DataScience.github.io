@@ -8,8 +8,6 @@ permalink: /support-vector-machines/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 For this portfolio project, the business scenario concerns the classification of breast tumours as malignant or benign from digitised cell nucleus measurements — a binary classification problem drawn from the Wisconsin Breast Cancer Diagnostic dataset, available directly from scikit-learn. The dataset comprises 569 observations across 30 continuous features derived from digitised fine needle aspirate (FNA) images, including measurements of cell nucleus radius, texture, perimeter, area, and concavity. Full data validation and exploratory analysis for this dataset were conducted in the Decision Tree project and are not repeated here; the SVM analysis proceeds directly from that established foundation.
@@ -155,10 +153,8 @@ The apparent discrepancy between the default hyperparameter accuracy (98.25%) an
 
 The final RBF SVM classifier, trained on the full training set using C = 10 and gamma = 0.1, is evaluated on the held-out test set. The key performance metrics are as follows:
 
-```
-Test Accuracy  :  98.25%
-ROC-AUC        :  0.9977
-```
+* Test Accuracy  :  98.25%
+* ROC-AUC        :  0.9977
 
 The per-class results from the classification report are:
 
@@ -210,15 +206,15 @@ Taken together, the results demonstrate that SVM is a highly competitive classif
 
 With any analysis it is important to assess how the model and the application of analytical methods can be evolved to support business goals and yield tangible benefits. The following are the key directions for future development arising from this project.  
 
-**SHAP and Model Interpretability**: The most immediate and natural extension of this project is a dedicated analysis of feature-level contributions to the SVM's classification decisions. While the model achieves strong overall accuracy, it currently offers no explanation of why any individual tumour is classified as malignant or benign — which of the 30 cell nucleus measurements drove that prediction, and by how much. SHAP (SHapley Additive exPlanations) provides a model-agnostic framework for decomposing individual predictions into per-feature contributions, enabling the kind of observation-level interpretability that is essential for clinical adoption of any diagnostic model. This analysis is the subject of a dedicated forthcoming project in this portfolio, which will apply SHAP directly to the Breast Cancer dataset and build on the modelling foundation established here.  
+**SHAP and Model Interpretability**: The most immediate and natural extension of this project is a dedicated analysis of feature-level contributions to the SVM's classification decisions. While the model achieves strong overall accuracy, it currently offers no explanation of why any individual tumour is classified as malignant or benign — which of the 30 cell nucleus measurements drove that prediction, and by how much. SHAP (SHapley Additive exPlanations) provides a model-agnostic framework for decomposing individual predictions into per-feature contributions, enabling the kind of observation-level interpretability that is essential for clinical adoption of any diagnostic model. This analysis is the subject of a separate dedicated project in this portfolio, which applies SHAP directly to the Breast Cancer dataset and builds on the modelling foundation established here.  
 
 **Threshold Optimisation**: The current model uses a default classification threshold of 0.5. Given the asymmetric cost of false negatives in a cancer screening context — where a missed malignancy carries significantly greater risk than an unnecessary follow-up — a lower threshold calibrated to maximise recall on the malignant class would be appropriate for any real-world deployment. The ROC curve produced in this project provides the direct basis for that threshold selection analysis.  
 
 **Extended Hyperparameter Search**: The grid search conducted here covers a defined range of C and gamma values at fixed intervals. A finer-grained search in the region around the optimal values — for example, exploring C ∈ {5, 10, 20, 50} and gamma ∈ {0.005, 0.01, 0.02, 0.05} — could identify marginal further improvements, and Bayesian optimisation via tools such as scikit-optimize would conduct that search more efficiently than an exhaustive grid.  
 
-**Comparison on an Unseen Dataset**: All four classification projects in this portfolio have been evaluated on the same dataset. Applying the SVM model to a structurally similar but independent medical dataset would provide evidence of how well the classifier generalises beyond the Wisconsin data, and would test whether the support vector structure and optimal hyperparameters remain stable across different patient populations and imaging conditions.  
+**Comparison on an Unseen Dataset**: All four supervised ML classification projects in this portfolio have been evaluated on the same dataset. Applying the SVM model to a structurally similar but independent medical dataset would provide evidence of how well the classifier generalises beyond the Wisconsin data, and would test whether the support vector structure and optimal hyperparameters remain stable across different patient populations and imaging conditions.  
 
 ## Python code:
-You can view the full Python script used for the analysis here: 
-[SVM Kernel Illustration Python Script](/svm_kernel_illustration.py)
-[SVM Breast Cancer Python Script](/svm_breast_cancer.py)
+You can view the full Python script used for the analysis here:  
+[SVM Kernel Illustration Python Script](/svm_kernel_illustration.py)  
+[SVM Breast Cancer Python Script](/svm_breast_cancer.py)  
