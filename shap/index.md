@@ -20,7 +20,11 @@ The model selected as the subject of this interpretability analysis is the Rando
 
 SHAP (SHapley Additive exPlanations) is the interpretability framework applied throughout. Grounded in cooperative game theory, SHAP assigns each feature a Shapley value for each individual prediction — a theoretically principled measure of that feature's marginal contribution to the model's output relative to a baseline expectation. Unlike global feature importance metrics such as mean impurity decrease or permutation importance, which summarise feature relevance across the entire dataset, SHAP operates at the level of individual observations. This distinction is analytically significant: two patients classified as malignant by the same model may have arrived at that classification via entirely different combinations of features, and SHAP makes those individual pathways visible.
 
-The primary objectives of the project are threefold. The first is to produce global SHAP explanations — summary visualisations that identify which features most consistently influence the model's predictions across all observations, providing a dataset-level view of what the Random Forest has learned. The second is to produce local SHAP explanations — observation-level breakdowns that show exactly which features drove the model's classification for specific individual patients, and in which direction. The third is to examine the interaction between the most influential features, identifying where the combined effect of two features on a prediction is greater or lesser than the sum of their individual contributions.
+The primary objectives of the project are threefold:
+
+* to produce global SHAP explanations — summary visualisations that identify which features most consistently influence the model's predictions across all observations, providing a dataset-level view of what the Random Forest has learned.
+* to produce local SHAP explanations — observation-level breakdowns that show exactly which features drove the model's classification for specific individual patients, and in which direction.
+* to examine the interaction between the most influential features, identifying where the combined effect of two features on a prediction is greater or lesser than the sum of their individual contributions.
 
 By the end of the analysis, the project aims to demonstrate that model interpretability is not a supplementary concern but an integral component of responsible machine learning deployment — particularly in a clinical domain where a model's predictions carry direct consequences for patient outcomes. A classifier that achieves 95% accuracy but cannot explain its reasoning offers limited value to a clinician who must decide whether to act on it. SHAP provides the bridge between predictive performance and decision-making confidence, and this project demonstrates that bridge in a concrete, applied context.
 
@@ -28,7 +32,9 @@ By the end of the analysis, the project aims to demonstrate that model interpret
 
 SHAP (SHapley Additive exPlanations) is a model interpretability framework used to explain the output of any machine learning model, deployed across a wide range of industries wherever the objective is not only to generate accurate predictions but to understand why a model produced a given result. It is applicable to virtually any supervised learning algorithm — from linear models to deep neural networks — and is equally valuable whether the task is classification or regression.
 
-The core principle behind SHAP is the decomposition of a model's prediction for a single observation into additive contributions from each feature in the input. This decomposition is grounded in Shapley values, a concept from cooperative game theory that provides a theoretically principled method for distributing a collective outcome — in this case, the model's prediction — fairly among the contributing players — in this case, the input features. For a given observation, each feature's SHAP value represents the average marginal contribution of that feature to the prediction across all possible subsets of features, relative to a baseline expectation. A positive SHAP value indicates that the feature pushed the prediction above the baseline; a negative value indicates that it pulled the prediction below it. Crucially, the SHAP values for all features sum to the difference between the model's prediction for that observation and the global baseline, making the explanation both locally accurate and globally consistent. Specialised implementations — including TreeSHAP for tree-based ensembles, LinearSHAP for linear models, and KernelSHAP for model-agnostic application — provide computationally efficient variants tailored to different model families, making SHAP practical across the full range of algorithms commonly deployed in production.
+The core principle behind SHAP is the decomposition of a model's prediction for a single observation into additive contributions from each feature in the input. This decomposition is grounded in Shapley values, a concept from cooperative game theory that provides a theoretically principled method for distributing a collective outcome — in this case, the model's prediction — fairly among the contributing players — in this case, the input features. For a given observation, each feature's SHAP value represents the average marginal contribution of that feature to the prediction across all possible subsets of features, relative to a baseline expectation. A positive SHAP value indicates that the feature pushed the prediction above the baseline; a negative value indicates that it pulled the prediction below it. 
+
+Crucially, the SHAP values for all features sum to the difference between the model's prediction for that observation and the global baseline, making the explanation both locally accurate and globally consistent. Specialised implementations — including TreeSHAP for tree-based ensembles, LinearSHAP for linear models, and KernelSHAP for model-agnostic application — provide computationally efficient variants tailored to different model families, making SHAP practical across the full range of algorithms commonly deployed in production.
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where the SHAP and Model Interpretability technique provides clear business value include:
 
@@ -98,7 +104,106 @@ The SHAP-derived global feature rankings are compared directly against the nativ
 
 ## Results:
 
-Results from the project related to the business objective.
+**Model Reconstruction Confirmation**
+
+The Random Forest classifier is reconstructed using the optimal hyperparameters established in the prior project, achieving a test accuracy of **95.61**% — confirming full parity with the original analysis and validating that the SHAP explanations produced below reflect the same model. All SHAP values are computed across the held-out test set of 114 observations and expressed relative to the benign class unless stated otherwise.
+
+**Global SHAP Analysis**  
+**Beeswarm Summary Plot**
+
+The beeswarm plot below presents the full picture of feature influence across all 114 test observations. Features are ranked top to bottom by mean absolute SHAP value, with each dot representing one observation. Horizontal position shows the direction and magnitude of influence on the benign classification probability — points to the right push the prediction towards benign, points to the left push it towards malignant. Colour encodes the raw feature value, from low (blue) to high (red).
+
+Show Image
+
+The plot reveals several analytically important patterns. For the leading features — [INSERT top 3 feature names] — high feature values (red points) consistently produce large negative SHAP values, meaning high measurements in these features push strongly towards a malignant prediction. Low values of the same features (blue points) push in the opposite direction towards benign. This directional consistency confirms that these features carry a clear, monotonic signal in the model's decision-making rather than a complex or context-dependent one.
+
+Notably, [INSERT feature name] shows a wider spread of SHAP values than other highly ranked features, indicating that its influence on individual predictions is more variable — the same feature can produce very different SHAP contributions depending on the values of other features present in that observation. This is the first indication of feature interaction effects, which are examined further in the dependence plots below.
+
+**Mean Absolute SHAP Value — Global Feature Importance**
+
+The bar chart below ranks all 30 features by their mean absolute SHAP value across the test set, providing a single-value summary of each feature's average contribution magnitude to the model's predictions.
+
+Show Image
+
+The top 5 features by mean absolute SHAP value are:
+
+```
+Feature                         Mean |SHAP Value|
+[INSERT feature 1]              [INSERT]
+[INSERT feature 2]              [INSERT]
+[INSERT feature 3]              [INSERT]
+[INSERT feature 4]              [INSERT]
+[INSERT feature 5]              [INSERT]
+```
+
+The top 5 features account for approximately [INSERT]% of the total mean absolute SHAP value across all 30 features, indicating a concentrated importance structure in which a small subset of cell nucleus measurements drives the majority of the model's predictive output. The remaining 25 features collectively account for the balance, confirming that the model has not distributed its reliance evenly across the full feature set.
+[INSERT — comparison sentence with Random Forest native importance, e.g.: This ranking [broadly aligns with / differs meaningfully from] the native Random Forest feature importance reported in the prior project, where **worst area** was identified as the most important feature. The comparison is examined in detail in the final subsection below.]
+
+**Local SHAP Analysis — Individual Predictions**  
+**Malignant Case**
+
+The waterfall plot below explains the model's classification of a single test observation predicted as malignant with a probability of [INSERT]. The baseline at the bottom of the chart represents the expected model output across all training observations — the prediction the model would make in the absence of any information about this specific patient. Each bar shows the SHAP contribution of one feature, either increasing (red, pushing towards benign) or decreasing (blue, pushing towards malignant) the prediction from that baseline, until the final predicted probability of [INSERT] is reached at the top.
+
+Show Image
+
+For this observation, the classification is driven primarily by [INSERT feature name] (SHAP value: [INSERT]) and [INSERT feature name] (SHAP value: [INSERT]), both of which push strongly towards malignant. [INSERT feature name] provides a partial counteracting push towards benign (SHAP value: [INSERT]), but is insufficient to overcome the cumulative negative contributions of the leading features. The features displayed in grey are those whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
+This observation is a concrete illustration of the clinical value of local SHAP explanations: rather than a model producing an opaque malignant classification, the waterfall plot identifies the specific cell nucleus measurements that are anomalous for this patient and quantifies their individual contributions to the model's reasoning.
+
+**Benign Case**
+
+The waterfall plot below explains the classification of a test observation predicted as benign with a probability of [INSERT].
+
+Show Image
+
+In contrast to the malignant case, the dominant features here push consistently in the positive direction — towards benign. [INSERT feature name] (SHAP value: [INSERT]) and [INSERT feature name] (SHAP value: [INSERT]) are the largest contributors, reflecting measurements well within the range associated with benign tumours. Comparing the two waterfall plots directly, [INSERT — observation on whether the same features appear in both, e.g.: the same features dominate both explanations but act in opposing directions, confirming that these measurements are the primary axis of separation between the two classes in this model's learned representation.]
+
+**SHAP Dependence Plots**
+**[INSERT: Feature 1 name]**
+
+The dependence plot below shows the relationship between the raw value of [INSERT feature name] and its SHAP contribution across all test observations. The colour dimension represents [INSERT auto-selected interaction feature], the feature with which the SHAP library identified the strongest interaction.
+
+Show Image
+
+[INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+
+**[INSERT: Feature 2 name]**
+
+Show Image
+
+[INSERT — interpretation following the same structure as Feature 1 above.]
+
+**[INSERT: Feature 3 name]**
+
+Show Image
+
+[INSERT — interpretation following the same structure as Feature 1 above.]
+
+**SHAP Heatmap — Full Test Set**
+
+The heatmap below presents SHAP values for the top 10 features simultaneously across all 114 test observations, sorted left to right by predicted benign probability. Each row is one feature; each column is one observation. Red cells indicate a positive SHAP contribution (pushing towards benign) and blue cells a negative contribution (pushing towards malignant), with colour intensity proportional to magnitude.
+
+Show Image
+
+The transition from left to right across the heatmap traces the model's shift from high-confidence malignant predictions to high-confidence benign predictions, and the colour structure makes several characteristics of the model's behaviour immediately visible. In the leftmost region — high-confidence malignant predictions — the top features are uniformly deep blue, indicating large negative SHAP contributions across multiple features simultaneously. In the rightmost region, the same features are uniformly red. This bimodal pattern confirms that the malignant and benign classes are well separated in SHAP space, which is consistent with the model's 95.61% accuracy.
+
+The central band of observations, where predicted probabilities are closer to 0.5, shows a more fragmented colour pattern — some features pushing towards benign while others push towards malignant within the same observation. These are the genuinely ambiguous cases, and the heatmap identifies them structurally as the observations where the model's confidence is lowest and where a clinician reviewing the model's output would be most warranted in seeking additional diagnostic information.
+
+**SHAP vs Native Random Forest Feature Importance**
+
+The table below compares the feature rankings produced by SHAP against the native Random Forest importance scores — mean impurity decrease — reported in the Random Forest project.
+
+```
+Feature                   Mean |SHAP|   SHAP Rank   RF Importance   RF Rank   Rank Δ
+[INSERT feature 1]         [INSERT]        1           [INSERT]       [INSERT]   [INSERT]
+[INSERT feature 2]         [INSERT]        2           [INSERT]       [INSERT]   [INSERT]
+[INSERT feature 3]         [INSERT]        3           [INSERT]       [INSERT]   [INSERT]
+[INSERT feature 4]         [INSERT]        4           [INSERT]       [INSERT]   [INSERT]
+[INSERT feature 5]         [INSERT]        5           [INSERT]       [INSERT]   [INSERT]
+```
+
+[INSERT — key observation, choosing from the options below and expanding as appropriate:]
+
+The rankings are [broadly consistent / notably divergent] between the two methods. [INSERT — if consistent: This agreement between training-set impurity-based importance and test-set SHAP-based importance strengthens confidence in the finding — the features identified as most influential by the Random Forest are genuinely predictive on unseen data rather than artefacts of the training process.] [INSERT — if divergent: The most significant divergence is [INSERT feature], which ranks [INSERT] by native importance but [INSERT] by SHAP value. This is consistent with the known bias of mean impurity decrease towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data. The SHAP ranking, derived from the test set, is the more reliable indicator of genuine feature influence.]
 
 ## Conclusions:
 
