@@ -62,7 +62,7 @@ All projects are implemented in Python, reflecting the language's central role i
 ## Data Quality & Validation
 * ### [Great Expectations (Validation)](/great-expectations/)
 
-<!-- * ### Responsible AI / ML -->
+<!-- * ### Responsible AI / ML (Explainability, transparency etc.) -->
 <!-- * ### ML / Data Science Workflow -->
 
 <!-- * ### Fine Tuning / RAG / Transfer Learning -->
