@@ -66,7 +66,35 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 ## Methodology:  
 
-Details of the methodology applied in the project.
+The analysis is implemented in Python, using pandas for data handling, scikit-learn for model construction, the SHAP library for explainability, and seaborn and matplotlib for visualisation. All plots are produced as individual saved PNG files consistent with the conventions established across this portfolio.
+
+**Model Reconstruction**
+
+The Random Forest classifier developed in the Random Forest project is reconstructed directly within this script using the optimal hyperparameters established there — 150 trees and a maximum depth of 10 — ensuring full reproducibility without dependency on saved model files. The Wisconsin Breast Cancer Diagnostic dataset is loaded from scikit-learn, split into an 80/20 train/test partition with stratification on the target variable, and the model is fitted on the training set. No feature scaling is applied, as Random Forest is a tree-based method and is invariant to the scale of input features. The reconstructed model achieves a test accuracy of 95.61%, confirming parity with the original project.
+
+**SHAP Explainer — TreeSHAP**
+
+SHAP values are computed using scikit-learn's TreeExplainer, which implements TreeSHAP — a fast, exact algorithm designed specifically for tree-based models. Unlike the generic KernelSHAP approximation, TreeSHAP exploits the tree structure of the model to compute exact Shapley values in polynomial rather than exponential time, making it computationally tractable for a 150-tree Random Forest without any sampling or approximation. SHAP values are computed across the full test set of 114 observations, producing a matrix of shape (114 observations × 30 features) for each class. All explanations are expressed relative to the benign class (class 1), consistent with scikit-learn's positive class convention, unless stated otherwise.
+
+**Global SHAP Analysis**
+
+Two complementary global visualisations are produced to characterise feature importance across the full test set. The first is a beeswarm summary plot, in which each point represents one observation and one feature — its horizontal position shows the magnitude and direction of the SHAP value, and its colour encodes the raw feature value. This plot communicates not just which features matter most globally, but how they matter: whether high feature values consistently push predictions towards benign or malignant, and how much variation exists across observations. The second is a mean absolute SHAP value bar chart, which ranks features by their average impact magnitude across all test observations, providing a clean single-value importance ranking for direct comparison with the native Random Forest feature importance scores established in the prior project.
+
+**Local SHAP Analysis — Individual Predictions**
+
+Two individual observations are selected from the test set for local explanation: one high-confidence correctly predicted malignant case and one high-confidence correctly predicted benign case. For each, a waterfall plot is produced showing how the model's output is built up from the baseline expected value — the mean predicted probability across all training observations — to the final prediction for that specific patient, with each feature's SHAP contribution shown as a positive or negative step along that path. This makes the reasoning behind each individual classification fully transparent, identifying precisely which cell nucleus measurements drove the prediction and by how much.
+
+**SHAP Dependence Plots**
+
+Dependence plots are produced for the three most important features as ranked by mean absolute SHAP value. Each plot shows the relationship between a feature's raw value and its SHAP contribution across all test observations, revealing whether the relationship is linear, monotonic, or threshold-driven. An interaction feature is automatically selected by the SHAP library for each plot — encoded as a colour dimension — highlighting where the SHAP contribution of the primary feature is modulated by the value of a second feature. This captures interaction effects that global importance rankings cannot surface.
+
+**SHAP Heatmap**
+
+A heatmap is produced showing SHAP values for the top 10 features across all 114 test observations simultaneously, with observations sorted left to right by predicted benign probability. This provides a dataset-level view of how the model's feature-level reasoning evolves across the full spectrum from high-confidence malignant predictions on the left to high-confidence benign predictions on the right, making systematic patterns in the model's behaviour visible at a glance.
+
+**SHAP vs Native Feature Importance Comparison**
+
+The SHAP-derived global feature rankings are compared directly against the native Random Forest feature importance scores — mean impurity decrease across all trees — reported in the prior project. Differences between the two rankings are examined and interpreted. Native importance is computed on the training set and can be biased towards features with high cardinality or many split points; SHAP values are computed on the held-out test set and reflect the actual marginal contribution of each feature to individual predictions, making them a more reliable and theoretically grounded measure of true feature influence.
 
 ## Results:
 
