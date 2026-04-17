@@ -114,7 +114,7 @@ The Random Forest classifier is reconstructed using the optimal hyperparameters 
 
 The beeswarm plot below presents the full picture of feature influence across all 114 test observations. Features are ranked top to bottom by mean absolute SHAP value, with each dot representing one observation. Horizontal position shows the direction and magnitude of influence on the benign classification probability — points to the right push the prediction towards benign, points to the left push it towards malignant. Colour encodes the raw feature value, from low (blue) to high (red).
 
-Show Image
+![plot_01_shap_summary_beeswarm](plot_01_shap_summary_beeswarm.png)
 
 The plot reveals several analytically important patterns. For the leading features — [INSERT top 3 feature names] — high feature values (red points) consistently produce large negative SHAP values, meaning high measurements in these features push strongly towards a malignant prediction. Low values of the same features (blue points) push in the opposite direction towards benign. This directional consistency confirms that these features carry a clear, monotonic signal in the model's decision-making rather than a complex or context-dependent one.
 
@@ -124,7 +124,7 @@ Notably, [INSERT feature name] shows a wider spread of SHAP values than other hi
 
 The bar chart below ranks all 30 features by their mean absolute SHAP value across the test set, providing a single-value summary of each feature's average contribution magnitude to the model's predictions.
 
-Show Image
+![plot_02_shap_bar_global](plot_02_shap_bar_global.png)
 
 The top 5 features by mean absolute SHAP value are:
 
