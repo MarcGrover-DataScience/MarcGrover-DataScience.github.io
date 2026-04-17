@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (SHAP - SHapley Additive exPlanations)
+title: Breast Cancer Predictions (SHAP - SHapley Additive exPlanations)
 
 permalink: /shap/
 
@@ -109,6 +109,7 @@ The SHAP-derived global feature rankings are compared directly against the nativ
 The Random Forest classifier is reconstructed using the optimal hyperparameters established in the prior project, achieving a test accuracy of **95.61**% — confirming full parity with the original analysis and validating that the SHAP explanations produced below reflect the same model. All SHAP values are computed across the held-out test set of 114 observations and expressed relative to the benign class unless stated otherwise.
 
 **Global SHAP Analysis**  
+
 **Beeswarm Summary Plot**
 
 The beeswarm plot below presents the full picture of feature influence across all 114 test observations. Features are ranked top to bottom by mean absolute SHAP value, with each dot representing one observation. Horizontal position shows the direction and magnitude of influence on the benign classification probability — points to the right push the prediction towards benign, points to the left push it towards malignant. Colour encodes the raw feature value, from low (blue) to high (red).
@@ -140,6 +141,7 @@ The top 5 features account for approximately [INSERT]% of the total mean absolut
 [INSERT — comparison sentence with Random Forest native importance, e.g.: This ranking [broadly aligns with / differs meaningfully from] the native Random Forest feature importance reported in the prior project, where **worst area** was identified as the most important feature. The comparison is examined in detail in the final subsection below.]
 
 **Local SHAP Analysis — Individual Predictions**  
+
 **Malignant Case**
 
 The waterfall plot below explains the model's classification of a single test observation predicted as malignant with a probability of [INSERT]. The baseline at the bottom of the chart represents the expected model output across all training observations — the prediction the model would make in the absence of any information about this specific patient. Each bar shows the SHAP contribution of one feature, either increasing (red, pushing towards benign) or decreasing (blue, pushing towards malignant) the prediction from that baseline, until the final predicted probability of [INSERT] is reached at the top.
