@@ -116,29 +116,30 @@ The beeswarm plot below presents the full picture of feature influence across al
 
 ![plot_01_shap_summary_beeswarm](plot_01_shap_summary_beeswarm.png)
 
-The plot reveals several analytically important patterns. For the leading features — [INSERT top 3 feature names] — high feature values (red points) consistently produce large negative SHAP values, meaning high measurements in these features push strongly towards a malignant prediction. Low values of the same features (blue points) push in the opposite direction towards benign. This directional consistency confirms that these features carry a clear, monotonic signal in the model's decision-making rather than a complex or context-dependent one.
+The plot reveals several analytically important patterns. For the leading features — worst area, worst perimeter and worst concave points — high feature values (red points) consistently produce large negative SHAP values, meaning high measurements in these features push strongly towards a malignant prediction. Low values of the same features (blue points) push in the opposite direction towards benign. This directional consistency confirms that these features carry a clear, monotonic signal in the model's decision-making rather than a complex or context-dependent one.
 
-Notably, [INSERT feature name] shows a wider spread of SHAP values than other highly ranked features, indicating that its influence on individual predictions is more variable — the same feature can produce very different SHAP contributions depending on the values of other features present in that observation. This is the first indication of feature interaction effects, which are examined further in the dependence plots below.
+Notably, worst concave points shows a wider spread of SHAP values than other highly ranked features, indicating that its influence on individual predictions is more variable — the same feature can produce very different SHAP contributions depending on the values of other features present in that observation. This is the first indication of feature interaction effects, which are examined further in the dependence plots below.
 
 **Mean Absolute SHAP Value — Global Feature Importance**
 
-The bar chart below ranks all 30 features by their mean absolute SHAP value across the test set, providing a single-value summary of each feature's average contribution magnitude to the model's predictions.
+The bar chart below ranks the top 15 features by their mean absolute SHAP value across the test set, providing a single-value summary of each feature's average contribution magnitude to the model's predictions.
 
 ![plot_02_shap_bar_global](plot_02_shap_bar_global.png)
 
 The top 5 features by mean absolute SHAP value are:
 
 ```
-Feature                         Mean |SHAP Value|
-[INSERT feature 1]              [INSERT]
-[INSERT feature 2]              [INSERT]
-[INSERT feature 3]              [INSERT]
-[INSERT feature 4]              [INSERT]
-[INSERT feature 5]              [INSERT]
+Feature                  Mean |SHAP|
+worst area               0.06876
+worst perimeter          0.06540
+worst concave points     0.05526
+mean concave points      0.04223
+worst radius             0.04192
 ```
 
-The top 5 features account for approximately [INSERT]% of the total mean absolute SHAP value across all 30 features, indicating a concentrated importance structure in which a small subset of cell nucleus measurements drives the majority of the model's predictive output. The remaining 25 features collectively account for the balance, confirming that the model has not distributed its reliance evenly across the full feature set.
-[INSERT — comparison sentence with Random Forest native importance, e.g.: This ranking [broadly aligns with / differs meaningfully from] the native Random Forest feature importance reported in the prior project, where **worst area** was identified as the most important feature. The comparison is examined in detail in the final subsection below.]
+The top 5 features account for approximately 54.5% of the total mean absolute SHAP value across all 30 features, indicating a concentrated importance structure in which a small subset of cell nucleus measurements drives the majority of the model's predictive output. The remaining 25 features collectively account for the balance, confirming that the model has not distributed its reliance evenly across the full feature set.
+
+This ranking broadly aligns with the native Random Forest feature importance reported in the prior project, where **worst area** was identified as the most important feature. 
 
 **Local SHAP Analysis — Individual Predictions**  
 
