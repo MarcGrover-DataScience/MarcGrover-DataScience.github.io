@@ -145,18 +145,18 @@ This ranking broadly aligns with the native Random Forest feature importance rep
 
 **Malignant Case**
 
-The waterfall plot below explains the model's classification of a single test observation predicted as malignant with a probability of [INSERT]. The baseline at the bottom of the chart represents the expected model output across all training observations — the prediction the model would make in the absence of any information about this specific patient. Each bar shows the SHAP contribution of one feature, either increasing (red, pushing towards benign) or decreasing (blue, pushing towards malignant) the prediction from that baseline, until the final predicted probability of [INSERT] is reached at the top.
+The waterfall plot below explains the model's classification of a single test observation predicted as malignant with a probability of 1.000. The baseline at the bottom of the chart represents the expected model output across all training observations (probability of 0.376) — the prediction the model would make in the absence of any information about this specific patient. Each bar shows the SHAP contribution of one feature, either increasing (red, pushing towards benign) or decreasing (blue, pushing towards malignant) the prediction from that baseline, until the final predicted probability of 1.000 is reached at the top.
 
-Show Image
+![plot_03_shap_waterfall_malignant](plot_03_shap_waterfall_malignant.png)
 
-For this observation, the classification is driven primarily by [INSERT feature name] (SHAP value: [INSERT]) and [INSERT feature name] (SHAP value: [INSERT]), both of which push strongly towards malignant. [INSERT feature name] provides a partial counteracting push towards benign (SHAP value: [INSERT]), but is insufficient to overcome the cumulative negative contributions of the leading features. The features displayed in grey are those whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
+For this observation, the classification is driven primarily by 'worst area' (SHAP value: 0.08) and 'worst concave points' (SHAP value: 0.08), both of which push strongly towards malignant. [INSERT feature name] provides a partial counteracting push towards benign (SHAP value: [INSERT]), but is insufficient to overcome the cumulative negative contributions of the leading features. The features displayed in grey are those whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
 This observation is a concrete illustration of the clinical value of local SHAP explanations: rather than a model producing an opaque malignant classification, the waterfall plot identifies the specific cell nucleus measurements that are anomalous for this patient and quantifies their individual contributions to the model's reasoning.
 
 **Benign Case**
 
 The waterfall plot below explains the classification of a test observation predicted as benign with a probability of [INSERT].
 
-Show Image
+![plot_04_shap_waterfall_benign](plot_04_shap_waterfall_benign.png)
 
 In contrast to the malignant case, the dominant features here push consistently in the positive direction — towards benign. [INSERT feature name] (SHAP value: [INSERT]) and [INSERT feature name] (SHAP value: [INSERT]) are the largest contributors, reflecting measurements well within the range associated with benign tumours. Comparing the two waterfall plots directly, [INSERT — observation on whether the same features appear in both, e.g.: the same features dominate both explanations but act in opposing directions, confirming that these measurements are the primary axis of separation between the two classes in this model's learned representation.]
 
