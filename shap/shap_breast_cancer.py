@@ -49,15 +49,14 @@ X            = pd.DataFrame(data.data,  columns=data.feature_names)
 y            = pd.Series(data.target,   name="target")
 target_names = data.target_names        # 0 = malignant, 1 = benign
 
-print(f"\nDataset         : Wisconsin Breast Cancer Diagnostic (scikit-learn)")
-print(f"Observations    : {X.shape[0]}")
+print(f"\nObservations    : {X.shape[0]}")
 print(f"Features        : {X.shape[1]}")
 print(f"Target classes  : {list(target_names)}  (0 = malignant, 1 = benign)")
 
-print("\n--- Class Distribution ---")
+print("\nClass Distribution")
 class_counts = y.value_counts().sort_index()
 for idx, count in class_counts.items():
-    print(f"  {target_names[idx]:<12}: {count}  ({count / len(y) * 100:.1f}%)")
+    print(f"{target_names[idx]:<12}: {count}  ({count / len(y) * 100:.1f}%)")
 
 # =============================================================================
 # 2. TRAIN / TEST SPLIT
@@ -77,8 +76,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"\nTrain / Test split : 80% / 20%")
 print(f"Training set       : {X_train.shape[0]} observations")
 print(f"Test set           : {X_test.shape[0]}  observations")
-print(f"\nNote: No feature scaling is applied. Random Forest is a tree-based")
-print(f"method and is invariant to the scale of input features.")
+print(f"\nNote: No feature scaling is applied. Random Forest is a tree-based method and is invariant to the scale of input features.")
 
 # =============================================================================
 # 3. REBUILD RANDOM FOREST (OPTIMAL HYPERPARAMETERS FROM PRIOR PROJECT)
@@ -114,10 +112,8 @@ print("\n" + "=" * 60)
 print("SECTION 4: SHAP EXPLAINER")
 print("=" * 60)
 
-print("\nInitialising TreeSHAP explainer...")
 explainer = shap.TreeExplainer(rf_model)
 
-print("Computing SHAP values for test set...")
 shap_values = explainer.shap_values(X_test)
 
 # shap_values is a list of two arrays for binary classification:
@@ -162,7 +158,6 @@ else:
 print(f"\nSHAP values format   : {'list (older API)' if isinstance(shap_values, list) else '3D array (newer API)'}")
 print(f"Expected value (baseline, benign class) : {expected_value_benign:.4f}")
 print(f"SHAP value array shape (test set)       : {shap_vals_benign.shape}")
-print(f"\nSHAP values computed successfully.")
 
 # =============================================================================
 # 5. GLOBAL SHAP ANALYSIS
@@ -178,14 +173,18 @@ mean_abs_shap = pd.DataFrame({
     "Mean |SHAP|": np.abs(shap_vals_benign).mean(axis=0)
 }).sort_values("Mean |SHAP|", ascending=False).reset_index(drop=True)
 
-print("\n--- Top 15 Features by Mean |SHAP Value| (Global Importance) ---")
+print("\nTop 15 Features by Mean |SHAP Value| (Global Importance)")
 print(mean_abs_shap.head(15).to_string(index=False))
+
+top5_sum   = mean_abs_shap["Mean |SHAP|"].head(5).sum()
+total_sum  = mean_abs_shap["Mean |SHAP|"].sum()
+print(f"\nTop 5 features — sum of mean |SHAP|  : {top5_sum:.4f}")
+print(f"All 30 features — sum of mean |SHAP| : {total_sum:.4f}")
+print(f"Top 5 as % of total                  : {top5_sum / total_sum * 100:.1f}%")
 
 # =============================================================================
 # 6. PLOT 01 — SHAP SUMMARY BEESWARM PLOT (GLOBAL)
 # =============================================================================
-
-print("\n--- Generating Plot 01: SHAP Summary Beeswarm ---")
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
@@ -215,8 +214,6 @@ plt.show()
 # 7. PLOT 02 — GLOBAL MEAN |SHAP| BAR CHART
 # =============================================================================
 
-print("--- Generating Plot 02: Global Mean |SHAP| Bar Chart ---")
-
 top15 = mean_abs_shap.head(15).sort_values("Mean |SHAP|", ascending=True)
 
 fig, ax = plt.subplots(figsize=(9, 7))
@@ -224,7 +221,7 @@ fig, ax = plt.subplots(figsize=(9, 7))
 bars = ax.barh(
     top15["Feature"],
     top15["Mean |SHAP|"],
-    color     = COLOUR_BAR,
+    color     = "seagreen",
     edgecolor = "white",
     linewidth = 0.5
 )
@@ -268,12 +265,14 @@ y_test_arr  = y_test.values
 malignant_candidates = np.where(
     (y_test_arr == 0) & (y_pred_arr == 0) & (y_prob[:, 0] >= 0.80)
 )[0]
+print(malignant_candidates)
 malignant_idx = malignant_candidates[np.argmax(y_prob[malignant_candidates, 0])]
 
 # High-confidence correctly predicted benign (class 1)
 benign_candidates = np.where(
     (y_test_arr == 1) & (y_pred_arr == 1) & (y_prob[:, 1] >= 0.80)
 )[0]
+print(benign_candidates)
 benign_idx = benign_candidates[np.argmax(y_prob[benign_candidates, 1])]
 
 print(f"\nSelected observations for local explanation:")
@@ -288,12 +287,21 @@ print(f"  Benign case    — test index: {benign_idx}  "
 
 print("\n--- Generating Plot 03: Waterfall Plot — Malignant Case ---")
 
+# # Build SHAP Explanation object for the malignant class (class 0)
+# explanation_malignant = shap.Explanation(
+#     values         = shap_values[0][malignant_idx],
+#     base_values    = explainer.expected_value[0],
+#     data           = X_test.iloc[malignant_idx].values,
+#     feature_names  = list(X_test.columns)
+# )
+
+
 # Build SHAP Explanation object for the malignant class (class 0)
 explanation_malignant = shap.Explanation(
-    values         = shap_values[0][malignant_idx],
-    base_values    = explainer.expected_value[0],
-    data           = X_test.iloc[malignant_idx].values,
-    feature_names  = list(X_test.columns)
+    values        = shap_vals_malignant[malignant_idx],
+    base_values   = expected_value_malignant,
+    data          = X_test.iloc[malignant_idx].values,
+    feature_names = list(X_test.columns)
 )
 
 fig, ax = plt.subplots(figsize=(10, 7))
@@ -316,11 +324,19 @@ plt.show()
 
 print("--- Generating Plot 04: Waterfall Plot — Benign Case ---")
 
+# explanation_benign = shap.Explanation(
+#     values         = shap_values[1][benign_idx],
+#     base_values    = explainer.expected_value[1],
+#     data           = X_test.iloc[benign_idx].values,
+#     feature_names  = list(X_test.columns)
+# )
+
+# Build SHAP Explanation object for the benign class (class 1)
 explanation_benign = shap.Explanation(
-    values         = shap_values[1][benign_idx],
-    base_values    = explainer.expected_value[1],
-    data           = X_test.iloc[benign_idx].values,
-    feature_names  = list(X_test.columns)
+    values        = shap_vals_benign[benign_idx],
+    base_values   = expected_value_benign,
+    data          = X_test.iloc[benign_idx].values,
+    feature_names = list(X_test.columns)
 )
 
 fig, ax = plt.subplots(figsize=(10, 7))
