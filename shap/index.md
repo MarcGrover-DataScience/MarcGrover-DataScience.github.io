@@ -149,35 +149,37 @@ The waterfall plot below explains the model's classification of a single test ob
 
 ![plot_03_shap_waterfall_malignant](plot_03_shap_waterfall_malignant.png)
 
-For this observation, the classification is driven primarily by 'worst area' (SHAP value: 0.08) and 'worst concave points' (SHAP value: 0.08), both of which push strongly towards malignant. [INSERT feature name] provides a partial counteracting push towards benign (SHAP value: [INSERT]), but is insufficient to overcome the cumulative negative contributions of the leading features. The features displayed in grey are those whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
+For this observation, the classification is driven primarily by 'worst area' (SHAP value: 0.085) and 'worst concave points' (SHAP value: 0.082), both of which push strongly towards malignant. 'worst smoothness', 'compactness error', and 'worst symmetry' provide partial counteracting push towards benign (negative SHAP values of magnitude less than 0.004), but is insufficient to overcome the cumulative negative contributions of the leading features. The bottom step includes features whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
+
 This observation is a concrete illustration of the clinical value of local SHAP explanations: rather than a model producing an opaque malignant classification, the waterfall plot identifies the specific cell nucleus measurements that are anomalous for this patient and quantifies their individual contributions to the model's reasoning.
 
 **Benign Case**
 
-The waterfall plot below explains the classification of a test observation predicted as benign with a probability of [INSERT].
+The waterfall plot below explains the classification of a test observation predicted as benign with a probability of 1.000.
 
 ![plot_04_shap_waterfall_benign](plot_04_shap_waterfall_benign.png)
 
-In contrast to the malignant case, the dominant features here push consistently in the positive direction — towards benign. [INSERT feature name] (SHAP value: [INSERT]) and [INSERT feature name] (SHAP value: [INSERT]) are the largest contributors, reflecting measurements well within the range associated with benign tumours. Comparing the two waterfall plots directly, [INSERT — observation on whether the same features appear in both, e.g.: the same features dominate both explanations but act in opposing directions, confirming that these measurements are the primary axis of separation between the two classes in this model's learned representation.]
+In contrast to the malignant case, the dominant features here push consistently in the positive direction — towards benign. worst area (SHAP value: 0.054]) and worst perimeter (SHAP value: 0.051) are the largest contributors, reflecting measurements well within the range associated with benign tumours. Comparing the two waterfall plots directly, the same features dominate both explanations but act in opposing directions, confirming that these measurements are the primary axis of separation between the two classes in this model's learned representation.
 
 **SHAP Dependence Plots**
-**[INSERT: Feature 1 name]**
 
-The dependence plot below shows the relationship between the raw value of [INSERT feature name] and its SHAP contribution across all test observations. The colour dimension represents [INSERT auto-selected interaction feature], the feature with which the SHAP library identified the strongest interaction.
+**Worst Area**
 
-Show Image
+The dependence plot below shows the relationship between the raw value of 'worst area' and its SHAP contribution across all test observations. The colour dimension represents [INSERT auto-selected interaction feature], the feature with which the SHAP library identified the strongest interaction.
+
+![plot_05_shap_dependence_feature1](plot_05_shap_dependence_feature1.png)
 
 [INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
 
 **[INSERT: Feature 2 name]**
 
-Show Image
+![plot_06_shap_dependence_feature2](plot_06_shap_dependence_feature2.png)
 
 [INSERT — interpretation following the same structure as Feature 1 above.]
 
 **[INSERT: Feature 3 name]**
 
-Show Image
+![plot_07_shap_dependence_feature3](plot_07_shap_dependence_feature3.png)
 
 [INSERT — interpretation following the same structure as Feature 1 above.]
 
