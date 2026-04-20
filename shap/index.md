@@ -159,35 +159,43 @@ The waterfall plot below explains the classification of a test observation predi
 
 ![plot_04_shap_waterfall_benign](plot_04_shap_waterfall_benign.png)
 
-In contrast to the malignant case, the dominant features here push consistently in the positive direction — towards benign. worst area (SHAP value: 0.054]) and worst perimeter (SHAP value: 0.051) are the largest contributors, reflecting measurements well within the range associated with benign tumours. Comparing the two waterfall plots directly, the same features dominate both explanations but act in opposing directions, confirming that these measurements are the primary axis of separation between the two classes in this model's learned representation.
+In contrast to the malignant case, the dominant features here push consistently in the positive direction — towards benign. worst area (SHAP value: 0.054) and worst perimeter (SHAP value: 0.051) are the largest contributors, reflecting measurements well within the range associated with benign tumours. Comparing the two waterfall plots directly, the same features dominate both explanations but act in opposing directions, confirming that these measurements are the primary axis of separation between the two classes in this model's learned representation.
 
 **SHAP Dependence Plots**
 
 **Worst Area**
 
-The dependence plot below shows the relationship between the raw value of 'worst area' and its SHAP contribution across all test observations. The colour dimension represents [INSERT auto-selected interaction feature], the feature with which the SHAP library identified the strongest interaction.
+The dependence plot below shows the relationship between the raw value of 'worst area' and its SHAP contribution across all test observations. The colour dimension represents 'mean fractal dimension', the feature with which the SHAP library identified the strongest interaction.
 
 ![plot_05_shap_dependence_feature1](plot_05_shap_dependence_feature1.png)
 
-[INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+The relationship suggests that a threshold effect or plateau is visible, showing behaviour similar to a binary indicator.  For 'worst area' values less than 750, the SHAP values are clustered over 0.05, for 'worst area' values in the range 750 - 1,000 the SHAP values rapidly decrease to approximately -0.1, where 'worst area' values greater than 1,000 have a SHAP values clustered around -0.1.
 
-**[INSERT: Feature 2 name]**
+is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. 
+
+The colour separation indicates an interaction with 'mean fractal dimension': observations with high values of 'mean fractal dimension' (shown in red) tend to produce higher SHAP values for 'worst area' than observations with low values of 'mean fractal dimension' (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.
+
+**Worst Perimeter**
 
 ![plot_06_shap_dependence_feature2](plot_06_shap_dependence_feature2.png)
 
 [INSERT — interpretation following the same structure as Feature 1 above.]
 
-**[INSERT: Feature 3 name]**
+[INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+
+**Worst Concave Points**
 
 ![plot_07_shap_dependence_feature3](plot_07_shap_dependence_feature3.png)
 
 [INSERT — interpretation following the same structure as Feature 1 above.]
 
+[INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+
 **SHAP Heatmap — Full Test Set**
 
 The heatmap below presents SHAP values for the top 10 features simultaneously across all 114 test observations, sorted left to right by predicted benign probability. Each row is one feature; each column is one observation. Red cells indicate a positive SHAP contribution (pushing towards benign) and blue cells a negative contribution (pushing towards malignant), with colour intensity proportional to magnitude.
 
-Show Image
+![plot_08_shap_heatmap](plot_08_shap_heatmap.png)
 
 The transition from left to right across the heatmap traces the model's shift from high-confidence malignant predictions to high-confidence benign predictions, and the colour structure makes several characteristics of the model's behaviour immediately visible. In the leftmost region — high-confidence malignant predictions — the top features are uniformly deep blue, indicating large negative SHAP contributions across multiple features simultaneously. In the rightmost region, the same features are uniformly red. This bimodal pattern confirms that the malignant and benign classes are well separated in SHAP space, which is consistent with the model's 95.61% accuracy.
 
