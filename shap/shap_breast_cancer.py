@@ -265,14 +265,14 @@ y_test_arr  = y_test.values
 malignant_candidates = np.where(
     (y_test_arr == 0) & (y_pred_arr == 0) & (y_prob[:, 0] >= 0.80)
 )[0]
-print(malignant_candidates)
+# print(malignant_candidates)
 malignant_idx = malignant_candidates[np.argmax(y_prob[malignant_candidates, 0])]
 
 # High-confidence correctly predicted benign (class 1)
 benign_candidates = np.where(
     (y_test_arr == 1) & (y_pred_arr == 1) & (y_prob[:, 1] >= 0.80)
 )[0]
-print(benign_candidates)
+# print(benign_candidates)
 benign_idx = benign_candidates[np.argmax(y_prob[benign_candidates, 1])]
 
 print(f"\nSelected observations for local explanation:")
@@ -285,8 +285,6 @@ print(f"  Benign case    — test index: {benign_idx}  "
 # 9. PLOT 03 — WATERFALL PLOT: MALIGNANT CASE
 # =============================================================================
 
-print("\n--- Generating Plot 03: Waterfall Plot — Malignant Case ---")
-
 # # Build SHAP Explanation object for the malignant class (class 0)
 # explanation_malignant = shap.Explanation(
 #     values         = shap_values[0][malignant_idx],
@@ -294,7 +292,6 @@ print("\n--- Generating Plot 03: Waterfall Plot — Malignant Case ---")
 #     data           = X_test.iloc[malignant_idx].values,
 #     feature_names  = list(X_test.columns)
 # )
-
 
 # Build SHAP Explanation object for the malignant class (class 0)
 explanation_malignant = shap.Explanation(
@@ -304,11 +301,34 @@ explanation_malignant = shap.Explanation(
     feature_names = list(X_test.columns)
 )
 
+# SHAP Values DataFrame — Malignant Case (Plot 03 diagnostic)
+malignant_shap_df = pd.DataFrame({
+    "Feature"    : list(X_test.columns),
+    "Feature Value" : X_test.iloc[malignant_idx].values,
+    "SHAP Value" : shap_vals_malignant[malignant_idx]
+}).sort_values("SHAP Value", ascending=False).reset_index(drop=True)
+
+print("\nSHAP Values: Malignant Case (all 30 features, sorted by SHAP value)")
+print(malignant_shap_df.to_string(index=False))
+print(f"\nSum of all SHAP values        : {malignant_shap_df['SHAP Value'].sum():.4f}")
+print(f"Baseline (expected value)     : {expected_value_malignant:.4f}")
+print(f"Baseline + sum of SHAP values : {expected_value_malignant + malignant_shap_df['SHAP Value'].sum():.4f}")
+print(f"Model predicted probability   : {y_prob[malignant_idx, 0]:.4f}")
+
 fig, ax = plt.subplots(figsize=(10, 7))
 shap.waterfall_plot(explanation_malignant, max_display=12, show=False)
 
 fig = plt.gcf()
 fig.set_size_inches(10, 7)
+# Reformat bar labels to 3 decimal places
+for text_obj in fig.axes[0].texts:
+    txt = text_obj.get_text().strip()
+    try:
+        if txt.startswith("+") or txt.startswith("-"):
+            value = float(txt.replace("+", ""))
+            text_obj.set_text(f"{value:+.3f}")
+    except ValueError:
+        pass
 plt.title(
     f"SHAP Waterfall Plot — Individual Malignant Prediction\n"
     f"Predicted probability (malignant): {y_prob[malignant_idx, 0]:.4f}",
@@ -321,8 +341,6 @@ plt.show()
 # =============================================================================
 # 10. PLOT 04 — WATERFALL PLOT: BENIGN CASE
 # =============================================================================
-
-print("--- Generating Plot 04: Waterfall Plot — Benign Case ---")
 
 # explanation_benign = shap.Explanation(
 #     values         = shap_values[1][benign_idx],
@@ -339,11 +357,34 @@ explanation_benign = shap.Explanation(
     feature_names = list(X_test.columns)
 )
 
+# SHAP Values DataFrame — Benign Case (Plot 04 diagnostic)
+benign_shap_df = pd.DataFrame({
+    "Feature"    : list(X_test.columns),
+    "Feature Value" : X_test.iloc[benign_idx].values,
+    "SHAP Value" : shap_vals_benign[benign_idx]
+}).sort_values("SHAP Value", ascending=False).reset_index(drop=True)
+
+print("\nSHAP Values: Benign Case (all 30 features, sorted by SHAP value)")
+print(benign_shap_df.to_string(index=False))
+print(f"\nSum of all SHAP values        : {benign_shap_df['SHAP Value'].sum():.4f}")
+print(f"Baseline (expected value)     : {expected_value_benign:.4f}")
+print(f"Baseline + sum of SHAP values : {expected_value_benign + benign_shap_df['SHAP Value'].sum():.4f}")
+print(f"Model predicted probability   : {y_prob[benign_idx, 0]:.4f}")
+
 fig, ax = plt.subplots(figsize=(10, 7))
 shap.waterfall_plot(explanation_benign, max_display=12, show=False)
 
 fig = plt.gcf()
 fig.set_size_inches(10, 7)
+# Reformat bar labels to 3 decimal places
+for text_obj in fig.axes[0].texts:
+    txt = text_obj.get_text().strip()
+    try:
+        if txt.startswith("+") or txt.startswith("-"):
+            value = float(txt.replace("+", ""))
+            text_obj.set_text(f"{value:+.3f}")
+    except ValueError:
+        pass
 plt.title(
     f"SHAP Waterfall Plot — Individual Benign Prediction\n"
     f"Predicted probability (benign): {y_prob[benign_idx, 1]:.4f}",
