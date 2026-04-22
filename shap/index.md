@@ -171,25 +171,27 @@ The dependence plot below shows the relationship between the raw value of 'worst
 
 The relationship suggests that a threshold effect or plateau is visible, showing behaviour similar to a binary indicator.  For 'worst area' values less than 750, the SHAP values are clustered over 0.05, for 'worst area' values in the range 750 - 1,000 the SHAP values rapidly decrease to approximately -0.1, where 'worst area' values greater than 1,000 have a SHAP values clustered around -0.1.
 
-is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. 
-
-The colour separation indicates an interaction with 'mean fractal dimension': observations with high values of 'mean fractal dimension' (shown in red) tend to produce higher SHAP values for 'worst area' than observations with low values of 'mean fractal dimension' (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.
+The colour separation indicates an interaction with 'mean fractal dimension': observations with high values of 'mean fractal dimension' (shown in red) tend to produce marginally higher SHAP values for 'worst area' than observations with low values of 'mean fractal dimension' (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.
 
 **Worst Perimeter**
 
+The dependence plot below shows the relationship between the raw value of 'worst perimeter' and its SHAP contribution across all test observations. The colour dimension represents 'mean compactness', the feature with which the SHAP library identified the strongest interaction.
+
 ![plot_06_shap_dependence_feature2](plot_06_shap_dependence_feature2.png)
 
-[INSERT — interpretation following the same structure as Feature 1 above.]
+The relationship suggests that a threshold effect or plateau is visible, showing behaviour similar to a binary indicator.  For 'worst perimeter' values less than 100, the SHAP values are clustered over 0.05, for 'worst perimeter' values in the range 100 - 115 the SHAP values rapidly decrease to less than -0.05, where 'worst perimeter' values greater than 1,000 have a SHAP values clustered in the range (-0.05, -0.15).
 
-[INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+The colour separation indicates an interaction with 'mean compactness': observations with high values of 'mean compactness' (shown in red) tend to produce marginally higher SHAP values for 'worst perimeter' than observations with low values of 'mean compactness' (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.
 
 **Worst Concave Points**
 
+The dependence plot below shows the relationship between the raw value of 'worst concave points' and its SHAP contribution across all test observations. The colour dimension represents 'area error', the feature with which the SHAP library identified the strongest interaction.
+
 ![plot_07_shap_dependence_feature3](plot_07_shap_dependence_feature3.png)
 
-[INSERT — interpretation following the same structure as Feature 1 above.]
+For observations with 'worst concave points' values less than 0.12, the SHAP value is consistently clustered around 0.05.  For observations with 'worst concave points' values greater than 0.12, the relationship is  monotonic — as 'worst concave points' increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. 
 
-[INSERT — interpretation, e.g.: The relationship is strongly monotonic — as [INSERT feature] increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
 
 **SHAP Heatmap — Full Test Set**
 
