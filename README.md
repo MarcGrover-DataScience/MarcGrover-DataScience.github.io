@@ -11,6 +11,8 @@ The data used is either publicly available or synthetically generated. None of t
 
 All projects are implemented in Python, reflecting the language's central role in modern data science and demonstrating practical proficiency across key libraries for data manipulation, statistical analysis, machine learning, and deep learning.
 
+[Data Science Workflow](/data-science-workflow/)
+
 ## Statistical Analysis & Hypothesis Testing  
 * ### [One-Sample T-Test](/1-sample-t-test/)
 * ### [Two-Sample T-Test](/2-sample-independent-t-test/)
