@@ -189,9 +189,9 @@ The dependence plot below shows the relationship between the raw value of 'worst
 
 ![plot_07_shap_dependence_feature3](plot_07_shap_dependence_feature3.png)
 
-For observations with 'worst concave points' values less than 0.12, the SHAP value is consistently clustered around 0.05.  For observations with 'worst concave points' values greater than 0.12, the relationship is  monotonic — as 'worst concave points' increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. 
+For observations with 'worst concave points' values less than 0.12, the SHAP values are clustered around 0.05.  For observations with 'worst concave points' values greater than 0.12, the relationship is  monotonic — as 'worst concave points' increases, its SHAP contribution decreases consistently, pushing the prediction progressively further towards malignant. 
 
-There is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator. The colour separation indicates an interaction with [INSERT interaction feature]: observations with high values of [INSERT interaction feature] (shown in red) tend to produce lower SHAP values for [INSERT feature] than observations with low values of [INSERT interaction feature] (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.]
+For observations with 'worst concave points' values greater than 0.12 there is no threshold effect or plateau visible within the observed value range, suggesting the model treats this feature as a continuous and consistently informative signal rather than a binary indicator for those 'worst concave points' values. The colour separation indicates an interaction with 'area error': observations with high values of 'area error' (shown in red) tend to produce higher SHAP values for 'worst concave points' than observations with low values of 'area error' (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.
 
 **SHAP Heatmap — Full Test Set**
 
@@ -199,9 +199,11 @@ The heatmap below presents SHAP values for the top 10 features simultaneously ac
 
 ![plot_08_shap_heatmap](plot_08_shap_heatmap.png)
 
-The transition from left to right across the heatmap traces the model's shift from high-confidence malignant predictions to high-confidence benign predictions, and the colour structure makes several characteristics of the model's behaviour immediately visible. In the leftmost region — high-confidence malignant predictions — the top features are uniformly deep blue, indicating large negative SHAP contributions across multiple features simultaneously. In the rightmost region, the same features are uniformly red. This bimodal pattern confirms that the malignant and benign classes are well separated in SHAP space, which is consistent with the model's 95.61% accuracy.
+The transition from left to right across the heatmap traces the model's shift from high-confidence malignant predictions to high-confidence benign predictions, and the colour structure makes several characteristics of the model's behaviour immediately visible. 
 
-The central band of observations, where predicted probabilities are closer to 0.5, shows a more fragmented colour pattern — some features pushing towards benign while others push towards malignant within the same observation. These are the genuinely ambiguous cases, and the heatmap identifies them structurally as the observations where the model's confidence is lowest and where a clinician reviewing the model's output would be most warranted in seeking additional diagnostic information.
+* In the leftmost region — high-confidence malignant predictions — the top features are uniformly deep blue, indicating large negative SHAP contributions across multiple features simultaneously.
+* In the rightmost region, the same features are uniformly red.  This bimodal pattern confirms that the malignant and benign classes are well separated in SHAP space, which is consistent with the model's 95.61% accuracy.
+* The central band of observations, where predicted probabilities are closer to 0.5, shows a more fragmented colour pattern — some features pushing towards benign while others push towards malignant within the same observation. These are the genuinely ambiguous cases, and the heatmap identifies them structurally as the observations where the model's confidence is lowest and where a clinician reviewing the model's output would be most warranted in seeking additional diagnostic information.
 
 **SHAP vs Native Random Forest Feature Importance**
 
