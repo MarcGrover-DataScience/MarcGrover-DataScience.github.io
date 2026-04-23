@@ -11,7 +11,7 @@ The data used is either publicly available or synthetically generated. None of t
 
 All projects are implemented in Python, reflecting the language's central role in modern data science and demonstrating practical proficiency across key libraries for data manipulation, statistical analysis, machine learning, and deep learning.
 
-[Data Science Workflow](/data-science-workflow/)
+Underpinning every project in this portfolio is a consistent, end-to-end approach to data science — from defining the business problem and acquiring data, through exploratory analysis, modelling, and evaluation, to communicating conclusions and recommending next steps. Understanding this process is as important as mastering any individual technique; the best model built on a poorly framed question, or presented without context, delivers little business value. The [Data Science Workflow](/data-science-workflow/) page sets out this approach in full, explaining each stage of the process and showing how the projects in this portfolio apply it in practice.
 
 ## Statistical Analysis & Hypothesis Testing  
 * ### [One-Sample T-Test](/1-sample-t-test/)
