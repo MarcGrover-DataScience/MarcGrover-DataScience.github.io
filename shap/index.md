@@ -207,20 +207,27 @@ The transition from left to right across the heatmap traces the model's shift fr
 
 **SHAP vs Native Random Forest Feature Importance**
 
-The table below compares the feature rankings produced by SHAP against the native Random Forest importance scores — mean impurity decrease — reported in the Random Forest project.
+The table below compares the feature rankings produced by SHAP against the native Random Forest importance scores — mean impurity decrease — reported in the Random Forest project.  Showing the top 10 features by SHAP score.
 
 ```
-Feature                   Mean |SHAP|   SHAP Rank   RF Importance   RF Rank   Rank Δ
-[INSERT feature 1]         [INSERT]        1           [INSERT]       [INSERT]   [INSERT]
-[INSERT feature 2]         [INSERT]        2           [INSERT]       [INSERT]   [INSERT]
-[INSERT feature 3]         [INSERT]        3           [INSERT]       [INSERT]   [INSERT]
-[INSERT feature 4]         [INSERT]        4           [INSERT]       [INSERT]   [INSERT]
-[INSERT feature 5]         [INSERT]        5           [INSERT]       [INSERT]   [INSERT]
+             Feature  Mean |SHAP|  SHAP Rank  RF Importance  RF Rank  Rank Delta
+          worst area     0.068761          1       0.141321        1           0
+     worst perimeter     0.065402          2       0.133776        2           0
+worst concave points     0.055263          3       0.110713        3           0
+ mean concave points     0.042231          4       0.088194        4           0
+        worst radius     0.041919          5       0.082108        5           0
+      mean concavity     0.026073          6       0.050399        8           2
+           mean area     0.025265          7       0.050379        9           2
+         mean radius     0.025106          8       0.063799        6           2
+     worst concavity     0.023714          9       0.033929       10           1
+      mean perimeter     0.020983         10       0.052695        7           3
 ```
 
 [INSERT — key observation, choosing from the options below and expanding as appropriate:]
 
-The rankings are [broadly consistent / notably divergent] between the two methods. [INSERT — if consistent: This agreement between training-set impurity-based importance and test-set SHAP-based importance strengthens confidence in the finding — the features identified as most influential by the Random Forest are genuinely predictive on unseen data rather than artefacts of the training process.] [INSERT — if divergent: The most significant divergence is [INSERT feature], which ranks [INSERT] by native importance but [INSERT] by SHAP value. This is consistent with the known bias of mean impurity decrease towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data. The SHAP ranking, derived from the test set, is the more reliable indicator of genuine feature influence.]
+The rankings are broadly consistent between the two methods.  This agreement between training-set impurity-based importance and test-set SHAP-based importance strengthens confidence in the finding — the features identified as most influential by the Random Forest are genuinely predictive on unseen data rather than artefacts of the training process.
+
+In general there is a known bias of mean impurity decreases towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data, however there is no evidence of such bias in this Random Forest model. This supports the SHAP ranking, derived from the test set, as a reliable indicator of genuine feature influence.
 
 ## Conclusions:
 
