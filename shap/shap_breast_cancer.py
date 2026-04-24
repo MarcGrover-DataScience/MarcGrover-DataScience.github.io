@@ -123,18 +123,6 @@ shap_values = explainer.shap_values(X_test)
 # consistent with scikit-learn's convention (target=1 is benign).
 
 
-# #### OLD VERSION
-# shap_vals_benign    = shap_values[1]    # shape: (n_test, n_features)
-# shap_vals_malignant = shap_values[0]    # shape: (n_test, n_features)
-#
-# # Expected value (baseline) for the benign class
-# expected_value_benign = explainer.expected_value[1]
-#
-# print(f"\nExpected value (baseline, benign class) : {expected_value_benign:.4f}")
-# print(f"SHAP value array shape (test set)       : {shap_vals_benign.shape}")
-# print(f"\nSHAP values computed successfully.")
-
-
 #### NEW VERSION
 # Handle both old API (list of arrays) and new API (single 3D array)
 if isinstance(shap_values, list):
@@ -285,13 +273,6 @@ print(f"  Benign case    — test index: {benign_idx}  "
 # 9. PLOT 03 — WATERFALL PLOT: MALIGNANT CASE
 # =============================================================================
 
-# # Build SHAP Explanation object for the malignant class (class 0)
-# explanation_malignant = shap.Explanation(
-#     values         = shap_values[0][malignant_idx],
-#     base_values    = explainer.expected_value[0],
-#     data           = X_test.iloc[malignant_idx].values,
-#     feature_names  = list(X_test.columns)
-# )
 
 # Build SHAP Explanation object for the malignant class (class 0)
 explanation_malignant = shap.Explanation(
@@ -304,7 +285,7 @@ explanation_malignant = shap.Explanation(
 # SHAP Values DataFrame — Malignant Case (Plot 03 diagnostic)
 malignant_shap_df = pd.DataFrame({
     "Feature"    : list(X_test.columns),
-    "Feature Value" : X_test.iloc[malignant_idx].values,
+    # "Feature Value" : X_test.iloc[malignant_idx].values,
     "SHAP Value" : shap_vals_malignant[malignant_idx]
 }).sort_values("SHAP Value", ascending=False).reset_index(drop=True)
 
@@ -342,12 +323,6 @@ plt.show()
 # 10. PLOT 04 — WATERFALL PLOT: BENIGN CASE
 # =============================================================================
 
-# explanation_benign = shap.Explanation(
-#     values         = shap_values[1][benign_idx],
-#     base_values    = explainer.expected_value[1],
-#     data           = X_test.iloc[benign_idx].values,
-#     feature_names  = list(X_test.columns)
-# )
 
 # Build SHAP Explanation object for the benign class (class 1)
 explanation_benign = shap.Explanation(
@@ -360,7 +335,7 @@ explanation_benign = shap.Explanation(
 # SHAP Values DataFrame — Benign Case (Plot 04 diagnostic)
 benign_shap_df = pd.DataFrame({
     "Feature"    : list(X_test.columns),
-    "Feature Value" : X_test.iloc[benign_idx].values,
+    # "Feature Value" : X_test.iloc[benign_idx].values,
     "SHAP Value" : shap_vals_benign[benign_idx]
 }).sort_values("SHAP Value", ascending=False).reset_index(drop=True)
 
@@ -415,7 +390,6 @@ dependence_filenames = [
 ]
 
 for feature, filename in zip(top3_features, dependence_filenames):
-    print(f"\n--- Generating dependence plot: {feature} ---")
 
     fig, ax = plt.subplots(figsize=(8, 6))
 
@@ -443,8 +417,6 @@ for feature, filename in zip(top3_features, dependence_filenames):
 # =============================================================================
 # 12. PLOT 08 — SHAP HEATMAP (TEST SET OVERVIEW)
 # =============================================================================
-
-print("\n--- Generating Plot 08: SHAP Heatmap ---")
 
 # Sort test observations by predicted probability (benign) for visual clarity
 sort_order   = np.argsort(y_prob[:, 1])
@@ -502,7 +474,7 @@ comparison["RF Rank"]   = comparison["RF Importance"].rank(ascending=False).asty
 comparison["Rank Delta"]= abs(comparison["SHAP Rank"] - comparison["RF Rank"])
 comparison = comparison.sort_values("SHAP Rank").reset_index(drop=True)
 
-print("\n--- Top 15 Features: SHAP vs Native Importance Rank ---")
+print("\nTop 15 Features: SHAP vs Native Importance Rank")
 print(comparison[["Feature", "Mean |SHAP|", "SHAP Rank",
                    "RF Importance", "RF Rank", "Rank Delta"]].head(15).to_string(index=False))
 
@@ -536,4 +508,3 @@ print(f"  Malignant case — test index {malignant_idx}  "
       f"(P(malignant) = {y_prob[malignant_idx, 0]:.4f})")
 print(f"  Benign case    — test index {benign_idx}  "
       f"(P(benign)    = {y_prob[benign_idx, 1]:.4f})")
-print("=" * 60)
