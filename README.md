@@ -67,10 +67,10 @@ The [Data Science Workflow](/data-science-workflow/) page sets out this approach
 <!-- * ### Counterfactual Explanations -->
 
 ## Data Quality & Validation
+* ### [Exploratory Data Analysis](/exploratory-data-analysis/)
 * ### [Great Expectations (Validation)](/great-expectations/)
 
 <!-- * ### Responsible AI / ML (Explainability, transparency etc.) -->
-<!-- * ### ML / Data Science Workflow -->
 
 <!-- * ### Fine Tuning / RAG / Transfer Learning -->
 <!-- * ### Text pre-processing (NLP) -->
