@@ -245,8 +245,9 @@ Taken as a whole, the SHAP analysis transforms the Random Forest classifier from
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support business goals and yield tangible benefits. The most immediate extension of this project is the application of SHAP to the other classification models in this portfolio — most notably the Gradient Boosted Trees and Support Vector Machine models applied to the same dataset. Comparing SHAP-derived feature importance rankings across different model families on identical data would reveal whether the five-feature importance structure identified here is a property of the Random Forest specifically, or a more fundamental characteristic of the dataset that all well-performing classifiers have independently learned to exploit. A divergence in rankings across models would be as analytically informative as the agreement found here between SHAP and native importance.
 
+A second direction is the extension of the local explanation analysis beyond the two high-confidence cases examined here. The heatmap identified a central band of ambiguous observations where the model's predicted probability sits close to 0.5 and feature contributions are fragmented and conflicting. Applying waterfall plots to these borderline cases would be particularly valuable in a clinical context — these are precisely the patients for which a model's reasoning is most consequential and least transparent, and SHAP provides the mechanism to surface the specific combination of measurements that is generating the uncertainty. In a deployed diagnostic setting, this kind of targeted explanation for low-confidence predictions would be the natural trigger for escalation to additional clinical review.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
