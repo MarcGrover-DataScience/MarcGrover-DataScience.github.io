@@ -117,3 +117,31 @@ In this portfolio, every project concludes with an explicit Results, Conclusions
 ## Portfolio Project Reference Table
 
 The table below maps each project in this portfolio to the primary workflow stages it demonstrates. This is intended as a navigational reference — a way to locate specific examples of each workflow stage in action, rather than a comprehensive checklist of every task performed in every project.
+
+| Project | Problem Definition | Data Acquisition & Assessment | EDA | Data Preparation & Feature Engineering | Model Selection | ML Workflow | Evaluation & Interpretability | Results Communication |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| One-Sample T-Test | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| Paired Sample T-Test | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| One-Way ANOVA | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| Chi-Squared Goodness-of-Fit | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| A/B Testing | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| Multiple Linear Regression | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Logistic Regression | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ |
+| Decision Trees | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Random Forests | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Gradient Boosted Trees | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓✓ | ✓ |
+| K-Nearest Neighbours | ✓ | ✓ | ✓✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ |
+| Support Vector Machines | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ |
+| K-Means Clustering | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| PCA | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| Association Rule Mining | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| Anomaly Detection | ✓ | ✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ARIMA | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| LSTM Time Series | ✓ | ✓ | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ |
+| Causal Impact Analysis | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| Feedforward Neural Network | ✓ | ✓ | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ |
+| Sentiment Analysis | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| SHAP | ✓ | | ✓ | | ✓ | | ✓✓ | ✓ |
+| Great Expectations | ✓ | ✓✓ | ✓ | | | | ✓ | ✓ |
+
+*✓✓ denotes a project where this stage is a primary focus rather than standard practice*
