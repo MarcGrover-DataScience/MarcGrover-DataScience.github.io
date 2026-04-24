@@ -33,9 +33,8 @@ Conclusions from the project findings and results.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
-
+Next steps based on current results and conclusions from above and suggested follow-up actions, analysis etc.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/DecisionTree_BreastCancer.py)
+[View the Python Script](/t.py)
