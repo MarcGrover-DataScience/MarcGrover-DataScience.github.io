@@ -8,8 +8,6 @@ permalink: /shap/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 For this portfolio project, the business scenario concerns the interpretability of a machine learning classifier applied to the Wisconsin Breast Cancer Diagnostic dataset — the same dataset used in the Decision Tree, Random Forest, Gradient Boosted Trees, and Support Vector Machine projects in this portfolio. 
@@ -223,9 +221,9 @@ worst concave points     0.055263          3       0.110713        3           0
       mean perimeter     0.020983         10       0.052695        7           3
 ```
 
-The rankings are broadly consistent between the two methods.  This agreement between training-set impurity-based importance and test-set SHAP-based importance strengthens confidence in the finding — the features identified as most influential by the Random Forest are genuinely predictive on unseen data rather than artefacts of the training process.
+The rankings are broadly consistent between the two methods.  This agreement between training-set impurity-based importance and test-set SHAP-based importance strengthens confidence in the findings — the features identified as most influential by the Random Forest are genuinely predictive on unseen data rather than artefacts of the training process.
 
-In general there is a known bias of mean impurity decreases towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data, however there is no evidence of such bias in this Random Forest model. This supports the SHAP ranking, derived from the test set, as a reliable indicator of genuine feature influence.
+In general, there is a known bias of mean impurity which decreases towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data, however there is no supporting evidence of such bias in this Random Forest model. This similarly supports the SHAP ranking, derived from the test set, as a reliable indicator of genuine feature influence.
 
 ## Conclusions:
 
