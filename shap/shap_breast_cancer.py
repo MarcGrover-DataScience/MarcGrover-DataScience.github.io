@@ -307,7 +307,7 @@ for text_obj in fig.axes[0].texts:
     try:
         if txt.startswith("+") or txt.startswith("-"):
             value = float(txt.replace("+", ""))
-            text_obj.set_text(f"{value:+.3f}")
+            text_obj.set_text(f"{value:+.2f}")
     except ValueError:
         pass
 plt.title(
@@ -357,7 +357,7 @@ for text_obj in fig.axes[0].texts:
     try:
         if txt.startswith("+") or txt.startswith("-"):
             value = float(txt.replace("+", ""))
-            text_obj.set_text(f"{value:+.3f}")
+            text_obj.set_text(f"{value:+.2f}")
     except ValueError:
         pass
 plt.title(
