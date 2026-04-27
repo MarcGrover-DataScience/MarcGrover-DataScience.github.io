@@ -78,7 +78,7 @@ The Random Forest classifier developed in the Random Forest project is reconstru
 
 **SHAP Explainer — TreeSHAP**
 
-SHAP values are computed using scikit-learn's TreeExplainer, which implements TreeSHAP — a fast, exact algorithm designed specifically for tree-based models. Unlike the generic KernelSHAP approximation, TreeSHAP exploits the tree structure of the model to compute exact Shapley values in polynomial rather than exponential time, making it computationally tractable for a 150-tree Random Forest without any sampling or approximation. SHAP values are computed across the full test set of 114 observations, producing a matrix of shape (114 observations × 30 features) for each class. All explanations are expressed relative to the benign class (class 1), consistent with scikit-learn's positive class convention, unless stated otherwise.
+SHAP values are computed using SHAP libraries's TreeExplainer, which implements TreeSHAP — a fast, exact algorithm designed specifically for tree-based models. Unlike the generic KernelSHAP approximation, TreeSHAP exploits the tree structure of the model to compute exact Shapley values in polynomial rather than exponential time, making it computationally tractable for a 150-tree Random Forest without any sampling or approximation. SHAP values are computed across the full test set of 114 observations, producing a matrix of shape (114 observations × 30 features) for each class. All explanations are expressed relative to the benign class (class 1), consistent with scikit-learn's positive class convention, unless stated otherwise.
 
 **Global SHAP Analysis**
 
@@ -147,13 +147,15 @@ The waterfall plot below explains the model's classification of a single test ob
 
 ![plot_03_shap_waterfall_malignant](plot_03_shap_waterfall_malignant.png)
 
-For this observation, the classification is driven primarily by 'worst area' (SHAP value: 0.085) and 'worst concave points' (SHAP value: 0.082), both of which push strongly towards malignant. 'worst smoothness', 'compactness error', and 'worst symmetry' provide partial counteracting push towards benign (negative SHAP values of magnitude less than 0.004), but is insufficient to overcome the cumulative negative contributions of the leading features. The bottom step includes features whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
+For this observation, the classification is driven primarily by 'worst area' (SHAP value: 0.085) and 'worst concave points' (SHAP value: 0.082), both of which push strongly towards malignant. 'worst smoothness', 'compactness error', and 'worst symmetry' provide partial counteracting push towards benign (negative SHAP values of magnitude less than 0.004), but are insufficient to overcome the cumulative negative contributions of the leading features. The bottom step includes features whose individual contributions fall below the display threshold and are grouped together — their combined effect is shown as a single step.
 
 This observation is a concrete illustration of the clinical value of local SHAP explanations: rather than a model producing an opaque malignant classification, the waterfall plot identifies the specific cell nucleus measurements that are anomalous for this patient and quantifies their individual contributions to the model's reasoning.
 
 **Benign Case**
 
-The waterfall plot below explains the classification of a test observation predicted as benign with a probability of 1.000.
+The waterfall plot below explains the classification of a test observation predicted as benign with a probability of 1.000.  The baseline at the bottom of the chart represents the expected model output across all training observations (probability of 0.624) — the prediction the model would make in the absence of any information about this specific patient. Each bar shows the SHAP contribution of one feature, either increasing (red, pushing towards benign) or decreasing (blue, pushing towards malignant) the prediction from that baseline, until the final predicted probability of 1.000 is reached at the top.
+
+Note that this waterfall plot is expressed relative to the malignant class — positive SHAP values here indicate a push towards malignant, the inverse of the benign-class convention used in the global analysis above.
 
 ![plot_04_shap_waterfall_benign](plot_04_shap_waterfall_benign.png)
 
@@ -177,7 +179,7 @@ The dependence plot below shows the relationship between the raw value of 'worst
 
 ![plot_06_shap_dependence_feature2](plot_06_shap_dependence_feature2.png)
 
-The relationship suggests that a threshold effect or plateau is visible, showing behaviour similar to a binary indicator.  For 'worst perimeter' values less than 100, the SHAP values are clustered over 0.05, for 'worst perimeter' values in the range 100 - 115 the SHAP values rapidly decrease to less than -0.05, where 'worst perimeter' values greater than 1,000 have a SHAP values clustered in the range (-0.05, -0.15).
+The relationship suggests that a threshold effect or plateau is visible, showing behaviour similar to a binary indicator.  For 'worst perimeter' values less than 100, the SHAP values are clustered over 0.05, for 'worst perimeter' values in the range 100 - 115 the SHAP values rapidly decrease to less than -0.05, where 'worst perimeter' values greater than 115 have a SHAP values clustered in the range (-0.05, -0.15).
 
 The colour separation indicates an interaction with 'mean compactness': observations with high values of 'mean compactness' (shown in red) tend to produce marginally higher SHAP values for 'worst perimeter' than observations with low values of 'mean compactness' (shown in blue) at the same feature value, confirming that the two features jointly amplify the model's malignant signal.
 
@@ -223,7 +225,7 @@ worst concave points     0.055263          3       0.110713        3           0
 
 The rankings are broadly consistent between the two methods.  This agreement between training-set impurity-based importance and test-set SHAP-based importance strengthens confidence in the findings — the features identified as most influential by the Random Forest are genuinely predictive on unseen data rather than artefacts of the training process.
 
-In general, there is a known bias of mean impurity which decreases towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data, however there is no supporting evidence of such bias in this Random Forest model. This similarly supports the SHAP ranking, derived from the test set, as a reliable indicator of genuine feature influence.
+In general, there is a known bias of mean impurity decreases towards features with a high number of distinct values, which accumulate more split opportunities across the 150 trees regardless of their true predictive contribution on held-out data, however there is no supporting evidence of such bias in this Random Forest model. This similarly supports the SHAP ranking, derived from the test set, as a reliable indicator of genuine feature influence.
 
 ## Conclusions:
 
