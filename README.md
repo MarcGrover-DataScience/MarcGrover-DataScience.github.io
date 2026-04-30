@@ -17,6 +17,8 @@ Underpinning every project in this portfolio is a consistent, end-to-end approac
 
 The **[Data Science Workflow](/data-science-workflow/)** page sets out this approach in full, explaining each stage of the process and showing how the projects in this portfolio apply it in practice.
 
+## Ethics in Applied Data Science
+
 
 ## Statistical Analysis & Hypothesis Testing  
 * ### [One-Sample T-Test](/1-sample-t-test/)
