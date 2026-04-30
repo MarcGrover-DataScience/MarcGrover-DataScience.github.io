@@ -19,6 +19,10 @@ The **[Data Science Workflow](/data-science-workflow/)** page sets out this appr
 
 ## Ethics in Applied Data Science
 
+As machine learning and statistical models move into operational settings — informing decisions in healthcare, finance, retail, and beyond — technical performance alone is not a sufficient measure of quality. A model that cannot be explained to a stakeholder, that produces systematically different outcomes for different groups, or that cannot be audited when a decision is challenged, is not ready for deployment regardless of its accuracy on a test set. Responsible data science requires that questions of fairness, transparency, interpretability, and accountability are treated as part of the problem, not as an afterthought to it. These considerations inform the approach taken across all projects in this portfolio.
+
+The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out these principles in full, examining each in turn and showing where they connect directly to the projects and methods demonstrated here.
+
 
 ## Statistical Analysis & Hypothesis Testing  
 * ### [One-Sample T-Test](/1-sample-t-test/)
