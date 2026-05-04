@@ -17,7 +17,7 @@ Underpinning every project in this portfolio is a consistent, end-to-end approac
 
 The **[Data Science Workflow](/data-science-workflow/)** page sets out this approach in full, explaining each stage of the process and showing how the projects in this portfolio apply it in practice.
 
-## Ethics in Applied Data Science
+## Responsible AI and Ethics in Applied Data Science
 
 As machine learning and statistical models move into operational settings — informing decisions in healthcare, finance, retail, and beyond — technical performance alone is not a sufficient measure of quality. A model that cannot be explained to a stakeholder, that produces systematically different outcomes for different groups, or that cannot be audited when a decision is challenged, is not ready for deployment regardless of its accuracy on a test set. Responsible data science requires that questions of fairness, transparency, interpretability, and accountability are treated as part of the problem, not as an afterthought to it. These considerations inform the approach taken across all projects in this portfolio.
 
