@@ -21,3 +21,26 @@ This page does not attempt a comprehensive treatment of AI ethics — the litera
 
 The projects in this portfolio are built around realistic business scenarios across healthcare, retail, finance, and manufacturing. In each case, the ethical dimensions of the problem are as real as the technical ones. A false negative in a cancer diagnostic model carries a different cost from a false positive. A churn prediction model applied to customer retention raises questions about which customers are targeted and why. An anomaly detection system applied to transactions must be explainable to compliance teams and robust against the populations it monitors. Keeping these considerations in view — not as afterthoughts but as part of the problem framing — is what this page is intended to demonstrate.
 
+## Responsbility and Ethics Core Pillars
+
+* Fairness — Bias, equitable outcomes, protected characteristics
+* Transparency — being clear about what a model does, what data it uses, what assumptions it makes, and where it may fail. Link to Data Science Workflow page as an expression of this.
+* Interpretability & Explainability — the distinction between globally interpretable models (Decision Trees) and post-hoc explainability tools (SHAP). Link directly to SHAP page and contrast with black-box models (GBT, Neural Networks, SVM).
+* Accountability — who owns the output? What checks exist? Covers validation, documentation, and the importance of reproducibility. Link to Great Expectations and methodology documentation practices.
+
+## Ethical Considerations by Model Type
+A practical section mapping portfolio projects to their ethical risk profile — for example:
+
+* High-stakes / sensitive domains: breast cancer diagnostic models (Decision Tree, Random Forest, GBT, SVM, MLP) — what are the consequences of false negatives vs. false positives?
+* Fairness-sensitive: logistic regression on churn — does the model treat customer segments equitably?
+* Opacity vs. interpretability: comparing simpler models (Decision Trees — fully interpretable) against ensemble/deep learning approaches, and how SHAP bridges that gap.
+
+## Fairness & Bias Awareness
+A concise section acknowledging that bias can enter at data collection, feature selection, and evaluation stages. No need to have run formal fairness audits — acknowledging the landscape and how I'd approach it (representative data, disaggregated metrics) is sufficient and honest.
+
+## Regulatory & Industry Context
+Brief coverage of the frameworks shaping this space — GDPR's right to explanation, the EU AI Act's risk-tiered approach, and sector-specific considerations (financial services, healthcare). Positions practitioner as someone aware of the environment practitioners operate in.
+
+## Personal Commitment & Portfolio Reflection
+A closing section tying it together — approach to building models that are not just accurate but explainable, documented, and fit for responsible deployment. This is a natural place to echo the framing from the homepage about "translating complex analysis into clear, actionable recommendations."
+
