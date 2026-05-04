@@ -21,7 +21,18 @@ This page does not attempt a comprehensive treatment of AI ethics — the litera
 
 The projects in this portfolio are built around realistic business scenarios across healthcare, retail, finance, and manufacturing. In each case, the ethical dimensions of the problem are as real as the technical ones. A false negative in a cancer diagnostic model carries a different cost from a false positive. A churn prediction model applied to customer retention raises questions about which customers are targeted and why. An anomaly detection system applied to transactions must be explainable to compliance teams and robust against the populations it monitors. Keeping these considerations in view — not as afterthoughts but as part of the problem framing — is what this page is intended to demonstrate.
 
-## Responsbility and Ethics Core Pillars
+## The Core Pillars of Responsible Data Science
+
+Technical competence and ethical awareness are not separate concerns in applied data science — they are two dimensions of the same question: whether a model is genuinely fit for the purpose to which it will be put. A model may achieve excellent performance on a held-out test set and still be unsuitable for deployment if its outputs are unfair to particular groups, its reasoning is opaque to the people it affects, its assumptions are undocumented, or its predictions cannot be audited when challenged. Addressing these concerns is not a compliance exercise layered on top of the technical work — it is part of what makes technical work credible.
+
+Four principles inform the approach taken across this portfolio: 
+
+* fairness
+* transparency
+* accountability
+* interpretability and explainability
+
+These are not self-constructed criteria. They represent the most consistently cited themes across major AI ethics frameworks, including the EU High-Level Expert Group's _Ethics Guidelines for Trustworthy AI_ and the peer-reviewed literature synthesising published guidelines across the field. Each is considered in turn below — in general terms and with reference to the specific projects in this portfolio where it is most directly relevant.
 
 * Fairness — Bias, equitable outcomes, protected characteristics
 * Transparency — being clear about what a model does, what data it uses, what assumptions it makes, and where it may fail. Link to Data Science Workflow page as an expression of this.
