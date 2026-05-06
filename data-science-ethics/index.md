@@ -163,7 +163,11 @@ The EU Artificial Intelligence Act, which introduces a risk-tiered classificatio
 Awareness of this landscape is a practical requirement for any data scientist working on models intended for real deployment, not an academic interest. Understanding which regulatory category a proposed model falls into, and what obligations that carries, is part of responsible problem framing. The projects in this portfolio are built on publicly available datasets in a portfolio context rather than live operational systems, but they are deliberately framed around the sectors — healthcare, finance, retail, manufacturing — where these frameworks apply most directly. The ethical considerations built into the approach throughout this portfolio reflect the standards that responsible deployment in those sectors would require.
 
 ## Personal Commitment & Portfolio Reflection
-A closing section tying it together — approach to building models that are not just accurate but explainable, documented, and fit for responsible deployment. This is a natural place to echo the framing from the homepage about "translating complex analysis into clear, actionable recommendations."
+
+The work in this portfolio is built around a consistent conviction: that a model which performs well on a test set but cannot be explained, has not been examined for fairness, or cannot be audited when its outputs are questioned, is not finished work. 
+
+Accuracy is a necessary condition for a useful model, not a sufficient one. The commitment running through each project — to document methodology transparently, to evaluate performance using metrics that surface the full distribution of errors rather than flattering aggregates, to apply interpretability tools where the model's internal logic is not directly accessible, and to frame every analysis around a realistic deployment context — reflects this. These are not additions layered on top of the technical work; they are part of what the technical work is.
+
+The ambition stated on the homepage of this portfolio — translating complex analysis into clear, actionable recommendations — carries an implicit ethical dimension that this page has tried to make explicit. A recommendation built on a model whose assumptions are undocumented, whose errors fall disproportionately on particular groups, or whose reasoning cannot be communicated to the person acting on it, is not a trustworthy recommendation regardless of the sophistication of the analysis behind it. Responsible data science and effective data science are not in tension. They are the same standard, applied consistently.
 
 _Revision date: May 2026_
-
