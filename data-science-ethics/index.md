@@ -155,7 +155,6 @@ Formal fairness auditing — comprehensive disaggregated analysis across demogra
 The broader point is one of disposition. Bias awareness is not a checklist to be completed at the end of a project — it is an orientation that shapes how problems are framed, how data is interrogated, how models are evaluated, and how results are communicated. A model presented without consideration of where its training data came from, which groups it may perform differently for, and how its errors are distributed is an incomplete piece of work, regardless of its headline performance figures. These questions do not always have clean answers, but the discipline of asking them is itself part of what responsible applied data science requires.
 
 ## Regulatory & Industry Context
-Brief coverage of the frameworks shaping this space — GDPR's right to explanation, the EU AI Act's risk-tiered approach, and sector-specific considerations (financial services, healthcare). Positions practitioner as someone aware of the environment practitioners operate in.
 
 The ethical principles discussed in this portfolio do not exist in isolation — they are increasingly reflected in formal regulatory frameworks and industry standards that govern how AI and machine learning systems are built and deployed. 
 
@@ -166,5 +165,5 @@ Awareness of this landscape is a practical requirement for any data scientist wo
 ## Personal Commitment & Portfolio Reflection
 A closing section tying it together — approach to building models that are not just accurate but explainable, documented, and fit for responsible deployment. This is a natural place to echo the framing from the homepage about "translating complex analysis into clear, actionable recommendations."
 
-Revision date: May 2026
+_Revision date: May 2026_
 
