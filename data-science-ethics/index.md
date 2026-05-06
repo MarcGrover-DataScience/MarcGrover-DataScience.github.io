@@ -157,6 +157,14 @@ The broader point is one of disposition. Bias awareness is not a checklist to be
 ## Regulatory & Industry Context
 Brief coverage of the frameworks shaping this space — GDPR's right to explanation, the EU AI Act's risk-tiered approach, and sector-specific considerations (financial services, healthcare). Positions practitioner as someone aware of the environment practitioners operate in.
 
+The ethical principles discussed in this portfolio do not exist in isolation — they are increasingly reflected in formal regulatory frameworks and industry standards that govern how AI and machine learning systems are built and deployed. 
+
+The EU Artificial Intelligence Act, which introduces a risk-tiered classification of AI systems with the most stringent requirements applied to high-risk applications in healthcare, finance, and employment, represents the most significant legislative development in this space. The EU High-Level Expert Group's Ethics Guidelines for Trustworthy AI provides an influential non-binding framework underpinning much of the academic and industry consensus on responsible AI practice. GDPR's right to explanation — the requirement that individuals subject to automated decisions have the right to a meaningful account of the reasoning involved — has direct implications for model interpretability in any consumer-facing deployment within its scope. Sector-specific standards, such as the Financial Conduct Authority's guidance on model risk management in financial services, extend these principles into domain-specific requirements that practitioners in those industries must navigate.
+
+Awareness of this landscape is a practical requirement for any data scientist working on models intended for real deployment, not an academic interest. Understanding which regulatory category a proposed model falls into, and what obligations that carries, is part of responsible problem framing. The projects in this portfolio are built on publicly available datasets in a portfolio context rather than live operational systems, but they are deliberately framed around the sectors — healthcare, finance, retail, manufacturing — where these frameworks apply most directly. The ethical considerations built into the approach throughout this portfolio reflect the standards that responsible deployment in those sectors would require.
+
 ## Personal Commitment & Portfolio Reflection
 A closing section tying it together — approach to building models that are not just accurate but explainable, documented, and fit for responsible deployment. This is a natural place to echo the framing from the homepage about "translating complex analysis into clear, actionable recommendations."
+
+Revision date: May 2026
 
