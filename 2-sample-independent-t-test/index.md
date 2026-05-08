@@ -74,14 +74,19 @@ It is noted that the histograms / KDEs look normal for each group, but we shall 
 First we test the data for normality, addressing both groups separately, using the Shapiro-Wilk Normality Test.  It should be noted that as there are 50 observations for each group, the Central Limit Theorem (CLT) ensures robustness to non-normality anyway.  The null hypothesis of the Shapiro-Wilk Normality Test is that the observations are normally distributed.
 
 Shapiro-Wilk Normality Test results:  
+
+```
 Ensata Group1: p=0.9173 (Normal)  
-Ensata Group2: p=0.6300 (Normal)  
+Ensata Group2: p=0.6300 (Normal)
+```
+
 As both p-values are greater than 0.05, then both samples are considered to be normally distributed, i.e. the evidence supports the null hypothesis of the Shapiro-Wilk Normality Test. 
 
 Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, where the null hypothesis is that the variances of the observations in group 1 and group 2 are equal. The results were:
 
 F-statistic = 0.5494, p-value = 0.4604  
-Conclusion:  As 0.4604 > 0.05, the evidence supports the null hypothesis of Levene's Test, that the variances are equal, therefore we can use Student's t-test to test the overall research null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
+
+As 0.4604 > 0.05, the evidence supports the null hypothesis of Levene's Test, that the variances are equal, therefore we can use Student's t-test to test the overall research null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
 
 The Two-Sample T-Test was applied to the data for the two groups, where the significance level (alpha) was set to 0.05 - i.e. 95% confidence level. The results were: 
 
