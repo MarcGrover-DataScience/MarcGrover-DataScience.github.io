@@ -8,8 +8,6 @@ permalink: /data-science-ethics/
 
 ---
 
-# This project is in development
-
 ## Overview
 
 Machine learning models are increasingly applied to decisions that carry real consequences — in healthcare, finance, retail, and beyond. In these contexts, a model that is accurate but unfair, opaque, or unaccountable is not fit for deployment. This page sets out the ethical principles that inform the work in this portfolio and demonstrates how they connect to practical modelling decisions across the projects shown here.
