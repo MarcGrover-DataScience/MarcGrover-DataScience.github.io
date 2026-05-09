@@ -26,23 +26,46 @@ The Two-Sample Independent T-Test is a powerful statistical tool used to determi
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scipy, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data came from a publicly available dataset of iris measurements from the library scikit-learn, which was then extended to support the generation of statistically interesting findings.  
+The methodology adopted for this project follows the end-to-end data science workflow, progressing from data loading and validation through exploratory analysis, assumption testing, hypothesis testing, and the extraction of business insight. The project is implemented in Python, using pandas for data manipulation, scipy for statistical testing, and seaborn and matplotlib for visualisation. Each stage of the pipeline is described below.
 
 ### Data Loading and Validation:
 
-The dataset is loaded from a locally stored Excel file (Iris_ensata.xlsx) using pandas. A structured validation audit is conducted prior to any analysis: missing values are checked across both columns (Length and Test set), duplicate records are identified, and the data types of each column are confirmed to be numeric and categorical as expected. Descriptive statistics are printed for all variables and the raw distribution of observations across the two test groups is confirmed to be balanced (n=50 each).
+The dataset is loaded from a locally stored Excel file (`Iris_ensata.xlsx`) using pandas. A structured validation audit is conducted prior to any analysis, checking for missing values across both columns (Length and Test set), identifying and removing any duplicate records, and confirming that both columns carry the expected data types — numeric for Length and integer for Test set. The distribution of observations across the two groups is also confirmed to be balanced at n=50 each, and descriptive statistics are printed for all variables to provide an initial picture of the data before any formal analysis begins.
+
+### Hypothesis Statement:
+
+The null and alternative hypotheses for this test are:
+
+* **H₀**: The mean sepal petal length of Iris ensata in Group 1 = the mean sepal petal length of Iris ensata in Group 2 (i.e. there is no statistically significant difference)
+* **H₁**: The mean sepal petal length of Iris ensata in Group 1 ≠ the mean sepal petal length of Iris ensata in Group 2 (i.e. a statistically significant difference exists)
+
+The significance threshold is set at α = 0.05, representing a 95% confidence level. The assumption of independence of observations is accepted by design of the experiment — the two groups of plants were grown under separate conditions with no overlap between them.
+
+### Exploratory Data Analysis
+
+Exploratory analysis is performed on the sepal length measurements for both groups before any formal testing is conducted. Three charts are produced to support visual inspection of the data:
+
+* A **histogram with KDE overlay** for each group, used to assess the shape of each group's length distribution and to provide an initial visual check of the normality assumption. Departures from a bell-shaped, symmetric distribution would be visible here before the formal test is applied.
+* A **boxplot** for each group, used to inspect central tendency, spread, and the presence or absence of extreme outliers. Outliers in a two-sample t-test can distort the t-statistic and inflate or deflate the p-value, so confirming their absence is a necessary pre-analysis step.
+* A **violin plot with individual data points overlaid**, which combines a kernel density estimate of the distribution shape with the individual observation positions. This provides a richer view of the within-group distribution than the boxplot alone — particularly useful for identifying multi-modality or asymmetry that a boxplot would not reveal.
+
+### Assumption Testing
+
+Before performing the Two-Sample T-Test, two formal assumption checks are conducted:
+
+**Normality — Shapiro-Wilk Test**: The Shapiro-Wilk test is applied to each group separately. Its null hypothesis is that the sample is drawn from a normally distributed population. A p-value greater than 0.05 supports the normality assumption. It should be noted that with n=50 observations in each group, the Central Limit Theorem (CLT) provides robustness to moderate departures from normality in any case — the sampling distribution of the mean will be approximately normal at this sample size regardless of the underlying population distribution. The Shapiro-Wilk test therefore serves as a formal confirmation of what the histograms suggest visually.
+
+**Homogeneity of Variances — Levene's Test**: Levene's test examines whether the variances of the two groups are equal. Its null hypothesis is that the two population variances are the same. The outcome of this test determines which variant of the t-test is applied: if the variances are equal (p > 0.05), Student's t-test is used, which assumes a common pooled variance. If the variances differ significantly (p ≤ 0.05), Welch's t-test is more appropriate, as it does not assume equal variances and adjusts the degrees of freedom accordingly. Both variants are computed for completeness.
 
 ### Hypothesis Testing
-The Two-Sample T-Test was used to test the null hypothesis that the mean sepal petal lengths for group 1 and group 2 are the same.  
 
-The null and alternative hypotheses for the test are:
+The Two-Sample T-Test is applied using scipy's `ttest_ind()` function, with the `equal_var` parameter set based on the outcome of Levene's test. The test produces a t-statistic and a p-value, which are evaluated against the significance threshold of α = 0.05.
 
-* H₀: The mean sepal petal length of Iris ensata in Group 1 = the mean sepal petal length in Group 2
-* H₁: The mean sepal petal length of Iris ensata in Group 1 ≠ the mean sepal petal length in Group 2
+**Effect size** is quantified using Cohen's d, defined as the difference between the two group means divided by the pooled standard deviation. Cohen's d provides a scale-independent measure of the practical magnitude of the difference between the groups, complementing the p-value which reflects only the probability of the observed result under H₀. Standard thresholds are: negligible (< 0.2), small (< 0.5), medium (< 0.8), and large (≥ 0.8).
 
-The assumption of independence of observations is assumed due to design of the experiment.
+A **95% confidence interval for the difference in means** is also constructed, providing a plausible range for the true population difference. A CI that does not contain zero is consistent with a significant p-value, and the sign and width of the interval convey directional and precision information that the p-value alone does not.
 
-Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes.
+A fourth chart is produced to directly visualise the core quantity of interest — a **mean comparison plot with 95% confidence interval error bars** for each group, with individual data points overlaid. This chart makes the relative position of the two group means and the uncertainty around each immediately apparent, and provides intuitive visual support for the statistical conclusion reached by the test.
 
 ## Results:
 
