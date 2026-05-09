@@ -71,46 +71,50 @@ A fourth chart is produced to directly visualise the core quantity of interest �
 
 ### Descriptive statistics:  
 
-Initially a histogram and KDE of the iris petal lengths for each group of observations was created to visually inspect the distribution.    
+Initially a histogram and KDE of the iris sepal petal lengths for each group of observations was created to visually inspect the distribution.
 
-![Histogram of petal length by group](/2s_ttest_hist.png) 
+![Histogram of petal length by group](/2s_ttest_hist.png)
 
-Boxplot and violin plots of the values for each group were also produced, to further understand the distributions. 
+The histogram and KDE curves show that both groups follow an approximately symmetric, bell-shaped distribution with no obvious skew. The distributions overlap substantially, but the centre of Group 2's distribution sits visibly to the right of Group 1's, indicating a higher mean length. Both KDE curves are smooth and unimodal, providing initial visual support for the normality assumption that will be tested formally below.
 
-![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
+Boxplot and violin plots of the values for each group were also produced, to further understand the distributions.
 
-![Violin plot of petal length by group](/2s_ttest_violin.png) 
+![Boxplot of petal length by group](/2s_ttest_boxplot.png)
 
-The boxplot confirms that neither group contains extreme outliers. Both interquartile ranges are compact and the whiskers are of proportionate length, indicating no individual observations that
-would materially distort the t-statistic. The outlier assumption of the Two-Sample T-Test is satisfied.  The violin plot confirms that both distributions are approximately symmetric and unimodal, providing initial visual support for the normality assumption ahead of formal testing.
+![Violin plot of petal length by group](/2s_ttest_violin.png)
 
-Simple descriptive statistics for each group:  
+The boxplot confirms that neither group contains extreme outliers. Both interquartile ranges are compact and the whiskers are of proportionate length, with no individual observations plotted beyond the whisker boundaries. This confirms that no individual measurements would materially distort the t-statistic, and the outlier assumption of the Two-Sample T-Test is satisfied. The median line for Group 2 sits noticeably higher than that of Group 1, consistent with what the histogram suggested.
+
+The violin plot reinforces these observations: both distributions are approximately symmetric and unimodal, with the widest density mass concentrated around the respective group means. The overlaid individual data points confirm a dense, well-behaved spread in both groups with no isolated observations that would warrant investigation or removal. The combined evidence from the histogram, boxplot, and violin plot supports proceeding to formal assumption testing and hypothesis testing with confidence in the quality and distribution of the data.
+
+Simple descriptive statistics for each group:
 
 ```
 Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381  
 Ensata Group 2:  n=50, Mean=8.333cm, SD=0.401  
 Difference in Means:  0.174cm
 ```
-The chart below visualises the mean and 95% confidence interval for each group.
+The mean sepal petal length of Group 2 is 0.174cm greater than that of Group 1. The standard deviations are similar in magnitude (0.381 and 0.401), suggesting comparable within-group 
+variability. The chart below visualises the mean and 95% confidence interval for each group, with individual data points overlaid.
 
-![2s_ttest_mean_ci](/2s_ttest_mean_ci.png) 
+![Mean sepal length with 95% confidence intervals](/2s_ttest_mean_ci.png)
 
-It is noted that the histograms / KDEs look normal for each group, but we shall test that also.
+The mean comparison plot makes the direction and magnitude of the difference between the two groups immediately apparent. The 95% confidence interval for Group 1 spans approximately 8.05cm to 8.27cm, and for Group 2 approximately 8.22cm to 8.45cm. Crucially, the two confidence intervals show only minimal overlap at their extremities, which provides visual confirmation that the difference in means is statistically significant at the α = 0.05 level — a finding that is formally confirmed by the t-test below. The individual data points overlaid on the chart illustrate the within-group spread and confirm that the group means are representative summaries of their respective distributions, with no extreme values pulling either mean away from the centre of the data.
 
 ### Hypothesis Test:
 
-First we test the data for normality, addressing both groups separately, using the Shapiro-Wilk Normality Test.  It should be noted that as there are 50 observations for each group, the Central Limit Theorem (CLT) ensures robustness to non-normality anyway.  The null hypothesis of the Shapiro-Wilk Normality Test is that the observations are normally distributed.
+First we test the data for normality, addressing both groups separately, using the Shapiro-Wilk Normality Test. It should be noted that as there are 50 observations for each group, the Central Limit Theorem (CLT) ensures robustness to non-normality anyway. The null hypothesis of the Shapiro-Wilk Normality Test is that the observations are normally distributed.
 
-Shapiro-Wilk Normality Test results:  
+Shapiro-Wilk Normality Test results:
 
 ```
 Ensata Group1: p=0.9173 (Normal)  
 Ensata Group2: p=0.6300 (Normal)
 ```
 
-As both p-values are greater than 0.05, then both samples are considered to be normally distributed, i.e. the evidence supports the null hypothesis of the Shapiro-Wilk Normality Test. 
+As both p-values are considerably greater than 0.05, both samples are considered to be normally distributed. The evidence strongly supports the null hypothesis of the Shapiro-Wilk test, and the normality assumption of the Two-Sample T-Test is satisfied. This is consistent with the visual evidence from the histogram and violin plot.
 
-Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, where the null hypothesis is that the variances of the observations in group 1 and group 2 are equal. The results were:
+Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, where the null hypothesis is that the variances of the observations in Group 1 and Group 2 are equal. The results were:
 
 ```
 F-statistic = 0.5494, p-value = 0.4604
