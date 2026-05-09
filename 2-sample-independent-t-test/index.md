@@ -61,11 +61,13 @@ Boxplot and violin plots of the values for each group were also produced, to fur
 The boxplot confirms that neither group contains extreme outliers. Both interquartile ranges are compact and the whiskers are of proportionate length, indicating no individual observations that
 would materially distort the t-statistic. The outlier assumption of the Two-Sample T-Test is satisfied.  The violin plot confirms that both distributions are approximately symmetric and unimodal, providing initial visual support for the normality assumption ahead of formal testing.
 
-
 Simple descriptive statistics for each group:  
+
+```
 Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381  
 Ensata Group 2:  n=50, Mean=8.333cm, SD=0.401  
-Difference in Means:  0.174cm 
+Difference in Means:  0.174cm
+```
 
 It is noted that the histograms / KDEs look normal for each group, but we shall test that also.
 
@@ -84,7 +86,9 @@ As both p-values are greater than 0.05, then both samples are considered to be n
 
 Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances, where the null hypothesis is that the variances of the observations in group 1 and group 2 are equal. The results were:
 
-F-statistic = 0.5494, p-value = 0.4604  
+```
+F-statistic = 0.5494, p-value = 0.4604
+```
 
 As 0.4604 > 0.05, the evidence supports the null hypothesis of Levene's Test, that the variances are equal, therefore we can use Student's t-test to test the overall research null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
 
@@ -108,18 +112,18 @@ Effect size:  The Cohen's D measure is used to quantify the difference between t
 An important distinction is that statistical significance and practical significance are not equivalent.  The test confirms that the difference in means is unlikely to be due to chance (p = 0.028), but Cohen's d of 0.446 — classified as Small to Medium — indicates the magnitude of the difference is moderate.  In this business context, where the commercial value of the iris plants depends on physical size, even a 0.174cm difference in mean sepal length may carry meaningful pricing implications. The practical significance of a result must always be evaluated in the context of the domain, not by the effect size label alone.
 
 ## Next steps:
+
 Having concluded that the mean iris sepal length for group 2 is longer, with the effect being considered 'small to medium', it is recommended to make additional measurements in the future to further test the findings, as well as trying to grow ensata iris plants other growing conditions to allow additional tests to determine if other conditions result in even longer sepal lengths.
 
 Should additional growing conditions be tested, a natural methodological extension is the one-way ANOVA, which would allow simultaneous comparison of three or more group means without inflating the Type I error rate that multiple pairwise t-tests would introduce. This technique is covered elsewhere in this portfolio.
 
 A further consideration is the analysis of additional morphological measurements — petal length, petal width, sepal width — to determine whether the growing condition effect is consistent across all measurements, or specific to sepal petal length. A multivariate approach such as MANOVA could test whether the overall measurement profile differs between groups.
 
-
 The assumption of independence of observations was accepted by design. In a real experimental setting, confirming that plants in each group were genuinely independently assigned (e.g. via randomisation, not batch or greenhouse clustering) would be an important validation step. Clustered or nested designs would require mixed-effects models rather than a standard two-sample t-test.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/2Sample_Independent_T-Test_Pt2.py)
+[View the Python Script](/2Sample_Independent_T-Test_Pt3.py)
 
 The original data used for the analysis is here:
 [Access input data](/Iris_ensata.xlsx)
