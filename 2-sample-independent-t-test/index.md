@@ -41,7 +41,7 @@ The null and alternative hypotheses for this test are:
 
 The significance threshold is set at α = 0.05, representing a 95% confidence level. The assumption of independence of observations is accepted by design of the experiment — the two groups of plants were grown under separate conditions with no overlap between them.
 
-### Exploratory Data Analysis
+### Exploratory Data Analysis:
 
 Exploratory analysis is performed on the sepal length measurements for both groups before any formal testing is conducted. Three charts are produced to support visual inspection of the data:
 
@@ -49,7 +49,7 @@ Exploratory analysis is performed on the sepal length measurements for both grou
 * A **boxplot** for each group, used to inspect central tendency, spread, and the presence or absence of extreme outliers. Outliers in a two-sample t-test can distort the t-statistic and inflate or deflate the p-value, so confirming their absence is a necessary pre-analysis step.
 * A **violin plot with individual data points overlaid**, which combines a kernel density estimate of the distribution shape with the individual observation positions. This provides a richer view of the within-group distribution than the boxplot alone — particularly useful for identifying multi-modality or asymmetry that a boxplot would not reveal.
 
-### Assumption Testing
+### Assumption Testing:
 
 Before performing the Two-Sample T-Test, two formal assumption checks are conducted:
 
@@ -57,7 +57,7 @@ Before performing the Two-Sample T-Test, two formal assumption checks are conduc
 
 **Homogeneity of Variances — Levene's Test**: Levene's test examines whether the variances of the two groups are equal. Its null hypothesis is that the two population variances are the same. The outcome of this test determines which variant of the t-test is applied: if the variances are equal (p > 0.05), Student's t-test is used, which assumes a common pooled variance. If the variances differ significantly (p ≤ 0.05), Welch's t-test is more appropriate, as it does not assume equal variances and adjusts the degrees of freedom accordingly. Both variants are computed for completeness.
 
-### Hypothesis Testing
+### Hypothesis Testing:
 
 The Two-Sample T-Test is applied using scipy's `ttest_ind()` function, with the `equal_var` parameter set based on the outcome of Levene's test. The test produces a t-statistic and a p-value, which are evaluated against the significance threshold of α = 0.05.
 
