@@ -55,8 +55,8 @@ Initially a histogram and KDE of the iris petal lengths for each group of observ
 Boxplot and violin plots of the values for each group were also produced, to further understand the distributions. 
 
 ![Boxplot of petal length by group](/2s_ttest_boxplot.png) 
-![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
+![Violin plot of petal length by group](/2s_ttest_violin.png) 
 
 The boxplot confirms that neither group contains extreme outliers. Both interquartile ranges are compact and the whiskers are of proportionate length, indicating no individual observations that
 would materially distort the t-statistic. The outlier assumption of the Two-Sample T-Test is satisfied.  The violin plot confirms that both distributions are approximately symmetric and unimodal, providing initial visual support for the normality assumption ahead of formal testing.
@@ -68,6 +68,9 @@ Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381
 Ensata Group 2:  n=50, Mean=8.333cm, SD=0.401  
 Difference in Means:  0.174cm
 ```
+The chart below visualises the mean and 95% confidence interval for each group.
+
+![2s_ttest_mean_ci](/2s_ttest_mean_ci.png) 
 
 It is noted that the histograms / KDEs look normal for each group, but we shall test that also.
 
