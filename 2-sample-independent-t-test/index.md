@@ -10,18 +10,31 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-The business objective is to test the sepal petal lengths of iris plants (species = ensata) grown under 2 separate conditions (group 1 and group 2) to determine if the lengths have a statistically significant difference, and hence understand if the growing conditions is a factor in the length of the sepal petal length. The business wants to grow the biggest plants as they can be sold at a higher price.  This project demonstrates how a Two-Sample Independent T-Test can be used to assess this null hypothesis using the data available.  The sample dataset includes 50 sepal petal length measurements from each of the 2 groups of ensata iris plants.   
+A commercial iris grower wishes to understand whether the growing conditions applied to two separate batches of Iris ensata plants (Group 1 and Group 2) have a measurable effect on sepal petal length. Plants with longer sepal petals command a higher market price, so identifying which growing conditions produce the greatest length is of direct commercial value to the business.
 
-This test provided evidence that there is a statistically significant difference in the mean length of the sepal petals in the two groups, with evidence that those in group 2 are statistically longer. 
+The analytical objective of this project is to determine whether the difference in mean sepal petal length observed between the two groups is statistically significant, or whether it could plausibly be explained by natural sampling variation. This project demonstrates how a Two-Sample Independent T-Test can be used to test this null hypothesis in a rigorous and reproducible way. The sample dataset comprises 50 sepal petal length measurements from each of the two groups of Iris ensata plants, giving a total of 100 observations.
+
+The test found statistically significant evidence that the mean sepal petal length of Group 2 is greater than that of Group 1 (p = 0.028, Cohen's d = 0.446). The growing condition applied to Group 2 therefore appears to produce longer sepal petals and may represent the preferred approach for the business going forward, subject to the limitations discussed in the Conclusions section.
 
 ## Application:  
 
 The Two-Sample Independent T-Test is a powerful statistical tool used to determine if there is a statistically significant difference between the means of two completely separate (independent) groups. In a business context, this is essential for A/B testing, competitive analysis, and comparing performance between different segments or strategies.  
 
+🏦 **Finance**:
+
 * An asset management firm tests two different portfolio construction strategies (A and B). They use the t-test to determine if the mean annual return of a sample of portfolios managed under Strategy A is significantly different from the mean annual return of a sample managed under Strategy B.
 * Comparing the average credit score of applicants who default on loans versus those who do not default to validate a credit scoring model's predictive power.
+
+🛍️ **Retail**:
+
 * A retailer launches two different website layouts or email promotions (Version A and Version B) to two random, independent groups of customers. They use the t-test to compare the mean conversion rate or mean revenue per user between the two groups.
+
+💻 **Technology**:
+
 * A software company tests two different application workflows (Workflow 1 vs. Workflow 2) and measures the mean task completion time for two independent groups of new users to see which design is more efficient.
+
+🏭 **Manufacturing - Manufacturing & Industry**:
+
 * After implementing a change to a production line process, a manufacturer compares the mean defect rate of products produced before the change to the mean defect rate of products produced after the change to quantify the improvement.
 
 ## Methodology:  
