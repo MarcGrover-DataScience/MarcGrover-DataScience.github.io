@@ -22,14 +22,21 @@ This specific setup allows measurement of the Interaction Effect — whether the
 
 This is a powerful tool utilised by many sectors for multiple different reasons and benefits.
 
-* **Manufacturing: Quality Control & Production** Engineers often use this tool to optimise machine settings across different shifts or materials.  
-  * For example a car manufacturer tests the tensile strength of a metal part, where two primary factors exist; Machine Temperature (Low vs. High), and Supplier (Company X vs. Company Y).  This test can prevent "hidden" failures. This might find that Company X’s metal works perfectly at low heat, but fails miserably at high heat, whereas Company Y is stable across both. A standard one-way test would miss this interaction.  
-* **Retail: Marketing and Consumer Behaviour** Retailers use this to understand how different demographics respond to various promotional strategies.   
-  * For example a clothing brand measures Total Sales Volume, analysing the effect of two primary factors; Promotion Type (Discount Code vs. Free Gift), and Region (Urban vs. Rural).  This test can identify hyper-localization. The brand might discover that urban customers respond significantly better to "Free Gifts," while rural customers prefer "Discount Codes." This allows for targeted marketing spend rather than a "one size fits all" approach.  
-* **Technology: Software & UX Performance** Technology companies use ANOVA to refine user experiences and optimise backend performance.  
-  * For example a software company measures App Load Time, alongside two primary variables; Operating System (iOS vs. Android), and connection Type (4G vs. 5G).    This can determine if the interaction shows that iOS 4G users experience disproportionately high lag compared to all other groups, if so, the engineering team knows exactly where the bottleneck lies, rather than spending time optimising Android.  
-* **Finance: Portfolio Management** Financial analysts use ANOVA to see how different market conditions impact various asset classes.  
-  * For example an analyst tracks Quarterly Returns, with two features being; Economic Cycle (Recession vs. Growth), and Industry Sector (Tech vs. Healthcare).  This can support risk mitigation, through the identification of "defensive" sectors, as it is possible to statistically prove if a sector stays stable regardless of the economic cycle, while another sector's performance is heavily dependent on growth cycles. 
+🏭  **Manufacturing:**  
+
+**Quality Control & Production** Engineers often use this tool to optimise machine settings across different shifts or materials.  For example a car manufacturer tests the tensile strength of a metal part, where two primary factors exist; Machine Temperature (Low vs. High), and Supplier (Company X vs. Company Y).  This test can prevent "hidden" failures. This might find that Company X’s metal works perfectly at low heat, but fails miserably at high heat, whereas Company Y is stable across both. A standard one-way test would miss this interaction.  
+
+🛍️ **Retail:**
+
+**Marketing and Consumer Behaviour** Retailers use this to understand how different demographics respond to various promotional strategies.  For example a clothing brand measures Total Sales Volume, analysing the effect of two primary factors; Promotion Type (Discount Code vs. Free Gift), and Region (Urban vs. Rural).  This test can identify hyper-localization. The brand might discover that urban customers respond significantly better to "Free Gifts," while rural customers prefer "Discount Codes." This allows for targeted marketing spend rather than a "one size fits all" approach.  
+
+💻 **Technology:**  
+
+**Software & UX Performance** Technology companies use ANOVA to refine user experiences and optimise backend performance.  For example a software company measures App Load Time, alongside two primary variables; Operating System (iOS vs. Android), and connection Type (4G vs. 5G).    This can determine if the interaction shows that iOS 4G users experience disproportionately high lag compared to all other groups, if so, the engineering team knows exactly where the bottleneck lies, rather than spending time optimising Android.  
+
+💻 **Finance:**
+
+**Portfolio Management** Financial analysts use ANOVA to see how different market conditions impact various asset classes.  For example an analyst tracks Quarterly Returns, with two features being; Economic Cycle (Recession vs. Growth), and Industry Sector (Tech vs. Healthcare).  This can support risk mitigation, through the identification of "defensive" sectors, as it is possible to statistically prove if a sector stays stable regardless of the economic cycle, while another sector's performance is heavily dependent on growth cycles. 
 
 ## Methodology:  
 
@@ -45,7 +52,7 @@ Another assumption to be tested is the homogeneity of the variances for each gen
 
 The 2-Way ANOVA with Replication test was applied to the data determine the variance that can be explained by the model using the two factors.  This determines if each factor as well as the interaction of factors have a significant effect, as well as the size of the effect of each factor.
 
-## Results and conclusions:
+## Results:
 
 Results from the project related to the business objective.
 
@@ -127,8 +134,7 @@ Residual           10458.107  327      NaN         NaN        0.161
 
 ![effect](2way_anova_with_effect.png)
 
-
-### Conclusions:
+## Conclusions:
 
 The two factors (species and gender), as well as the interaction of the factors, have a statistically significant effect on the length of penguin flippers, however due to the unequal variances across groups that was reported, the results of this analysis are to be used with some caution.  
 
