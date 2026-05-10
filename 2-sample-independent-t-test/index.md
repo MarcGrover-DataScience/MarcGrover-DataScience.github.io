@@ -73,7 +73,7 @@ A fourth chart is produced to directly visualise the core quantity of interest â
 
 Initially a histogram and KDE of the iris sepal petal lengths for each group of observations was created to visually inspect the distribution.
 
-![Histogram of petal length by group](/2s_ttest_hist.png)
+![Histogram of petal length by group](2s_ttest_hist.png)
 
 The histogram and KDE curves show that both groups follow an approximately symmetric, bell-shaped distribution with no obvious skew. The distributions overlap substantially, but the centre of Group 2's distribution sits visibly to the right of Group 1's, indicating a higher mean length. Both KDE curves are smooth and unimodal, providing initial visual support for the normality assumption that will be tested formally below.
 
