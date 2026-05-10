@@ -5,6 +5,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import random
 
 # Set Dataframe printing options
 desired_width = 320                                                 # shows columns with X or fewer characters
@@ -203,10 +204,54 @@ plt.tight_layout()
 plt.savefig('2s_ttest_violin.png', dpi=150, bbox_inches='tight')
 plt.show()
 
+# # Plot 4: Mean Comparison with 95% Confidence Interval Error Bars
+# plt.figure(figsize=(10, 6))
+#
+# # Calculate CIs for each group individually
+# from scipy.stats import t as t_dist
+#
+# def mean_ci(data, confidence=0.95):
+#     n = len(data)
+#     se = data.std() / np.sqrt(n)
+#     df_ci = n - 1
+#     h = t_dist.ppf((1 + confidence) / 2, df_ci) * se
+#     return data.mean(), h  # returns (mean, half-width)
+#
+# mean1, ci1 = mean_ci(ensata_1)
+# mean2, ci2 = mean_ci(ensata_2)
+#
+# groups = ['Group 1', 'Group 2']
+# means = [mean1, mean2]
+# errors = [ci1, ci2]
+# colors = ['#FF6B6B', '#45B7D1']
+#
+# plt.errorbar(groups, means, yerr=errors, fmt='o', capsize=8, capthick=2,
+#              markersize=10, linewidth=2, color='black', zorder=5)
+#
+# for i, (grp, mean, color) in enumerate(zip(groups, means, colors)):
+#     plt.scatter([grp], [mean], color=color, s=150, zorder=6)
+#
+# # Add individual data points (strip plot)
+# import random
+# for i, (data, grp, color) in enumerate(zip([ensata_1, ensata_2], groups, colors)):
+#     x_jitter = [i + random.uniform(-0.08, 0.08) for _ in data]
+#     plt.scatter(x_jitter, data, color=color, alpha=0.3, s=20, zorder=3)
+#
+# plt.ylabel('Sepal Length (cm)', fontsize=11)
+# plt.title('Mean Sepal Length with 95% Confidence Intervals', fontsize=12, fontweight='bold')
+# plt.grid(axis='y', alpha=0.3)
+# plt.tight_layout()
+# plt.savefig('2s_ttest_mean_ci.png', dpi=150, bbox_inches='tight')
+#
+# plt.show()
+
+
+
+
+
 # Plot 4: Mean Comparison with 95% Confidence Interval Error Bars
 plt.figure(figsize=(10, 6))
 
-# Calculate CIs for each group individually
 from scipy.stats import t as t_dist
 
 def mean_ci(data, confidence=0.95):
@@ -214,34 +259,36 @@ def mean_ci(data, confidence=0.95):
     se = data.std() / np.sqrt(n)
     df_ci = n - 1
     h = t_dist.ppf((1 + confidence) / 2, df_ci) * se
-    return data.mean(), h  # returns (mean, half-width)
+    return data.mean(), h
 
 mean1, ci1 = mean_ci(ensata_1)
 mean2, ci2 = mean_ci(ensata_2)
 
+# Use numeric x-positions to control the gap between groups
+x_positions = [0, 0.4]                          # <-- controls the gap; was implicitly [0, 1]
 groups = ['Group 1', 'Group 2']
 means = [mean1, mean2]
 errors = [ci1, ci2]
 colors = ['#FF6B6B', '#45B7D1']
 
-plt.errorbar(groups, means, yerr=errors, fmt='o', capsize=8, capthick=2,
-             markersize=10, linewidth=2, color='black', zorder=5)
+plt.errorbar(x_positions, means, yerr=errors, fmt='none', capsize=8, capthick=2,
+             linewidth=2, color='black', zorder=5)
 
-for i, (grp, mean, color) in enumerate(zip(groups, means, colors)):
-    plt.scatter([grp], [mean], color=color, s=150, zorder=6)
+for x, mean, color in zip(x_positions, means, colors):
+    plt.scatter([x], [mean], color=color, s=150, zorder=6)
 
-# Add individual data points (strip plot)
-import random
-for i, (data, grp, color) in enumerate(zip([ensata_1, ensata_2], groups, colors)):
-    x_jitter = [i + random.uniform(-0.08, 0.08) for _ in data]
+# Jitter loop — base position must match x_positions, not i
+for x_base, data, color in zip(x_positions, [ensata_1, ensata_2], colors):
+    x_jitter = [x_base + random.uniform(-0.05, 0.05) for _ in data]
     plt.scatter(x_jitter, data, color=color, alpha=0.3, s=20, zorder=3)
 
+plt.xticks(x_positions, groups, fontsize=11)     # map numeric positions back to labels
+plt.xlim(-0.25, 0.65)                            # tighten the margins around the two points
 plt.ylabel('Sepal Length (cm)', fontsize=11)
 plt.title('Mean Sepal Length with 95% Confidence Intervals', fontsize=12, fontweight='bold')
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig('2s_ttest_mean_ci.png', dpi=150, bbox_inches='tight')
-
 plt.show()
 
 #========================================
