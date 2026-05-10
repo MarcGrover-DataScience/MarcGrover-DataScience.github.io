@@ -79,9 +79,9 @@ The histogram and KDE curves show that both groups follow an approximately symme
 
 Boxplot and violin plots of the values for each group were also produced, to further understand the distributions.
 
-![Boxplot of petal length by group](/2s_ttest_boxplot.png)
+![Boxplot of petal length by group](2s_ttest_boxplot.png)
 
-![Violin plot of petal length by group](/2s_ttest_violin.png)
+![Violin plot of petal length by group](2s_ttest_violin.png)
 
 The boxplot confirms that neither group contains extreme outliers. Both interquartile ranges are compact and the whiskers are of proportionate length, with no individual observations plotted beyond the whisker boundaries. This confirms that no individual measurements would materially distort the t-statistic, and the outlier assumption of the Two-Sample T-Test is satisfied. The median line for Group 2 sits noticeably higher than that of Group 1, consistent with what the histogram suggested.
 
@@ -97,7 +97,7 @@ Difference in Means:  0.174cm
 The mean sepal petal length of Group 2 is 0.174cm greater than that of Group 1. The standard deviations are similar in magnitude (0.381 and 0.401), suggesting comparable within-group 
 variability. The chart below visualises the mean and 95% confidence interval for each group, with individual data points overlaid.
 
-![Mean sepal length with 95% confidence intervals](/2s_ttest_mean_ci.png)
+![Mean sepal length with 95% confidence intervals](2s_ttest_mean_ci.png)
 
 The mean comparison plot makes the direction and magnitude of the difference between the two groups immediately apparent. The 95% confidence interval for Group 1 spans approximately 8.05cm to 8.27cm, and for Group 2 approximately 8.22cm to 8.45cm. Crucially, the two confidence intervals show only minimal overlap at their extremities, which provides visual confirmation that the difference in means is statistically significant at the α = 0.05 level — a finding that is formally confirmed by the t-test below. The individual data points overlaid on the chart illustrate the within-group spread and confirm that the group means are representative summaries of their respective distributions, with no extreme values pulling either mean away from the centre of the data.
 
