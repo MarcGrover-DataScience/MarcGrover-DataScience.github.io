@@ -120,26 +120,52 @@ Another assumption that we need to test is for homogeneity of variances, using L
 F-statistic = 0.5494, p-value = 0.4604
 ```
 
-As 0.4604 > 0.05, the evidence supports the null hypothesis of Levene's Test, that the variances are equal, therefore we can use Student's t-test to test the overall research null hypothesis.  Should variances not be equal, then an alternative test, such as Welch's t-test may be more applicable.
+As 0.4604 > 0.05, the evidence supports the null hypothesis of Levene's Test — the variances of the two groups are not significantly different. Student's t-test (which assumes equal, pooled variance) is therefore the appropriate variant to apply. For completeness, Welch's t-test (which does not assume equal variances) is also computed; in this case the two variants produce near-identical results, which is expected when variances are equal.
 
-The Two-Sample T-Test was applied to the data for the two groups, where the significance level (alpha) was set to 0.05 - i.e. 95% confidence level. The results were: 
+The Two-Sample T-Test was applied to the data for the two groups, where the significance level (alpha) was set to 0.05 — i.e. a 95% confidence level. The results were:
 
 ```
 T-Statistic:  -2.2317  
 P-Value:       0.0279
 ```
 
-As 0.0279 < 0.05 we can reject the null hypothesis (H₀) and that the evidence supports the alternate hypothesis that the means of the two groups are statistically significantly different, i.e. the sepal petals from group 2 have a statistically significant longer length.
+As 0.0279 < 0.05 we reject the null hypothesis (H₀). The evidence supports the alternative hypothesis that the means of the two groups are statistically significantly different — the sepal petals from Group 2 are statistically significantly longer than those from Group 1.
 
-We wish to further understand the differences in mean lengths: 
+To further understand the magnitude and precision of the difference, two additional measures are reported:
 
-Effect size:  The Cohen's D measure is used to quantify the difference between the two group means, the value is: Cohen's d = 0.4463.  Using the standard interpretation of Cohen's D this is considered a 'Medium' effect size, noting that the value sits near the 'High' effect size threshold.  It should be noted that the interpretation of the effect size is subjective, and the true business context should be considered, for example in this case the difference in mean lengths can provide significant business benefit, for example it makes the plants more valuable and desirable to buyers.
+**Effect size:** Cohen's d = 0.4463, classified as a **Small** effect size under the standard Cohen (1988) thresholds (small < 0.5, medium < 0.8, large ≥ 0.8). It should be noted that the value sits close to the medium threshold, indicating a difference of moderate practical consequence. The interpretation of effect size is always contextual — a discussion of what this means for the business is provided in the Conclusions section.
+
+**95% Confidence Interval for the difference in means:** (0.019cm, 0.330cm), with a mean difference of 0.174cm. The interval is entirely positive, confirming the directional finding that Group 2 has a higher mean than Group 1. The interval does not contain zero, which is consistent with the significant p-value. The width of the interval (0.311cm) reflects the uncertainty associated with estimating the true population difference from samples of n=50 each.
 
 ## Conclusions:
 
-95% Confidence Interval (CI) of the difference in means is: (0.019cm, 0.330cm), with the mean difference 0.174cm - noting that these are all positive, i.e. confirming that the group 2 mean is greater than the group 1 mean.
+### Statistical Interpretation
 
-An important distinction is that statistical significance and practical significance are not equivalent.  The test confirms that the difference in means is unlikely to be due to chance (p = 0.028), but Cohen's d of 0.446 — classified as Small to Medium — indicates the magnitude of the difference is moderate.  In this business context, where the commercial value of the iris plants depends on physical size, even a 0.174cm difference in mean sepal length may carry meaningful pricing implications. The practical significance of a result must always be evaluated in the context of the domain, not by the effect size label alone.
+The Two-Sample Independent T-Test provides strong statistical evidence that the mean sepal petal length of Iris ensata differs between the two growing conditions. The three key statistical outputs — the p-value, effect size, and confidence interval — each contribute different and complementary information to this conclusion, and should be read together rather than in isolation.
+
+The p-value of 0.0279 indicates that, under the assumption that H₀ is true (i.e. that the two groups have the same population mean), the probability of observing a difference in sample means as large as 0.174cm or larger is only 2.79%. This falls below the pre-specified significance threshold of α = 0.05, and so H₀ is rejected. The result is statistically significant.
+
+Cohen's d of 0.4463 quantifies the magnitude of that difference in standardised terms. While the p-value tells us the result is unlikely to be due to chance, it says nothing about how large the difference is. Cohen's d — a scale-independent measure — indicates the two group means sit approximately 0.45 standard deviations apart. This is classified as a Small effect under Cohen's standard thresholds, sitting close to the medium boundary. The 95% confidence interval of [0.019cm, 0.330cm] provides a plausible range for the true population difference; while the lower bound approaches zero (suggesting the true difference could be modest), the upper bound of 0.330cm would represent a commercially meaningful size advantage. Taken together, all three measures point in the same direction: a genuine, positive difference in favour of Group 2, with moderate practical magnitude.
+
+### Business Interpretation
+
+An important distinction is that statistical significance and practical significance are not equivalent, and both must be considered when drawing business conclusions.
+
+The test confirms that the difference in means is unlikely to be due to chance. However, the practical value of a 0.174cm difference in mean sepal length depends entirely on the commercial context. In this case, where the business objective is to maximise plant size in order to achieve higher sale prices, even a modest but consistent size advantage across a population of plants could accumulate into meaningful revenue — particularly at scale. A grower producing thousands of plants per season would see the 0.174cm mean advantage translate into a material shift in the proportion of plants meeting a premium size threshold. The growing conditions applied in Group 2 appear to produce longer sepal petals and should be considered as the preferred approach going forward, pending further investigation as described in the Next Steps below.
+
+It should also be noted that the 95% confidence interval, spanning 0.019cm to 0.330cm, means the business cannot be certain the advantage is as large as 0.174cm — the true difference could be anywhere in that range. This uncertainty is a natural consequence of working with samples of n=50 per group, and should be acknowledged in any business decision based on this analysis.
+
+### Limitations
+
+Several limitations of this analysis should be considered when interpreting the findings:
+
+**Sample size:** With n=50 observations per group, the analysis is adequately powered for detecting a medium-sized effect, but the relatively modest sample size contributes to a wide confidence interval (0.311cm). Larger samples would narrow this interval and provide a more precise estimate of the true population difference. The current results should be treated as indicative rather than definitive.
+
+**Single measurement:** The analysis is based solely on sepal petal length. A comprehensive assessment of plant size and commercial value would also consider petal length, petal width, and sepal width. It is possible that the growing conditions benefit one measurement but not others, or that the overall morphological profile of the two groups differs in ways not captured by this single variable.
+
+**Growing conditions not formally described:** The analysis treats the two groups as distinct experimental conditions, but the precise nature of those conditions is not specified in the dataset. Without a formal description of what differs between the conditions (e.g. soil composition, irrigation, light exposure, fertiliser type), it is not possible to attribute the observed difference to a specific causal factor. Additional experimental documentation would be required before any specific horticultural recommendation could be made with confidence.
+
+**Independence assumption:** The assumption of independence of observations is accepted by design. However, if plants within a group were grown in proximity (e.g. in the same greenhouse bay or batch), within-group measurements may be correlated due to shared environmental micro-conditions. Clustered or nested designs of this kind would require mixed-effects models rather than a standard two-sample t-test to correctly account for that dependency structure.
 
 ## Next steps:
 
