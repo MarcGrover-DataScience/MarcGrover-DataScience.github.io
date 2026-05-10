@@ -34,7 +34,7 @@ This is a powerful tool utilised by many sectors for multiple different reasons 
 
 **Software & UX Performance** Technology companies use ANOVA to refine user experiences and optimise backend performance.  For example a software company measures App Load Time, alongside two primary variables; Operating System (iOS vs. Android), and connection Type (4G vs. 5G).    This can determine if the interaction shows that iOS 4G users experience disproportionately high lag compared to all other groups, if so, the engineering team knows exactly where the bottleneck lies, rather than spending time optimising Android.  
 
-💻 **Finance:**
+🏦 **Finance:**
 
 **Portfolio Management** Financial analysts use ANOVA to see how different market conditions impact various asset classes.  For example an analyst tracks Quarterly Returns, with two features being; Economic Cycle (Recession vs. Growth), and Industry Sector (Tech vs. Healthcare).  This can support risk mitigation, through the identification of "defensive" sectors, as it is possible to statistically prove if a sector stays stable regardless of the economic cycle, while another sector's performance is heavily dependent on growth cycles. 
 
@@ -42,7 +42,7 @@ This is a powerful tool utilised by many sectors for multiple different reasons 
 
 The 2-Way ANOVA with Replication technique was applied using the following method.
 
-Initially the data was analysed to ensure that there is replication of observations for each combination of species and gender
+Initially the data was analysed to ensure that there is replication of observations for each combination of species and gender.
 
 Descriptive statistical analysis of the flipper length observations is undertaken, to better understand the data and detect any issues and outliers.  This includes analysis of the overall dataset, as well as analysis by species and gender.
 
@@ -71,7 +71,7 @@ Gentoo     Female    58
 ```
 The overall distribution of the flipper lengths is plotted in the histogram below, including a KDE plot.  The Boxplot shows the distribution of flipper lengths by species and gender, which provides good insight into the data, and highlights that the species and gender are seemingly both factors in the flipper length.  The interaction plot of the mean flipper lengths simplifies the interactions, where the gradients reflect the difference in flipper length between male and female penguins for each species.  The 'steeper' the gradient, the larger the difference.
 
-These charts suggest that for all species the mean flipper length for males is greater than for females, but the difference is not consistent across all species.  This will be further validated using the 2-Way ANOVA with replication tested.
+These charts suggest that for all species the mean flipper length for males is greater than for females, but the difference is not consistent across all species.  This will be further validated using the 2-Way ANOVA with replication test.
 
 ![dist](2way_anova_with_dist.png)
 
