@@ -113,6 +113,10 @@ Another assumption of an ANOVA test is of equal variances across the groups (i.e
 
 Levene's Test was applied, with the null hypothesis that the variances are equal.  Setting the confidence level equal to 0.05, the p-value of Levene's Test was calculated as 0.0365, which means that we reject the null hypothesis, and that there is evidence that the variances assumption may not be true.  As such it means the "spread" or dispersion of the data is not consistent across the different combinations of the two factors.
 
+To understand which groups are driving the unequal variances identified by Levene's Test, the standard deviation of flipper length was calculated for each of the six species-sex combinations and plotted below. The chart confirms that the Adelie Male group carries the highest standard deviation (6.60mm) compared to the Gentoo Female group at the other extreme (3.90mm). This variance gap between groups, particularly the spread in the Adelie observations, is the primary driver of the Levene's Test result.
+
+![2way_anova_std_by_group](2way_anova_std_by_group.png)
+
 As the 2-Way ANOVA uses the F-statistic, which is a ratio of variances, when the underlying group variances are not equal, the F-test becomes less "robust".  This results in the 2-Way ANOVA potentially providing misleading results.  It is noted that the group sizes for each combination of factors, is not consistent, ranging from 34 to 73.  This can potentially lead to misleading ANOVA results.
 
 Referring back to the boxplots, these highlight that there are multiple outliers associated to the 'Adelie' penguin species observations, which could potentially be causing the unequal variances.  These outliers are to be investigated further.
