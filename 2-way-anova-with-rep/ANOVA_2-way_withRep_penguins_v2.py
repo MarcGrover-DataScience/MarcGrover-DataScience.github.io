@@ -123,6 +123,36 @@ print(f"\nTotal outliers identified: {total_outliers}")
 print("Note: Outliers represent biologically plausible measurements.")
 print("      No observations will be removed from the analysis.")
 
+
+# GENDER GAP PER SPECIES (Quantifying the Interaction)
+print("\n4c. GENDER EFFECT PER SPECIES (Sexual Dimorphism by Species)")
+print("─" * 50)
+
+gender_gap = df_clean.groupby(['species', 'sex'], observed=True)['flipper_length_mm'].mean().unstack()
+gender_gap['difference_mm'] = gender_gap['Male'] - gender_gap['Female']
+gender_gap.columns.name = None
+print("\nMean flipper length and male-female difference by species:")
+print(gender_gap.round(2))
+
+# PLOT: Gender gap per species
+plt.figure(figsize=(8, 6))
+ax = sns.barplot(x=gender_gap.index, y=gender_gap['difference_mm'],
+                 palette='Greens', edgecolor='black', linewidth=1.5, hue=gender_gap.index)
+plt.title('Male–Female Flipper Length Difference by Species\n(Interaction Effect Quantified)',
+          fontsize=12, fontweight='bold')
+plt.xlabel('Species')
+plt.ylabel('Mean Difference: Male − Female (mm)')
+plt.axhline(y=0, color='black', linewidth=1)
+for bar in ax.patches:
+    height = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width() / 2., height + 0.1,
+            f'+{height:.1f}mm', ha='center', va='bottom',
+            fontsize=11, fontweight='bold')
+plt.tight_layout()
+plt.savefig('2way_anova_gender_gap.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+
 # VISUALIZATIONS
 print("\n5. VISUALIZATIONS")
 print("─" * 50)
@@ -424,7 +454,7 @@ tukey_df['comparison'] = tukey_df['group1'] + ' vs\n' + tukey_df['group2']
 tukey_df['significant'] = tukey_df['reject'].map({True: 'Significant', False: 'Not Significant'})
 
 plt.figure(figsize=(9, 6))
-colors = ['#2196F3' if sig == 'Significant' else '#B0BEC5'
+colors = ['mediumseagreen' if sig == 'Significant' else 'red'
           for sig in tukey_df['significant']]
 ax = plt.gca()
 
@@ -449,6 +479,44 @@ ax.set_title("Tukey's HSD: Pairwise Species Comparisons",
 plt.tight_layout()
 plt.savefig('2way_anova_tukey_hsd.png', dpi=150, bbox_inches='tight')
 plt.show()
+
+
+# PLOT: Model Residual Analysis
+print("\n8c. Model Residual Analysis")
+print("─" * 50)
+
+residuals = model.resid
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 6))
+fig.suptitle('Model Residual Diagnostics', fontsize=14, fontweight='bold')
+
+# Q-Q Plot
+probplot(residuals, dist='norm', plot=axes[0])
+axes[0].set_title('Residual Q-Q Plot', fontsize=12, fontweight='bold')
+
+# Residual Histogram
+axes[1].hist(residuals, bins=20, color='seagreen', edgecolor='black',
+             alpha=0.7, density=True)
+axes[1].set_title('Residual Distribution', fontsize=12, fontweight='bold')
+axes[1].set_xlabel('Residuals')
+axes[1].set_ylabel('Density')
+# Overlay normal curve
+import numpy as np
+xmin, xmax = axes[1].get_xlim()
+x = np.linspace(xmin, xmax, 100)
+from scipy.stats import norm
+axes[1].plot(x, norm.pdf(x, residuals.mean(), residuals.std()),
+             'r-', linewidth=2, label='Normal fit')
+axes[1].legend()
+
+plt.tight_layout()
+plt.savefig('2way_anova_residuals.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+# Print residual normality test
+sw_stat, sw_p = stats.shapiro(residuals)
+print(f"\nShapiro-Wilk on model residuals: W={sw_stat:.4f}, p={sw_p:.4f}")
+print("Residuals are normally distributed" if sw_p > 0.05 else "Residual normality assumption may be violated")
 
 
 # STATISTICAL INTERPRETATION
