@@ -161,6 +161,27 @@ The results confirm that all three species pairs are significantly different fro
 
 ![2way_anova_tukey_hsd](2way_anova_tukey_hsd.png)
 
+### Interaction Effect by Species
+
+Although the interaction effect accounts for only 0.5% of the total variance (a statistically significant but practically small effect), the interaction plot reveals a biologically meaningful pattern. The gender gap in flipper length is approximately 4.6mm for Adelie penguins, compared to 8.2mm for Chinstrap and 8.8mm for Gentoo. In other words, sexual dimorphism in flipper length is notably less pronounced in Adelie penguins than in the other two species. This is the interaction the ANOVA detects: the effect of sex on flipper length is not uniform across species. The practical implication is that, while sex is a significant predictor of flipper length across all species, its magnitude as a predictor is more reliable for Chinstrap and Gentoo individuals than for Adelie.
+
+'''
+Species       Female Mean  Male Mean  Difference (mm)
+Adelie        187.79       192.41     +4.62
+Chinstrap     191.74       199.91     +8.17
+Gentoo        212.71       221.54     +8.83
+```
+
+![2way_anova_gender_gap](2way_anova_gender_gap.png)
+
+### Residual Analysis
+
+A Q-Q plot and histogram of the model residuals provides a final check on the normality assumption. The ANOVA assumption is technically that the model residuals are normally distributed (not the raw data itself), and the residual Q-Q plot and histogram below confirms this holds satisfactorily, with residuals closely following the theoretical normal line across the central range, with only minor departures in the extreme tails.
+
+Using the Shapiro-Wilk test on model residuals generates a p-value of p=0.4480, providing evidence that the residuals are normally distributed.
+
+![2way_anova_residuals](2way_anova_residuals.png)
+
 ## Conclusions:
 
 The two factors (species and gender), as well as the interaction of the factors, have a statistically significant effect on the length of penguin flippers, however due to the unequal variances across groups that was reported, the results of this analysis are to be used with some caution.  
