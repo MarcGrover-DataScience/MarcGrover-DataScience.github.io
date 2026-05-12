@@ -140,7 +140,7 @@ Referring back to the boxplots, these highlight that there are multiple outliers
 
 Outliers in the Adelie group were identified using the IQR (Interquartile Range) method - defined as any observation more than 1.5 × IQR below Q1 or above Q3. 4 outlier observations were identified across the Adelie Female and Male groups. Review of these observations confirms they are plausible biological measurements within the known range for the Adelie species — they are not data entry errors or instrument artefacts. As such, no observations are removed from the analysis, and the outliers are interpreted as natural biological variation at the tails of the flipper length distribution within this species. Their presence contributes to the elevated standard deviation in the Adelie groups and, by extension, to the Levene's Test result discussed above.
 
-### 2-Way ANOVA Test application
+### 2-Way ANOVA Test Results
 
 The test produced an R² = 0.84, i.e. ~84% of the variances in flipper length values can be explained by the two factors and the interaction of the 2 factors.
 
@@ -177,6 +177,8 @@ The results confirm that all three species pairs are significantly different fro
 ### Interaction Effect by Species
 
 Although the interaction effect accounts for only 0.5% of the total variance (a statistically significant but practically small effect), the interaction plot reveals a biologically meaningful pattern. The gender gap in flipper length is approximately 4.6mm for Adelie penguins, compared to 8.2mm for Chinstrap and 8.8mm for Gentoo. In other words, sexual dimorphism in flipper length is notably less pronounced in Adelie penguins than in the other two species. This is the interaction the ANOVA detects: the effect of sex on flipper length is not uniform across species. The practical implication is that, while sex is a significant predictor of flipper length across all species, its magnitude as a predictor is more reliable for Chinstrap and Gentoo individuals than for Adelie.
+
+The results of the gender gap by species analysis is shown below:
 
 ```
 Species       Female Mean  Male Mean  Difference (mm)
