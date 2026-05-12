@@ -129,9 +129,9 @@ Outliers in the Adelie group were identified using the IQR (Interquartile Range)
 
 ### 2-Way ANOVA Test application
 
-The test produced an R² = 0.8396, i.e. ~84% of the variances in flipper length values can be explained by the two factors and the interaction of the 2 factors.
+The test produced an R² = 0.84, i.e. ~84% of the variances in flipper length values can be explained by the two factors and the interaction of the 2 factors.
 
-The p-value associated with each factor, including the interaction, determines if the each factor has a significant effect.  I.e. the null hypothesis is that the factor does not have an impact.  The p-value for each factor (species and gender) are of the order 10^-125 and 10^-24 respectively, and the p-value for the interaction is 0.0063, therefore we can say that there is evidence that each factor as well as the interaction of the factors are significant effects in the length of penguin flippers.
+The p-value associated with each factor, including the interaction, determines if the each factor has a significant effect.  I.e. the null hypothesis is that the factor does not have an impact.  The p-value for each factor (species and gender) are of the order 10²^-125 and 10^-24 respectively, and the p-value for the interaction is 0.0063, therefore we can say that there is evidence that each factor as well as the interaction of the factors are significant effects in the length of penguin flippers.
 
 Given that there is evidence that the factors have an effect, the size of the effect of each was calculated using the Eta-Squared values.  The table and chart below show the results of this which effectively state that the species accounts for ~77.4% of the variance, and the gender ~6% of the variance.  While the interaction effect is statistically significant, the size of the effect is 0.5%.  It is important to note that a factor being significant and the size of the effect are different factors, and just because the interaction effect is negligible, it does not mean that it is not statistically significant. Cohen's guidelines provide an interpretation of these sizes which are shown in the chart.  For completeness, the residuals represent ~16% of the variance, which can be interpreted as 16% of the variance is statistical randomness than the factors cannot explain - remembering that the R² of the model was 0.8396, so we had already seen that the model accounted for ~84% of the variance.
 
@@ -157,7 +157,7 @@ The 2-Way ANOVA confirms that species has a statistically significant effect on 
 Chinstrap    Gentoo  21.4118   0.0  19.0236 23.7999    True
 ```
 
-The results confirm that all three species pairs are significantly different from one another (p < 0.05 for all comparisons after correction), meaning it is not the case that a single outlier species is driving the overall species effect. Each species occupies a genuinely distinct position in the flipper length distribution. This is consistent with the descriptive statistics, which show mean flipper lengths of Adelie: 190.1mm, [Chinstrap: 195.8mm, and Gentoo: 217.2mm.
+The results confirm that all three species pairs are significantly different from one another (p < 0.05 for all comparisons after correction), meaning it is not the case that a single outlier species is driving the overall species effect. Each species occupies a genuinely distinct position in the flipper length distribution. This is consistent with the descriptive statistics, which show mean flipper lengths of Adelie: 190.1mm, Chinstrap: 195.8mm, and Gentoo: 217.2mm.
 
 ![2way_anova_tukey_hsd](2way_anova_tukey_hsd.png)
 
@@ -184,9 +184,14 @@ Using the Shapiro-Wilk test on model residuals generates a p-value of p=0.4480, 
 
 ## Conclusions:
 
-The two factors (species and gender), as well as the interaction of the factors, have a statistically significant effect on the length of penguin flippers, however due to the unequal variances across groups that was reported, the results of this analysis are to be used with some caution.  
+The two-way ANOVA with replication provides strong statistical evidence that both species and sex, and the interaction of the two, are significant determinants of penguin flipper length. The combined model accounts for approximately 84% of the total variance in flipper length (R² = 0.84), indicating that species and sex together are highly informative predictors of this measurement.
+Species is the dominant factor, accounting for approximately 77% of the total variance in flipper length — a large effect by Cohen's guidelines. The Tukey HSD post-hoc results confirm that all three species pairs (Adelie vs. Chinstrap, Adelie vs. Gentoo, and Chinstrap vs. Gentoo) differ significantly from one another, meaning that no single species is an outlier driving the effect; all three occupy genuinely distinct positions in the flipper length distribution. Gentoo penguins carry the longest flippers by a considerable margin (~21mm above Chinstrap, ~27mm above Adelie on average), reflecting the Gentoo's status as the largest of the three species.
 
-The species is the primary factor for flipper length, with the interaction of factors significant but with a negligible effect in size.
+Sex accounts for approximately 6% of total variance — a medium effect — with male penguins carrying longer flippers across all three species. This is a consistent and biologically expected finding related to sexual dimorphism. However, the interaction effect, while statistically significant (p = 0.006), reveals that the magnitude of this sexual dimorphism is not uniform: the male-female flipper length gap is notably smaller in Adelie penguins (~4.6mm) than in Chinstrap (~8.2mm) or Gentoo (~8.8mm) individuals.
+
+One important caveat must be carried through to any application of these findings. Levene's Test identified statistically significant heterogeneity of variance across the six species-sex groups (p = 0.037), which means the equal variance assumption of the 2-Way ANOVA is technically violated. The groups most responsible for this violation are the Adelie groups, which carry higher within-group spread than the other species. The F-statistics reported are therefore to be interpreted with a degree of caution, though it is noted that all effects remain highly significant by substantial margins, and that the violation is relatively mild — the ANOVA is generally considered robust to modest heteroscedasticity, particularly when no group has a variance more than four times that of another.
+
+From a biological and ecological perspective, the findings support the well-established morphological differences between these penguin species and provide a statistically rigorous quantification of the role species and sex each play in determining a key physical measurement. Species membership alone accounts for the vast majority of the explainable variance — a finding that is consistent with the significant morphological divergence between the Gentoo and the two smaller species.
 
 ## Next steps:  
 
@@ -209,6 +214,8 @@ Recommendations and next steps for improving the analysis include:
   * Consider the expansion of the research to collect additional factors, or measurements, and undertake analysis of the effect of factors on other measurements (e.g. body mass, bill length etc.)
   * Expand the analysis to include more species of penguins
   * Perform analysis on blocks of data, for example in the penguin data a block could be a specific location, to determine if these are causing variance, and if there are additional factors that are impacting the measurements.
+* Post-hoc testing across all factor combinations:
+  * While Tukey's HSD post-hoc has been applied to the species main effect, the same pairwise testing could be extended to all six species-sex combinations to identify exactly which cell means differ from one another. This would provide a more granular understanding of where the interaction effect manifests — for example, whether Adelie Male and Chinstrap Female flipper lengths are statistically distinguishable despite being drawn from different species and different sexes.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
