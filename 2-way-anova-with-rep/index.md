@@ -42,17 +42,30 @@ This is a powerful tool utilised by many sectors for multiple different reasons 
 
 ## Methodology:  
 
-The 2-Way ANOVA with Replication technique was applied using the following method.
+### Data Loading and Preparation
 
-Initially the data was analysed to ensure that there is replication of observations for each combination of species and gender.
+* Identify the dataset as the Palmer Penguins dataset loaded via seaborn's load_dataset() function
+* Explain that the raw dataset contains 344 observations with missing values in several columns, and that rows with missing values in flipper_length_mm, species, or sex are removed, yielding 333 usable observations
+* State that only three columns are retained for the analysis: flipper_length_mm (continuous, dependent variable), species (categorical, three levels), and sex (categorical, two levels)
 
-Descriptive statistical analysis of the flipper length observations is undertaken, to better understand the data and detect any issues and outliers.  This includes analysis of the overall dataset, as well as analysis by species and gender.
+### Replication Check
 
-The data is tested for normality for each combination of gender and species, using the Shapiro-Wilk test, as normality is an assumption of the 2-Way ANOVA with Replication test.
+* Explain why replication must be verified before the test can be applied, and what the minimum condition is (n > 1 per cell)
 
-Another assumption to be tested is the homogeneity of the variances for each gender and species combination.  This was tested with Levene's Test.
+### Exploratory Data Analysis
 
-The 2-Way ANOVA with Replication test was applied to the data determine the variance that can be explained by the model using the two factors.  This determines if each factor as well as the interaction of factors have a significant effect, as well as the size of the effect of each factor.
+* Name the four charts produced (histogram, boxplot by species and sex, interaction plot) and explain what analytical question each one is answering
+
+### Assumption Testing
+
+* **Normality**: Shapiro-Wilk applied per group, with justification for why it is applied at the group level rather than the aggregate level
+* **Equal variances (homoscedasticity)**: Levene's Test, explaining the consequence of violation on the F-statistic
+* Outlier investigation: explain that the boxplots are used to identify outliers and that any identified are examined to determine whether they represent data quality issues or natural biological variation
+
+### 2-Way ANOVA Test and Effect Sizes
+
+* Describe the OLS formulation used (statsmodels Type II SS), and explain why Type II is chosen over Type I
+* Explain Eta-Squared and how it quantifies the contribution of each factor to the total variance
 
 ## Results:
 
