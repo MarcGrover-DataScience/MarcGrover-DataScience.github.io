@@ -98,7 +98,7 @@ Gentoo    Female     58  212.71  3.90  203.0  222.0
 
 An assumption of an ANOVA test is the normality of the values being analysed.  The histogram of the total set of data, as shown above, implies that overall the flipper length observations are not normally distributed, however the test for normality is to be undertaken for each combination of species and gender.
 
-Using the Shapiro-Wilk test on each combination, the results are below.  The null hypothesis of the Shapiro-Wilk test is that the data is normally distributed, and as the p-value is greater than 0.05 for the test of each combination, we cannot reject the null hypothesis and the evidence suggests that the data is normally distributed as required.
+Using the Shapiro-Wilk test on each combination, the results are below.  The null hypothesis of the Shapiro-Wilk test is that the data is normally distributed, and as the p-value is greater than 0.05 for the test of each combination, we cannot reject the null hypothesis and the evidence suggests that the data is normally distributed as required.  It is noted that the p-value for 'Gentoo, Male' - while being greater than 0.05 - is borderline with a p-vale = 0.0545.
 
 ```
 Adelie, Female:		p=0.4912 Normal
@@ -108,6 +108,10 @@ Chinstrap, Male: 	p=0.6201 Normal
 Gentoo, Female: 	p=0.2450 Normal
 Gentoo, Male: 		p=0.0545 Normal
 ```
+
+The Q-Q plots below provide a visual complement to the Shapiro-Wilk results for each of the six species-sex combinations. Points lying close to the diagonal reference line indicate data consistent with a normal distribution. All groups show broadly linear alignment, confirming the Shapiro-Wilk results. The Gentoo Male group, which returned the lowest Shapiro-Wilk p-value (0.0545), shows a modest departure in the upper tail, but not sufficient to constitute a meaningful violation of the normality assumption.
+
+![2way_anova_qq_plots](2way_anova_qq_plots.png)
 
 Another assumption of an ANOVA test is of equal variances across the groups (i.e. the combinations of gender and species).
 
@@ -119,7 +123,9 @@ To understand which groups are driving the unequal variances identified by Leven
 
 As the 2-Way ANOVA uses the F-statistic, which is a ratio of variances, when the underlying group variances are not equal, the F-test becomes less "robust".  This results in the 2-Way ANOVA potentially providing misleading results.  It is noted that the group sizes for each combination of factors, is not consistent, ranging from 34 to 73.  This can potentially lead to misleading ANOVA results.
 
-Referring back to the boxplots, these highlight that there are multiple outliers associated to the 'Adelie' penguin species observations, which could potentially be causing the unequal variances.  These outliers are to be investigated further.
+Referring back to the boxplots, these highlight that there are multiple outliers associated to the 'Adelie' penguin species observations, which could potentially be causing the unequal variances.  These outliers are investigated further.
+
+Outliers in the Adelie group were identified using the IQR (Interquartile Range) method - defined as any observation more than 1.5 × IQR below Q1 or above Q3. 4 outlier observations were identified across the Adelie Female and Male groups. Review of these observations confirms they are plausible biological measurements within the known range for the Adelie species — they are not data entry errors or instrument artefacts. As such, no observations are removed from the analysis, and the outliers are interpreted as natural biological variation at the tails of the flipper length distribution within this species. Their presence contributes to the elevated standard deviation in the Adelie groups and, by extension, to the Levene's Test result discussed above.
 
 ### 2-Way ANOVA Test application
 
@@ -139,6 +145,21 @@ Residual           10458.107  327      NaN         NaN        0.161
 ```
 
 ![effect](2way_anova_with_effect.png)
+
+### Post-Hoc Analysis: Tukey's HSD
+
+The 2-Way ANOVA confirms that species has a statistically significant effect on flipper length, but a significant F-statistic only confirms that at least one pair of group means differs — it does not identify which pairs. Tukey's HSD post-hoc test was applied to determine which species pairs differ significantly from one another, controlling the family-wise error rate at α = 0.05.
+
+```
+   group1    group2  meandiff p-adj   lower   upper  reject
+   Adelie Chinstrap   5.7208   0.0   3.4144  8.0272    True
+   Adelie    Gentoo  27.1326   0.0  25.1924 29.0727    True
+Chinstrap    Gentoo  21.4118   0.0  19.0236 23.7999    True
+```
+
+The results confirm that all three species pairs are significantly different from one another (p < 0.05 for all comparisons after correction), meaning it is not the case that a single outlier species is driving the overall species effect. Each species occupies a genuinely distinct position in the flipper length distribution. This is consistent with the descriptive statistics, which show mean flipper lengths of Adelie: 190.1mm, [Chinstrap: 195.8mm, and Gentoo: 217.2mm.
+
+![2way_anova_tukey_hsd](2way_anova_tukey_hsd.png)
 
 ## Conclusions:
 
