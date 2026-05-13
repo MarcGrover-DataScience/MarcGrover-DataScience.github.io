@@ -41,7 +41,18 @@ Data preparation:  Minor transformation of data into a pandas dataframe for anal
 
 The data being used for the Two-Way ANOVA without replication test is:
 
-![input_data](2w_anova_without_ph_df.png)
+```
+ Quality  pH_Level  Alcohol
+       5       Low    9.743
+       5    Medium    9.909
+       5      High   10.548
+       6       Low   10.326
+       6    Medium   10.636
+       6      High   11.623
+       7       Low   11.029
+       7    Medium   11.511
+       7      High   13.100
+```
 
 Boxplots of alcohol content by each factor were created:  
 
