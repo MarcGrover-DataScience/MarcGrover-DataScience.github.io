@@ -25,7 +25,6 @@ plt.rcParams['figure.figsize'] = (12, 8)
 
 # Load the Palmer Penguins dataset from seaborn (a classic example for 2-way ANOVA)
 df = sns.load_dataset('penguins')
-# print(df)
 
 print("\n2-WAY ANOVA WITH REPLICATION")
 print("─" * 50)
@@ -124,35 +123,6 @@ print("Note: Outliers represent biologically plausible measurements.")
 print("      No observations will be removed from the analysis.")
 
 
-# GENDER GAP PER SPECIES (Quantifying the Interaction)
-print("\n4c. GENDER EFFECT PER SPECIES (Sexual Dimorphism by Species)")
-print("─" * 50)
-
-gender_gap = df_clean.groupby(['species', 'sex'], observed=True)['flipper_length_mm'].mean().unstack()
-gender_gap['difference_mm'] = gender_gap['Male'] - gender_gap['Female']
-gender_gap.columns.name = None
-print("\nMean flipper length and male-female difference by species:")
-print(gender_gap.round(2))
-
-# PLOT: Gender gap per species
-plt.figure(figsize=(8, 6))
-ax = sns.barplot(x=gender_gap.index, y=gender_gap['difference_mm'],
-                 palette='Greens', edgecolor='black', linewidth=1.5, hue=gender_gap.index)
-plt.title('Male–Female Flipper Length Difference by Species\n(Interaction Effect Quantified)',
-          fontsize=12, fontweight='bold')
-plt.xlabel('Species')
-plt.ylabel('Mean Difference: Male − Female (mm)')
-plt.axhline(y=0, color='black', linewidth=1)
-for bar in ax.patches:
-    height = bar.get_height()
-    ax.text(bar.get_x() + bar.get_width() / 2., height + 0.1,
-            f'+{height:.1f}mm', ha='center', va='bottom',
-            fontsize=11, fontweight='bold')
-plt.tight_layout()
-plt.savefig('2way_anova_gender_gap.png', dpi=150, bbox_inches='tight')
-plt.show()
-
-
 # VISUALIZATIONS
 print("\n5. VISUALIZATIONS")
 print("─" * 50)
@@ -232,7 +202,7 @@ interaction_data = df_clean.groupby(['species', 'sex'], observed=True)['flipper_
 sns.lineplot(
     data=interaction_data,
     x='sex',
-    y='flipper_length_mm',       # This is the mean tip you already calculated
+    y='flipper_length_mm',       # This is the mean flipper length already calculated
     hue='species',     # 'hue' automatically creates the separate lines
     marker='o',
     linewidth=2,
@@ -432,6 +402,34 @@ plt.tight_layout()
 plt.savefig('2way_anova_with_effect.png', dpi=150, bbox_inches='tight')
 plt.show()
 
+# GENDER GAP PER SPECIES (Quantifying the Interaction)
+print("\n8a. GENDER EFFECT PER SPECIES (Sexual Dimorphism by Species)")
+print("─" * 50)
+
+gender_gap = df_clean.groupby(['species', 'sex'], observed=True)['flipper_length_mm'].mean().unstack()
+gender_gap['difference_mm'] = gender_gap['Male'] - gender_gap['Female']
+gender_gap.columns.name = None
+print("\nMean flipper length and male-female difference by species:")
+print(gender_gap.round(2))
+
+# PLOT: Gender gap per species
+plt.figure(figsize=(8, 6))
+ax = sns.barplot(x=gender_gap.index, y=gender_gap['difference_mm'],
+                 palette='Greens', edgecolor='black', linewidth=1.5, hue=gender_gap.index)
+plt.title('Male–Female Flipper Length Difference by Species\n(Interaction Effect Quantified)',
+          fontsize=12, fontweight='bold')
+plt.xlabel('Species')
+plt.ylabel('Mean Difference: Male − Female (mm)')
+plt.axhline(y=0, color='black', linewidth=1)
+for bar in ax.patches:
+    height = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width() / 2., height + 0.1,
+            f'+{height:.1f}mm', ha='center', va='bottom',
+            fontsize=11, fontweight='bold')
+plt.tight_layout()
+plt.savefig('2way_anova_gender_gap.png', dpi=150, bbox_inches='tight')
+plt.show()
+
 
 # POST-HOC ANALYSIS: TUKEY'S HSD
 print("\n8b. POST-HOC ANALYSIS: TUKEY'S HSD (Species)")
@@ -512,6 +510,44 @@ axes[1].legend()
 plt.tight_layout()
 plt.savefig('2way_anova_residuals.png', dpi=150, bbox_inches='tight')
 plt.show()
+
+# PLOT: Residuals vs Fitted Values
+# Visual check of homoscedasticity in the model residuals — distinct from Levene's Test, which tests raw group variances before the model is fitted.
+
+fitted_values = model.fittedvalues
+residuals     = model.resid
+
+plt.figure(figsize=(9, 6))
+ax = plt.gca()
+
+# Scatter: colour by species to aid interpretation of any patterns
+species_colours = {'Adelie': '#4C9BE8', 'Chinstrap': '#F4A261', 'Gentoo': '#2A9D8F'}
+for species, colour in species_colours.items():
+    mask = df_clean['species'] == species
+    ax.scatter(fitted_values[mask], residuals[mask],
+               color=colour, alpha=0.55, edgecolors='none',
+               s=40, label=species)
+
+# Reference line at zero
+ax.axhline(y=0, color='black', linewidth=1.2, linestyle='--')
+
+# Lowess smoothed trend line to reveal any systematic pattern
+from statsmodels.nonparametric.smoothers_lowess import lowess
+smooth = lowess(residuals, fitted_values, frac=0.6)
+ax.plot(smooth[:, 0], smooth[:, 1], color='red', linewidth=2,
+        linestyle='-', label='Lowess trend')
+
+ax.set_xlabel('Fitted Values (mm)', fontsize=12, fontweight='bold')
+ax.set_ylabel('Residuals (mm)', fontsize=12, fontweight='bold')
+ax.set_title('Residuals vs Fitted Values',
+             fontsize=13, fontweight='bold')
+ax.legend(title='Species', fontsize=9, framealpha=0.9)
+ax.grid(axis='y', alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('2way_anova_residuals_vs_fitted.png', dpi=150, bbox_inches='tight')
+plt.show()
+
 
 # Print residual normality test
 sw_stat, sw_p = stats.shapiro(residuals)
