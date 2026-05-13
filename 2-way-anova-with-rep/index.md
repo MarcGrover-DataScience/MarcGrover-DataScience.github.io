@@ -44,32 +44,45 @@ This is a powerful tool utilised by many sectors for multiple different reasons 
 
 ### Data Loading and Preparation
 
-* Identify the dataset as the Palmer Penguins dataset loaded via seaborn's load_dataset() function
-* Explain that the raw dataset contains 344 observations with missing values in several columns, and that rows with missing values in flipper_length_mm, species, or sex are removed, yielding 333 usable observations
-* State that only three columns are retained for the analysis: flipper_length_mm (continuous, dependent variable), species (categorical, three levels), and sex (categorical, two levels)
+The dataset is the Palmer Penguins dataset, loaded directly via seaborn's load_dataset() function. The raw dataset contains 344 observations, with missing values present across several columns. Rows with missing values in any of the three variables required for the analysis — flipper_length_mm, species, or sex — are removed, yielding 333 usable observations. Only these three columns are retained: flipper_length_mm as the continuous dependent variable, species as a categorical factor with three levels (Adelie, Chinstrap, and Gentoo), and sex as a categorical factor with two levels (Female and Male).
 
 ### Replication Check
 
-* Explain why replication must be verified before the test can be applied, and what the minimum condition is (n > 1 per cell)
+Before the 2-Way ANOVA with Replication can be applied, it must be confirmed that multiple observations exist for every combination of the two factors — i.e., that n > 1 for each species-sex cell. Without replication, the interaction effect between the two factors cannot be estimated, and a standard 2-Way ANOVA without replication would be required instead. The observation count for each of the six species-sex combinations is verified prior to analysis.
 
 ### Exploratory Data Analysis
 
-* Name the four charts produced (histogram, boxplot by species and sex, interaction plot) and explain what analytical question each one is answering
+Four charts are produced to explore the data and develop initial insight ahead of formal testing. A **histogram with KDE overlay** examines the overall distribution of flipper lengths and identifies whether the data appears broadly normal or shows signs of multimodality. A **boxplot by species and sex** provides a direct visual comparison of the distributions across all six groups, highlighting differences in central tendency and spread, and identifying potential outliers. A **standard deviation bar chart** by species-sex group is produced alongside Levene's Test to make the variance differences across groups immediately visible. An **interaction plot** displays the mean flipper length for each sex within each species as a connected line chart; non-parallel lines indicate the presence of an interaction effect, where the influence of one factor depends on the level of the other.
 
 ### Assumption Testing
 
-* **Normality**: Shapiro-Wilk applied per group, with justification for why it is applied at the group level rather than the aggregate level
-* **Equal variances (homoscedasticity)**: Levene's Test, explaining the consequence of violation on the F-statistic
-* Outlier investigation: explain that the boxplots are used to identify outliers and that any identified are examined to determine whether they represent data quality issues or natural biological variation
+The 2-Way ANOVA with Replication rests on two key distributional assumptions, both of which are tested formally.
+
+**Normality** is assessed using the Shapiro-Wilk test, applied individually to each of the six species-sex groups rather than to the aggregate dataset. This is the correct approach because the ANOVA assumption is that the data within each group is normally distributed; the aggregate distribution is irrelevant and, in a dataset with multiple distinct groups, will typically appear non-normal regardless of whether each group individually satisfies the assumption. A significance threshold of α = 0.05 is applied, and Q-Q plots are produced for each group as a visual complement to the numerical test results.
+
+**Homogeneity of variance** (homoscedasticity) is assessed using Levene's Test, with the null hypothesis that the variances are equal across all six groups. This assumption matters because the F-statistic used in the ANOVA is a ratio of variances; when group variances are unequal, the F-test becomes less reliable and may produce misleading results. Any violation is investigated further to identify which groups are driving the inequality.
+
+**Outlier investigation** is conducted using the IQR method, applied per group, to identify any observations falling more than 1.5 × IQR below Q1 or above Q3. Identified outliers are examined to determine whether they represent data quality issues or plausible natural biological variation, as this distinction informs whether observations should be excluded from the analysis.
 
 ### 2-Way ANOVA Test and Effect Sizes
 
-* Describe the OLS formulation used (statsmodels Type II SS), and explain why Type II is chosen over Type I
-* Explain Eta-Squared and how it quantifies the contribution of each factor to the total variance
+The 2-Way ANOVA is fitted using Ordinary Least Squares (OLS) via statsmodels, specifying the full model including both main effects and their interaction term. Type II Sum of Squares is used, which is the appropriate choice when the group sizes are unequal — as is the case here, with cell counts ranging from 34 to 73. Type II SS tests each effect after accounting for all other effects of equal or lower order, without assuming a hierarchical structure, making it more appropriate than Type I SS (which is order-dependent) for an unbalanced design.
+
+The p-value associated with each effect determines whether the null hypothesis — that the factor has no impact on flipper length — can be rejected. Effect sizes are quantified using Eta-Squared (η²), which expresses each factor's Sum of Squares as a proportion of the total Sum of Squares. This distinguishes statistical significance (whether an effect is real) from practical significance (how large that effect is). Cohen's guidelines are applied to interpret the magnitude: η² < 0.01 is negligible, 0.01–0.06 is small, 0.06–0.14 is medium, and ≥ 0.14 is large.
+
+### Post-Hoc Analysis
+
+A significant F-statistic for the species main effect confirms that at least one pair of species means differs, but does not identify which pairs. Tukey's Honest Significant Difference (HSD) test is applied to conduct all pairwise species comparisons while controlling the family-wise error rate at α = 0.05, ensuring that the probability of at least one false positive across the three comparisons remains within the specified threshold.
+
+### Interaction Effect Quantification
+
+To give concrete meaning to the statistically significant interaction term, the male-female mean flipper length difference is calculated for each species separately. This directly quantifies the degree to which sexual dimorphism in flipper length varies across species — the biological interpretation of the interaction effect identified by the ANOVA.
+
+### Residual Analysis
+
+Following the ANOVA, a diagnostic check is conducted on the model residuals to validate that the normality assumption is satisfied at the model level — the technically correct form of the assumption, as distinct from the group-level normality checks applied to the raw data prior to testing. The Shapiro-Wilk test is applied to the residuals, and a Q-Q plot and residual distribution histogram are produced to provide visual confirmation. A residuals versus fitted values plot is also examined to assess whether the residual spread is consistent across the range of predicted values, providing a complementary visual check on homoscedasticity in the model itself.
 
 ## Results:
-
-Results from the project related to the business objective.
 
 ### Descriptive Statistics:
 
@@ -144,7 +157,7 @@ Outliers in the Adelie group were identified using the IQR (Interquartile Range)
 
 The test produced an R² = 0.84, i.e. ~84% of the variances in flipper length values can be explained by the two factors and the interaction of the 2 factors.
 
-The p-value associated with each factor, including the interaction, determines if the each factor has a significant effect.  I.e. the null hypothesis is that the factor does not have an impact.  The p-value for each factor (species and gender) are of the order 10²^-125 and 10^-24 respectively, and the p-value for the interaction is 0.0063, therefore we can say that there is evidence that each factor as well as the interaction of the factors are significant effects in the length of penguin flippers.
+The p-value associated with each factor, including the interaction, determines if the each factor has a significant effect.  I.e. the null hypothesis is that the factor does not have an impact.  The p-value for each factor (species and gender) are of the order 10^-125 and 10^-24 respectively, and the p-value for the interaction is 0.0063, therefore we can say that there is evidence that each factor as well as the interaction of the factors are significant effects in the length of penguin flippers.
 
 Given that there is evidence that the factors have an effect, the size of the effect of each was calculated using the Eta-Squared values.  The table and chart below show the results of this which effectively state that the species accounts for ~77.4% of the variance, and the gender ~6% of the variance.  While the interaction effect is statistically significant, the size of the effect is 0.5%.  It is important to note that a factor being significant and the size of the effect are different factors, and just because the interaction effect is negligible, it does not mean that it is not statistically significant. Cohen's guidelines provide an interpretation of these sizes which are shown in the chart.  For completeness, the residuals represent ~16% of the variance, which can be interpreted as 16% of the variance is statistical randomness than the factors cannot explain - remembering that the R² of the model was 0.8396, so we had already seen that the model accounted for ~84% of the variance.
 
@@ -158,6 +171,14 @@ Residual           10458.107  327      NaN         NaN        0.161
 ```
 
 ![effect](2way_anova_with_effect.png)
+
+### Residual Analysis
+
+A Q-Q plot and histogram of the model residuals provides a final check on the normality assumption. The ANOVA assumption is technically that the model residuals are normally distributed (not the raw data itself), and the residual Q-Q plot and histogram below confirms this holds satisfactorily, with residuals closely following the theoretical normal line across the central range, with only minor departures in the extreme tails.
+
+Using the Shapiro-Wilk test on model residuals generates a p-value of p=0.4480, providing evidence that the residuals are normally distributed.
+
+![2way_anova_residuals](2way_anova_residuals.png)
 
 ### Post-Hoc Analysis: Tukey's HSD
 
@@ -189,14 +210,6 @@ Gentoo        212.71       221.54     +8.83
 
 ![2way_anova_gender_gap](2way_anova_gender_gap.png)
 
-### Residual Analysis
-
-A Q-Q plot and histogram of the model residuals provides a final check on the normality assumption. The ANOVA assumption is technically that the model residuals are normally distributed (not the raw data itself), and the residual Q-Q plot and histogram below confirms this holds satisfactorily, with residuals closely following the theoretical normal line across the central range, with only minor departures in the extreme tails.
-
-Using the Shapiro-Wilk test on model residuals generates a p-value of p=0.4480, providing evidence that the residuals are normally distributed.
-
-![2way_anova_residuals](2way_anova_residuals.png)
-
 ## Conclusions:
 
 The two-way ANOVA with replication provides strong statistical evidence that both species and sex, and the interaction of the two, are significant determinants of penguin flipper length. The combined model accounts for approximately 84% of the total variance in flipper length (R² = 0.84), indicating that species and sex together are highly informative predictors of this measurement.
@@ -216,10 +229,6 @@ Recommendations and next steps for improving the analysis include:
 
 * Improved observation data:
   * Collecting more observations and use this additional data to re-run the analysis
-  * Outliers are to be investigated, for example those associated with the Adelie observations
-* Further understand the interaction:
-  * Consider the effect of gender for each species, and assess where the interaction changes across species.  For example the effect of gender on flipper size may be larger in one species than another.
-  * Do pair-wise analysis of species, i.e. compare species A to species B, to understand 
 * Addressing the unequal variances:
   * The ANOVA test can be robust even when variances are unequal, if the group sizes are equal or have minimal differences.  As such it is suggested to collect more data to enable the use of equal group sizes.
   * Understand the variances of each group in more detail to identify if which are the outliers and if there are any patterns to explain this.  In effect this is identifying the factor (species or gender) with the highest variance.
