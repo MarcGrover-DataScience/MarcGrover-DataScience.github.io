@@ -174,11 +174,21 @@ Residual           10458.107  327      NaN         NaN        0.161
 
 ### Residual Analysis
 
-A Q-Q plot and histogram of the model residuals provides a final check on the normality assumption. The ANOVA assumption is technically that the model residuals are normally distributed (not the raw data itself), and the residual Q-Q plot and histogram below confirms this holds satisfactorily, with residuals closely following the theoretical normal line across the central range, with only minor departures in the extreme tails.
+A residual analysis is conducted to validate the model's assumptions at the model level, which is the technically correct form of the ANOVA assumptions. The ANOVA does not strictly require the raw data to be normally distributed or homoscedastic; it requires the model residuals to satisfy these properties. The residual diagnostics below are therefore the definitive check, distinct from the Shapiro-Wilk and Levene's tests applied to the raw group data in the Assumptions section above.
 
-Using the Shapiro-Wilk test on model residuals generates a p-value of p=0.4480, providing evidence that the residuals are normally distributed.
+**Normality of Residuals**  
+The Q-Q plot and residual distribution histogram below confirm that the model residuals are normally distributed. The Q-Q plot shows close alignment with the theoretical normal line across the central range, with only minor departures in the extreme tails — a pattern that is typical and acceptable in real-world data. The histogram shows a broadly symmetric, bell-shaped distribution centred on zero. This is confirmed numerically by the Shapiro-Wilk test applied to the residuals, which returns p = 0.4480, providing no grounds to reject the null hypothesis of normality. The normality assumption is therefore satisfied at the model level.
 
 ![2way_anova_residuals](2way_anova_residuals.png)
+
+**Homoscedasticity of Residuals**  
+The residuals versus fitted values plot provides a visual check of homoscedasticity in the model residuals — whether the residual spread is consistent across the range of predicted flipper lengths. In an ideal model, points would be scattered evenly above and below the zero reference line across all fitted values, with no systematic fanning or clustering. The Lowess trend line assists in identifying any non-random pattern.
+
+![2way_anova_residuals_vs_fitted](2way_anova_residuals_vs_fitted.png)
+
+Because the fitted values in this model correspond to the six group means, the plot naturally produces three pairs of vertical clusters — one pair per species. The Adelie clusters (fitted values approximately 188–192mm) show visibly wider residual spread than the Gentoo clusters (fitted values approximately 213–222mm), with the Chinstrap clusters (approximately 192–200mm) intermediate. This pattern is consistent with the Levene's Test result reported above (p = 0.037): the unequal raw group variances identified by Levene's Test are carried through into the model residuals and are visible here as greater vertical scatter at lower fitted values. The Lowess trend line remains close to zero across the range, confirming there is no systematic bias or curvature in the model — the residuals are not trending in any direction — but the widening spread from right to left reflects the same heteroscedasticity already identified.
+
+This corroborates the caveat stated in the Conclusions: the F-statistics should be interpreted with a degree of caution due to the mild violation of the equal variance assumption, driven principally by the higher within-group variability in the Adelie observations.
 
 ### Post-Hoc Analysis: Tukey's HSD
 
