@@ -35,7 +35,7 @@ The assumption of independence of observations is assumed due to design of the e
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes, where there is a single value of alcohol content for each quality and pH combination.
 
-## Results and conclusions:
+## Results:
 
 ### Descriptive statistics:  
 
@@ -105,7 +105,9 @@ P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05
 
 This evidence supports the alternate hypothesis that the pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
 
-So in combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.  
+## Conclusions:
+
+In combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.  
 
 Assessing the overall model, the R-squared = 0.9485, which can be interpreted as 94.85% of the variance in alcohol content is explained by the two factors (Quality and pH Level) combined.  The p-value of the overall model is 0.007698, which is less than the alpha = 0.05, therefore we can reject the hypothesis that the model isn't any good, i.e. we can conclude that the model is good.
 
