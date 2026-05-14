@@ -218,7 +218,7 @@ else:
 
 # Q-Q Plot for normality
 plt.figure(figsize=(10, 6))
-stats.probplot(anova_data['Alcohol'], dist="norm", plot=plt)
+stats.probplot(model.resid, dist="norm", plot=plt)
 plt.title('Q-Q Plot: Normality Assessment', fontsize=16, fontweight='bold')
 plt.xlabel('Theoretical Quantiles', fontsize=12)
 plt.ylabel('Sample Quantiles', fontsize=12)
