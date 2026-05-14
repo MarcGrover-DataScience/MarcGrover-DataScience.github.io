@@ -92,7 +92,7 @@ It is worth noting that visual inspection alone is not a formal test of additivi
 
 ### Hypothesis Test:
 
-An assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. 
+An assumption that we need to test is for **homogeneity of variances**, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. 
 
 Levene's test is included for methodological completeness but the sample size per group is too small for it to be truely informative, and the assumption should instead be defended on the basis of the experimental design and prior knowledge.  The results are below, suggesting there is homogeneity of variances.
 
@@ -105,6 +105,28 @@ Levene's Test (by pH Level):
 Test Statistic: 0.460375  
 P-value: 0.651620  
 As the p_value > 0.05 - Equal variances assumed  
+
+We test the data for normality of the **residuals**, using the Shapiro-Wilk Normality Test, where the null hypothesis is that the data is normally distributed:  
+
+Test Statistic: 0.975047 
+P-value: 0.934117  
+As the p_value > 0.05 - this evidence supports that the data is normally distributed  
+
+A Q-Q plot was produced to visually assess the normality of the model residuals, complementing the Shapiro-Wilk test result above:
+
+![2w_anova_without_qqplot](2w_anova_without_qqplot.png)
+
+The Q-Q plot maps the quantiles of the model residuals against the theoretical quantiles of a normal distribution. When the normality assumption is satisfied, the points should fall close to the diagonal reference line with no systematic departure. Inspecting the plot, the residual points follow the reference line reasonably well across the central range, with no pronounced S-curve, heavy-tail deviation, or systematic bowing that would indicate a meaningful departure from normality. This is consistent with the Shapiro-Wilk result above and provides visual support for the normality assumption.
+
+It is important to note the inherent limitation of this assessment. With only nine observations in the 3×3 design, the model has four residual degrees of freedom, meaning the Q-Q plot contains nine points — far fewer than would normally be considered sufficient for a reliable visual normality assessment. At this sample size, even genuine departures from normality may not be visually apparent, and the Q-Q plot should be interpreted as a supporting diagnostic rather than definitive evidence. The Shapiro-Wilk test carries the same caveat: with n = 9, the test has very limited power to detect non-normality. The normality assumption is considered satisfied here, but this should be revisited if the analysis is extended with additional observations.
+
+A residuals vs fitted values plot was also produced to assess whether the model residuals show any systematic pattern across the range of fitted values:
+
+![2w_anova_without_residuals_vs_fitted](2w_anova_without_residuals_vs_fitted.png)
+
+This plot serves two diagnostic purposes. First, it checks for homoscedasticity — whether the spread of residuals is approximately constant across fitted values, rather than expanding or contracting in a pattern that would indicate the error variance is not uniform. Second, it provides a further check on the additivity assumption: if a meaningful interaction exists between quality and pH level that the model has not accounted for, this often manifests as a curved or structured pattern in the residuals rather than random scatter around the zero line. Inspecting the plot, the residuals are distributed around zero without an obvious systematic trend, and the spread does not show a pronounced funnel shape or curve across the range of fitted values. This supports both the homoscedasticity and additivity assumptions, and provides no visual evidence of a misspecified model structure.
+
+As with the Q-Q plot, the small number of points limits the diagnostic sensitivity of this chart. A curved pattern attributable to interaction effects could plausibly exist but not be apparent at this scale. This reinforces the recommendation in the Next Steps section to extend the design with replication, which would both increase the statistical power of the residual diagnostics and allow the interaction to be formally estimated rather than assumed away.
 
 The Two-Way ANOVA without replication test was applied to the data for the two factors, where the significance (alpha) was set to 0.05 - i.e. 95% confidence level, and the null hypothesis being that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content). The results for each factor were: 
 
@@ -120,22 +142,6 @@ P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05
 
 This evidence supports the alternate hypothesis that the pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
 
-### Residual Analysis:
-
-We test the data for normality of the residuals, using the Shapiro-Wilk Normality Test, where the null hypothesis is that the data is normally distributed:  
-
-Test Statistic: 0.975047 
-P-value: 0.934117  
-As the p_value > 0.05 - this evidence supports that the data is normally distributed  
-
-(Placeholder for text describing the q-q plot)
-
-![2w_anova_without_qqplot](2w_anova_without_qqplot.png)
-
-(Placeholder for text describing the residuals vs Fittes Values plot)
-
-![2w_anova_without_residuals_vs_fitted](2w_anova_without_residuals_vs_fitted.png)
-
 ## Conclusions:
 
 In combination we can conclude that both wine quality and pH level have a statistically significant effect on alcohol content.  
@@ -149,6 +155,10 @@ By Cohen's (1988) benchmarks for η², this constitutes a large effect.
 
 pH Level effect size (η²): 0.3711 - i.e. 37.1% of the variance of alcohol content can be explained by the pH level  
 By Cohen's (1988) benchmarks for η², this constitutes a large effect.
+
+The residual diagnostic plots produced after model fitting — the Q-Q plot of residuals and the residuals vs fitted values chart — provide no evidence of material violations of the normality or homoscedasticity assumptions, and the residuals vs fitted plot shows no structured pattern that would suggest the presence of an unmodelled interaction between quality and pH level. Taken together, the assumption checks conducted in this analysis — Shapiro-Wilk, Levene's test, the interaction plot, and the residual diagnostics — all return results consistent with the model being appropriately specified for this data. 
+
+However, a consistent and important caveat applies across all of these checks: with only nine observations and four residual degrees of freedom, every diagnostic tool applied here has limited statistical power. The assumption tests pass not because the evidence for compliance is strong, but because the evidence against compliance is weak — a meaningful distinction in a design of this size. Confidence in the ANOVA results is reasonable given the available data, but the assumption validation should be regarded as indicative rather than conclusive until the design is extended with replication.
 
 In summary the conclusions are that:
  - The model explains 94.85% of variance in alcohol content
