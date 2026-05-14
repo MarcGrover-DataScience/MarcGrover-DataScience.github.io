@@ -96,7 +96,6 @@ print(pivot_table)
 print("\n3. DATA VISUALIZATIONS")
 
 # Plot 1: Distribution of Alcohol Content
-print("\nGenerating Plot 1: Distribution of Alcohol Content...")
 plt.figure(figsize=(10, 6))
 sns.histplot(data=anova_data, x='Alcohol', kde=True, bins=15, color='steelblue')
 plt.title('Distribution of Alcohol Content', fontsize=16, fontweight='bold')
@@ -107,29 +106,26 @@ plt.tight_layout()
 plt.show()
 
 # Plot 2: Box plot by Quality
-print("\nGenerating Plot 2: Alcohol Content by Quality...")
 plt.figure(figsize=(10, 6))
 sns.boxplot(data=anova_data, x='Quality', y='Alcohol', palette='Blues', hue='Quality')
 plt.title('Alcohol Content by Wine Quality', fontsize=16, fontweight='bold')
 plt.xlabel('Wine Quality Rating', fontsize=12)
 plt.ylabel('Alcohol Content (%)', fontsize=12)
 plt.tight_layout()
-# plt.savefig('plot2_quality_boxplot.png', dpi=300, bbox_inches='tight')
+plt.savefig('2w_anova_without_qual_boxplot.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Plot 3: Box plot by pH Level
-print("\nGenerating Plot 3: Alcohol Content by pH Level...")
 plt.figure(figsize=(10, 6))
 sns.boxplot(data=anova_data, x='pH_Level', y='Alcohol', palette='Greens', hue='pH_Level')
 plt.title('Alcohol Content by pH Level', fontsize=16, fontweight='bold')
 plt.xlabel('pH Level Category', fontsize=12)
 plt.ylabel('Alcohol Content (%)', fontsize=12)
 plt.tight_layout()
-# plt.savefig('plot3_ph_boxplot.png', dpi=300, bbox_inches='tight')
+plt.savefig('2w_anova_without_ph_boxplot.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Plot 4: Interaction plot
-print("\nGenerating Plot 4: Interaction Plot...")
 plt.figure(figsize=(10, 6))
 for ph_level in anova_data['pH_Level'].unique():
     subset = anova_data[anova_data['pH_Level'] == ph_level]
@@ -141,11 +137,10 @@ plt.ylabel('Alcohol Content (%)', fontsize=12)
 plt.legend(title='pH Level', fontsize=10)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-# plt.savefig('plot4_interaction.png', dpi=300, bbox_inches='tight')
+plt.savefig('2w_anova_without_interaction.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Plot 5: Heatmap
-print("\nGenerating Plot 5: Heatmap of Alcohol Content...")
 plt.figure(figsize=(10, 6))
 sns.heatmap(pivot_table, annot=True, fmt='.2f', cmap='YlOrRd',
             cbar_kws={'label': 'Alcohol Content (%)'}, linewidths=0.5)
@@ -154,7 +149,7 @@ plt.title('Alcohol Content by Quality and pH Level',
 plt.xlabel('pH Level', fontsize=12)
 plt.ylabel('Wine Quality Rating', fontsize=12)
 plt.tight_layout()
-# plt.savefig('plot5_heatmap.png', dpi=300, bbox_inches='tight')
+plt.savefig('2w_anova_without_ph_heat.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
@@ -162,33 +157,7 @@ plt.show()
 # ============================================================================
 print("\n4. TESTING ANOVA ASSUMPTIONS")
 
-# Assumption 1: Normality Test (Shapiro-Wilk)
-print("\nAssumption 1: Normality Test")
-print("H0: Data is normally distributed")
-print("H1: Data is not normally distributed")
-statistic, p_value = stats.shapiro(anova_data['Alcohol'])
-print(f"\nShapiro-Wilk Test:")
-print(f"Test Statistic: {statistic:.6f}")
-print(f"P-value: {p_value:.6f}")
-if p_value > 0.05:
-    print(f"Result: PASS (p > 0.05) - Data appears normally distributed")
-else:
-    print(f"Result: FAIL (p ≤ 0.05) - Data may not be normally distributed")
-    print(f"Note: ANOVA is robust to moderate violations of normality")
-
-# Q-Q Plot for normality
-print("\nGenerating Q-Q Plot for normality assessment")
-plt.figure(figsize=(10, 6))
-stats.probplot(anova_data['Alcohol'], dist="norm", plot=plt)
-plt.title('Q-Q Plot: Normality Assessment', fontsize=16, fontweight='bold')
-plt.xlabel('Theoretical Quantiles', fontsize=12)
-plt.ylabel('Sample Quantiles', fontsize=12)
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-# plt.savefig('plot6_qq_plot.png', dpi=300, bbox_inches='tight')
-plt.show()
-
-# Assumption 2: Homogeneity of Variances (Levene's Test)
+# Assumption 1: Homogeneity of Variances (Levene's Test)
 print("\nAssumption 2: Homogeneity of Variances (Levene's Test)")
 print("H0: Variances are equal across groups")
 print("H1: Variances are not equal across groups")
@@ -227,6 +196,50 @@ anova_table = anova_lm(model, typ=2)
 
 print("ANOVA TABLE:")
 print(anova_table)
+
+# ============================================================================
+# STEP 5a: INSPECT MODEL RESIDUE DIAGNOSTICS
+# ============================================================================
+print("\n5a. INSPECT MODEL RESIDUE DIAGNOSTICS")
+
+# Assumption 2: Normality Test (Shapiro-Wilk)
+print("\nAssumption 1: Normality Test of residuals of the fitted model")
+print("H0: Data is normally distributed")
+print("H1: Data is not normally distributed")
+statistic, p_value = stats.shapiro(model.resid)
+print(f"\nShapiro-Wilk Test:")
+print(f"Test Statistic: {statistic:.6f}")
+print(f"P-value: {p_value:.6f}")
+if p_value > 0.05:
+    print(f"Result: PASS (p > 0.05) - Data appears normally distributed")
+else:
+    print(f"Result: FAIL (p ≤ 0.05) - Data may not be normally distributed")
+    print(f"Note: ANOVA is robust to moderate violations of normality")
+
+# Q-Q Plot for normality
+plt.figure(figsize=(10, 6))
+stats.probplot(anova_data['Alcohol'], dist="norm", plot=plt)
+plt.title('Q-Q Plot: Normality Assessment', fontsize=16, fontweight='bold')
+plt.xlabel('Theoretical Quantiles', fontsize=12)
+plt.ylabel('Sample Quantiles', fontsize=12)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig('2w_anova_without_qqplot.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Residuals vs Fitted Model Plot
+plt.figure(figsize=(10, 6))
+fitted_vals = model.fittedvalues
+residuals = model.resid
+sns.scatterplot(x=fitted_vals, y=residuals, color='steelblue', s=80)
+plt.axhline(0, color='red', linestyle='--', linewidth=1.5)
+plt.title('Residuals vs Fitted Values', fontsize=16, fontweight='bold')
+plt.xlabel('Fitted Values', fontsize=12)
+plt.ylabel('Residuals', fontsize=12)
+plt.tight_layout()
+plt.savefig('2w_anova_without_residuals_vs_fitted.png', dpi=300, bbox_inches='tight')
+plt.show()
+
 
 # ============================================================================
 # STEP 6: STATISTICAL FINDINGS AND INTERPRETATION

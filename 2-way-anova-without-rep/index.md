@@ -134,4 +134,4 @@ Given the findings and limitations, and the limited number of observations, it i
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/ANOVA_2-way_withoutRep.py)
+[View the Python Script](/ANOVA_2-way_withoutRep_v2.py)
