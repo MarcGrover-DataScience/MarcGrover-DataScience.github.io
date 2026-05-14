@@ -107,6 +107,12 @@ Test Statistic: 0.975047
 P-value: 0.934117  
 As the p_value > 0.05 - this evidence supports that the data is normally distributed  
 
+(Placeholder for text describing the q-q plot)
+
+![2w_anova_without_qqplot](2w_anova_without_qqplot.png)
+
+(Placeholder for text describing the residuals vs Fittes Values plot)
+
 ![2w_anova_without_residuals_vs_fitted](2w_anova_without_residuals_vs_fitted.png)
 
 ## Conclusions:
