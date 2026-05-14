@@ -71,13 +71,7 @@ A visual inspection of these charts suggests that the factors have a strong rela
 
 ### Hypothesis Test:
 
-First we test the data for normality, using the Shapiro-Wilk Normality Test, where the null hypothesis is that the data is normally distributed:  
-
-Test Statistic: 0.921433  
-P-value: 0.404236  
-As the p_value > 0.05 - this evidence supports that the data is normally distributed  
-
-Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. 
+An assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. 
 
 Levene's test is included for methodological completeness but the sample size per group is too small for it to be truely informative, and the assumption should instead be defended on the basis of the experimental design and prior knowledge.  The results are below, suggesting there is homogeneity of variances.
 
@@ -104,6 +98,16 @@ F-statistic: 14.3968
 P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05  
 
 This evidence supports the alternate hypothesis that the pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
+
+### Residual Analysis
+
+We test the data for normality of the residuals, using the Shapiro-Wilk Normality Test, where the null hypothesis is that the data is normally distributed:  
+
+Test Statistic: 0.975047 
+P-value: 0.934117  
+As the p_value > 0.05 - this evidence supports that the data is normally distributed  
+
+![2w_anova_without_residuals_vs_fitted](2w_anova_without_residuals_vs_fitted.png)
 
 ## Conclusions:
 
