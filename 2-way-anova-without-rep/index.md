@@ -77,7 +77,9 @@ Test Statistic: 0.921433
 P-value: 0.404236  
 As the p_value > 0.05 - this evidence supports that the data is normally distributed  
 
-Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. The results are:
+Another assumption that we need to test is for homogeneity of variances, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. 
+
+Levene's test is included for methodological completeness but the sample size per group is too small for it to be truely informative, and the assumption should instead be defended on the basis of the experimental design and prior knowledge.  The results are below, suggesting there is homogeneity of variances.
 
 Levene's Test (by Quality):  
 Test Statistic: 0.396240  
@@ -88,8 +90,6 @@ Levene's Test (by pH Level):
 Test Statistic: 0.460375  
 P-value: 0.651620  
 As the p_value > 0.05 - Equal variances assumed  
-
-As such it can be considered that there is homogeneity of variances.
 
 The Two-Way ANOVA without replication test was applied to the data for the two factors, where the significance (alpha) was set to 0.05 - i.e. 95% confidence level, and the null hypothesis being that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content). The results for each factor were: 
 
@@ -111,13 +111,13 @@ In combination we can conclude that both wine quality and pH level have a statis
 
 Assessing the overall model, the R-squared = 0.9485, which can be interpreted as 94.85% of the variance in alcohol content is explained by the two factors (Quality and pH Level) combined.  The p-value of the overall model is 0.007698, which is less than the alpha = 0.05, therefore we can reject the hypothesis that the model isn't any good, i.e. we can conclude that the model is good.
 
-We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are, which are interpreted using Cohen's D values for effect size:
+We need next to assess the effect sizes of each factor, where the results of effect (η² - Eta-squared) are interpreted using Cohen's (1988) benchmarks for η²:
 
 Quality effect size (η²): 0.5774 - i.e. 57.7% of the variance of alcohol content can be explained by the quality  
-Cohen's D: Large effect
+By Cohen's (1988) benchmarks for η², this constitutes a large effect.
 
 pH Level effect size (η²): 0.3711 - i.e. 37.1% of the variance of alcohol content can be explained by the pH level  
-Cohen's D: Large effect
+By Cohen's (1988) benchmarks for η², this constitutes a large effect.
 
 In summary the conclusions are that:
  - The model explains 94.85% of variance in alcohol content
