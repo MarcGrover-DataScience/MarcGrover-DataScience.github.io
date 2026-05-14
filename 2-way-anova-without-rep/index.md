@@ -27,11 +27,19 @@ The Two-Way ANOVA Without Replication (also known as a Randomized Block Design o
 
 A workflow in Python was developed using libraries Scipy, statsmodels, scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data came from a publicly available dataset of wine data from the library scikit-learn.  
 
+### Data Loading and Validation:
+
+The dataset is sourced from the UCI Wine Quality (Red) dataset via scikit-learn's fetch_openml() function. The raw dataset contains 1,599 observations of red wine, each described by eleven physicochemical measurements and a quality rating assigned by sensory panels on an integer scale of three to eight. A data validation audit was conducted prior to analysis, confirming no missing values across any variable and verifying that all columns carry the expected numeric data types. Quality ratings were filtered to include only scores of 5, 6, and 7 — the three most represented ratings in the dataset and the basis for a balanced factorial design. pH values were discretised into three equal-width bands (Low, Medium, High) using pd.cut(), producing a 3×3 design matrix. Alcohol content was then averaged within each quality-pH combination, yielding nine unique cells — one observation per factor combination — as required by the no-replication design.
+
+### Hyothesis Test:
+
 The Two-way ANOVA without replication test was used to test the null hypothesis that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content).  
 
 Assumptions are tested regarding both the normality of the residuals using the Shapiro-Wilk test, and the homogeneity of Variances (Homoscedasticity) using Levene's test.
 
-The assumption of independence of observations is assumed due to design of the experiment, as well as the assumption of additivity or no interaction between the two independent factors.
+The assumption of independence of observations is assumed due to design of the experiment.
+
+The additivity assumption — that no interaction exists between quality and pH level — is a critical design requirement of the no-replication framework and is assessed visually via the interaction plot in the Results section.
 
 Data preparation:  Minor transformation of data into a pandas dataframe for analytical purposes, where there is a single value of alcohol content for each quality and pH combination.
 
@@ -63,11 +71,16 @@ A heatmap of the values is also produced as provides a useful visualisation of t
 
 ![heatmap](2w_anova_without_ph_heat.png)
 
-An interactive plot also enhances understanding of the data: 
+An interaction plot is produced to visually assess the relationship between the two factors across levels of alcohol content:
 
 ![interaction_plot](2w_anova_without_interaction.png)
 
-A visual inspection of these charts suggests that the factors have a strong relationship to the alcohol content, but lets test that hypothesis and understand more about any relationships. 
+In a Two-Way ANOVA without replication, the interaction plot serves a purpose beyond general data exploration — it provides the primary visual check of the additivity assumption, which is the central and non-negotiable design assumption of this test. Because the no-replication design has only one observation per cell, there are no degrees of freedom remaining to estimate an interaction term between the two factors. The residual variance in the model is the interaction variance. This means that if a true interaction exists between wine quality and pH level — that is, if the effect of pH on alcohol content genuinely differs depending on quality rating — the model has no mechanism to detect or account for it. That interaction variance would instead be absorbed into the error term, inflating the F-statistics for both main effects and potentially producing false positives. The additivity assumption must therefore be evaluated before the ANOVA results can be trusted.
+
+Visually, the additivity assumption is supported when the lines on the interaction plot are approximately parallel. Parallel lines indicate that the difference in alcohol content between pH levels is consistent across all quality ratings — in other words, that the two factors act independently and additively on the outcome, with no meaningful interaction between them.
+Inspecting the plot, the three lines — one per pH level — are broadly parallel across the quality ratings of 5, 6, and 7. All three lines rise from left to right, and the vertical spacing between them remains reasonably consistent across quality levels. There is no pronounced crossing or convergence of lines that would suggest the effect of pH on alcohol content is materially different at one quality rating compared to another. This provides visual support for the additivity assumption and gives reasonable confidence that proceeding with the no-replication ANOVA is appropriate for this data.
+
+It is worth noting that visual inspection alone is not a formal test of additivity. Tukey's one-degree-of-freedom test for non-additivity is the standard formal procedure for this purpose and would be the recommended next step in a more rigorous analysis — particularly given the small number of cells in this design, where visual judgement is inherently limited. This is discussed further in the Next Steps section.
 
 ### Hypothesis Test:
 
@@ -99,7 +112,7 @@ P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05
 
 This evidence supports the alternate hypothesis that the pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
 
-### Residual Analysis
+### Residual Analysis:
 
 We test the data for normality of the residuals, using the Shapiro-Wilk Normality Test, where the null hypothesis is that the data is normally distributed:  
 
@@ -141,6 +154,8 @@ It should be noted that there are important limitations with this test:
 
 ## Next steps:
 Given the findings and limitations, and the limited number of observations, it is recommended to take additional measurements for each factor combination, and potentially increasing the analysis to include more factors.  Such data should be subjected to other analytical methods, such as 2-way ANOVA with replication.  This may highlight interaction effects between factors.
+
+A formal test of the additivity assumption — Tukey's one-degree-of-freedom test for non-additivity — was not conducted in this analysis, with the assumption instead assessed visually via the interaction plot. Incorporating this test would strengthen the methodological rigour of the analysis: it directly tests whether any interaction between the two factors is present by introducing a single product term into the model, consuming exactly one degree of freedom from the residual. Given the small number of cells in a 3×3 no-replication design, where visual inspection of the interaction plot carries inherent limitations, this formal check is a meaningful extension.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
