@@ -165,7 +165,35 @@ It is worth noting that visual inspection alone is not a formal test of additivi
 
 **Homogeneity of Variances — Levene's Test**
 
+The **homogeneity of variance** assumption is assessed using Levene's test, applied separately to the quality and pH level factor groupings, where the null hypothesis is that the variances are equal across groups:
 
+Levene's Test (by Quality):  
+Test Statistic: 0.396240  
+P-value: 0.689237  
+As the p_value > 0.05 - Equal variances assumed
+
+Levene's Test (by pH Level):  
+Test Statistic: 0.460375  
+P-value: 0.651620  
+As the p_value > 0.05 - Equal variances assumed  
+
+Both tests return p-values well above the 0.05 threshold, and the null hypothesis of equal variances is not rejected for either factor. However, an important caveat applies to both results. After grouping the nine-cell dataset by either factor, each group contains only three observations — one per level of the other factor. Levene's test with n = 3 per group has near-zero statistical power: it will return a high p-value in almost all circumstances regardless of whether the true underlying variances are equal or not. These results should therefore be understood as methodologically consistent with the broader portfolio rather than as substantive evidence of homoscedasticity. The residuals vs fitted values plot produced in the post-fit diagnostics below provides a more meaningful visual check of this assumption in the context of the fitted model.
+
+**Normality of Model Residuals — Shapiro-Wilk Test and Q-Q Plot**
+
+The normality assumption is assessed using the Shapiro-Wilk test and a Q-Q plot, both applied to the residuals of the fitted model. Note that this is distinct from testing the raw alcohol values for normality: the assumption in ANOVA pertains specifically to the model residuals, and so the diagnostics are produced after the model is fitted.
+Shapiro-Wilk Test (model residuals):
+
+Test Statistic: 0.975047 
+P-value: 0.934117  
+As the p_value > 0.05 - this evidence supports that the data is normally distributed  
+
+![2w_anova_without_qqplot](2w_anova_without_qqplot.png)
+
+The Q-Q plot maps the quantiles of the model residuals against the theoretical quantiles of a normal distribution. When the normality assumption is satisfied, the points should fall close to the diagonal reference line with no systematic departure. Inspecting the plot, the residual points follow the reference line reasonably well across the central range, with no pronounced S-curve, heavy-tail deviation, or systematic bowing that would indicate a meaningful departure from normality. This is consistent with the Shapiro-Wilk result and provides visual support for the normality assumption.
+The inherent limitation of both diagnostics at this sample size should be noted. With only nine observations in the 3×3 design, the model has four residual degrees of freedom, meaning the Q-Q plot contains nine points — far fewer than would normally be considered sufficient for a reliable visual normality assessment. The Shapiro-Wilk test carries the same caveat: with n = 9, the test has very limited power to detect non-normality. Both results are indicative rather than conclusive, and this assumption should be revisited if the analysis is extended with additional observations.
+
+**Residuals vs Fitted Values**
 
 
 
