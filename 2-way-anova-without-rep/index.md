@@ -195,60 +195,38 @@ The inherent limitation of both diagnostics at this sample size should be noted.
 
 **Residuals vs Fitted Values**
 
-
-
-
-### Hypothesis Test:
-
-An assumption that we need to test is for **homogeneity of variances**, using Levene's Test for Equal Variances for each factor individually, where the null hypothesis is that the variances are the same. 
-
-Levene's test is included for methodological completeness but the sample size per group is too small for it to be truely informative, and the assumption should instead be defended on the basis of the experimental design and prior knowledge.  The results are below, suggesting there is homogeneity of variances.
-
-Levene's Test (by Quality):  
-Test Statistic: 0.396240  
-P-value: 0.689237  
-As the p_value > 0.05 - Equal variances assumed
-
-Levene's Test (by pH Level):  
-Test Statistic: 0.460375  
-P-value: 0.651620  
-As the p_value > 0.05 - Equal variances assumed  
-
-We test the data for normality of the **residuals**, using the Shapiro-Wilk Normality Test, where the null hypothesis is that the data is normally distributed:  
-
-Test Statistic: 0.975047 
-P-value: 0.934117  
-As the p_value > 0.05 - this evidence supports that the data is normally distributed  
-
-A Q-Q plot was produced to visually assess the normality of the model residuals, complementing the Shapiro-Wilk test result above:
-
-![2w_anova_without_qqplot](2w_anova_without_qqplot.png)
-
-The Q-Q plot maps the quantiles of the model residuals against the theoretical quantiles of a normal distribution. When the normality assumption is satisfied, the points should fall close to the diagonal reference line with no systematic departure. Inspecting the plot, the residual points follow the reference line reasonably well across the central range, with no pronounced S-curve, heavy-tail deviation, or systematic bowing that would indicate a meaningful departure from normality. This is consistent with the Shapiro-Wilk result above and provides visual support for the normality assumption.
-
-It is important to note the inherent limitation of this assessment. With only nine observations in the 3×3 design, the model has four residual degrees of freedom, meaning the Q-Q plot contains nine points — far fewer than would normally be considered sufficient for a reliable visual normality assessment. At this sample size, even genuine departures from normality may not be visually apparent, and the Q-Q plot should be interpreted as a supporting diagnostic rather than definitive evidence. The Shapiro-Wilk test carries the same caveat: with n = 9, the test has very limited power to detect non-normality. The normality assumption is considered satisfied here, but this should be revisited if the analysis is extended with additional observations.
-
-A residuals vs fitted values plot was also produced to assess whether the model residuals show any systematic pattern across the range of fitted values:
-
 ![2w_anova_without_residuals_vs_fitted](2w_anova_without_residuals_vs_fitted.png)
 
 This plot serves two diagnostic purposes. First, it checks for homoscedasticity — whether the spread of residuals is approximately constant across fitted values, rather than expanding or contracting in a pattern that would indicate the error variance is not uniform. Second, it provides a further check on the additivity assumption: if a meaningful interaction exists between quality and pH level that the model has not accounted for, this often manifests as a curved or structured pattern in the residuals rather than random scatter around the zero line. Inspecting the plot, the residuals are distributed around zero without an obvious systematic trend, and the spread does not show a pronounced funnel shape or curve across the range of fitted values. This supports both the homoscedasticity and additivity assumptions, and provides no visual evidence of a misspecified model structure.
 
 As with the Q-Q plot, the small number of points limits the diagnostic sensitivity of this chart. A curved pattern attributable to interaction effects could plausibly exist but not be apparent at this scale. This reinforces the recommendation in the Next Steps section to extend the design with replication, which would both increase the statistical power of the residual diagnostics and allow the interaction to be formally estimated rather than assumed away.
 
-The Two-Way ANOVA without replication test was applied to the data for the two factors, where the significance (alpha) was set to 0.05 - i.e. 95% confidence level, and the null hypothesis being that the two factors (quality and pH), do not have an effect on the dependent variable (alcohol content). The results for each factor were: 
+**Two-Way ANOVA Without Replication — Main Effects**
+
+With the assumption checks completed, the Two-Way ANOVA without replication model is fitted. The significance threshold is set at α = 0.05 — a 95% confidence level — and the null hypothesis for each factor is that it has no effect on alcohol content, i.e., that all group means for that factor are equal.
 
 MAIN EFFECT: QUALITY  
 F-statistic: 22.4012  
-P-value: 0.006718  - compared to the alpha = 0.05, i.e. p_value < 0.05  
- 
-This evidence supports the alternate hypothesis that the wine quality has a statistically significant effect on alcohol content, and we reject the null hypothesis that quality levels have equal mean alcohol content.
+P-value: 0.006718 — p-value < α = 0.05  
+
+The p-value of 0.0067 is well below the significance threshold. This provides strong evidence to reject the null hypothesis and supports the conclusion that wine quality rating has a statistically significant effect on alcohol content. The mean alcohol content increases consistently from quality rating 5 through to 7, and the F-statistic of 22.40 indicates that the between-group variance attributable to quality is approximately 22 times larger than the residual error variance — a substantial ratio that reflects the strong directional pattern observed in the descriptive statistics.
 
 MAIN EFFECT: pH LEVEL  
 F-statistic: 14.3968  
-P-value: 0.014878  - compared to the alpha = 0.05, i.e. p_value < 0.05  
+P-value: 0.014878 — p-value < α = 0.05  
 
-This evidence supports the alternate hypothesis that the pH level has a statistically significant effect on alcohol content, we reject the null hypothesis that pH levels have equal mean alcohol content.
+The p-value of 0.0149 is likewise below the significance threshold. This supports the conclusion that pH level also has a statistically significant effect on alcohol content, and the null hypothesis that pH groups have equal mean alcohol content is rejected. The F-statistic of 14.40, while somewhat smaller than that of the quality factor, still represents a substantial ratio of explained to unexplained variance and is consistent with the directional pattern visible in both the boxplot and heatmap.
+
+**Model Summary**
+
+R-squared: 0.9485  
+Adjusted R-squared: 0.8969  
+Overall F-statistic: 18.40  
+Overall model p-value: 0.0077 — p-value < α = 0.05  
+
+The overall model p-value of 0.0077 confirms that the model as a whole is statistically significant — the two factors together explain significantly more variance in alcohol content than would be expected by chance alone. The R-squared of 0.9485 indicates that 94.85% of the total variance in alcohol content is accounted for by the quality and pH level factors in combination.
+
+However, the adjusted R-squared of 0.8970 warrants careful attention and provides important context for interpreting the R-squared figure. The adjusted R-squared penalises for the number of model parameters relative to the number of observations — in this case, four model parameters (one intercept, two dummy variables for quality, and two for pH level) estimated from only nine observations. The gap between R-squared (0.9485) and adjusted R-squared (0.8970) — approximately 5.2 percentage points — reflects this penalty and indicates that a portion of the apparent explanatory power is an artefact of the design's small degrees of freedom rather than a reflection of the underlying relationship in the broader wine population. In a design with n = 9 and five estimated parameters, a high R-squared can be obtained relatively easily simply because there are so few data points for the model to fail on. The adjusted R-squared of 0.8970 is the more conservative and more honest measure of the model's predictive value, and it is this figure that should be cited when discussing the model's explanatory power. That said, even at 89.7%, the model explains a substantial proportion of variance in alcohol content and the result remains analytically meaningful.
 
 ## Conclusions:
 
