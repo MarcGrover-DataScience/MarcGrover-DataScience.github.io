@@ -26,13 +26,13 @@ By the end of the analysis, the project demonstrates the correct application of 
 
 The Two-Way ANOVA Without Replication (also known as a Randomized Block Design or a two-factor ANOVA with one observation per cell) is a statistical test used to assess the main effects of two categorical factors on a single continuous dependent variable, while assuming there is no interaction between the two factors.  This design is often used when one factor is a "nuisance factor" or a blocking variable that is included primarily to account for variability, thus increasing the power of the test for the other factor.
 
-🏭  Used in manufacturing where resources (materials, machines, time) are limited, and one observation per condition is practical for quality audits.  
+🏭  Used in **manufacturing** where resources (materials, machines, time) are limited, and one observation per condition is practical for quality audits.  
 
-💻  In IT development, it's used to efficiently evaluate the main performance effects of two variables (e.g. software versions and server regions).
+💻  In **IT** development, it's used to efficiently evaluate the main performance effects of two variables (e.g. software versions and server regions).
 
-🛍️  Retail often uses this to compare key performance indicators (KPIs) across stores or channels, e.g. sales based on factors of store locations and promotional offers. 
+🛍️  **Retail** often uses this to compare key performance indicators (KPIs) across stores or channels, e.g. sales based on factors of store locations and promotional offers. 
 
-🏦  In finance, it's used for comparative analysis where confounding variables need to be controlled (e.g. investment strategies and time periods).  
+🏦  In **finance**, it's used for comparative analysis where confounding variables need to be controlled (e.g. investment strategies and time periods).  
 
 
 ## Methodology:  
@@ -77,9 +77,36 @@ Statistical results are reported for each main effect individually: the F-statis
 
 ## Results:
 
+### Data Validation:
+
+A data validation audit was conducted on the raw dataset prior to any analysis. The key findings are summarised below:
+
+RAW DATASET SHAPE:       1,599 observations × 12 columns (11 features + quality target)  
+MISSING VALUES:          0 across all columns — no imputation required  
+DUPLICATE RECORDS:       0 — all observations are unique  
+
+RAW QUALITY SCORE DISTRIBUTION:  
+* Quality 3:    10 observations  
+* Quality 4:    53 observations  
+* Quality 5:   681 observations  
+* Quality 6:   638 observations  
+* Quality 7:   199 observations  
+* Quality 8:    18 observations  
+
+The distribution confirms that quality ratings 5, 6, and 7 account for 1,518 of the 1,599 raw observations — approximately 95% of the dataset — and represent the most densely populated and comparably sized groups. Filtering to these three ratings retains the large majority of the data while producing the balanced factorial structure required by the design.
+
+The data preparation pipeline reduced the dataset in four stages:
+
+Stage 1 — Column selection (alcohol, quality, pH):  1,599 observations retained (100%)  
+Stage 2 — pH discretised into 3 equal-width bands:  Low / Medium / High applied to all rows  
+Stage 3 — Filter to quality ratings 5, 6, and 7:    1,518 observations retained (94.9%)  
+Stage 4 — Group by quality × pH, take mean:         9 cells (one observation per combination)  
+
+The pH band boundaries produced by pd.cut() are printed in the console output and should be noted when interpreting the analysis: the three labels Low, Medium, and High correspond to specific numerical pH ranges derived from the equal-width binning of the observed pH distribution across the 1,518 filtered observations. The final nine-cell table — one averaged alcohol value per quality-pH combination — forms the complete dataset for all subsequent analysis.
+
 ### Descriptive statistics:  
 
-The data being used for the Two-Way ANOVA without replication test is:
+The nine-cell dataset used for the Two-Way ANOVA without replication is:
 
 ```
  Quality  pH_Level  Alcohol
@@ -93,26 +120,55 @@ The data being used for the Two-Way ANOVA without replication test is:
        7    Medium   11.511
        7      High   13.100
 ```
+Even before any formal testing, the structure of this table is analytically informative. Reading across any row — holding quality constant — alcohol content increases as pH moves from Low to High. Reading down any column — holding pH constant — alcohol content increases as quality moves from 5 to 7. This consistent directional pattern across both dimensions motivates the hypothesis that both factors will prove statistically significant, and is explored visually in the charts below.
 
-Boxplots of alcohol content by each factor were created:  
+The mean alcohol content by quality rating and by pH level further summarise the main effects:
 
-![boxplot_by_ph](2w_anova_without_ph_boxplot.png)
+```
+Mean Alcohol by Quality:           Mean Alcohol by pH Level:
+  Quality 5:  10.067%                Low pH:     10.366%
+  Quality 6:  10.862%                Medium pH:  10.685%
+  Quality 7:  11.880%                High pH:    11.757%
+```
+
+Both factors show a clear directional trend in their group means — quality rating 7 wines have a mean alcohol content approximately 1.8 percentage points higher than quality rating 5 wines, while High pH wines have a mean approximately 1.4 percentage points higher than Low pH wines. These differences appear substantive relative to the overall range of values in the dataset, providing preliminary descriptive support for the hypothesis test findings that follow.
+
+Boxplots of alcohol content by each factor are produced to visualise the spread and central tendency of each group:
+
 ![boxplot_by_quality](2w_anova_without_qual_boxplot.png)
 
-A heatmap of the values is also produced as provides a useful visualisation of the data:  
+The boxplot by quality rating shows a clear upward trend in median alcohol content from quality rating 5 through to 7, consistent with the group means above. It is important to note the structural constraint of this chart: because the dataset contains only nine observations in a 3×3 design, each quality group contains exactly three data points — one per pH level. The boxes therefore reflect only the spread of three values, meaning that whiskers and outlier markers are absent and the interquartile range is determined by a very small sample. The chart is presented primarily to confirm the directional pattern and to give a visual sense of the spread within each group, rather than as evidence of distributional properties that cannot be reliably assessed at this sample size.
+
+![boxplot_by_ph](2w_anova_without_ph_boxplot.png)
+
+The boxplot by pH level tells a comparable story. Alcohol content increases progressively from Low to Medium to High pH, with the High pH group showing notably higher values and somewhat greater spread than the other two groups. The same three-observation-per-group caveat applies. The consistency of the upward trend across both factors in their respective boxplots reinforces the descriptive case for the effects that the ANOVA will formally test.
+
+A heatmap of mean alcohol content across all nine quality-pH combinations provides the most complete single visualisation of the data:
 
 ![heatmap](2w_anova_without_ph_heat.png)
 
-An interaction plot is produced to visually assess the relationship between the two factors across levels of alcohol content:
+The heatmap reveals a clear monotonic increase in alcohol content as both factors move in the same direction — quality rating increases and pH level increases simultaneously. The lowest alcohol content in the entire dataset sits in the top-left cell (Quality 5, Low pH: 9.74%), while the highest sits in the bottom-right cell (Quality 7, High pH: 13.10%) — a difference of 3.36 percentage points across the full range of the design. The colour gradient from yellow through to deep red tracks this progression consistently, with no cell deviating meaningfully from the overall monotonic pattern. This regularity in the heatmap is visually compelling and provides strong descriptive motivation for both the significant main effects and the high R-squared value that the model will subsequently produce.
+
+An interaction plot is produced to visually assess the relationship between the two factors and to evaluate the additivity assumption:
 
 ![interaction_plot](2w_anova_without_interaction.png)
 
 In a Two-Way ANOVA without replication, the interaction plot serves a purpose beyond general data exploration — it provides the primary visual check of the additivity assumption, which is the central and non-negotiable design assumption of this test. Because the no-replication design has only one observation per cell, there are no degrees of freedom remaining to estimate an interaction term between the two factors. The residual variance in the model is the interaction variance. This means that if a true interaction exists between wine quality and pH level — that is, if the effect of pH on alcohol content genuinely differs depending on quality rating — the model has no mechanism to detect or account for it. That interaction variance would instead be absorbed into the error term, inflating the F-statistics for both main effects and potentially producing false positives. The additivity assumption must therefore be evaluated before the ANOVA results can be trusted.
 
 Visually, the additivity assumption is supported when the lines on the interaction plot are approximately parallel. Parallel lines indicate that the difference in alcohol content between pH levels is consistent across all quality ratings — in other words, that the two factors act independently and additively on the outcome, with no meaningful interaction between them.
+
 Inspecting the plot, the three lines — one per pH level — are broadly parallel across the quality ratings of 5, 6, and 7. All three lines rise from left to right, and the vertical spacing between them remains reasonably consistent across quality levels. There is no pronounced crossing or convergence of lines that would suggest the effect of pH on alcohol content is materially different at one quality rating compared to another. This provides visual support for the additivity assumption and gives reasonable confidence that proceeding with the no-replication ANOVA is appropriate for this data.
 
-It is worth noting that visual inspection alone is not a formal test of additivity. Tukey's one-degree-of-freedom test for non-additivity is the standard formal procedure for this purpose and would be the recommended next step in a more rigorous analysis — particularly given the small number of cells in this design, where visual judgement is inherently limited. This is discussed further in the Next Steps section.
+It is worth noting that visual inspection alone is not a formal test of additivity. Tukey's one-degree-of-freedom test for non-additivity is the standard formal procedure for this purpose and would be a recommended next step in a more rigorous analysis. This is discussed further in the Next Steps section.
+
+### Hypothesis Test:
+
+**Homogeneity of Variances — Levene's Test**
+
+
+
+
+
 
 ### Hypothesis Test:
 
