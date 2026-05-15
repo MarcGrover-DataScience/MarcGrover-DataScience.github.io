@@ -37,10 +37,44 @@ wine = fetch_openml('wine-quality-red', version=1, as_frame=True, parser='auto')
 wine_df = wine.frame
 # Rename column 'class' to 'quality'
 wine_df = wine_df.rename(columns={'class':'quality'})
-print(wine_df)
-print('\nColumn types:')
+
+print("\nRAW DATASET VALIDATION:")
+
+# Dataset shape
+print(f"\nDataset shape (rows, columns): {wine_df.shape}")
+print(f"Total observations: {wine_df.shape[0]}")
+print(f"Total features (including target): {wine_df.shape[1]}")
+
+# Column names and data types
+print(f"\nColumn names and data types:")
 print(wine_df.dtypes)
-print(f"\nAvailable columns: {wine_df.columns.tolist()}")
+
+# Missing values
+missing_counts = wine_df.isnull().sum()
+missing_total = missing_counts.sum()
+print(f"\nMissing values per column:")
+print(missing_counts)
+print(f"Total missing values across dataset: {missing_total}")
+if missing_total == 0:
+    print("Result: PASS - No missing values detected")
+else:
+    print(f"Result: WARNING - {missing_total} missing values detected, review required")
+
+# Duplicate records
+duplicate_count = wine_df.duplicated().sum()
+print(f"\nDuplicate records: {duplicate_count}")
+if duplicate_count == 0:
+    print("Result: PASS - No duplicate records detected")
+else:
+    print(f"Result: WARNING - {duplicate_count} duplicate records detected")
+
+# Quality score distribution (raw, before filtering)
+print(f"\nRaw quality score distribution:")
+print(wine_df['quality'].value_counts().sort_index())
+
+# Descriptive statistics for key variables
+print(f"\nDescriptive statistics (alcohol, pH, quality):")
+print(wine_df[['alcohol', 'pH', 'quality']].describe())
 
 # Create a structured dataset for 2-way ANOVA without replication
 # We'll analyze how alcohol content varies by quality rating and pH level categories
@@ -61,12 +95,51 @@ data['quality'] = data['quality'].astype(int).astype(str)
 anova_data = data.groupby(['quality', 'pH_category'], observed=False)['alcohol'].mean().reset_index()
 anova_data.columns = ['Quality', 'pH_Level', 'Alcohol']
 
-print("\nDataset Info:")
-print(f"- Total observations: {len(anova_data)}")
-print(f"- Factor 1 (Quality): {anova_data['Quality'].unique()}")
-print(f"- Factor 2 (pH Level): {anova_data['pH_Level'].unique()}")
-print(f"\nSample rows for analysis:")
-print(anova_data)
+
+print("\nDATA PREPARATION STAGE TRACKING:")
+
+# Stage 1: Column selection
+data_stage1 = wine_df[['alcohol', 'quality', 'pH']].copy()
+print(f"\nStage 1 - Column selection (alcohol, quality, pH):")
+print(f"  Rows retained: {len(data_stage1)} of {len(wine_df)} "
+      f"({len(data_stage1)/len(wine_df)*100:.1f}%)")
+
+# Stage 2: pH categorisation
+data_stage1['pH_category'] = pd.cut(data_stage1['pH'],
+                                     bins=3,
+                                     labels=['Low', 'Medium', 'High'])
+ph_bins = pd.cut(data_stage1['pH'], bins=3).unique()
+print(f"\nStage 2 - pH categorisation into 3 equal-width bands:")
+print(f"  pH band boundaries: {sorted(ph_bins)}")
+print(f"  Observations per pH category:")
+print(f"  {data_stage1['pH_category'].value_counts().sort_index().to_dict()}")
+
+# Stage 3: Quality filter (retain ratings 5, 6, 7 only)
+data_stage2 = data_stage1[data_stage1['quality'].isin(['5', '6', '7'])].copy()
+excluded = len(data_stage1) - len(data_stage2)
+print(f"\nStage 3 - Filter to quality ratings 5, 6, and 7:")
+print(f"  Rows retained: {len(data_stage2)} of {len(data_stage1)} "
+      f"({len(data_stage2)/len(data_stage1)*100:.1f}%)")
+print(f"  Rows excluded (quality ratings outside 5-7): {excluded}")
+print(f"  Observations per quality rating after filter:")
+print(f"  {data_stage2['quality'].value_counts().sort_index().to_dict()}")
+
+# Stage 4: Grouping to one observation per cell
+data_stage2['quality'] = data_stage2['quality'].astype(int).astype(str)
+anova_data = data_stage2.groupby(['quality', 'pH_category'],
+                                   observed=False)['alcohol'].mean().reset_index()
+anova_data.columns = ['Quality', 'pH_Level', 'Alcohol']
+
+print(f"\nStage 4 - Group by quality and pH category, take mean alcohol:")
+print(f"  Final design: {anova_data['Quality'].nunique()} quality levels x "
+      f"{anova_data['pH_Level'].nunique()} pH levels "
+      f"= {len(anova_data)} cells (one observation per cell)")
+print(f"  Observations averaged per cell (approx): "
+      f"{len(data_stage2) // len(anova_data)}")
+
+print(f"\nFINAL DATASET FOR ANALYSIS:")
+print(anova_data.to_string(index=False))
+
 
 # ============================================================================
 # STEP 2: DESCRIPTIVE STATISTICS
@@ -359,9 +432,4 @@ print(f"""
    - This is an observational study; causation cannot be inferred
    - Sample represents averaged values (no replication within cells)
    - Results specific to red wine data; may not generalize to other wine types
-
-6. RECOMMENDATIONS:
-   - For wine production: Monitor both quality targets and pH levels
-   - For further research: Consider interaction effects with replication
-   - Validate findings with additional data sources
 """)
