@@ -26,10 +26,14 @@ By the end of the analysis, the project demonstrates the correct application of 
 
 The Two-Way ANOVA Without Replication (also known as a Randomized Block Design or a two-factor ANOVA with one observation per cell) is a statistical test used to assess the main effects of two categorical factors on a single continuous dependent variable, while assuming there is no interaction between the two factors.  This design is often used when one factor is a "nuisance factor" or a blocking variable that is included primarily to account for variability, thus increasing the power of the test for the other factor.
 
-🏭  Used in manufacturing where resources (materials, machines, time) are limited, and one observation per condition is practical for quality audits.
+🏭  Used in manufacturing where resources (materials, machines, time) are limited, and one observation per condition is practical for quality audits.  
+
 💻  In IT development, it's used to efficiently evaluate the main performance effects of two variables (e.g. software versions and server regions).
-🛍️  Retail often uses this to compare key performance indicators (KPIs) across stores or channels, e.g. sales based on factors of store locations and promotional offers.
-🏦  In finance, it's used for comparative analysis where confounding variables need to be controlled (e.g. investment strategies and time periods).
+
+🛍️  Retail often uses this to compare key performance indicators (KPIs) across stores or channels, e.g. sales based on factors of store locations and promotional offers. 
+
+🏦  In finance, it's used for comparative analysis where confounding variables need to be controlled (e.g. investment strategies and time periods).  
+
 
 ## Methodology:  
 
