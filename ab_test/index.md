@@ -10,7 +10,7 @@ permalink: /ab-test/
 
 ## Goals and objectives:
 
-The business obejective is to test and analyse the conversion rates for users signing up for membership via a new webpage (treatment group) compared to the old webpage (control group).  The business wants to understand if there are any statistically significant differences.
+The business objective is to test and analyse the conversion rates for users signing up for membership via a new webpage (treatment group) compared to the old webpage (control group).  The business wants to understand if there are any statistically significant differences.
 
 1,000 observations were collected from both the new and old webpage, which showed 180 users took out membership via the new web page, and 120 users took out membership via the old web page.  This data is analysed to determine if any significant difference can be assumed, and identify other insight from the data.
 
@@ -50,7 +50,7 @@ Data preparation:  Minor transformation of data into a pandas dataframe and cont
 
 The data being used for the A/B test contains 1,000 observations for each group, where 18% of users converted in the treatment group and 12% of users converted in the control group.
 
-![conversion](ab_conversion.png)
+![conversion](plot_01_ab_conversion.png)
 
 This data was used to create the contingency table:
 
@@ -86,7 +86,7 @@ Treatment Group: 95% Confidence Interval of Conversion Rate: (15.62%, 20.38%)
 
 Visualising these ranges on a chart to support interpretation, and further confirm that the conversion rates improve for the new web-site design:  
 
-![conversion_ci](ab_conversion_ci.png)
+![conversion_ci](plot_02_ab_conversion_ci.png)
 
 ### Sample size and power analysis:  
 
@@ -109,4 +109,4 @@ The primary recommendations would include:
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/AB Testing.py)
+[View the Python Script](/AB Test_v2.py)
