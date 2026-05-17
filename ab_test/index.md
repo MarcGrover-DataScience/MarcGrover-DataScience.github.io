@@ -24,12 +24,12 @@ The chi-squared test of independence is used to compare the proportions or frequ
 
 By contrast, the independent 2-sample t-test is used to compare the means (averages) of a continuous variable between two independent groups (A and B).
 
-A/B testing used to compare proportions or frequencies of a categorical variable is foundational to modern data-driven decision-making, particularly in optimizing digital experiences and quality control.
+A/B testing is used to compare proportions or frequencies of a categorical variable is foundational to modern data-driven decision-making, particularly in optimizing digital experiences and quality control.
 
-* In the technology sector, this is the most common use of A/B testing, focusing on user behaviour that results in a binary outcome (success/failure).  Examples include, conversion, click-through rates, email-open rates.
-* Retail uses these tests to optimize both online and in-store campaign effectiveness - offer redemption rates, cart abandonment rate, packing preference.
-* In finance, these tests are crucial for improving the efficiency of lead generation and customer onboarding - Application Submission Rate, Lead-to-Client Conversion.
-* In manufacturing, this A/B testing framework is used offline to compare the effectiveness of two production conditions on a binary quality outcome - Defect Rate Comparison, Pass/Fail Inspection Rates.
+💻 In the **technology** sector, this is the most common use of A/B testing, focusing on user behaviour that results in a binary outcome (success/failure).  Examples include, conversion, click-through rates, email-open rates.
+🛍️ **Retail** uses these tests to optimize both online and in-store campaign effectiveness - offer redemption rates, cart abandonment rate, packing preference.
+🏦 In **finance**, these tests are crucial for improving the efficiency of lead generation and customer onboarding - Application Submission Rate, Lead-to-Client Conversion.
+🏭 In **manufacturing**, this A/B testing framework is used offline to compare the effectiveness of two production conditions on a binary quality outcome - Defect Rate Comparison, Pass/Fail Inspection Rates.
 
 ## Methodology:  
 
@@ -51,7 +51,12 @@ The data being used for the A/B test contains 1,000 observations for each group,
 
 This data was used to create the contingency table:
 
-![cont_table](ab_cont_tab.png)
+```
+Converted   No  Yes
+Group              
+Control    880  120
+Treatment  820  180
+```
 
 The chi-squared test was applied to the data, with the null hypothesis that there is no variance between the control and treatment groups, with the significance level (alpha) equal to 0.05.  
 
@@ -59,7 +64,12 @@ The result of the chi-squared test was a p_value of 0.00022, and as this is <0.0
 
 An output of the chi-squared test was the expected frequencies table, which represents the expected number of conversions should there be no difference in conversion rates between groups.
 
-![exp_freq](ab_exp_freq.png)  
+```
+Converted     No    Yes
+Group                  
+Control    850.0  150.0
+Treatment  850.0  150.0
+```
 
 Using Cramér's V which is a measure of association between two nominal variables, returning a number between 0 and 1 that indicates how strongly two categorical variables are associated.  The calculated Cramér's V was 0.0826, which is interpretted as being a 'small' effect, i.e. moving from the control to treatment group will return a statistically significant difference but the scale of that effect is small.  It should be noted that this is a subjective effect 'size', and may well produce a meaningful and positive business improvement, and as such the Cramér's V is to be interpreted within the business context.  As an example, increasing conversion rates by a few percent may have significant business benefit and meet the goals of the web-site development.
 
