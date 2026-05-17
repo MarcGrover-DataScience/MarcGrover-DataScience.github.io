@@ -27,8 +27,11 @@ By contrast, the independent 2-sample t-test is used to compare the means (avera
 A/B testing is used to compare proportions or frequencies of a categorical variable is foundational to modern data-driven decision-making, particularly in optimizing digital experiences and quality control.
 
 💻 In the **technology** sector, this is the most common use of A/B testing, focusing on user behaviour that results in a binary outcome (success/failure).  Examples include, conversion, click-through rates, email-open rates.
+
 🛍️ **Retail** uses these tests to optimize both online and in-store campaign effectiveness - offer redemption rates, cart abandonment rate, packing preference.
+
 🏦 In **finance**, these tests are crucial for improving the efficiency of lead generation and customer onboarding - Application Submission Rate, Lead-to-Client Conversion.
+
 🏭 In **manufacturing**, this A/B testing framework is used offline to compare the effectiveness of two production conditions on a binary quality outcome - Defect Rate Comparison, Pass/Fail Inspection Rates.
 
 ## Methodology:  
