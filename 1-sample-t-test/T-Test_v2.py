@@ -1,18 +1,9 @@
-# T-tests
-# • One-Sample t-test: Compares the mean of a single sample to a known population mean.
-# •	Independent Samples t-test: Compares the means of two independent groups.
-# •	Paired Samples t-test: Compares means from the same group at two different times or under two different conditions.
-# • ANOVA – One-way – to compare the means of 3+ groups to determine if  statistically significant differences exists
-# • ANOVA – Two-way with replication
-# • ANOVA – Two-way without replication
-# • X^2 (Pearson's Chi-Squared) test of independence – test of independence of two categorical variables.
-# • Pearson's X^2 Goodness-Of-Fit test – hypothesis test of a single categorical variable's frequency distribution
-#       is significantly different from a hypothesized or known distribution. E.g. shop sales assumed per day
+# One-Sample T-Test
 
 #========================================
-# STEP 1 - Test hypothesis that the mean petal length is 6.0
+# STEP 0 - Load Data
 #========================================
-# One-Sample T-Test in Python
+
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
@@ -41,6 +32,11 @@ print(sepal_length)
 df_iris = pd.DataFrame(data=iris.data, columns=iris.feature_names)
 df_iris['species'] = pd.Categorical.from_codes(iris.target, iris.target_names)
 print(df_iris)
+
+#========================================
+# STEP 1 - Test hypothesis that the mean petal length is 6.0
+#========================================
+
 
 # Hypothesized population mean
 mu_0 = 6.0
