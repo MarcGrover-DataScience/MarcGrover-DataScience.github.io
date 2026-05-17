@@ -22,11 +22,15 @@ By the end of the analysis, the project aims to demonstrate not only the correct
 
 The One-Sample T-Test is a statistical tool used to determine if the mean of a single sample is significantly different from a known population mean or a hypothesised value. This is a core function in various business sectors for quality control, performance benchmarking, and validating assumptions.  
 
-🏦 An investment firm wants to know if the average annual return of a specific fund portfolio (the sample) is significantly different from a target benchmark like a market index (the hypothesized value)
-🏦 A bank needs to verify if its average loan approval time meets an internal service level agreement (SLA) target or a competitor's advertised time.
-🛍️ A retailer sets a goal for the average customer satisfaction score (on a 1-5 scale) to be 4.5. They survey a sample of customers and use the test to see if the sample mean is statistically below that target.
-💻 A technology company develops a new API and wants to ensure the average response time (latency) for a sample of API calls is less than a certain service performance standard (e.g., 50 milliseconds).
-🏭 A steel producer tests the tensile strength of a sample of a new alloy batch to determine if its mean strength differs from the specified standard for that grade of steel.
+🏦 An **investment firm** wants to know if the average annual return of a specific fund portfolio (the sample) is significantly different from a target benchmark like a market index (the hypothesized value)
+
+🏦 A **bank** needs to verify if its average loan approval time meets an internal service level agreement (SLA) target or a competitor's advertised time.
+
+🛍️ A **retailer** sets a goal for the average customer satisfaction score (on a 1-5 scale) to be 4.5. They survey a sample of customers and use the test to see if the sample mean is statistically below that target.
+
+💻 A **technology company** develops a new API and wants to ensure the average response time (latency) for a sample of API calls is less than a certain service performance standard (e.g., 50 milliseconds).
+
+🏭 A **steel producer** tests the tensile strength of a sample of a new alloy batch to determine if its mean strength differs from the specified standard for that grade of steel.
 
 ## Methodology:  
 
