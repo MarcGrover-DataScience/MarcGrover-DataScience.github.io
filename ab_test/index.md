@@ -8,8 +8,6 @@ permalink: /ab-test/
 
 ---
 
-# This project is currently being extended
-
 ## Goals and objectives:
 
 For this portfolio project, the business scenario concerns a website redesign: specifically, whether a newly developed webpage generates a higher rate of membership sign-ups than the existing design. 1,000 users were exposed to the original webpage (the control group) and 1,000 to the new design (the treatment group), with each user's outcome recorded as a binary result — converted or not converted. The objective is to determine whether the difference in conversion rates between the two groups is statistically significant, or whether it could plausibly be explained by chance alone.
@@ -141,10 +139,12 @@ Across all four examples, the project demonstrates that rigorous A/B testing inv
 
 ## Next steps:
 The primary recommendations would include:
-* the new website should be deployed as there is evidence that it results in an increased volume of memberships being taken (higher conversion rate).
-* constantly track the conversion rates of the new website to understand if the rate achieved in the test is reflected going forward, and understand any changes or trends over time
-* use a range of analytical techniques, potentially including time-series analysis and comparative analysis methods on new observations recorded
-* other website designs are tested to see if they produce even greater conversion rates
+* **Deploy the new webpage design.** The statistical evidence is clear and the business case is well-supported: the treatment group delivered a 50% relative lift in conversion rate, the result is robust to assumption testing, and the confidence intervals for the two groups do not overlap. Live conversion rates should be monitored continuously following deployment to confirm that the test-phase performance is reflected in production, and to detect any drift over time that may warrant re-evaluation.
+* **Deploy the new app onboarding flow.** The 10 percentage point improvement in 7-day retention represents a medium effect — stronger in practical terms than the website result — and the statistical evidence is equally clear. Retention analysis should be extended beyond the 7-day window to understand whether the improvement persists at 14 and 30 days, and downstream engagement metrics such as session frequency and in-app activity should be tracked to assess the longer-term value of retained users.
+* **Conduct a follow-up email test between Variants B and C.** The pairwise analysis confirmed only that Variant C significantly outperforms Variant A. The B vs C comparison returned p ≈ 0.069, which fell short of the Bonferroni-corrected threshold. A dedicated two-variant test between B and C, with sample size determined by a power calculation for a 5 percentage point effect, would resolve this ambiguity and confirm whether Variant C is genuinely the optimal subject line or whether B and C are effectively equivalent.
+* **Incorporate segmentation analysis.** Each of the three tests in this project treats its user population as homogeneous. In practice, conversion and retention effects may vary significantly across user segments — by acquisition channel, device type, geographic region, or demographic group. Segment-level analysis would identify whether the aggregate results mask stronger or weaker effects within specific groups, enabling more targeted deployment decisions.
+* **Apply power analysis as a standard prerequisite.** The power curve in Example 4 confirms that the sample sizes used here were adequate, but this should be treated as a general discipline rather than a retrospective check. For any future test, the minimum required sample size should be calculated in advance from a realistic estimate of the baseline rate and the smallest lift considered commercially meaningful. Running a test that is underpowered risks dismissing genuine improvements as non-significant.
+* **Consider iterative testing and longer-term optimisation.** The current results represent a single round of testing for each scenario. A structured programme of iterative A/B tests — progressively refining webpage design, email content, and onboarding flow — would compound the gains from each individual test and build a richer evidence base for product decisions over time.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
