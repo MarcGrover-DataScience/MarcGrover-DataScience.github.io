@@ -97,7 +97,9 @@ The 95% confidence intervals for the true conversion rates were calculated as 9.
 
 ### Example 2: Email Campaign A/B/C Test
 
-Three email subject line variants were tested across 500 recipients each, recording open rates of 15% (Variant A), 20% (Variant B), and 25% (Variant C). The omnibus chi-squared test was significant, confirming that at least one variant performs differently from the others. Bonferroni-corrected pairwise comparisons (adjusted α = 0.0167) were then conducted across all three variant pairs. The A vs C comparison, representing the largest difference of 10 percentage points, returned a significant result. The adjacent comparisons (A vs B and B vs C), each spanning a 5 percentage point gap, are shown with their exact p-values in the chart. **Plot 5** presents the open rates for all three variants as a bar chart with significance brackets annotated above each pair, clearly identifying which comparisons meet the corrected threshold and which do not.
+Three email subject line variants were tested across 500 recipients each, recording open rates of 15% (Variant A), 20% (Variant B), and 25% (Variant C). The omnibus chi-squared test was significant, confirming that the three variants do not perform equivalently - (χ² ≈ 15.625, p ≈ 0.0001).
+
+Bonferroni-corrected pairwise comparisons (adjusted α = 0.0167) were then conducted across all three variant pairs. Only the A vs C comparison reached the corrected significance threshold (χ² ≈ 15.01, p ≈ 0.0001), reflecting a 10 percentage point difference between the weakest and strongest performers. The A vs B and B vs C comparisons, each spanning a 5 percentage point gap, returned p-values of approximately 0.046 and 0.069 respectively — both borderline at the unadjusted α = 0.05 level but falling short of the Bonferroni-corrected threshold. **Plot 5** presents the open rates for all three variants as a bar chart with significance brackets annotated above each pair, clearly distinguishing the one significant comparison from the two that are not.
 
 ![plot_05_email_open_rates_pairwise](plot_05_email_open_rates_pairwise.png)
 
@@ -113,7 +115,29 @@ Given a baseline conversion rate of 11% and a target rate of 16%, the minimum re
 
 ## Conclusions:
 
+### Example 1: Website Conversion Rate
 
+The chi-squared test provides clear statistical evidence that the new webpage design outperforms the original in generating membership sign-ups. The result is highly significant and robust — the conclusion holds with and without Yates' continuity correction, and the non-overlapping 95% confidence intervals provide an independent confirmation that the difference is unlikely to reflect sampling variation.
+
+The Cramér's V of 0.0826 warrants careful interpretation. Taken in isolation, a value below 0.1 is classified as a small effect, which might appear to undermine the strength of the finding. However, effect size classifications are context-free, and in a commercial setting a 50% relative lift in conversion rate — from 12% to 18% — has the potential to be highly material. A business converting 1,000 visitors per day would see an additional 60 sign-ups daily from this change alone. The correct framing of Cramér's V here is not that the effect is unimportant, but that the improvement is modest relative to the total population — the majority of users in both groups did not convert. The recommendation to migrate to the new webpage design is well-supported by the evidence, with the expectation that ongoing tracking of live conversion rates will confirm whether the test-phase performance is sustained.
+
+### Example 2: Email Campaign
+
+The omnibus chi-squared test established that the three subject line variants do not perform equivalently, but it is the Bonferroni-corrected pairwise comparisons that deliver the actionable finding: Variant C, with a 25% open rate, is the strongest performer. This example illustrates an important principle in multi-variant testing — reporting only the omnibus result would identify that a difference exists without identifying what to do about it. The post-hoc analysis is not optional; it is the step that converts a statistically interesting result into a clear deployment decision. It also demonstrates why multiple testing correction matters: running three pairwise tests at α = 0.05 without adjustment would inflate the probability of at least one false positive to approximately 14%, compared to the controlled 5% achieved with Bonferroni correction.
+
+### Example 3: Mobile App Onboarding
+
+The pairwise analysis yields a conclusion that is more nuanced than a simple ranking of open rates might suggest. Variant C is statistically confirmed to outperform Variant A, with a 10 percentage point difference that is highly significant even after correction for multiple comparisons. However, neither the A vs B nor the B vs C comparison reaches the Bonferroni-corrected threshold — meaning the data does not statistically confirm that Variant C outperforms Variant B, nor that Variant B outperforms Variant A. The observed differences between adjacent variants are real in the data but are not large enough relative to the sample size to rule out chance at the corrected significance level.
+
+The practical recommendation is nonetheless to deploy Variant C: it is the only variant with a statistically confirmed superiority over another, and its 25% open rate is the highest observed. If distinguishing between B and C is commercially important, a follow-up test with a larger sample — informed by a power calculation for a 5 percentage point effect — would be the appropriate next step. This example also illustrates precisely why Bonferroni correction matters: without it, all three pairwise comparisons would appear significant at α = 0.05, overstating the confidence with which the variants can be ranked.
+
+### Example 4: Study Design and Power
+
+The power analysis reinforces a principle that applies to all three preceding examples: the reliability of a statistical conclusion depends not only on the test applied but on whether the study was designed with sufficient sample size to detect the effect of interest in the first place. With a minimum requirement of 733 observations per group and an actual sample of 1,000, Example 1 was comfortably powered. Had the sample been smaller — say, 400 per group — the same true difference in conversion rates may not have reached significance, and a genuine improvement could have been incorrectly dismissed. Power analysis should therefore be treated as a prerequisite to data collection, not a retrospective check, and the power curve demonstrates clearly how the return on additional observations diminishes once the 80% threshold is reached.
+
+### Broader Observations
+
+Across all four examples, the project demonstrates that rigorous A/B testing involves considerably more than running a single chi-squared test and reading a p-value. Assumption checking, effect size quantification, confidence interval estimation, multiple testing correction, and power analysis each contribute a distinct layer of analytical confidence — and together they produce findings that are both statistically defensible and interpretable in a business context. The consistent application of this framework, regardless of the sector or metric being tested, is what distinguishes analysis that genuinely supports decision-making from analysis that merely reports numbers.
 
 ## Next steps:
 The primary recommendations would include:
