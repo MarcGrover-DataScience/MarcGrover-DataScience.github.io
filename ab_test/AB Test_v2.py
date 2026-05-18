@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency, chi2
 from scipy import stats
+from scipy.stats import norm as sp_norm
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -574,6 +575,87 @@ print(f"  Target conversion rate: {target_rate * 100:.1f}%")
 print(f"  Relative lift: {((target_rate / baseline_rate - 1) * 100):.1f}%")
 print(f"\nMinimum sample size per group: {min_n:,}")
 print(f"Total participants needed: {min_n * 2:,}")
+
+# Visualisation 6: Statistical Power Curve
+# Shows how statistical power (probability of correctly detecting a true effect) increases as sample size grows,
+# given the baseline and target conversion rates defined above.
+# The minimum required sample size and the actual sample size used are both marked,
+# providing immediate visual confirmation that the study was adequately powered.
+
+
+
+def compute_power(p1, p2, n, alpha=0.05):
+    """
+    Compute statistical power for a two-proportion chi-squared test
+    given sample size n per group.
+
+    Parameters:
+    -----------
+    p1     : float  — baseline conversion rate (control)
+    p2     : float  — expected conversion rate (treatment)
+    n      : int    — sample size per group
+    alpha  : float  — significance level (default 0.05, two-sided)
+
+    Returns:
+    --------
+    float : statistical power (0 to 1)
+    """
+    p_pooled = (p1 + p2) / 2
+    z_alpha = sp_norm.ppf(1 - alpha / 2)
+    effect = abs(p2 - p1)
+    se_null = np.sqrt(2 * p_pooled * (1 - p_pooled) / n)
+    se_alt = np.sqrt((p1 * (1 - p1) + p2 * (1 - p2)) / n)
+    z_power = (effect - z_alpha * se_null) / se_alt
+    return sp_norm.cdf(z_power)
+
+
+# Compute power across a range of sample sizes
+sample_sizes = np.arange(50, 2001, 10)
+power_values = [compute_power(baseline_rate, target_rate, n) * 100
+                for n in sample_sizes]
+
+# Power at the actual sample size used in Example 1 (n=1,000 per group)
+actual_n = 1000
+power_at_actual_n = compute_power(baseline_rate, target_rate, actual_n) * 100
+power_at_min_n = compute_power(baseline_rate, target_rate, min_n) * 100
+
+print(f"Power at minimum required sample size (n={min_n}):  {power_at_min_n:.1f}%")
+print(f"Power at actual sample size (n={actual_n}):          {power_at_actual_n:.1f}%")
+
+fig, ax = plt.subplots(figsize=(10, 6))
+
+ax.plot(sample_sizes, power_values, color='steelblue', linewidth=2,
+        label='Statistical Power')
+ax.axhline(y=80, color='#e74c3c', linestyle='--', linewidth=1.5,
+           label='80% power threshold (conventional minimum)')
+ax.axvline(x=min_n, color='slateblue', linestyle=':', linewidth=1.8,
+           label=f'Minimum required n = {min_n} per group')
+ax.axvline(x=actual_n, color='seagreen', linestyle='-.', linewidth=1.8,
+           label=f'Actual sample n = {actual_n:,} per group')
+
+# Mark power at minimum required n
+ax.scatter([min_n], [power_at_min_n], color='slateblue', zorder=5, s=60)
+ax.text(min_n + 20, power_at_min_n - 4, f'{power_at_min_n:.1f}%',
+        color='slateblue', fontsize=9, fontweight='bold')
+
+# Mark power at actual n
+ax.scatter([actual_n], [power_at_actual_n], color='seagreen', zorder=5, s=60)
+ax.text(actual_n + 20, power_at_actual_n - 4, f'{power_at_actual_n:.1f}%',
+        color='seagreen', fontsize=9, fontweight='bold')
+
+ax.set_xlabel('Sample Size per Group (n)', fontsize=11)
+ax.set_ylabel('Statistical Power (%)', fontsize=11)
+ax.set_title(f'Statistical Power Curve\n'
+             f'Detecting a lift from {baseline_rate * 100:.0f}% to {target_rate * 100:.0f}% '
+             f'conversion rate  (α = 0.05, two-sided)',
+             fontsize=12, fontweight='bold')
+ax.legend(fontsize=9, loc='lower right')
+ax.set_ylim(0, 105)
+ax.set_xlim(0, max(sample_sizes) + 50)
+ax.grid(alpha=0.3, linestyle='--')
+plt.tight_layout()
+plt.savefig('plot_06_power_curve.png', dpi=300, bbox_inches='tight')
+plt.show()
 
 # ============================================================================
 # SUMMARY AND BEST PRACTICES
