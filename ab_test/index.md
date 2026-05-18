@@ -68,13 +68,9 @@ The workflow was developed in Python using NumPy and Pandas for data constructio
 
 ## Results:
 
-### Hypothesis Test:  
+### Example 1: Website Conversion Rate A/B Test
 
-The data being used for the A/B test contains 1,000 observations for each group, where 18% of users converted in the treatment group and 12% of users converted in the control group.
-
-![conversion](plot_01_ab_conversion.png)
-
-This data was used to create the contingency table:
+The dataset comprised 1,000 observations per group. The control group recorded a 12% conversion rate (120 out of 1,000 users) and the treatment group 18% (180 out of 1,000), representing an absolute difference of 6 percentage points and a relative lift of 50%.  This data was used to create the contingency table:
 
 ```
 Converted   No  Yes
@@ -83,50 +79,35 @@ Control    880  120
 Treatment  820  180
 ```
 
-The chi-squared test was applied to the data, with the null hypothesis that there is no variance between the control and treatment groups, with the significance level (alpha) equal to 0.05.  
+All four assumption checks were satisfied: observations are independent by design, all expected cell frequencies exceeded the minimum threshold of 5, and the chi-squared result was confirmed as robust — the conclusion held with and without Yates' continuity correction applied.
 
-The result of the chi-squared test was a p_value of 0.00022, and as this is <0.05 we can reject the null hypothesis and provide evidence that there is a statistically significant difference in conversion rates between the 2 groups.
+The chi-squared test returned a p-value of 0.00022, well below the α = 0.05 threshold, providing strong evidence to reject the null hypothesis - that there is no statistical difference between the control and treatment groups. There is a statistically significant difference in conversion rates between the two webpage designs. Cramér's V was calculated at 0.0826, indicating a small effect size — a result that is statistically significant but modest in magnitude, which is discussed further in the Conclusions.
 
-An output of the chi-squared test was the expected frequencies table, which represents the expected number of conversions should there be no difference in conversion rates between groups.
+The 95% confidence intervals for the true conversion rates were calculated as 9.99% – 14.01% for the control group and 15.62% – 20.38% for the treatment group. Critically, these intervals do not overlap, providing additional confidence that the observed difference reflects a genuine underlying effect.
 
-```
-Converted     No    Yes
-Group                  
-Control    850.0  150.0
-Treatment  850.0  150.0
-```
+**Plot 1** presents a bar chart of conversion rates by group, providing a direct visual comparison of the 12% and 18% rates. **Plot 2** displays the same rates as a horizontal bar chart with 95% confidence interval error bars, making the non-overlapping ranges immediately apparent. **Plot 3** shows a 100% stacked proportion chart, illustrating the full composition of each group — converted and not converted — so the scale of the shift between control and treatment is visible in context. **Plot 4** places the test statistic on the theoretical chi-squared distribution, with the critical value and rejection region marked, confirming the result sits well into the tail of the distribution under the null hypothesis.
 
-Using Cramér's V which is a measure of association between two nominal variables, returning a number between 0 and 1 that indicates how strongly two categorical variables are associated.  The calculated Cramér's V was 0.0826, which is interpretted as being a 'small' effect, i.e. moving from the control to treatment group will return a statistically significant difference but the scale of that effect is small.  It should be noted that this is a subjective effect 'size', and may well produce a meaningful and positive business improvement, and as such the Cramér's V is to be interpreted within the business context.  As an example, increasing conversion rates by a few percent may have significant business benefit and meet the goals of the web-site development.
+![plot_01_ab_conversion](plot_01_ab_conversion.png)
 
-Given the data available, we want to determine the range of values that the true conversion rates are in, with 95% confidence.  From the data we cannot be sure that the true conversion rate via the new web page is exactly 18%.
-
-It was determined that the 95% confidence intervals for true conversion rates are:  
-
-Control Group: 95% Confidence Interval of Conversion Rate: (9.99%, 14.01%)
-
-Treatment Group: 95% Confidence Interval of Conversion Rate: (15.62%, 20.38%)
-
-Visualising these ranges on a chart to support interpretation, and further confirm that the conversion rates improve for the new web-site design:  
-
-![conversion_ci](plot_02_ab_conversion_ci.png)
-
-### Sample size and power analysis:  
-
-When setting up A/B tests and recording observations, it is important to determine the sample size required to meaningfully determine if there is a difference between the groups.  
-
-Power refers to the probability that your test will detect an effect when there actually is one.  Typically this is 80%, i.e. an 80% chance of detecting a real effect should one exist.  More formally:  
-
-Power = Probability of rejecting the null hypothesis when it's actually false
-
-Note that it is common to set the significance level (alpha) to 0.05, which is the chance of a false positive.
-
-Taking the example above, the business previously had data to imply that the conversion rate on the old website was 11%, and was hoping for a conversion rate of up to 16%.  Using these values, it was determined that a sample size of at least 733 observations per group was required.  The data analysed has 1,000 observations per groups, and as such we can be confident that the sample size was sufficiently large to detect the approximated differences in conversion rates between websites.
+![plot_02_ab_conversion_ci](plot_02_ab_conversion_ci.png)
 
 ![plot_03_conversion_stacked](plot_03_conversion_stacked.png)
 
 ![plot_04_chi2_distribution](plot_04_chi2_distribution.png)
 
+### Example 2: Email Campaign A/B/C Test
+
+Three email subject line variants were tested across 500 recipients each, recording open rates of 15% (Variant A), 20% (Variant B), and 25% (Variant C). The omnibus chi-squared test was significant, confirming that at least one variant performs differently from the others. Bonferroni-corrected pairwise comparisons (adjusted α = 0.0167) were then conducted across all three variant pairs. The A vs C comparison, representing the largest difference of 10 percentage points, returned a significant result. The adjacent comparisons (A vs B and B vs C), each spanning a 5 percentage point gap, are shown with their exact p-values in the chart. **Plot 5** presents the open rates for all three variants as a bar chart with significance brackets annotated above each pair, clearly identifying which comparisons meet the corrected threshold and which do not.
+
 ![plot_05_email_open_rates_pairwise](plot_05_email_open_rates_pairwise.png)
+
+### Example 3: Mobile App Feature Test
+
+800 users were assigned to each version of the app. The old onboarding flow recorded a 7-day retention rate of 30% (240 out of 800) and the new flow 40% (320 out of 800), an absolute improvement of 10 percentage points and a relative lift of 33.3%. The chi-squared test was significant (p < 0.05), and Cramér's V indicated a medium effect — a meaningfully larger practical magnitude than that observed in Example 1, reflecting the greater scale of the difference relative to the sample size.
+
+### Example 4: Sample Size and Power Analysis
+
+Given a baseline conversion rate of 11% and a target rate of 16%, the minimum required sample size to achieve 80% power at α = 0.05 was calculated at 733 observations per group (1,466 in total). The actual sample used in Example 1 was 1,000 per group, exceeding this threshold and confirming the study was adequately powered to detect the anticipated difference. **Plot 6** shows the power curve across a range of sample sizes from 50 to 2,000 per group, with the 80% power threshold, minimum required sample, and actual sample size all marked. The curve demonstrates how power increases steeply at smaller sample sizes before levelling off, illustrating the diminishing return of collecting observations beyond what is needed to reliably detect the effect of interest.
 
 ![plot_06_power_curve](plot_06_power_curve.png)
 
