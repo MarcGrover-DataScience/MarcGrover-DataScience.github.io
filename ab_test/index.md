@@ -28,21 +28,21 @@ Taken together, the project demonstrates not only the correct implementation of 
 
 ## Application:  
 
-Why use the chi-squared test? The chi-squared t-test and the 2-sample test can both be used in A/B testing, but they are appropriate for different types of metrics and research questions.  The best test depends entirely on the type of data you are analysing.  
+The appropriate statistical test for an A/B test depends entirely on the nature of the outcome being measured. When the outcome is **categorical** — that is, each observation falls into one of a discrete set of classes — the chi-squared test of independence is the correct choice. This project analyses a binary outcome (converted or not converted), making the chi-squared test the natural fit: it tests whether the distribution of a categorical variable differs significantly between two or more independent groups.
 
-The chi-squared test of independence is used to compare the proportions or frequencies of a categorical variable between two groups.  As such it is applicable to cases such as this project where the data categorical/discrete, i.e. testing if the conversion rate (proportion of users who converted) is significantly different between the Control (A) and Variant (B).
+The alternative in A/B testing is the **independent two-sample t-test**, which is used when the outcome is **continuous** — for example, comparing the average time spent on a page, average order value, or average session duration between a control and treatment group. The t-test compares group means and assumes the underlying variable is measured on a numerical scale. Applying it to a binary outcome such as converted/not converted would be incorrect.
 
-By contrast, the independent 2-sample t-test is used to compare the means (averages) of a continuous variable between two independent groups (A and B).
+It is also worth noting that the chi-squared test extends naturally beyond the standard two-group (A/B) design to multi-variant tests involving three or more groups simultaneously — such as the three-variant email campaign tested in this project. In these cases, the omnibus chi-squared result indicates whether at least one group differs from the others, but does not identify which specific pairs are responsible. Post-hoc pairwise comparisons with a multiple testing correction — Bonferroni correction is applied here — are then required to answer that question precisely, while controlling the inflated false positive risk that arises from running several tests at once.
 
-A/B testing is used to compare proportions or frequencies of a categorical variable is foundational to modern data-driven decision-making, particularly in optimizing digital experiences and quality control.
+Chi-squared A/B testing is foundational to data-driven decision-making across many sectors, particularly wherever business decisions hinge on a binary or categorical outcome.
 
-💻 In the **technology** sector, this is the most common use of A/B testing, focusing on user behaviour that results in a binary outcome (success/failure).  Examples include, conversion, click-through rates, email-open rates.
+💻 In **technology**, A/B testing is ubiquitous in product development and digital marketing. Teams continuously test changes to user interfaces, page layouts, call-to-action wording, and onboarding flows to determine which version drives better engagement. Outcomes such as sign-up conversion, feature adoption, and click-through rate are all binary in nature, making chi-squared the standard analytical tool. The ability to attribute a change in conversion rate to a specific design decision — with statistical confidence — is what separates data-driven product development from intuition-led guesswork.
 
-🛍️ **Retail** uses these tests to optimize both online and in-store campaign effectiveness - offer redemption rates, cart abandonment rate, packing preference.
+🛍️ In **retail**, both online and physical channels use this framework to assess the effectiveness of promotional campaigns, pricing experiments, and packaging changes. A retailer might test whether a redesigned product page increases add-to-basket rate, whether a targeted discount email outperforms a generic one, or whether a revised store layout changes the proportion of customers who reach a particular aisle. Each of these produces a binary outcome (acted or did not act), and chi-squared testing provides the rigour to distinguish genuine improvements from random variation in customer behaviour.
 
-🏦 In **finance**, these tests are crucial for improving the efficiency of lead generation and customer onboarding - Application Submission Rate, Lead-to-Client Conversion.
+🏦 In **financial services**, chi-squared A/B testing is applied throughout the customer acquisition and onboarding journey. Lenders test whether different application form designs affect submission completion rates; wealth managers test whether varying the framing of investment risk disclosures influences the proportion of clients who proceed to the next stage; and insurance providers test whether personalised quote presentations improve policy uptake. In a sector where regulatory and compliance constraints limit how aggressively firms can iterate, statistical rigour in evaluating even small incremental changes carries significant commercial value.
 
-🏭 In **manufacturing**, this A/B testing framework is used offline to compare the effectiveness of two production conditions on a binary quality outcome - Defect Rate Comparison, Pass/Fail Inspection Rates.
+🏭 In **manufacturing and quality control**, the chi-squared framework is applied offline to compare production conditions rather than digital experiences. A manufacturer might test whether a change to process temperature, raw material supplier, or equipment setting alters the proportion of units that pass or fail a quality inspection. Because the outcome is categorical (pass/fail, defective/non-defective), chi-squared is the appropriate test — and given the cost implications of both false positives (unnecessary process changes) and false negatives (undetected quality problems), rigorous assumption checking and adequate sample sizing are particularly important in this context.
 
 ## Methodology:  
 
@@ -118,7 +118,7 @@ Taking the example above, the business previously had data to imply that the con
 
 ![plot_06_power_curve](plot_06_power_curve.png)
 
-### Conclusions:
+## Conclusions:
 
 
 
