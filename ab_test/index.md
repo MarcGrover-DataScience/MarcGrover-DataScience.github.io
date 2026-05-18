@@ -112,6 +112,12 @@ Taking the example above, the business previously had data to imply that the con
 
 ![plot_03_conversion_stacked](plot_03_conversion_stacked.png)
 
+![plot_04_chi2_distribution](plot_04_chi2_distribution.png)
+
+![plot_05_email_open_rates_pairwise](plot_05_email_open_rates_pairwise.png)
+
+![plot_06_power_curve](plot_06_power_curve.png)
+
 ### Conclusions:
 
 
