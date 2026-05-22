@@ -123,11 +123,12 @@ The Cramér's V of 0.0826 warrants careful interpretation. Taken in isolation, a
 
 The omnibus chi-squared test established that the three subject line variants do not perform equivalently, but it is the Bonferroni-corrected pairwise comparisons that deliver the actionable finding: Variant C, with a 25% open rate, is the strongest performer. This example illustrates an important principle in multi-variant testing — reporting only the omnibus result would identify that a difference exists without identifying what to do about it. The post-hoc analysis is not optional; it is the step that converts a statistically interesting result into a clear deployment decision. It also demonstrates why multiple testing correction matters: running three pairwise tests at α = 0.05 without adjustment would inflate the probability of at least one false positive to approximately 14%, compared to the controlled 5% achieved with Bonferroni correction.
 
-### Example 3: Mobile App Onboarding
-
 The pairwise analysis yields a conclusion that is more nuanced than a simple ranking of open rates might suggest. Variant C is statistically confirmed to outperform Variant A, with a 10 percentage point difference that is highly significant even after correction for multiple comparisons. However, neither the A vs B nor the B vs C comparison reaches the Bonferroni-corrected threshold — meaning the data does not statistically confirm that Variant C outperforms Variant B, nor that Variant B outperforms Variant A. The observed differences between adjacent variants are real in the data but are not large enough relative to the sample size to rule out chance at the corrected significance level.
 
 The practical recommendation is nonetheless to deploy Variant C: it is the only variant with a statistically confirmed superiority over another, and its 25% open rate is the highest observed. If distinguishing between B and C is commercially important, a follow-up test with a larger sample — informed by a power calculation for a 5 percentage point effect — would be the appropriate next step. This example also illustrates precisely why Bonferroni correction matters: without it, all three pairwise comparisons would appear significant at α = 0.05, overstating the confidence with which the variants can be ranked.
+
+### Example 3: Mobile App Onboarding
+
 
 ### Example 4: Study Design and Power
 
