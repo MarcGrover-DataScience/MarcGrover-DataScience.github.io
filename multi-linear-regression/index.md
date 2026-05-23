@@ -18,10 +18,10 @@ The model generated explained 47.7% of variance of the tip value, with a Mean Ab
 
 The business application of MLR is centred on forecasting (predicting future values) and causal analysis (quantifying the impact of multiple factors on a single outcome).  Examples of uses across different sectors include (though this is a far from complete list)
 
-🏦 In **finance**, MLR is essential for risk modelling, asset valuation, financial forecasting, and understanding market drivers.
-🛍️ **Retail** leverages MLR primarily for sophisticated demand forecasting, pricing strategies, customer life valuations and marketing budget allocation.
-💻 In **technology**, MLR is vital for optimizing product performance, user retention, and managing infrastructure costs. 
-🏭 In **manufacturing** MLR is fundamental to Quality Control (QC) and Predictive Maintenance by modelling the complex interplay of process variables.
+🏦 In **finance**, MLR is essential for risk modelling, asset valuation, financial forecasting, and understanding market drivers.  
+🛍️ **Retail** leverages MLR primarily for sophisticated demand forecasting, pricing strategies, customer life valuations and marketing budget allocation.  
+💻 In **technology**, MLR is vital for optimizing product performance, user retention, and managing infrastructure costs.  
+🏭 In **manufacturing** MLR is fundamental to Quality Control (QC) and Predictive Maintenance by modelling the complex interplay of process variables.  
 
 ## Methodology:  
 
@@ -198,4 +198,4 @@ Recommendations include:
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/Multi-Linear-Regression-Tips.py)
+[View the Python Script](/Multi-Linear-Regression-Tips_v2.py)
