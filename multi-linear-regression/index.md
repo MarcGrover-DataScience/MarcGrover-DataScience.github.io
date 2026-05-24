@@ -20,12 +20,47 @@ The project confirms that total bill amount is the strongest and statistically s
 
 ## Application:  
 
-The business application of MLR is centred on forecasting (predicting future values) and causal analysis (quantifying the impact of multiple factors on a single outcome).  Examples of uses across different sectors include (though this is a far from complete list)
+Multiple Linear Regression models a continuous outcome as a simultaneous function of two or more independent variables, producing a fitted equation that quantifies the independent contribution of each predictor — that is, its effect on the outcome holding all other variables constant. This dual capability — prediction and causal decomposition — distinguishes MLR from many alternatives. Unlike black-box models, MLR produces interpretable, statistically testable coefficients for each feature, enabling analysts to answer not just what an outcome will be, but which factors drive it and by how much. The formal statistical framework that surrounds it — significance testing of individual coefficients, F-statistic assessment of overall model fit, adjusted R² penalising redundant predictors, and assumption diagnostics including normality, homoscedasticity, and multicollinearity testing — makes MLR particularly well-suited to regulated, auditable, and decision-critical contexts where transparency and accountability are as important as predictive accuracy. It is routinely applied as a rigorous baseline against which more complex models are benchmarked.
 
-🏦 In **finance**, MLR is essential for risk modelling, asset valuation, financial forecasting, and understanding market drivers.  
-🛍️ **Retail** leverages MLR primarily for sophisticated demand forecasting, pricing strategies, customer life valuations and marketing budget allocation.  
-💻 In **technology**, MLR is vital for optimizing product performance, user retention, and managing infrastructure costs.  
-🏭 In **manufacturing** MLR is fundamental to Quality Control (QC) and Predictive Maintenance by modelling the complex interplay of process variables.  
+The business application of MLR spans any domain where a continuous outcome is driven by multiple measurable factors. Practical examples showing where MLR provides clear analytical value include:
+
+🏦 **Finance**:
+
+**Mortgage and loan pricing**: Lenders model expected credit loss as a function of borrower characteristics — loan-to-value ratio, income, credit score, employment type — with MLR coefficients quantifying the independent risk contribution of each factor and providing a directly auditable basis for pricing decisions.
+
+**Equity factor modelling**: Analysts regress asset returns against macroeconomic and market factors (market return, interest rate sensitivity, sector index) to estimate factor exposures and decompose portfolio risk — the analytical foundation of multifactor equity models.
+
+**Insurance premium setting**: Actuaries quantify the independent contribution of age, vehicle type, claims history, and geography to expected claim cost, producing premium structures that are statistically defensible and regulatorily transparent.
+
+🏠 **Real estate**:
+
+**Hedonic property valuation**: MLR is the classical tool for decomposing property prices into the contribution of individual characteristics — floor area, number of bedrooms, distance to transport links, energy rating — with coefficients directly interpretable as the market value of each attribute.
+
+**Rental yield forecasting**: Property investors and analysts model gross yield against location indices, occupancy rates, and property age to identify mispriced assets and support acquisition decisions.
+
+🛍️ **Retail and marketing**:
+
+**Marketing mix modelling**: MLR is the backbone of MMM — quantifying the independent return on investment of each marketing channel (TV, paid digital, in-store promotions) on sales volume, enabling budget reallocation decisions grounded in estimated marginal contribution rather than correlation.
+
+**Price and promotional elasticity**: Retailers model sales volume as a function of own price, competitor price, and promotional intensity, using the fitted coefficients to simulate the revenue impact of pricing changes before implementation.
+
+🏥 **Healthcare**:
+
+**Clinical outcome prediction**: Hospital systems model patient length of stay or readmission probability against admission characteristics — age, diagnosis code, comorbidity count, admission route — to support capacity planning and target early-intervention resources at high-risk patients.
+
+**Health economics and policy**: Epidemiologists quantify the independent contribution of lifestyle, socioeconomic, and demographic factors to health outcomes at population level, providing a statistically controlled evidence base for public health policy design.
+
+🏭 **Manufacturing**:
+
+**Process yield optimisation**: Quality engineers model defect rate or product yield as a function of controllable process parameters — temperature, pressure, line speed, operator shift — using the regression coefficients to identify which variables most influence output quality and define optimal operating ranges.
+
+**Predictive maintenance scheduling**: Maintenance teams regress equipment degradation rate against operational metrics (vibration amplitude, temperature variance, run hours) to predict failure risk and schedule intervention before unplanned downtime occurs.
+
+💻 **Technology**:
+
+**Infrastructure cost modelling**: Engineering and finance teams regress cloud spend against product usage metrics — API call volume, active users, data storage consumption — to attribute costs accurately across services and forecast expenditure as the product scales.
+
+**Product analytics and retention**: Product teams quantify the independent effect of feature adoption, session frequency, and support contact rate on user retention or NPS, identifying the levers most worth investing in and those that are statistically inert.
 
 ## Methodology:  
 
