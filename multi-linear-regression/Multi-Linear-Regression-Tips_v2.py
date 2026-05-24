@@ -11,9 +11,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+from sklearn.model_selection import cross_val_score, KFold
 from scipy import stats
 from scipy.stats import shapiro
 import warnings
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import OLSInfluence
 warnings.filterwarnings('ignore')
 
 # Dataframe presentation configuration
@@ -87,7 +90,6 @@ df_model['time_dinner'] = (df_model['time'] == 'Dinner').astype(int)
 features = ['total_bill', 'size', 'time_dinner']
 X = df_model[features]
 y = df_model['tip']
-# y = np.sqrt(df_model['tip'])
 
 print("\nFeature Statistics (independent variables):")
 print(X.describe())
@@ -543,7 +545,6 @@ else:
 # ============================================================================
 
 print("\n14. FEATURE IMPORTANCE RANKING")
- 
 
 feature_importance = pd.DataFrame({
     'Feature': X.columns,
@@ -552,8 +553,9 @@ feature_importance = pd.DataFrame({
 }).sort_values('Abs_Importance', ascending=False)
 
 print("\nFeature Ranking (by importance):")
-for idx, row in feature_importance.iterrows():
-    print(f"  {idx+1}. {row['Feature']}: {row['Coefficient']:.3f}")
+
+for rank, (_, row) in enumerate(feature_importance.iterrows(), start=1):
+    print(f"  {rank}. {row['Feature']}: {row['Coefficient']:.3f}")
 
 plt.figure(figsize=(10, 6))
 sns.barplot(data=feature_importance, y='Feature', x='Abs_Importance', palette='viridis')
@@ -562,6 +564,338 @@ plt.xlabel('Importance (Absolute Coefficient Value)', fontsize=12)
 plt.tight_layout()
 plt.savefig("mlr_feat_imp.png", dpi=150)
 plt.show()
+
+# ============================================================================
+# 14A: STATSMODELS OLS - STATISTICAL SIGNIFICANCE OF COEFFICIENTS
+# ============================================================================
+
+print("\n14A. STATSMODELS OLS - COEFFICIENT SIGNIFICANCE TESTING")
+
+# Fit OLS on UNSCALED features (statsmodels works in original units, giving directly interpretable coefficient magnitudes)
+X_ols = sm.add_constant(X)   # adds intercept column
+ols_model = sm.OLS(y, X_ols).fit()
+
+print("\nOLS Regression Summary:")
+print(ols_model.summary())
+
+# Extract and display the key elements cleanly
+print("\nCoefficient Significance Summary:")
+print(f"{'Feature':<15} {'Coef':>8} {'Std Err':>9} {'t-stat':>8} {'p-value':>9} {'Sig':>5}")
+print("-" * 60)
+
+param_names = ['const', 'total_bill', 'size', 'time_dinner']
+
+for name in param_names:
+    coef   = ols_model.params[name]
+    se     = ols_model.bse[name]
+    tstat  = ols_model.tvalues[name]
+    pval   = ols_model.pvalues[name]
+    sig    = '***' if pval < 0.001 else '**' if pval < 0.01 else '*' if pval < 0.05 else 'n.s.'
+    display_name = 'Intercept' if name == 'const' else name
+    print(f"{display_name:<15} {coef:>8.4f} {se:>9.4f} {tstat:>8.3f} {pval:>9.4f} {sig:>5}")
+
+print("\nSignificance codes: *** p<0.001  ** p<0.01  * p<0.05  n.s. not significant")
+
+print(f"\nModel-level statistics:")
+print(f"  R²:          {ols_model.rsquared:.4f}")
+print(f"  Adjusted R²: {ols_model.rsquared_adj:.4f}")
+print(f"  F-statistic: {ols_model.fvalue:.3f}  (p = {ols_model.f_pvalue:.4e})")
+print(f"  AIC:         {ols_model.aic:.2f}")
+
+print("\nInterpretation (in original units, per unit increase in each variable):")
+tb_coef = ols_model.params['total_bill']
+sz_coef = ols_model.params['size']
+td_coef = ols_model.params['time_dinner']
+print(f"  total_bill:  +{tb_coef:.4f} per $1 increase in bill (holding others constant)")
+print(f"  size:        +{sz_coef:.4f} per additional person in party")
+print(f"  time_dinner:  {td_coef:+.4f} for dinner vs lunch sitting")
+
+# Coefficient confidence interval plot
+ci = ols_model.conf_int()
+ci.columns = ['lower', 'upper']
+ci['coef'] = ols_model.params
+ci_plot = ci.drop('const').copy()
+
+fig, ax = plt.subplots(figsize=(10, 5))
+features_plot = ci_plot.index.tolist()
+y_pos = range(len(features_plot))
+
+for i, feat in enumerate(features_plot):
+    low = ci_plot.loc[feat, 'lower']
+    high = ci_plot.loc[feat, 'upper']
+    coef = ci_plot.loc[feat, 'coef']
+    color = 'steelblue' if coef > 0 else 'tomato'
+    ax.plot([low, high], [i, i], color=color, linewidth=2.5, solid_capstyle='round')
+    ax.plot(coef, i, 'o', color=color, markersize=8, zorder=5)
+
+ax.axvline(x=0, color='black', linestyle='--', linewidth=1, alpha=0.6, label='No effect (zero)')
+ax.set_yticks(list(y_pos))
+ax.set_yticklabels(features_plot, fontsize=12)
+ax.set_xlabel('Coefficient value (original units) with 95% Confidence Interval', fontsize=12)
+ax.set_title('OLS Coefficient Estimates and 95% Confidence Intervals', fontsize=14, fontweight='bold')
+ax.legend(fontsize=11)
+ax.grid(True, alpha=0.3, axis='x')
+plt.tight_layout()
+plt.savefig("mlr_coef_ci.png", dpi=150)
+plt.show()
+
+print("\nHow to read this chart:")
+print("  - Each dot is the estimated coefficient; bars show the 95% confidence interval")
+print("  - If the interval crosses zero, the predictor is NOT statistically significant")
+print("  - Wider intervals indicate more uncertainty in the estimate")
+
+# ============================================================================
+# 14B: CROSS-VALIDATION
+# ============================================================================
+
+# PRIORITY: Significant. With only 244 observations, a single 80/20 split produces unreliable performance estimates (test set = 48 observations).
+# K-fold cross-validation gives a more robust, less split-dependent estimate.
+
+print("\n14B. CROSS-VALIDATION")
+
+kf = KFold(n_splits=10, shuffle=True, random_state=42)
+
+# Run CV on the unscaled pipeline (using Pipeline to apply scaling within each fold)
+from sklearn.pipeline import Pipeline
+
+cv_pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('model', LinearRegression())
+])
+
+cv_r2   = cross_val_score(cv_pipeline, X, y, cv=kf, scoring='r2')
+cv_mae  = cross_val_score(cv_pipeline, X, y, cv=kf, scoring='neg_mean_absolute_error')
+cv_rmse = cross_val_score(cv_pipeline, X, y, cv=kf, scoring='neg_root_mean_squared_error')
+
+print(f"\n10-Fold Cross-Validation Results:")
+print(f"{'Metric':<10} {'Mean':>8} {'Std Dev':>9} {'Min':>8} {'Max':>8}")
+print("-" * 47)
+print(f"{'R²':<10} {cv_r2.mean():>8.4f} {cv_r2.std():>9.4f} {cv_r2.min():>8.4f} {cv_r2.max():>8.4f}")
+print(f"{'MAE':<10} {(-cv_mae).mean():>8.4f} {(-cv_mae).std():>9.4f} {(-cv_mae).min():>8.4f} {(-cv_mae).max():>8.4f}")
+print(f"{'RMSE':<10} {(-cv_rmse).mean():>8.4f} {(-cv_rmse).std():>9.4f} {(-cv_rmse).min():>8.4f} {(-cv_rmse).max():>8.4f}")
+
+print(f"\nComparison with single train/test split:")
+print(f"  Single split R²:  {test_r2:.4f}")
+print(f"  10-fold CV R²:    {cv_r2.mean():.4f} ± {cv_r2.std():.4f}")
+
+# Visualise cross-validation R² distribution
+plt.figure(figsize=(10, 5))
+fold_labels = [f"Fold {i+1}" for i in range(len(cv_r2))]
+colors = ['steelblue' if r > cv_r2.mean() else 'tomato' for r in cv_r2]
+bars = plt.bar(fold_labels, cv_r2, color=colors, edgecolor='black', linewidth=0.7, alpha=0.85)
+plt.axhline(y=cv_r2.mean(), color='navy', linestyle='--', linewidth=2,
+            label=f'Mean R² = {cv_r2.mean():.4f}')
+plt.axhline(y=test_r2, color='green', linestyle=':', linewidth=2,
+            label=f'Single split R² = {test_r2:.4f}')
+plt.xlabel('Fold', fontsize=12)
+plt.ylabel('R² Score', fontsize=12)
+plt.title('10-Fold Cross-Validation: R² Score per Fold', fontsize=14, fontweight='bold')
+plt.legend(fontsize=11)
+plt.ylim(0, max(cv_r2.max(), test_r2) * 1.15)
+plt.grid(True, alpha=0.3, axis='y')
+plt.tight_layout()
+plt.savefig("mlr_cv_r2.png", dpi=150)
+plt.show()
+
+# ============================================================================
+# 14C: OUTLIER DETECTION - COOK'S DISTANCE
+# ============================================================================
+
+print("\n14C. OUTLIER DETECTION - COOK'S DISTANCE")
+
+influence = OLSInfluence(ols_model)
+cooks_d, _ = influence.cooks_distance
+
+n_obs = len(y)
+cooks_threshold = 4 / n_obs     # conventional threshold
+influential_idx = np.where(cooks_d > cooks_threshold)[0]
+
+print(f"\nCook's Distance Analysis:")
+print(f"  Threshold (4/n = 4/{n_obs}): {cooks_threshold:.4f}")
+print(f"  Observations above threshold: {len(influential_idx)}")
+
+if len(influential_idx) > 0:
+    print(f"\n  Influential observations:")
+    for i in influential_idx:
+        print(f"    Index {i}: Cook's D = {cooks_d[i]:.4f}  | "
+              f"total_bill = {X.iloc[i]['total_bill']:.2f}, "
+              f"tip = {y.iloc[i]:.2f}, "
+              f"tip% = {y.iloc[i]/X.iloc[i]['total_bill']*100:.1f}%")
+
+# Cook's Distance plot
+plt.figure(figsize=(12, 5))
+plt.stem(range(n_obs), cooks_d, markerfmt='o', linefmt='grey', basefmt=' ')
+plt.axhline(y=cooks_threshold, color='red', linestyle='--', linewidth=2,
+            label=f"Threshold (4/n = {cooks_threshold:.3f})")
+
+for i in influential_idx:
+    plt.annotate(f"Obs {i}", xy=(i, cooks_d[i]), xytext=(i+3, cooks_d[i]+0.005),
+                 fontsize=9, color='red')
+
+plt.xlabel('Observation Index', fontsize=12)
+plt.ylabel("Cook's Distance", fontsize=12)
+plt.title("Cook's Distance — Influential Observation Detection", fontsize=14, fontweight='bold')
+plt.legend(fontsize=11)
+plt.grid(True, alpha=0.3, axis='y')
+plt.tight_layout()
+plt.savefig("mlr_cooks_distance.png", dpi=150)
+plt.show()
+
+print("\nWhat Cook's Distance measures:")
+print("  - Combines leverage (unusual X values) and residual (poor prediction)")
+print("  - High Cook's D = removing this observation would substantially change the model")
+print(f"  - {len(influential_idx)} observation(s) exceed the 4/n threshold")
+
+# ============================================================================
+# 14D: TIP PERCENTAGE ANALYSIS
+# ============================================================================
+
+print("\n14D. TIP PERCENTAGE ANALYSIS")
+
+df_model['tip_pct'] = (df_model['tip'] / df_model['total_bill']) * 100
+
+print(f"\nTip Percentage Descriptive Statistics:")
+print(df_model['tip_pct'].describe().round(3))
+print(f"\nMedian tip percentage: {df_model['tip_pct'].median():.2f}%")
+
+# Distribution of tip percentage
+plt.figure(figsize=(10, 6))
+sns.histplot(df_model['tip_pct'], kde=True, bins=30, color='steelblue', edgecolor='black')
+plt.axvline(df_model['tip_pct'].mean(), color='red', linestyle='--', linewidth=2,
+            label=f"Mean: {df_model['tip_pct'].mean():.1f}%")
+plt.axvline(df_model['tip_pct'].median(), color='green', linestyle=':', linewidth=2,
+            label=f"Median: {df_model['tip_pct'].median():.1f}%")
+plt.xlabel('Tip Percentage (%)', fontsize=12)
+plt.ylabel('Frequency', fontsize=12)
+plt.title('Distribution of Tip as a Percentage of Total Bill', fontsize=14, fontweight='bold')
+plt.legend(fontsize=11)
+plt.grid(True, alpha=0.3, axis='y')
+plt.tight_layout()
+plt.savefig("mlr_tip_pct_hist.png", dpi=150)
+plt.show()
+
+# Tip percentage vs total bill — this reveals the heteroscedasticity visually
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df_model, x='total_bill', y='tip_pct', alpha=0.6, s=80)
+plt.axhline(y=df_model['tip_pct'].mean(), color='red', linestyle='--', linewidth=1.5,
+            label=f"Mean tip %: {df_model['tip_pct'].mean():.1f}%")
+plt.xlabel('Total Bill ($)', fontsize=12)
+plt.ylabel('Tip Percentage (%)', fontsize=12)
+plt.title('Tip Percentage vs Total Bill\n(Wide spread at low bills explains heteroscedasticity)',
+          fontsize=14, fontweight='bold')
+plt.legend(fontsize=11)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig("mlr_tip_pct_vs_bill.png", dpi=150)
+plt.show()
+
+print("\nKey insight:")
+print(f"  Tip % ranges from {df_model['tip_pct'].min():.1f}% to {df_model['tip_pct'].max():.1f}%")
+print("  The wide spread of tip % at low bill values is the visual signature")
+print("  of heteroscedasticity — variance is NOT constant across bill values.")
+print("  This motivates the square-root transformation of the target variable.")
+
+# ============================================================================
+# 14E: SQUARE ROOT TRANSFORMATION — COMPARISON MODEL
+# ============================================================================
+
+print("\n14E. SQUARE ROOT TRANSFORMATION — COMPARISON MODEL")
+
+print("\nMotivation: The Spearman test confirmed heteroscedasticity (non-constant variance).")
+print("A square-root transformation of the target variable can stabilise variance.")
+print("We now refit the model using sqrt(tip) as the target and compare performance.\n")
+
+y_sqrt = np.sqrt(y)
+
+X_train_sq, X_test_sq, y_train_sq, y_test_sq = train_test_split(
+    X, y_sqrt, test_size=0.2, random_state=42
+)
+
+scaler_sq = StandardScaler()
+X_train_sq_sc = scaler_sq.fit_transform(X_train_sq)
+X_test_sq_sc  = scaler_sq.transform(X_test_sq)
+
+model_sqrt = LinearRegression()
+model_sqrt.fit(X_train_sq_sc, y_train_sq)
+
+y_train_sq_pred = model_sqrt.predict(X_train_sq_sc)
+y_test_sq_pred  = model_sqrt.predict(X_test_sq_sc)
+
+# Back-transform predictions to original tip scale for comparable MAE/RMSE
+y_test_sq_pred_orig  = y_test_sq_pred ** 2
+y_train_sq_pred_orig = y_train_sq_pred ** 2
+
+train_sq_r2   = r2_score(y_train_sq, y_train_sq_pred)
+test_sq_r2    = r2_score(y_test_sq,  y_test_sq_pred)
+test_sq_mae   = mean_absolute_error(y_test.values, y_test_sq_pred_orig)
+test_sq_rmse  = np.sqrt(mean_squared_error(y_test.values, y_test_sq_pred_orig))
+
+# Re-run Spearman test on sqrt model residuals
+sq_test_residuals = y_test_sq - y_test_sq_pred
+sq_spearman_corr, sq_spearman_p = stats.spearmanr(y_test_sq_pred, np.abs(sq_test_residuals))
+
+print("Model comparison (test set):")
+print(f"{'Metric':<35} {'Original':>10} {'Sqrt Transform':>15}")
+print("-" * 62)
+print(f"{'R² (on respective target scale)':<35} {test_r2:>10.4f} {test_sq_r2:>15.4f}")
+print(f"{'MAE (original tip scale)':<35} {test_mae:>10.4f} {test_sq_mae:>15.4f}")
+print(f"{'RMSE (original tip scale)':<35} {test_rmse:>10.4f} {test_sq_rmse:>15.4f}")
+print(f"{'Spearman corr (heteroscedasticity)':<35} {spearman_corr:>10.4f} {sq_spearman_corr:>15.4f}")
+print(f"{'Spearman p-value':<35} {spearman_p:>10.4f} {sq_spearman_p:>15.4f}")
+
+if sq_spearman_p > 0.05:
+    print("\n  Result: Square-root transformation RESOLVED heteroscedasticity (p > 0.05)")
+else:
+    print(f"\n  Result: Heteroscedasticity partially reduced but still present (p = {sq_spearman_p:.4f})")
+
+# Side-by-side residual scatter comparison
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+axes[0].scatter(y_test_pred, test_residuals, alpha=0.6, s=70, color='steelblue')
+axes[0].axhline(0, color='red', linestyle='--', linewidth=2)
+axes[0].set_xlabel('Predicted Tip', fontsize=11)
+axes[0].set_ylabel('Residuals', fontsize=11)
+axes[0].set_title(f'Original model\nSpearman p = {spearman_p:.4f}', fontsize=12, fontweight='bold')
+axes[0].grid(True, alpha=0.3)
+
+axes[1].scatter(y_test_sq_pred, sq_test_residuals, alpha=0.6, s=70, color='darkorange')
+axes[1].axhline(0, color='red', linestyle='--', linewidth=2)
+axes[1].set_xlabel('Predicted √Tip', fontsize=11)
+axes[1].set_ylabel('Residuals', fontsize=11)
+axes[1].set_title(f'Square-root model\nSpearman p = {sq_spearman_p:.4f}', fontsize=12, fontweight='bold')
+axes[1].grid(True, alpha=0.3)
+
+fig.suptitle('Residual Plots: Original vs Square-Root Transformation',
+             fontsize=14, fontweight='bold', y=1.01)
+plt.tight_layout()
+plt.savefig("mlr_sqrt_residual_comparison.png", dpi=150, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 14F: IMPROVED PARTY SIZE SCATTER (JITTER)
+# ============================================================================
+
+print("\n14F. PARTY SIZE SCATTER WITH JITTER")
+
+np.random.seed(42)
+jitter_amount = 0.12
+jittered_size = df_model['size'] + np.random.uniform(-jitter_amount, jitter_amount,
+                                                       size=len(df_model))
+
+plt.figure(figsize=(10, 6))
+plt.scatter(jittered_size, df_model['tip'], alpha=0.5, s=70, color='steelblue', edgecolors='none')
+plt.xticks(ticks=sorted(df_model['size'].unique()),
+           labels=sorted(df_model['size'].unique()))
+plt.xlabel('Party Size (number of people)', fontsize=12)
+plt.ylabel('Tip', fontsize=12)
+plt.title('Party Size vs Tip Amount (with jitter to reduce overplotting)',
+          fontsize=14, fontweight='bold')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig("mlr_scat_size_jitter.png", dpi=150)
+plt.show()
+
+print("\nNote: Small horizontal jitter applied to reveal the true density of observations at each party size value. The integer axis ticks are preserved.")
 
 # ============================================================================
 # 15. FINAL CONCLUSIONS
