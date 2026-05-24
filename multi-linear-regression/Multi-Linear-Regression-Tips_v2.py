@@ -144,17 +144,6 @@ plt.tight_layout()
 plt.savefig("mlr_scat_bill.png", dpi=150)
 plt.show()
 
-# Party Size vs Tip
-plt.figure(figsize=(10, 6))
-sns.scatterplot(data=df_model, x='size', y='tip', alpha=0.6, s=80)
-plt.title('Party Size vs Tip Amount', fontsize=14, fontweight='bold')
-plt.xlabel('Party Size (number of people)', fontsize=12)
-plt.ylabel('Tip', fontsize=12)
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig("mlr_scat_size.png", dpi=150)
-plt.show()
-
 # Time of Day vs Tip (Box plot)
 plt.figure(figsize=(10, 6))
 sns.boxplot(data=df, x='time', y='tip', palette='Set2')
@@ -888,11 +877,11 @@ plt.xticks(ticks=sorted(df_model['size'].unique()),
            labels=sorted(df_model['size'].unique()))
 plt.xlabel('Party Size (number of people)', fontsize=12)
 plt.ylabel('Tip', fontsize=12)
-plt.title('Party Size vs Tip Amount (with jitter to reduce overplotting)',
+plt.title('Party Size vs Tip Amount (with jitter)',
           fontsize=14, fontweight='bold')
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-plt.savefig("mlr_scat_size_jitter.png", dpi=150)
+plt.savefig("mlr_scat_size.png", dpi=150)
 plt.show()
 
 print("\nNote: Small horizontal jitter applied to reveal the true density of observations at each party size value. The integer axis ticks are preserved.")
