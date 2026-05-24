@@ -10,9 +10,13 @@ permalink: /multi-linear-regression/
 
 ## Goals and objectives:
 
-The business objective is to understand how accurately can we predict tip amount based on three variables: total bill value, party size, and time of day.  Multiple Linear Regression (MLR) was applied to 244 observations, to create a model which was then analysed to determine the accuracy, errors and key factors in predicting the tip value. 
+The business objective is to determine how accurately tip amount can be predicted from three observable variables — total bill value, party size, and time of day — and to understand the relative contribution of each predictor to that outcome. Multiple Linear Regression (MLR) was applied to 244 observations from the Seaborn Tips dataset, providing a controlled, reproducible setting in which to demonstrate a complete regression analysis pipeline.
 
-The model generated explained 47.7% of variance of the tip value, with a Mean Absolute Error of 0.67.  The model and data analysis provided key insights into how a model can be further developed to improve accuracy and business benefit.  It was confirmed that total bill amount is the strongest predictor of tip size.
+The analytical scope goes beyond model fitting. The project applies statistical significance testing via a statsmodels OLS model, producing p-values, t-statistics, an F-statistic, adjusted R², and 95% confidence intervals for each coefficient — establishing not just whether the model predicts, but whether each individual predictor contributes meaningfully. Assumption testing is conducted formally using the Shapiro-Wilk test for residual normality and the Spearman Correlation test for homoscedasticity, with multicollinearity assessed through Variance Inflation Factors (VIF). Influential observations are identified using Cook's Distance. Model performance is evaluated both on a held-out test set and through 10-fold cross-validation, providing a more robust estimate of generalisation than a single split allows on a dataset of this size.
+
+A tip percentage analysis is included to contextualise the heteroscedasticity finding: examining tip as a proportion of bill value reveals why variance grows with bill size, and motivates the application of a square-root transformation to the target variable. A second model using √tip (square-root of tips values) is fitted and evaluated in direct comparison with the original, with the Spearman test re-run to assess whether the transformation resolves the heteroscedastic pattern.
+
+The project confirms that total bill amount is the strongest and statistically significant predictor of tip size, with the transformed model providing a modest improvement in explained variance. Key limitations — including moderate multicollinearity between total bill and party size, and the absence of service quality or customer satisfaction data — are identified alongside recommendations for further development.
 
 ## Application:  
 
