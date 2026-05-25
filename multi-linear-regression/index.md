@@ -110,7 +110,7 @@ Influential observations are identified using Cook's Distance, calculated via st
 
 Where the Spearman test identifies heteroscedasticity in the original model, a square-root transformation is applied to the target variable and a second model is fitted using the same train/test split and scaling procedure. Predictions are back-transformed to the original tip scale for direct metric comparison. The Spearman test is re-run on the transformed model's residuals to determine whether the transformation resolves the heteroscedastic pattern, with results presented alongside a side-by-side residual plot comparison of both models.
 
-## Results and conclusions:
+## Results:
 
 ### Descriptive Statistics:
 
@@ -183,6 +183,38 @@ The 95% confidence intervals for each coefficient are visualised below. An inter
 ### Model Performance:
 
 The model was evaluated on both the training and test sets:
+
+```
+Metric  Training Set  Test Set
+R²      0.4519        0.4772
+RMSE    1.06          0.81
+MAE     0.76          0.67
+```
+The test set R² of 0.4772 indicates the model accounts for 47.7% of the variance in tip values, with a mean absolute error of 0.67. The scatter plot of predicted versus actual values on the test set shows a reasonable fit around the ideal diagonal, with the wider spread at higher predicted values consistent with the heteroscedastic pattern in the data:
+
+![predictions_scatter](mlr_scatter_pred_act.png)
+
+### Cross-Validation:
+
+A single 80/20 split yields a test set of only 49 observations, making the single-split metrics sensitive to which observations are held out. 10-fold cross-validation was applied to obtain a more stable performance estimate, using a Pipeline to ensure scaling was applied within each fold independently:
+
+```
+Metric         Mean   Std Dev      Min      Max
+R²           0.4159    0.2012   0.1217   0.7099
+MAE          0.7551    0.1841   0.4580   1.0602
+RMSE         1.0041    0.2588   0.5984   1.3839
+```
+
+The bar chart below shows R² for each individual fold, with the cross-validated mean and single-split result plotted as reference lines. The spread of R² values across folds characterises model stability across different subsets of the data:
+
+![mlr_cv_r2](mlr_cv_r2.png)
+
+### Residual Analysis:
+
+Residuals (actual − predicted) are plotted against predicted values and as a frequency distribution. The scatter shows a broadly random pattern around the zero line, without systematic curvature or trend. A slight fan-shape at lower predicted values is visible and is formally assessed in the Spearman test below:
+
+
+
 
 
 
@@ -269,7 +301,7 @@ The bar chart below visualises the importance of each feature, showing that, per
 
 ![feature importance](mlr_feat_imp.png)
 
-### Conclusions:
+## Conclusions:
 
 Lets address the conclusions in relation to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
 
