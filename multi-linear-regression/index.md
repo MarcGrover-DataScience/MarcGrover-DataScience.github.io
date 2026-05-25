@@ -64,16 +64,46 @@ The business application of MLR spans any domain where a continuous outcome is d
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scikit-learn, Scipy, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was the Tips dataset from within Seaborn.  
+The analysis is implemented in Python using pandas for data handling, scikit-learn for modelling and preprocessing, statsmodels for statistical inference, scipy for assumption testing, and seaborn and matplotlib for visualisation. The dataset is the Tips dataset, loaded directly from seaborn, comprising 244 observations across seven variables.
 
-A Multiple Linear Regression model was built, having processed and scaled the independent variable datasets.  Tests and analysis were performed on the data for:
-* Correlation of variables
-* Normality of the residuals (using Shapiro-Wilks)
-* Homoscedasticity of the predictions and absolute residuals (using the Spearman Correlation test)
-* Multicollinearity of the independent variables using Variance Inflation Factors (VIF)
-* Feature Importance Ranking to determine the strongest predictors of tip value
+**Data Loading and Preparation**
 
-Data preparation:  Minor transformation of data into a pandas dataframe and contingency table for analytical purposes.  Note that for analytical purposes, the time column, which stated the sitting as either lunch or dinner, was converted into an integer value where dinner is represented by 1 and lunch by 0.  Scaling of the factors was undertaken as part of building the MLR model. 
+The dataset is confirmed to contain no missing values, requiring no imputation or record removal. Three independent variables are selected for the model: total bill value, party size, and time of day. The categorical time variable — recorded as 'Lunch' or 'Dinner' — is binary-encoded as an integer column (time_dinner), where Dinner = 1 and Lunch = 0. The remaining categorical variables (sex, smoker, day) are excluded from this model, with their potential contribution noted as an area for future development.
+
+**Exploratory Data Analysis**
+
+Descriptive statistics are calculated for all variables. Three charts are produced to examine the relationship between each independent variable and tip amount prior to modelling: a scatter plot of total bill against tip, a scatter plot of party size against tip with horizontal jitter applied to reduce overplotting on the integer-valued axis, and a boxplot comparing tip distributions across lunch and dinner sittings. A correlation matrix heatmap is produced to quantify pairwise linear relationships between all three predictors and the target variable.
+
+A tip percentage analysis is conducted — expressing tip as a proportion of total bill for each observation — to examine whether tipping behaviour is proportional or additive across the bill range. This analysis directly contextualises the heteroscedasticity finding identified in the assumption testing stage.
+
+**Multicollinearity Assessment**
+
+Prior to model fitting, the Variance Inflation Factor (VIF) is calculated for each independent variable. A VIF exceeding 10 is treated as indicative of high multicollinearity; values between 5 and 10 are noted as moderate. Results are visualised as a bar chart with threshold reference lines.
+
+**Model Specification and Fitting**
+
+The dataset is partitioned into training and test sets using an 80/20 split with a fixed random state for reproducibility. Feature scaling is applied using scikit-learn's StandardScaler, fitted exclusively on the training set and applied to both, ensuring no data leakage between partitions. Two complementary model specifications are fitted:
+
+* **scikit-learn LinearRegression** is fitted on the scaled training data, producing standardised coefficients used for feature importance comparison and generating predictions on both training and test sets.
+* **statsmodels OLS** is fitted on the unscaled features with a constant term added, to obtain the full inferential output — p-values, t-statistics, model-level F-statistic, adjusted R², and 95% confidence intervals for each coefficient. This provides the statistical basis for assessing whether each predictor's contribution is meaningfully distinguishable from zero, which scikit-learn does not provide.
+
+**Model Evaluation**
+
+Performance is assessed on both training and test sets using R², Root Mean Squared Error (RMSE), and Mean Absolute Error (MAE). To complement the single train/test split — which produces a test set of only 49 observations on a dataset of this size — 10-fold cross-validation is applied using a scikit-learn Pipeline that encapsulates scaling and model fitting within each fold, eliminating any risk of leakage across folds. Mean and standard deviation of R², MAE, and RMSE across folds are reported alongside the single-split results, providing a more reliable estimate of generalisation performance.
+
+**Residual Analysis and Assumption Testing**
+
+Residuals are examined visually through scatter plots of residuals against predicted values, histograms of the residual distribution, and Q-Q plots — each produced for both the training and test sets. Three formal assumption tests are then conducted:
+
+* **Residual normality** is tested using the Shapiro-Wilk test, with H₀ that residuals are normally distributed, evaluated at α = 0.05.
+* **Homoscedasticity** is assessed via the Spearman Correlation test between predicted values and absolute residuals; a statistically significant result indicates that variance is not constant across the prediction range.
+* **Multicollinearity** is addressed through the VIF analysis conducted prior to model fitting.
+
+Influential observations are identified using Cook's Distance, calculated via statsmodels' OLSInfluence. The conventional threshold of 4/n is applied to flag observations whose removal would materially alter the fitted model.
+
+**Target Variable Transformation**
+
+Where the Spearman test identifies heteroscedasticity in the original model, a square-root transformation is applied to the target variable and a second model is fitted using the same train/test split and scaling procedure. Predictions are back-transformed to the original tip scale for direct metric comparison. The Spearman test is re-run on the transformed model's residuals to determine whether the transformation resolves the heteroscedastic pattern, with results presented alongside a side-by-side residual plot comparison of both models.
 
 ## Results and conclusions:
 
