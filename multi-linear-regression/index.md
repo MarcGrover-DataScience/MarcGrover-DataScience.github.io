@@ -147,6 +147,50 @@ time_dinner  3.170
 
 No variable exceeds the high-multicollinearity threshold of 10, however the values for total bill (9.216) and party size (9.271) are close to that boundary, reflecting the moderate correlation between these two predictors (r ≈ 0.60). The independent coefficient estimates for these features carry more uncertainty than they would in a fully orthogonal design and should be interpreted accordingly.
 
+### Model Coefficients and Statistical Significance:
+
+Feature scaling was applied prior to fitting, with the following pre-scaling statistics for the independent variables:
+
+```
+        total_bill     size  time_dinner  
+mean        20.218    2.574        0.728  
+std          8.771    0.941        0.446
+```
+
+The scikit-learn model fitted on the scaled data produces the following equation, where the standardised coefficients are directly comparable across features:
+
+_Tip = 3.088 + (0.801 × total_bill) + (0.248 × size) − (0.024 × time_dinner)_
+
+To assess whether each predictor's contribution is statistically distinguishable from zero — which scikit-learn does not provide — a statsmodels OLS model was fitted on the unscaled features:
+
+```
+Feature             Coef   Std Err   t-stat   p-value     Sig
+-------------------------------------------------------------
+Intercept         0.6712    0.2100    3.197    0.0016  Medium
+total_bill        0.0928    0.0092   10.037    0.0000    High
+size              0.1926    0.0855    2.253    0.0252     Low
+time_dinner      -0.0041    0.1475   -0.028    0.9777    n.s.
+```
+
+Significance: High p<0.001 — Medium p<0.01 — Low p<0.05 — n.s. not significant
+
+The model-level F-statistic (70.34, p < 0.0001) confirms overall model significance. The adjusted R² of 0.461 provides a more conservative measure of fit than the unadjusted R², penalising for the addition of predictors.
+
+The 95% confidence intervals for each coefficient are visualised below. An interval that does not cross zero confirms statistical significance; the width of the interval reflects the precision of the estimate:
+
+![mlr_coef_ci](mlr_coef_ci.png)
+
+### Model Performance:
+
+The model was evaluated on both the training and test sets:
+
+
+
+
+
+
+
+
 ### Hypothesis Test:  
 
 The data was split into training and test sets using the standard 80/20 ratio.
