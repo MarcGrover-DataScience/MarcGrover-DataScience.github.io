@@ -114,17 +114,15 @@ Where the Spearman test identifies heteroscedasticity in the original model, a s
 
 ### Descriptive Statistics:
 
-There are 244 observations recorded, covering a period of 4 consecutive days.
-
-The mean tip is 2.998, with a standard deviation of 1.384 (currency is ignored in this example for simplicity)
-
-The following scatter plot shows the mapping of tip value to total bill value:
+The dataset comprises 244 observations collected across four consecutive days. The mean tip is 2.998 with a standard deviation of 1.384. The scatter plot below maps tip amount against total bill value, showing a positive linear trend with increasing spread at higher bill values — a pattern that anticipates the heteroscedasticity finding discussed in the assumption testing:
 
 ![scatter_billing](mlr_scat_bill.png)
 
-The following boxplot visualises the tip distribution for both lunch and dinner sittings:
+The boxplot below compares the tip distribution across lunch and dinner sittings. Dinner sittings show a higher median tip and greater spread, though the overlap between groups is substantial:
 
 ![boxplot_time](mlr_boxplot_time.png)
+
+
 
 ### Correlation Analysis
 
