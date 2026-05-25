@@ -122,25 +122,21 @@ The boxplot below compares the tip distribution across lunch and dinner sittings
 
 ![boxplot_time](mlr_boxplot_time.png)
 
+### Correlation Analysis:
 
-
-### Correlation Analysis
-
-The correlation matrix (for the 3 independent variables and dependent variable) shows the correlation between each variable.  
-
-Values close to 1 or -1 indicate strong relationships, and values close to 0 indicate weak relationships.
+The correlation matrix quantifies the pairwise linear relationships between all variables. Total bill shows the strongest correlation with tip (r ≈ 0.68), party size shows a moderate positive correlation (r ≈ 0.49), and time of day shows a weaker relationship (r ≈ 0.27). The correlation between total bill and party size (r ≈ 0.60) is notably elevated and is examined further in the multicollinearity assessment:
 
 ![correlation_matrix](mlr_corr_mat.png)
 
-### Multicollinearity test:
+### Tip Percentage Analysis:
 
-Multicollinearity needs to be tested in multiple linear regression because it can significantly distort the results and make the model unreliable and difficult to interpret.
+Expressing tip as a percentage of total bill reveals the source of the heteroscedasticity detected in assumption testing. Tip percentage is most variable at lower bill values and stabilises at the higher end of the bill range, producing the fan-shaped spread visible in the earlier scatter plot. This confirms that tipping is not purely proportional — some customers tip a fixed amount regardless of bill size — and explains why residual variance is systematically higher for lower predicted values:
 
-Multicollinearity occurs when two or more independent variables (predictors) in a regression model are highly correlated with each other.
+![mlr_tip_pct_vs_bill](mlr_tip_pct_vs_bill.png)
 
-The most common method for detecting multicollinearity is by calculating the Variance Inflation Factor (VIF) for each independent variable.
+### Multicollinearity Assessment:
 
-Variance Inflation Factor (VIF):  
+VIF values were calculated for each independent variable prior to model fitting:
 
 ```
   Feature    VIF  
@@ -149,7 +145,7 @@ Variance Inflation Factor (VIF):
 time_dinner  3.170
 ```
 
-The general guidance states that a VIF > 10 is considered 'High multicollinearity', which is not the case here, but with two values greater than 9.2 this should be noted.
+No variable exceeds the high-multicollinearity threshold of 10, however the values for total bill (9.216) and party size (9.271) are close to that boundary, reflecting the moderate correlation between these two predictors (r ≈ 0.60). The independent coefficient estimates for these features carry more uncertainty than they would in a fully orthogonal design and should be interpreted accordingly.
 
 ### Hypothesis Test:  
 
