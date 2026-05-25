@@ -213,93 +213,57 @@ The bar chart below shows R² for each individual fold, with the cross-validated
 
 Residuals (actual − predicted) are plotted against predicted values and as a frequency distribution. The scatter shows a broadly random pattern around the zero line, without systematic curvature or trend. A slight fan-shape at lower predicted values is visible and is formally assessed in the Spearman test below:
 
-
-
-
-
-
-
-
-
-
-
-### Hypothesis Test:  
-
-The data was split into training and test sets using the standard 80/20 ratio.
-
-Feature scaling was undertaken, where the independent variable (X) data was also scaled so within each IV the mean = 0 and standard deviation = 1.
-
-Feature scaling is important, as the different features have different ranges (e.g., bill: $3-50, size: 1-6).  Scaling puts all features on the same scale, which makes the coefficients directly comparable, and also improves the model training and interpretation.
-
-Note that before scaling, the mean and standard deviation for each IV were:  
-
-```
-        total_bill     size  time_dinner  
-mean        20.218    2.574        0.728  
-std          8.771    0.941        0.446
-```
-
-The MLR model was fitted with the scaled IV data, producing a model, based on scaled versions of the factors:
-
-Tip = 3.088 + (0.801×total_bill) + (0.248×size)  - (0.024×time_dinner)
-
-The model was applied to the test data so that there was both predicted and actual tips for those observations, enabling a calculation for the residual for each test observation (actual tip - predicted tip).
-
-### Model Evaluation:
-
-First the model was evaluated against the training set, returning: 
-R² Score: 0.4519 (45.2% of variance explained by the model)  
-Root Mean Squared Error: 1.06  
-Mean Absolute Error: 0.76  
-
-The model was then evaluated against the test set, returning:
-R² Score: 0.4772 (47.7% of variance explained)  
-Root Mean Squared Error: 0.81  
-Mean Absolute Error: 0.67  
-
-Using the evaluation of the test set, this means that our model explains 47.7% of the variation in tips, and using MAE, on average the absolute error is 0.67
-
-The scatter plot below plots the predicted values against the actual values in the test set.  Points close to the red line, equate to good predictions, and points far from the red line relate to less accurate prediction errors.  The random scatter around the line further implies a good model fit.
-
-![predictions_scatter](mlr_scatter_pred_act.png)
-
-### Residual Analysis:
-
-The residuals, where each Residual = Actual Value - Predicted Value , are plotted below to visualise in a different way the predictions against the actuals.  The points near the red-line represent accurate predictions.
-
-The analysis of the residuals show that the mean = -0.2446 (where this should be close to 0), and the standard deviation = 0.78 (where a value close to zero represents a good model).
-
-The residual plots look random, and without pattern, and also does not look funnel or cone shape, which implies equal variances (homoscedasticity).  These further confirm that the model is good, however further, more accurate, analysis is detailed in the next section.
-
 ![residuals_scatter](mlr_scatter_res.png)
 
 ![residuals_histogram](mlr_hist_res.png)
 
-### Testing Assumptions:
+### Assumption Testing
 
-Linear regression requires these assumptions to be tested:
+#### Residual Normality — Shapiro-Wilk Test
 
-#### Test 1 - Residual normality - where the null hypothesis is that residuals are normally distributed.
+H₀: Residuals are normally distributed.
 
-Using the Shapiro-Wilk Test the results returned a P-value: 0.4930, and as p > 0.05, this is evidence that the residuals are normally distributed as required.
+The test returns a p-value of 0.4930. As p > 0.05, there is no significant evidence against normality. This assumption is satisfied.
 
-#### Test 2 - Homoscedasticity (constant variance of residuals)
+#### Homoscedasticity — Spearman Correlation Test
 
-Using the Spearman Correlation test on the predicted values and the absolute residuals, the P-value was equal to 0.0000 , the Spearman Correlation value was 0.6063.
+H₀: Residual variance is constant across predicted values.
 
-As such p < 0.05 this is evidence of heteroscedasticity (p ≤ 0.05), therefore we should consider transforming the target variable accordingly.
+The test returns a Spearman correlation of 0.6063 and p-value of 0.0000. As p < 0.05, there is significant evidence of heteroscedasticity — residual variance increases systematically with predicted tip value. This assumption is violated and motivates the square-root transformation applied in the following section.
 
-#### Test 3 - No multicollinearity among features
+#### Multicollinearity
 
-We already tested this with VIF, see above, where the result that there is moderate multicollinearity present.
+Assessed via VIF prior to model fitting — see Multicollinearity Assessment above.
 
-### Feature importance:
+### Influential Observations
 
-Understanding the importance of each feature (Independent Variable) is an important finding from Multiple Linear Regression, as it allows further understanding of the model and output, as well as guiding any further improvements to be made to the model.
+Cook's Distance was calculated for each observation using the conventional threshold of 4/n (4/244) = 0.0164. 16 observations exceed this threshold, indicating that their removal would materially alter the fitted coefficients. These predominantly correspond to observations with unusually high or low tip percentages relative to bill value  
 
-The bar chart below visualises the importance of each feature, showing that, perhaps unsuprisingly, total bill value is the strongest predictor of tip size
+![mlr_cooks_distance](mlr_cooks_distance.png)
+
+### Feature Importance
+
+Feature importance is derived from the absolute standardised coefficients of the scikit-learn model, where feature scaling ensures comparability across predictors. Total bill is confirmed as the dominant predictor by a considerable margin. Time of day contributes negligibly — consistent with the OLS analysis, where the time_dinner coefficient does not reach statistical significance:
 
 ![feature importance](mlr_feat_imp.png)
+
+### Target Variable Transformation
+
+The heteroscedasticity detected by the Spearman test motivates a square-root transformation of the target variable. A second model was fitted using √tip (Square-root of the tip value) as the target, with predictions back-transformed to the original scale for direct metric comparison. The Spearman test was re-run on the transformed model's residuals to assess whether the transformation resolves the heteroscedastic pattern:
+
+```
+Metric                                Original  Sqrt Transform
+R² (on respective target scale)         0.4772          0.4825
+MAE (original tip scale)                0.67            0.68
+RMSE (original tip scale)               0.81            0.82
+Spearman corr (heteroscedasticity)      0.61            0.34
+Spearman p-value                        0.0000          0.017
+```
+
+The side-by-side residual plots below show the change in residual pattern between the two models, with the updated Spearman p-value confirming the degree to which the transformation addresses the heteroscedasticity:
+
+![mlr_sqrt_residual_comparisonl_comparison](mlr_sqrt_residual_comparison.png)
+
 
 ## Conclusions:
 
