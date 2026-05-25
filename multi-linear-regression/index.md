@@ -68,7 +68,12 @@ The analysis is implemented in Python using pandas for data handling, scikit-lea
 
 **Data Loading and Preparation**
 
-The dataset is confirmed to contain no missing values, requiring no imputation or record removal. Three independent variables are selected for the model: total bill value, party size, and time of day. The categorical time variable — recorded as 'Lunch' or 'Dinner' — is binary-encoded as an integer column (time_dinner), where Dinner = 1 and Lunch = 0. The remaining categorical variables (sex, smoker, day) are excluded from this model, with their potential contribution noted as an area for future development.
+The dataset is confirmed to contain no missing values, requiring no imputation or record removal. Three independent variables are selected for the model: 
+* total bill value
+* party size
+* time of day
+
+The categorical time variable — recorded as 'Lunch' or 'Dinner' — is binary-encoded as an integer column (time_dinner), where Dinner = 1 and Lunch = 0. The remaining categorical variables (sex, smoker, day) are excluded from this model, with their potential contribution noted as an area for future development.
 
 **Exploratory Data Analysis**
 
