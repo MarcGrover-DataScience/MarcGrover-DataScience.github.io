@@ -275,19 +275,19 @@ The model accounts for 47.7% of variance in tip values on the test set (R² = 0.
 
 The single train/test split, which yields a test set of only 49 observations, is supplemented by 10-fold cross-validation, which returns a mean R² of 0.4159 ± 0.2012. The cross-validated result is modestly below the single-split figure, indicating some sensitivity to the particular partition of the data.
 
-The square-root transformation of the target variable produces a test R² of [value] on the transformed scale, with an MAE of [value] on the original tip scale — a [modest / negligible] change relative to the original model. The Spearman test on the transformed residuals returns p = [value], indicating the transformation [resolves / partially reduces] the heteroscedastic pattern. Given the limited performance gain, the original model remains the primary reference; the transformation is presented as a principled diagnostic response to the assumption violation rather than a substantive improvement.
+The square-root transformation of the target variable produces a test R² of 0.4825 on the transformed scale, with an MAE of 0.6835 on the original tip scale — a modest change relative to the original model. The Spearman test on the transformed residuals returns p = 0.0174, indicating the transformation partially reduces the heteroscedastic pattern. Given the limited performance gain, the original model remains the primary reference; the transformation is presented as a principled diagnostic response to the assumption violation rather than a substantive improvement.
 
 ### Key Findings
 
-**Total bill amount is the dominant predictor of tip size**. Confirmed as statistically significant at p < [value] in the OLS model, the standardised coefficient (0.801) is more than three times that of the next strongest predictor. For every £1 increase in total bill, the model estimates an increase of approximately [value] in tip, holding other variables constant.
+**Total bill amount is the dominant predictor of tip size**. Confirmed as statistically significant at p < 0.0001 in the OLS model, the standardised coefficient (0.801) is more than three times that of the next strongest predictor. For every £1 increase in total bill, the model estimates an increase of approximately £0.0928 in tip, holding other variables constant.
 
 **Party size is a secondary but meaningful predictor**. With a standardised coefficient of 0.248 and [significance level] in the OLS output, larger parties are associated with higher tips — consistent with the expectation that larger groups generate larger bills and tip accordingly.
 
-**Time of day is not a statistically significant predictor**. Despite dinner sittings showing a higher median tip in the exploratory analysis, the OLS coefficient for time_dinner (p = [value]) does not reach significance at α = 0.05, with a confidence interval that spans zero. The apparent difference between lunch and dinner tips is not reliably distinguishable from sampling variation in this dataset. This is an important qualification — it cautions against building operational decisions around sitting time as a tip driver.
+**Time of day is not a statistically significant predictor**. Despite dinner sittings showing a higher median tip in the exploratory analysis, the OLS coefficient for time_dinner (p = 0.9777) does not reach significance at α = 0.05, with a confidence interval that spans zero. The apparent difference between lunch and dinner tips is not reliably distinguishable from sampling variation in this dataset. This is an important qualification — it cautions against building operational decisions around sitting time as a tip driver.
 
 **The tipping mechanism is partly non-proportional**. The tip percentage analysis reveals wide variation in tip rate at lower bill values, narrowing at higher values. This behaviour — rather than a consistent proportional rate — is the direct structural cause of the heteroscedasticity detected by the Spearman test, and is a meaningful insight into how customers form tipping decisions.
 
-**[n] observations exert disproportionate model influence**. Cook's Distance identifies [n] observations above the 4/n threshold, corresponding to [your description from the console output]. These do not invalidate the model but represent cases where individual tipping behaviour departs substantially from the broader dataset pattern, and they are candidates for closer examination in any follow-on analysis.
+**16 observations exert disproportionate model influence**. Cook's Distance identifies 16 observations above the 4/n threshold, typically corresponding to high tip percentage values. These do not invalidate the model but represent cases where individual tipping behaviour departs substantially from the broader dataset pattern, and they are candidates for closer examination in any follow-on analysis.
 
 ### Assumption Testing
 
@@ -298,33 +298,6 @@ Residual normality is satisfied (Shapiro-Wilk p = 0.4930). Homoscedasticity is v
 The model leaves 52.3% of tip variance unexplained, attributable primarily to factors absent from the dataset — service quality, individual tipping habits, and customer satisfaction being the most likely drivers. The dataset is limited to 244 observations from a single restaurant over four days, which restricts generalisation to other settings. The moderate multicollinearity between total bill and party size means their individual coefficients should be interpreted with caution, particularly as predictors of the independent effect of each variable. The exclusion of the remaining categorical variables — day of week, server identity, and smoker status — was a deliberate modelling choice; their inclusion in an extended model represents the most direct path to improving explanatory power.
 
 
-
-
-
-
-Lets address the conclusions in relation to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
-
-Model Performance:
-* The model works reasonably well for a simple dataset (47.7% of variance explained)
-* The average prediction error is 0.67
-
-Keyfindings:
-* Total bill amount is the strongest predictor of tip size, the higher the bill amount the higher the tip tends to be
-* Larger parties tend to leave larger tips
-* Lunch time sittings decreases expected tips
-
-Assumption testing:
-* Normality: Satisfied
-* Constant Variance: Some heteroscedasticity
-* Multicollinearity: Moderate
-
-Practical interpretation:
-For every increase of 1 in the total bill, we expect the tip to increase by approximately 0.09, holding other factors constant.
-
-Model and Analysis Limitations:
-* Model doesn't account for service quality or customer satisfaction
-* R² of 0.477 means 52.3% of variation is unexplained
-* Limited to the patterns in this restaurant's data
 
 ## Next steps:  
 
