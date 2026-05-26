@@ -299,6 +299,20 @@ The model leaves 52.3% of tip variance unexplained, attributable primarily to fa
 
 ## Next steps:  
 
+The findings from this analysis identify several specific avenues through which the model and data collection process can be developed to improve predictive accuracy and analytical robustness. Recommendations are ordered by anticipated impact:
+
+**Outlier treatment**. The 16 influential observations identified via Cook's Distance are the most immediate modelling priority, given their demonstrated effect on coefficient stability and cross-validation variance. Three approaches warrant investigation: removing observations with demonstrably anomalous tip percentages (e.g. below 5% or above 40%) and refitting to assess the effect on model stability; applying robust regression methods such as Huber or RANSAC regression, which down-weight influential observations automatically rather than excluding them; and segmenting the dataset into typical and atypical tipping behaviour and modelling each group separately.
+
+**Incorporate the excluded categorical variables**. Day of week, smoker status, and server identity were excluded as a deliberate simplification. Day of week is particularly worth investigating given the dataset spans only four consecutive days — tipping patterns may vary systematically. Server identity, where available, could reveal whether individual servers are a meaningful driver of tip variation, which carries direct operational implications.
+
+**Address multicollinearity between total bill and party size**. The near-threshold VIF values (≈9.2) inflate coefficient standard errors for both predictors. Deriving an average spend per person feature (total_bill / size) would capture per-person generosity more directly while removing the structural correlation between the two variables. Principal Component Regression offers an alternative approach by orthogonalising the predictor space entirely.
+
+**Explore non-linear relationships and interaction effects**. The relationship between total bill and tip may not be strictly linear across all bill ranges — polynomial features or a log transformation of total bill could be tested against the base model using adjusted R² and AIC as selection criteria. An interaction term between total bill and party size may also capture joint effects that the additive formulation misses.
+
+**Expand data collection scope**. The model leaves 52.3% of variance unexplained, and the most direct path to improvement is richer data. Priority additions would include customer satisfaction score or server rating at point of payment, whether the bill was split across the party, payment method (cash vs card), and meal type — all of which are plausible drivers of tip amount that the current dataset does not capture. Expanding collection across multiple restaurants and longer time periods would also reduce sensitivity to individual influential observations and improve coefficient generalisation.
+
+**Increase sample size**. With 244 observations and 16 influential outliers, the dataset sits at the lower boundary for reliable MLR inference. A larger sample would reduce the cross-validation standard deviation, support more stable coefficient estimates, and provide a more reliable basis for the assumption tests.
+
 With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
 
 Recommendations include:
