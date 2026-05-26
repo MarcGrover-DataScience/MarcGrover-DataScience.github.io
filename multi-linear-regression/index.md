@@ -281,7 +281,7 @@ The square-root transformation of the target variable produces a test R² of 0.4
 
 **Total bill amount is the dominant predictor of tip size**. Confirmed as statistically significant at p < 0.0001 in the OLS model, the standardised coefficient (0.801) is more than three times that of the next strongest predictor. For every £1 increase in total bill, the model estimates an increase of approximately £0.0928 in tip, holding other variables constant.
 
-**Party size is a secondary but meaningful predictor**. With a standardised coefficient of 0.248 and [significance level] in the OLS output, larger parties are associated with higher tips — consistent with the expectation that larger groups generate larger bills and tip accordingly.
+**Party size is a secondary but meaningful predictor**. With a standardised coefficient of 0.248 and p = 0.0252 in the OLS output, larger parties are associated with higher tips — consistent with the expectation that larger groups generate larger bills and tip accordingly.
 
 **Time of day is not a statistically significant predictor**. Despite dinner sittings showing a higher median tip in the exploratory analysis, the OLS coefficient for time_dinner (p = 0.9777) does not reach significance at α = 0.05, with a confidence interval that spans zero. The apparent difference between lunch and dinner tips is not reliably distinguishable from sampling variation in this dataset. This is an important qualification — it cautions against building operational decisions around sitting time as a tip driver.
 
@@ -296,8 +296,6 @@ Residual normality is satisfied (Shapiro-Wilk p = 0.4930). Homoscedasticity is v
 ### Limitations
 
 The model leaves 52.3% of tip variance unexplained, attributable primarily to factors absent from the dataset — service quality, individual tipping habits, and customer satisfaction being the most likely drivers. The dataset is limited to 244 observations from a single restaurant over four days, which restricts generalisation to other settings. The moderate multicollinearity between total bill and party size means their individual coefficients should be interpreted with caution, particularly as predictors of the independent effect of each variable. The exclusion of the remaining categorical variables — day of week, server identity, and smoker status — was a deliberate modelling choice; their inclusion in an extended model represents the most direct path to improving explanatory power.
-
-
 
 ## Next steps:  
 
