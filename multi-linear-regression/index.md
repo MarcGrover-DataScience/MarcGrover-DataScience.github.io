@@ -267,6 +267,18 @@ The side-by-side residual plots below show the change in residual pattern betwee
 
 ## Conclusions:
 
+The analysis addressed a clear business question: can tip amount be predicted from total bill value, party size, and time of day? The model provides a statistically significant and practically interpretable answer, though with material unexplained variance that points to the influence of factors — service quality, individual behaviour, customer satisfaction — that are not captured in this dataset.
+
+### Model Performance
+
+The model accounts for 47.7% of variance in tip values on the test set (R² = 0.4772), with a mean absolute error of 0.67. The adjusted R² from the OLS model of [value] — which penalises for the number of predictors and is the more appropriate summary statistic for a multi-predictor regression — provides a marginally more conservative estimate of explanatory power.
+
+The single train/test split, which yields a test set of only 49 observations, is supplemented by 10-fold cross-validation, which returns a mean R² of [value] ± [value]. [The cross-validated result is consistent with / modestly below] the single-split figure, indicating [good stability in / some sensitivity to] the particular partition of the data.
+
+The square-root transformation of the target variable produces a test R² of [value] on the transformed scale, with an MAE of [value] on the original tip scale — a [modest / negligible] change relative to the original model. The Spearman test on the transformed residuals returns p = [value], indicating the transformation [resolves / partially reduces] the heteroscedastic pattern. Given the limited performance gain, the original model remains the primary reference; the transformation is presented as a principled diagnostic response to the assumption violation rather than a substantive improvement.
+
+
+
 Lets address the conclusions in relation to our research question:  Can we predict restaurant tips based on bill value, party size, and time?
 
 Model Performance:
