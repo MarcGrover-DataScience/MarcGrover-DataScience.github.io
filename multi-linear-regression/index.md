@@ -313,17 +313,6 @@ The findings from this analysis identify several specific avenues through which 
 
 **Increase sample size**. With 244 observations and 16 influential outliers, the dataset sits at the lower boundary for reliable MLR inference. A larger sample would reduce the cross-validation standard deviation, support more stable coefficient estimates, and provide a more reliable basis for the assumption tests.
 
-With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
-
-Recommendations include:
-* Collect additional features (e.g., day of week, server ID, meal type, customer satisfaction)
-* Address the moderate multicollinearity identified in the variables
-* Increase sample size for better generalisation
-* Consider non-linear relationships (polynomial features)
-* Transform the dependent variable (to address the heteroscedasticity detected from the Spearman Correlation test)
-  * Note that a separate model was generated in a second phase using the square-root of the tip value increased the model accuracy slighty to account for 48.2% of the variance)
-* Explore interaction effects between features
-
 ## Python code:
 You can view the full Python script used for the analysis here: 
 [View the Python Script](/Multi-Linear-Regression-Tips_v2.py)
