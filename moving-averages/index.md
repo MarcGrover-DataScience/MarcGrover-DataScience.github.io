@@ -53,7 +53,7 @@ Denominator = sum of weights = n×(n+1)/2
 
 Accuracy metrics and smoothness metrics were then applied to the results, including Mean Absolute Error, Mean Absolute Percentage Error,  Root Mean Squared Error and Smoothness (variance of differences of consecutive values).  These can then be interpreted and support understanding the data and reaching conclusions.
 
-## Results and conclusions:
+## Results:
 
 The following chart show the results of applying all three moving average types to the data, all with a 30 day window, where the most recent 1,000 data points are included. 
 
@@ -164,7 +164,7 @@ When evaluating a moving average, you are generally trying to find the optimal b
 **Lag (Responsiveness)** - The smoothed line naturally lags behind the true underlying trend because it incorporates old data.  This is the time a significant trend change occuring in the original data is refelected in the moving average line in response.  
 The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 30-day MA is less smooth but less lagged than a 200-day MA).
 
-### Conclusions:
+## Conclusions:
 
 * In general application, there is a trade-off between Accuracy and Smoothness:
   * Shorter windows track prices more closely (lower MAE)
@@ -201,4 +201,4 @@ Considering the original business objective the recommended next steps for consi
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/MovingAverages_SP500.py)
+[View the Python Script](/MovingAverages_SP500_v3.py)
