@@ -10,15 +10,16 @@ permalink: /moving-averages/
 
 ## Goals and objectives:
 
-The business objective is to understand the long term trends and movements within the US stock market, using statistical analysis of historical S&P 500 daily closing value data, including developing insight into whether patterns and trends for short and long term averages can be a predictor for future movements.
+The objective of this project is to analyse long-term trends and movements within the US stock market through statistical analysis of historical S&P 500 daily closing price data, using moving averages as the core analytical technique.
 
-The analysis is to include a comparison of 30-day and 200-day moving averages, which are commonly used finance analytical metrics.
+S&P 500 (Standard and Poor's 500) is a stock market index tracking the stock performance of 500 leading companies listed on US exchanges.
 
-S&P 500 (Standard and Poor's 500) is a stock market index tracking the stock performance of 500 leading companies listed on stock exchanges in the United States.
+The analysis encompasses four areas:
 
-The analytics included applying 3 moving averages types and multiple window-lengths to the data.
-
-The moving averages highlighted the overall trends and responsiveness to changes in underlying trends, including the impact of using each moving average type and different window length.  Each providing valuable insights.
+* **Moving average calculation** — three moving average types (SMA, EMA, WMA) are applied across two window lengths (30-day and 200-day), producing six models for comparison.
+* **Returns and volatility analysis** — daily percentage returns and rolling annualised volatility are calculated to characterise the underlying behaviour of the market during the analysis period, and to contextualise why smoothing techniques are beneficial.
+* **Accuracy and smoothness evaluation** — each model is assessed using MAE, MAPE, RMSE and a smoothness metric (variance of first differences), quantifying the trade-off between responsiveness and noise reduction.
+* **Crossover signal detection** — the 30-day and 200-day SMAs are used to identify Golden Cross (bullish) and Death Cross (bearish) events, demonstrating how moving averages can generate practical trading signals.
 
 ## Application:  
 
