@@ -106,6 +106,8 @@ Analysis of the accuracy and smoothness metrics provides the following interpret
 * As expected the short-window MA types produce smaller error values, but lower smoothness (i.e. higher variance)
   * This highlights the trade-off between smoothness and lag (window-size) as addressed below
  
+RMSE is also reported for completeness. As RMSE penalises large individual errors more heavily than MAE due to the squaring of residuals, a substantially higher RMSE relative to MAE would indicate the presence of occasional large error spikes. In this analysis the RMSE/MAE ratio is consistent across all six models (approximately 1.5–1.9×), confirming that the error profile is broadly uniform across the data period rather than being driven by isolated large deviations.
+ 
 ### Moving Average Type and Window Size Comparison
 
 To summarise the comparison of the three moving average types included in this analysis:
