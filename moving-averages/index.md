@@ -112,7 +112,7 @@ Key findings:
   * 30-day: MAE = $51.46 (MAPE = 1.83%)
   * 200-day: MAE = $137.83 (MAPE = 4.75%)
 * The smoothest 30-day MA is EMA (Smoothness variance: 32.77); the smoothest 200-day MA is SMA (Smoothness variance: 0.88)
-* Short-window models produce lower error but lower smoothness, directly quantifying the accuracy-smoothness trade-off: average MAE is $58.66 for 30-day models versus $147.78 for 200-day models — a 151.9% increase attributable to lag
+* Short-window models produce lower error but lower smoothness, directly quantifying the accuracy-smoothness trade-off: average MAE is 58.66 USD for 30-day models versus 147.78 USD for 200-day models — a 151.9% increase attributable to lag
 
 ![mae](ma_mae_1000.png)
 ![smoothness](ma_smoothness_1000.png)
@@ -145,7 +145,7 @@ The three MA types represent a spectrum of responsiveness:
 
 ### Smoothness vs. Lag Trade-Off
 
-A fundamental tension governs moving average selection: smoothness and responsiveness are competing properties. A smoother MA (achieved through a longer window or weaker weighting of recent data) filters noise effectively but lags behind actual price movements — meaning trend changes are detected later. A more responsive MA tracks prices closely but is more susceptible to short-term noise. The optimal choice is the MA that minimises lag while providing sufficient smoothing for the analytical purpose at hand. This analysis quantifies that trade-off directly: average MAE for 30-day models is $58.66 versus $147.78 for 200-day models — a 151.9% increase attributable entirely to lag, not a difference in method quality.
+A fundamental tension governs moving average selection: smoothness and responsiveness are competing properties. A smoother MA (achieved through a longer window or weaker weighting of recent data) filters noise effectively but lags behind actual price movements — meaning trend changes are detected later. A more responsive MA tracks prices closely but is more susceptible to short-term noise. The optimal choice is the MA that minimises lag while providing sufficient smoothing for the analytical purpose at hand. This analysis quantifies that trade-off directly: average MAE for 30-day models is 58.66 USD versus 147.78 USD for 200-day models — a 151.9% increase attributable entirely to lag, not a difference in method quality.
 
 ### Model Performance
 
