@@ -40,23 +40,34 @@ Moving averages are versatile statistical tools where their real-world benefits 
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
+A workflow in Python was developed using libraries Pandas and NumPy, utilising Matplotlib and Seaborn for visualisations. The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
 
-After loading the data, minor data processing was undertaken to prepare the data for analysis, noting that overall the dataset was considered complete and accurate.  For simplicity, the most recent 1,000 daily adjusted close prices were used (relating to approximately 4 years of data), as this is sufficient to demonstrate the analytical methods, and insight gained.  The plot of the 1,000 adjusted close prices is:
+## Methodology:
+
+A workflow in Python was developed using libraries Pandas and NumPy, 
+utilising Matplotlib and Seaborn for visualisations. The data used was 
+obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).
+
+After loading the data, validation checks were applied prior to analysis: duplicate dates were identified and removed; zero and negative closing prices were flagged as anomalous; and the date index was inspected for unexpectedly large gaps (greater than 5 days), which would indicate missing data beyond normal market holidays. The dataset was found to be complete and accurate, with no issues detected. Forward-fill imputation was applied to handle any residual missing values in the closing price series.
+
+For simplicity, the most recent 1,000 daily adjusted close prices were used (relating to approximately 4 years of data), as this is sufficient to demonstrate the analytical methods and insight gained. The plot of the 1,000 adjusted close prices is:
 
 ![Data_line](ma_data_1000.png)
 
-Three moving average techniques were applied to the data:  SMA (Simple Moving Average) , WMA (Weighted Moving Average), and EMA (Exponential Moving Average), where different window lengths were used.
+Three moving average techniques were applied to the data: SMA (Simple Moving Average), WMA (Weighted Moving Average), and EMA (Exponential Moving Average), where different window lengths were used.
 
-There are multiple types of Weighted Moving Average (WMA), where the version used in this demo is Linear Weighted Moving Average (LWMA), considered the most commonly implemented WMA.  This applies more weighting to the most recent observations.  This uses the formula:  
+There are multiple types of Weighted Moving Average (WMA), where the version used in this analysis is Linear Weighted Moving Average (LWMA), considered the most commonly implemented WMA. This applies more weighting to the most recent observations, using the formula:
 
-WMA = (n×P₁ + (n-1)×P₂ + (n-2)×P₃ + ... + 2×Pₙ₋₁ + 1×Pₙ) / (n + (n-1) + (n-2) + ... + 2 + 1)  
-where: n = window size (e.g., 20)  
+WMA = (n×P₁ + (n-1)×P₂ + (n-2)×P₃ + ... + 2×Pₙ₋₁ + 1×Pₙ) / (n + (n-1) + (n-2) + ... + 2 + 1)  where: n = window size (e.g., 30)  
 P₁ = most recent price (gets highest weight)  
 Pₙ = oldest price in window (gets lowest weight)  
 Denominator = sum of weights = n×(n+1)/2  
 
-Accuracy metrics and smoothness metrics were then applied to the results, including Mean Absolute Error, Mean Absolute Percentage Error,  Root Mean Squared Error and Smoothness (variance of differences of consecutive values).  These can then be interpreted and support understanding the data and reaching conclusions.
+To characterise the underlying market behaviour, daily percentage returns and rolling 30-day annualised volatility were calculated. Annualisation uses a factor of √252, reflecting the approximate number of US trading days per year, expressing volatility on the same scale as annual return figures commonly used in financial analysis. This analysis provides context for why smoothing techniques are beneficial, and quantifies the market conditions present within the data period.
+
+Accuracy and smoothness metrics were then applied to the moving average results, including Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE), Root Mean Squared Error (RMSE), and Smoothness (variance of first differences of consecutive values). These metrics support direct comparison across MA types and window lengths, and quantify the trade-off between responsiveness and noise reduction.
+
+Finally, Golden Cross and Death Cross crossover events were identified by detecting sign changes in the spread between the 30-day and 200-day SMAs. A Golden Cross — where the short-term MA crosses above the long-term MA — is a widely followed bullish signal; a Death Cross represents the reverse. Crossover dates and prevailing price levels are extracted and annotated directly on the chart, alongside a spread panel illustrating the MA differential across the full analysis period.
 
 ## Results:
 
