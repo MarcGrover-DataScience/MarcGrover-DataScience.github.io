@@ -129,92 +129,59 @@ Within the 1,000-day analysis period, 2 Golden Cross events were identified on 1
 
 The spread panel provides a compact signal indicator: zero crossings correspond precisely to the annotated crossover events, and the magnitude of the spread indicates how decisively one MA leads the other — a wide positive spread reflects a firmly established bullish regime, while a spread approaching zero signals the potential for a crossover in either direction.
 
+## Conclusions:
 
+### Market Characterisation
 
+Returns analysis over the 1,000-day analysis period confirms that daily S&P 500 returns are centred near zero with a marginally positive mean, consistent with the long-run upward bias of US equity markets. The returns distribution is approximately symmetric but exhibits slightly heavier tails than a normal distribution — a well-documented characteristic of equity returns that reflects the occasional occurrence of large single-day moves in either direction. Rolling volatility analysis confirms that market volatility is not constant: identifiable periods of elevated uncertainty are present within the data, underscoring why a fixed-window moving average that smooths across varying volatility regimes is a practically useful analytical tool rather than merely a theoretical one.
 
+### Moving Average Type Comparison
 
+The three MA types represent a spectrum of responsiveness:
 
-
- 
-### Moving Average Type and Window Size Comparison
-
-To summarise the comparison of the three moving average types included in this analysis:
-
-SMA (Simple Moving Average):
-* Gives equal weight to all data points in the window
-* Slowest to react to price changes
-* Generally most stable and smoothest of the three methods
-
-EMA (Exponential Moving Average):
-* Gives more weight to recent prices
-* Faster reaction to price changes than SMA
-* More responsive to trends while maintaining smoothness
-
-WMA (Weighted Moving Average):
-* Linearly weights recent prices higher
-* Reactivity between SMA and EMA
-* Good balance of responsiveness and stability
-
-A summary of the 2 window sizes used in the analysis
-
-Short Window (30 days):
-* More responsive to recent price movements
-* Higher volatility in the moving average (less smooth)
-* Average MAE: $58.66
-
-Long Window (200 days):
-* Captures longer-term trends
-* Much smoother, less reactive to short-term fluctuations
-* Average MAE: $147.78 - 151.9% higher error due to lag effect
-
-It is important to note that the individual business use of the moving averages data will dictate which type(s), and window size to use, as each provide benefits.  It is common, and most powerful, to use multiple types and windows to provide maximum insight and benefit.
-
-### 30-day / 200-day Comparison and Application
-
-The 30-day and 200-day windows are commonly used in stock market analysis and predictions, and used as an important tool to support trading decisions.
-
-30-Day Moving Average: Considered a short-to-intermediate-term indicator, it reflects the stock's recent price action and helps spot near-term trend changes.
-
-200-Day Moving Average: A widely followed long-term indicator, it helps identify the major, overarching market trend and often acts as a significant level of support (in an uptrend) or resistance (in a downtrend). 
-
-Traders and investors use the relationship between these two moving averages, and the price itself, to generate potential buy or sell signals: 
-Overall Trend Confirmation:  
-* If the price is above both MAs, and the 30-day MA is above the 200-day MA, it confirms a strong bullish (upward) trend.  
-* If the price is below both MAs, and the 30-day MA is below the 200-day MA, it confirms a strong bearish (downward) trend.
-
-Crossover Signals:  
-* Bullish Crossover (Golden Cross): When the shorter-term 30-day MA crosses above the longer-term 200-day MA, it is generally interpreted as a powerful buy signal, indicating the start of a potential new long-term uptrend.  
-* Bearish Crossover (Death Cross): When the 30-day MA crosses below the 200-day MA, it is a sell signal, indicating a potential long-term downtrend is beginning.
+* **SMA (Simple Moving Average)** — equal weight to all observations in the window; slowest to react to price changes; most stable and smoothest of the three types. Best suited to identifying major, sustained trend reversals   where a lag-tolerant, low-noise signal is preferred.
+* **EMA (Exponential Moving Average)** — exponentially decaying weights prioritise recent observations; faster reaction than SMA while retaining smoothing; produces values from the first data point, maximising use of available data. Preferred where responsiveness is the primary requirement, such as shorter-term trading signals.
+* **WMA (Weighted Moving Average)** — linear decay in weights provides a middle ground between SMA and EMA in terms of both responsiveness and smoothness. Consistently the best-performing MA type by accuracy metrics in this analysis, offering a balanced approach to trend tracking.
 
 ### Smoothness vs. Lag Trade-Off
 
-When evaluating a moving average, you are generally trying to find the optimal balance between two competing properties - Smoothness and Lag:
+A fundamental tension governs moving average selection: smoothness and responsiveness are competing properties. A smoother MA (achieved through a longer window or weaker weighting of recent data) filters noise effectively but lags behind actual price movements — meaning trend changes are detected later. A more responsive MA tracks prices closely but is more susceptible to short-term noise. The optimal choice is the MA that minimises lag while providing sufficient smoothing for the analytical purpose at hand. This analysis quantifies that trade-off directly: average MAE for 30-day models is $58.66 versus $147.78 for 200-day models — a 151.9% increase attributable entirely to lag, not a difference in method quality.
 
-**Smoothness (Noise Reduction)** - A smoother line has less period-to-period change.  
-**Lag (Responsiveness)** - The smoothed line naturally lags behind the true underlying trend because it incorporates old data.  This is the time a significant trend change occuring in the original data is refelected in the moving average line in response.  
-The "best" moving average is the one that minimizes the lag while providing enough smoothness to filter out the noise relevant to your analysis (e.g., a 30-day MA is less smooth but less lagged than a 200-day MA).
+### Model Performance
 
-## Conclusions:
+Accuracy and smoothness results across all six models:
 
-* In general application, there is a trade-off between Accuracy and Smoothness:
-  * Shorter windows track prices more closely (lower MAE)
-  * Longer windows are smoother but lag behind actual prices
+* **Best accuracy (lowest MAE):** WMA across both window sizes
+  * 30-day WMA: MAE = $51.46 (MAPE = 1.83%), Smoothness variance = 47.44
+  * 200-day WMA: MAE = $137.83 (MAPE = 4.75%), Smoothness variance = 2.73
+* **Smoothest 30-day model:** EMA (Smoothness variance: 32.77)
+* **Smoothest 200-day model:** SMA (Smoothness variance: 0.88)
+* The RMSE/MAE ratio is consistent across all six models (approximately 1.2–1.5×), confirming a uniform error profile with no model producing disproportionately large individual deviations
 
-* For the example data analysed, an optimal Moving Average selection:
-  * For trend following: Use WMA with 200-day window
-  * For trading signals: Use WMA with 30-day window
-  * For robust analysis: Combine both short and long windows
+### Crossover Signal Analysis and Practical Application
 
-* General practical applications:
-  * EMA is often preferred where responsiveness is required
-  * SMA is better for identifying major trend reversals
-  * WMA provides a middle ground for balanced analysis
-  * Crossover strategies (short MA crossing long MA) signal potential trends
+The 30-day and 200-day SMAs are widely used in combination as a practical trading signal framework. Their relationship provides two layers of information:
 
-* S&P 500 Model Performance:
-  * Best overall model based on MAE: WMA with 30-day window
-    * Achieved MAE of $51.46 (1.83% MAPE)
-    * Smoothness variance: 47.44 (which is higher variance than other models, highlighting the trade-off as discussed)
+**Trend confirmation:**
+* Price above both MAs, with the 30-day MA above the 200-day MA: strong bullish (upward) trend confirmed
+* Price below both MAs, with the 30-day MA below the 200-day MA: strong bearish (downward) trend confirmed
+
+**Crossover signals:**
+* **Golden Cross** (30-day SMA crosses above 200-day SMA): bullish signal, indicating the potential start of a long-term uptrend
+* **Death Cross** (30-day SMA crosses below 200-day SMA): bearish signal, indicating a potential long-term downtrend
+
+Within the 1,000-day analysis period, 2 Golden Cross and 2 Death Cross events were identified, occurring at price levels of $2791.52 & $3115.34 and $2701.58 & $2409.39 respectively.
+
+The MA spread panel reinforces these signals: the magnitude of the spread quantifies the conviction of the prevailing trend regime, while a spread approaching zero signals an elevated probability of a crossover in either direction.
+
+### Optimal Model Selection
+
+Considering the full results, the recommended MA selection for each use case:
+
+* **Trend following:** WMA with 200-day window — best accuracy at the long window, with sufficient smoothness for stable trend identification
+* **Trading signals:** WMA with 30-day window — best overall accuracy, with crossover strategies using the 30-day/200-day SMA pair for signal generation
+* **Robust analysis:** Combine short and long windows across multiple MA types, as each provides complementary information — no single MA type or window is universally optimal across all market conditions
+
 
 ## Next steps:  
 
