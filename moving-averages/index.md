@@ -42,12 +42,6 @@ Moving averages are versatile statistical tools where their real-world benefits 
 
 A workflow in Python was developed using libraries Pandas and NumPy, utilising Matplotlib and Seaborn for visualisations. The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).  
 
-## Methodology:
-
-A workflow in Python was developed using libraries Pandas and NumPy, 
-utilising Matplotlib and Seaborn for visualisations. The data used was 
-obtained from [Kaggle](https://www.kaggle.com/datasets/henryhan117/sp-500-historical-data/).
-
 After loading the data, validation checks were applied prior to analysis: duplicate dates were identified and removed; zero and negative closing prices were flagged as anomalous; and the date index was inspected for unexpectedly large gaps (greater than 5 days), which would indicate missing data beyond normal market holidays. The dataset was found to be complete and accurate, with no issues detected. Forward-fill imputation was applied to handle any residual missing values in the closing price series.
 
 For simplicity, the most recent 1,000 daily adjusted close prices were used (relating to approximately 4 years of data), as this is sufficient to demonstrate the analytical methods and insight gained. The plot of the 1,000 adjusted close prices is:
