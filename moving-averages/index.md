@@ -170,7 +170,7 @@ The 30-day and 200-day SMAs are widely used in combination as a practical tradin
 * **Golden Cross** (30-day SMA crosses above 200-day SMA): bullish signal, indicating the potential start of a long-term uptrend
 * **Death Cross** (30-day SMA crosses below 200-day SMA): bearish signal, indicating a potential long-term downtrend
 
-Within the 1,000-day analysis period, 2 Golden Cross and 2 Death Cross events were identified, occurring at price levels of $2,791.52 & $3,115.34 and $2,701.58 & $2,409.39 respectively.
+Within the 1,000-day analysis period, 2 Golden Cross and 2 Death Cross events were identified, occurring at price levels of 2,791.52 USD & 3,115.34 USD and 2,701.58 USD & 2,409.39 USD respectively.
 
 The MA spread panel reinforces these signals: the magnitude of the spread quantifies the conviction of the prevailing trend regime, while a spread approaching zero signals an elevated probability of a crossover in either direction.
 
