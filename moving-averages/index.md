@@ -75,19 +75,49 @@ The chart below shows the same three moving averages restricted to the most rece
 
 ![3_MA_types_250](ma_smooth_250.png)
 
-A notable characteristic of EMA is that it produces values from the first data point, using the recursive formula EMA_today = α × Price_today + (1−α) × EMA_yesterday, initialised at the first observed price, where α = 2/(span+1). SMA and WMA require a full window of observations before the first value is computed. This means EMA provides earlier trend signals and makes full use of the available data — a practical advantage in contexts where every data point is valuable.
+A notable characteristic of EMA is that it produces values from the first data point, using the recursive formula EMA_today = α × Price_today + (1−α) × EMA_yesterday, initialised at the first observed price, where α = 2/(span+1) - for a 20-day window pan: α = 2/21 ≈ 0.095. SMA and WMA require a full window of observations before the first value is computed. This means EMA provides earlier trend signals and makes full use of the available data — a practical advantage in contexts where every data point is valuable.
 
+### Short and Long Window Comparison
 
-
-
-
-
-
-For each of the three moving average types applied, two separate window lengths were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results, showing as expected the plot for the long-window is smoother.
+For each MA type, both a 30-day (short) and 200-day (long) window were applied. The long-window variant is considerably smoother in all three cases, but lags more significantly behind the actual price during periods of rapid market movement.
 
 ![sma](ma_sma_1000.png)
 ![wma](ma_wma_1000.png)
 ![ema](ma_ema_1000.png)
+
+### Returns and Volatility Analysis
+
+Daily percentage returns and rolling 30-day annualised volatility were calculated to characterise the underlying market behaviour across the analysis period.
+
+![returns_volatility](ma_returns_volatility_1000.png)
+
+The top panel shows daily returns coloured by gain (blue) and loss (red), with the mean return shown as a reference. Returns are centred near zero with a marginally positive mean, consistent with the general upward trajectory of the S&P 500 over multi-year periods. The middle panel shows the returns distribution — approximately symmetric and centred near zero, with slightly heavier tails than a normal distribution, which is a well-established characteristic of equity return data. The bottom panel shows rolling 30-day annualised volatility: market volatility is clearly not constant across the period, with identifiable episodes of elevated uncertainty. This directly illustrates why a fixed-window moving average responds differently across different market conditions, and motivates the use of smoothing to separate trend from noise.
+
+### Accuracy and Smoothness Metrics
+
+The following table shows the accuracy and smoothness metrics across all six models:
+
+| MA Type | Window (days) | MAE ($) | MAPE (%) | RMSE ($) | Smoothness |
+|---------|--------------|---------|----------|----------|------------|
+| SMA     | 30           | 67.81   | 2.42     | 103.24   | 34.01      |
+| SMA     | 200          | 162.51  | 5.59     | 194.20   | 0.88       |
+| EMA     | 30           | 56.71   | 2.02     | 84.79    | 32.77      |
+| EMA     | 200          | 143.01  | 5.07     | 171.59   | 1.93       |
+| WMA     | 30           | 51.46   | 1.83     | 79.38    | 47.44      |
+| WMA     | 200          | 137.83  | 4.75     | 174.05   | 2.73       |
+
+Key findings:
+
+* WMA achieves the lowest MAE for both window sizes, making it the best-performing MA type by accuracy:
+  * 30-day: MAE = $51.46 (MAPE = 1.83%)
+  * 200-day: MAE = $137.83 (MAPE = 4.75%)
+* The smoothest 30-day MA is EMA (Smoothness variance: 32.77); the smoothest 200-day MA is SMA (Smoothness variance: 0.88)
+* Short-window models produce lower error but lower smoothness, directly quantifying the accuracy-smoothness trade-off: average MAE is $58.66 for 30-day models versus $147.78 for 200-day models — a 151.9% increase attributable to lag
+
+
+
+
+
 
 ### EMA Responsiveness
 It should be noted that when using EMA (Exponential Moving Average), there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
