@@ -421,7 +421,7 @@ class MovingAveragesPipeline:
         # MAE Comparison
         # plt.figure(figsize=(14, 7))
         pivot_mae = metrics_df.pivot(index='MA_Type', columns='Window', values='MAE')
-        pivot_mae.plot(kind='bar', width=0.8)
+        pivot_mae.plot(kind='bar', width=0.8, color=['mediumseagreen', 'lightsteelblue'])
         plt.title('Mean Absolute Error (MAE) Comparison', fontsize=16, fontweight='bold')
         plt.xlabel('Moving Average Type', fontsize=12)
         plt.ylabel('MAE ($)', fontsize=12)
@@ -435,7 +435,7 @@ class MovingAveragesPipeline:
         # MAPE Comparison
         # plt.figure(figsize=(12, 6))
         pivot_mape = metrics_df.pivot(index='MA_Type', columns='Window', values='MAPE')
-        pivot_mape.plot(kind='bar', width=0.8)
+        pivot_mape.plot(kind='bar', width=0.8, color=['mediumseagreen', 'lightsteelblue'])
         plt.title('Mean Absolute Percentage Error (MAPE) Comparison', fontsize=16, fontweight='bold')
         plt.xlabel('Moving Average Type', fontsize=12)
         plt.ylabel('MAPE (%)', fontsize=12)
@@ -449,7 +449,7 @@ class MovingAveragesPipeline:
         # Smoothness Comparison
         # plt.figure(figsize=(12, 6))
         pivot_smooth = metrics_df.pivot(index='MA_Type', columns='Window', values='Smoothness')
-        pivot_smooth.plot(kind='bar', width=0.8)
+        pivot_smooth.plot(kind='bar', width=0.8, color=['mediumseagreen', 'lightsteelblue'])
         plt.title('Smoothness Comparison (Lower is Smoother)', fontsize=16, fontweight='bold')
         plt.xlabel('Moving Average Type', fontsize=12)
         plt.ylabel('Smoothness (Variance)', fontsize=12)
