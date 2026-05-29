@@ -65,13 +65,23 @@ Finally, Golden Cross and Death Cross crossover events were identified by detect
 
 ## Results:
 
-The following chart show the results of applying all three moving average types to the data, all with a 30 day window, where the most recent 1,000 data points are included. 
+### Moving Average Type Comparison
+
+The following chart shows all three moving average types applied to the 1,000-point dataset with a 30-day window, providing direct comparison of SMA, EMA, and WMA tracking performance against the actual closing price.
 
 ![3_MA_types](ma_smooth_1000.png)
 
-For clarity the chart below shows the results of applying the three moving average types to the data, with a 30 day window, where only the most recent 250 data points are included (which represents approximately one year).  This highlights how each three moving average type responds to changes in trends, including the responsiveness and how closely they follow the true data.
+The chart below shows the same three moving averages restricted to the most recent 250 data points (approximately one year). At this scale, the responsiveness differences between the three methods are more clearly visible, particularly during periods of sustained price movement.
 
 ![3_MA_types_250](ma_smooth_250.png)
+
+A notable characteristic of EMA is that it produces values from the first data point, using the recursive formula EMA_today = α × Price_today + (1−α) × EMA_yesterday, initialised at the first observed price, where α = 2/(span+1). SMA and WMA require a full window of observations before the first value is computed. This means EMA provides earlier trend signals and makes full use of the available data — a practical advantage in contexts where every data point is valuable.
+
+
+
+
+
+
 
 For each of the three moving average types applied, two separate window lengths were applied, one being a short-window of 30 days, and the other a long-window of 200 days.  The following plots visualise the results, showing as expected the plot for the long-window is smoother.
 
