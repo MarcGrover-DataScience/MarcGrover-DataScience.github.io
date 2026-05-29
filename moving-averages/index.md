@@ -185,16 +185,16 @@ Considering the full results, the recommended MA selection for each use case:
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yeild tangible benefits.
+With any analysis it is important to assess how the analytical methods can be evolved to support business goals and yield tangible benefits.  
+Recommended next steps for consideration include:
 
-Considering the original business objective the recommended next steps for consideration include:
+* **Backtest crossover signals** — evaluate the predictive value of the Golden Cross and Death Cross events identified in this analysis by measuring subsequent returns following each signal, establishing whether the crossovers detected carry statistically meaningful forward-looking information.
+* **Research more advanced moving average techniques** — e.g. KAMA (Kaufman's Adaptive MA), DEMA (Double EMA), Volatility-Adjusted MAs. The rolling volatility calculated in this project provides a natural foundation for volatility-adaptive window sizing.
+* **Implement multi-timeframe analysis** — extend the framework to incorporate three or more window lengths simultaneously, providing richer trend context across short, medium, and long-term horizons.
+* **Extend the dataset** — apply the same analytical framework to additional instruments such as currencies, commodities, or individual stocks, to assess how findings generalise beyond the S&P 500 index.
+* **Integrate Machine Learning** — enhance predictive capability using time series models such as LSTM networks or gradient boosted classifiers trained on MA-derived features (e.g. spread, crossover signals, volatility regime) to predict directional price movements.
+* **Automate and monitor trading signals** — implement automated buy/sell decision logic based on MA crossovers, and track live performance against the signal logic to evaluate real-world effectiveness.
 
-* Research more advanced moving average techniques - e.g. KAMA (Kaufman's Adaptive MA), DEMA (Double EMA), Volatility-Adjusted MAs, etc.  
-* Research the implementation of multi-timeframe analysis, for example using three windows in the analysis.  
-* Extend set of data used within analysis, such as currencies, commodities, individual stocks etc.  
-* Integrate Machine Learning to enhance predictive models and pattern recognition (e.g. Random Forest Classifiers).  
-* Automate business decisions based on the analysis - e.g. stock buy/sell decisions based on MA crossovers.  
-* Monitor performance of automated decisions, including outcome compared to logic to make decision.  
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
