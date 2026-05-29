@@ -114,49 +114,27 @@ Key findings:
 * The smoothest 30-day MA is EMA (Smoothness variance: 32.77); the smoothest 200-day MA is SMA (Smoothness variance: 0.88)
 * Short-window models produce lower error but lower smoothness, directly quantifying the accuracy-smoothness trade-off: average MAE is $58.66 for 30-day models versus $147.78 for 200-day models — a 151.9% increase attributable to lag
 
-
-
-
-
-
-### EMA Responsiveness
-It should be noted that when using EMA (Exponential Moving Average), there are values from the first time point, whereas for SMA and WMA the first values appear only once a full window of data is observed.  
-
-EMA uses a recursive formula: EMA_today = α × Price_today + (1-α) × EMA_yesterday , where the first EMA value is typically initialized as the first price itself.  The smoothing factor α = 2/(span+1), so for a 20-day window: α = 2/21 ≈ 0.095
-
-Comparing the 30-day moving average (MA) and the 200-day MA is a common technical analysis technique to assess a stock's short-term momentum against its long-term trend. The 30-day MA is more sensitive to recent price changes, while the 200-day MA provides a smoother, broader view of the market's direction. 
-
-In conclusion EMA is considered more responsive, as it starts incorporating data immediately, and as such EMA provides earlier trend signals.  For example; EMA is often preferred by traders as it maximises the usable data while still providing smoothing benefits. 
-
-### Accuracy and Smoothness Metrics
-
-The following table shows the accuracy and smoothness metrics for each of the 3 moving averages methods applied for both 30-day and 200-day windows.  The three accuracy metrics being: Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE) and Root Mean Square Error (RMSE)
-```
-  MA_Type  Window     MAE  MAPE    RMSE  Smoothness
-0     SMA      30   67.81  2.42  103.24       34.01
-1     SMA     200  162.51  5.59  194.20        0.88
-2     EMA      30   56.71  2.02   84.79       32.77
-3     EMA     200  143.01  5.07  171.59        1.93
-4     WMA      30   51.46  1.83   79.38       47.44
-5     WMA     200  137.83  4.75  174.05        2.73
-```
-The following charts show the MAE, MAPE and Smoothness for each moving average type and window.
-
 ![mae](ma_mae_1000.png)
-![mape](ma_mape_1000.png)
 ![smoothness](ma_smoothness_1000.png)
 
-Analysis of the accuracy and smoothness metrics provides the following interpretation and conclusions:  
+RMSE is reported alongside MAE for completeness. As RMSE penalises large individual errors more heavily due to the squaring of residuals, a substantially elevated RMSE relative to MAE would indicate occasional large error spikes. The RMSE/MAE ratio is consistent across all six models (approximately 1.2–1.5×), confirming that the error profile is broadly uniform across the data period and no MA type produces disproportionately large individual deviations.
 
-* The best performing MA type for both the short-window and long-window is the WMA  
-  * MAE = $51.46 for 30-day window (1.83% average error)  
-  * MAE = $137.83 for 200-day window (4.75% average error)  
-* Smoothest 30-day window MA is EMA (Variance: 32.77)  
-* Smoothest 200-day window MA: SMA (Variance: 0.88)  
-* As expected the short-window MA types produce smaller error values, but lower smoothness (i.e. higher variance)
-  * This highlights the trade-off between smoothness and lag (window-size) as addressed below
- 
-RMSE is also reported for completeness. As RMSE penalises large individual errors more heavily than MAE due to the squaring of residuals, a substantially higher RMSE relative to MAE would indicate the presence of occasional large error spikes. In this analysis the RMSE/MAE ratio is consistent across all six models (approximately 1.5–1.9×), confirming that the error profile is broadly uniform across the data period rather than being driven by isolated large deviations.
+### Crossover Signal Analysis
+
+The chart below identifies Golden Cross (bullish) and Death Cross (bearish) events by detecting sign changes in the spread between the 30-day and 200-day SMAs. Crossover events are annotated with markers on the price chart. The lower panel shows the MA spread across the full analysis period — blue where the short MA is above the long MA (bullish regime) and red where it falls below (bearish regime).
+
+![crossover](ma_crossover_1000.png)
+
+Within the 1,000-day analysis period, 2 Golden Cross events were identified on 12/3/2019 and 18/6/2020, and 2 Death Cross events on 14/11/2018 and 19/3/2020.
+
+The spread panel provides a compact signal indicator: zero crossings correspond precisely to the annotated crossover events, and the magnitude of the spread indicates how decisively one MA leads the other — a wide positive spread reflects a firmly established bullish regime, while a spread approaching zero signals the potential for a crossover in either direction.
+
+
+
+
+
+
+
  
 ### Moving Average Type and Window Size Comparison
 
