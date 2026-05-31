@@ -10,11 +10,22 @@ permalink: /arima/
 
 ## Goals and objectives:
 
-The business objective is to predict monthly air passenger volumes using historical observations.  The Autoregressive Integrated Moving Average (ARIMA) technique was selected for this purpose as it is a powerful time-series analysis tool that can factor in seasonality and trends within time-series data, to determine patterns and build an accurate prediction model.
+The business objective is to predict monthly air passenger volumes using historical observations. The Autoregressive Integrated Moving Average (ARIMA) technique was selected for this purpose as it is a well-established statistical method for time-series forecasting, capable of modelling both trend and seasonality within sequential data to build accurate predictive models.
 
-ARIMA is effectively a model comprising of three components: AR (AutoRegressive), I (Integrated) and MA (Moving Average), which collectively operate on the time-series data.
+ARIMA is a composite model comprising three components: AR (AutoRegressive), I (Integrated), and MA (Moving Average). Each component addresses a distinct characteristic of the time series, and together they determine how the model captures patterns in historical data to generate forecasts. The three parameters that govern these components — **p, d, and q** — must be determined prior to modelling, and their correct identification is central to achieving accurate predictions.
 
-The model built achieved a high-level of forecasting accuracy accounting for 94.7% of variance in passenger numbers, and factored in both the overall increase in volumes and monthly / seasonal fluctuations within each year.
+A primary objective of this project is to treat ARIMA as a transparent, step-by-step analytical process rather than a black-box technique. Each of the three ARIMA components is addressed in isolation before the model is assembled, with the purpose of building genuine understanding of what each parameter controls and how it is identified from the data. The workflow proceeds through the following stages:
+
+* **Descriptive Analysis and Seasonal Decomposition** — visualising and decomposing the time series to identify trend, seasonality, and residual components, providing the analytical foundation for all subsequent steps
+* **Stationarity Assessment (d)** — formally testing stationarity using the Augmented Dickey-Fuller (ADF) and Kwiatkowski–Phillips–Schmidt–Shin (KPSS) tests, and determining the order of differencing required. Variance instability in the data motivates investigation of three pre-transformation methods — Log, Square-Root, and Box-Cox — each evaluated for its effect on stationarity
+* **Auto-Regression Order (p)** — using the Partial Autocorrelation Function (PACF) to determine the number of autoregressive lags to include in the model
+* **Moving Average Order (q)** — using the Autocorrelation Function (ACF) to determine the number of moving average lags to include in the model
+* **Model Fitting and Validation** — building ARIMA models using the identified parameters, evaluating forecast accuracy against a held-out test set, and validating the model using in-sample residual diagnostics including the Ljung-Box test
+
+The dataset used is the classic Box-Jenkins Air Passengers dataset, comprising 144 monthly observations of international airline passenger volumes from January 1949 to December 1960. The data exhibits a clear upward trend and strong 12-month seasonality, with the amplitude of seasonal fluctuations growing proportionally to the level of the series — a pattern of multiplicative seasonality that makes variance stabilisation a necessary pre-processing step.
+
+Two models are developed and compared within the project. A baseline model using untransformed data with parameters (**p, d, q**) = (**12, 1, 12**) is presented first, establishing a reference point. An optimal model incorporating Box-Cox variance stabilisation and parameters (**p, d, q**) = (**12, 2, 12**) is then developed, with the improvement in accuracy directly attributable to the analytical decisions made at each stage of the process. The best-performing model achieved an R² of 0.947, accounting for 94.7% of the variance in passenger volumes across the test period, with a Mean Absolute Error of 14.9 passengers per month.
+
 
 ## Application:  
 
@@ -26,14 +37,17 @@ ARIMA techniques can be applied to many real-world scenarios, yielding benefits 
   * Short-Term Price Forecasting - predicting stock prices and exchange rates to inform trading decisions and setting market positions
   * Volatility Forecasting - modelling the variation of financial time series, to predict period of high market risk
   * Financial Metric Forecasting - Predicting key economic indicators like inflation rates or interest rate movements to guide long-term financial planning and capital allocation.
+
 🏭 **Manufacturing: Production & Quality Optimisation** - ARIMA models drive efficiency and quality control in manufacturing by providing accurate, timely projections of resource needs and process stability.
   * Raw Material Procurement	- Forecasting the future demand for key raw materials with high accuracy, allowing purchasing managers to optimise order quantities, negotiate better prices, and minimize storage costs.
   * Inventory & Production Scheduling - Used to predict the required inventory levels for goods, leading to optimised production runs, reduced idle time, and lower costs associated with overstocking.
   * Process Control	- Monitoring critical process variables (e.g., temperature, pressure, chemical concentration) to predict when the process is likely to fail or experience issues based on historical patterns, supporting preventative maintenance.
+
 🛍️ **Retail: Demand Planning and Supply Chain Efficiency** - ARIMA is used to capture seasonality is key to maximizing sales and managing costs.
   * Demand Forecasting	- Accurately predicting weekly or monthly sales volume for individual products or entire categories, crucial for seasonal events like holidays (e.g., Christmas) where demand spikes significantly.
   * Preventing Stockouts/Oversupply -	Precise forecasts ensures popular items are in stock to meet demand (improving customer satisfaction) and prevents over-ordering, reducing the capital tied up in slow-moving inventory.
   * Staff Scheduling -	Forecasting customer traffic or required checkout volume by hour or day, enabling managers to align staff levels with anticipated demand, reducing labour costs and wait times.
+
 💻 **Technology: Capacity Planning and Service Reliability** - ARIMA is vital for managing infrastructure and service quality in response to fluctuating usage.
   * Server Load & Traffic Prediction	- Forecasting website traffic, API call volume, or server CPU load to predict when capacity will be exceeded. This is essential for proactive scaling of cloud resources (AWS, Azure, etc.) to prevent service outages.
   * Resource Allocation	- Predicting the demand for storage, bandwidth, or computing resources on a weekly or monthly basis to guide hardware procurement and capacity planning, optimising capital expenditure spending.
