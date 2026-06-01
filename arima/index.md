@@ -153,6 +153,36 @@ The model captures the broad seasonal shape and upward trend across the test per
 
 In-sample residual diagnostics confirm that the model is adequately specified. The Ljung-Box test returns p > 0.05, indicating that residuals are consistent with white noise and that no significant autocorrelation structure remains unexploited.
 
+![arima_model_diagnostics](arima_model_diagnostics.png)
+
+### Optimal Model — ARIMA(12,2,12), Box-Cox Transformation
+
+The optimal model applies Box-Cox variance stabilisation prior to fitting, and uses d=2 as supported by the stationarity analysis. Forecasts were generated on the transformed scale and inverse-transformed back to the original passenger units before evaluation.
+
+![pred_2](arima_pred_2.png)
+
+Performance Metrics:
+  Mean Squared Error (MSE): 323.26
+  Root Mean Squared Error (RMSE): 17.98
+  Mean Absolute Error (MAE): 14.89
+  R² Score: 0.9470
+  Mean Absolute Percentage Error (MAPE): 3.46%
+
+The optimal model delivers a meaningful improvement across all four metrics. The Box-Cox transformation stabilises the seasonal variance before modelling, allowing ARIMA to fit the autocorrelation structure on a more uniformly conditioned series. The result is tighter predictions — particularly in the later months of the forecast horizon where the baseline model diverges most from the actuals.
+
+In-sample residual diagnostics for the optimal model again confirm white noise residuals, with the Ljung-Box test returning p > 0.05.
+
+![arima_model_diagnostics_2](arima_model_diagnostics_2.png)
+
+### Model Comparison
+
+**Model    Transformation p,d,q     RMSE    MAE    R²     MAPE**  
+Baseline None           (12,1,12) 41.0    32.3   0.724  6.96%  
+OptimalBox-Cox          (12,2,12) 18.0    14.9   0.947  3.46%  
+
+The improvement from baseline to optimal is directly attributable to the analytical steps taken in the methodology — variance stabilisation via Box-Cox and the use of second-order differencing supported by both the ADF and KPSS tests. This demonstrates that systematic pre-processing decisions, grounded in statistical evidence, translate into measurable gains in forecasting accuracy.
+
+
 
 
 
