@@ -55,29 +55,33 @@ ARIMA techniques can be applied to many real-world scenarios, yielding benefits 
 
 ## Methodology:  
 
-A workflow was developed in Python using statsmodels, scipy, scikit-learn, pandas and numpy libraries, with Matplotlib and Seaborn packages for visualisation.
+A workflow was developed in Python using the statsmodels, scipy, scikit-learn, pandas, and numpy libraries, with matplotlib and seaborn for visualisation. The script is designed to be iterative — parameter values and transformations are user-defined, allowing different configurations to be evaluated systematically rather than producing a single automated output.
 
-The data of observed air passengers (monthly totals) was split into a training set and a testing set, where the first 80% of observations formed the training set, and the latest 20% of observations formed the test set.  As such the prediction is for the latest 20% of monthly data, which can be comparted to the actual values for those months to determine accuracy.
+The dataset of monthly air passenger totals was split chronologically into a training set comprising the first 80% of observations (115 months) and a test set comprising the most recent 20% (29 months). Chronological splitting is essential for time-series data to prevent data leakage — random splitting would allow future observations to inform the model, producing misleadingly optimistic results.
 
-#### Descriptive Analysis:
-The original data was analysed to understand and visualise any potential trends, patterns and seasonality.
 
-#### Integrated / Differencing (Stationarity):
+### Descriptive Analysis and Seasonal Decomposition:
+
+The full time series was plotted to visualise the overall structure prior to any transformation or modelling. A multiplicative seasonal decomposition was then applied to the training data using a period of 12 months, separating the series into trend, seasonal, and residual components. Multiplicative decomposition is appropriate here because the amplitude of the seasonal fluctuations grows in proportion to the level of the series — a characteristic visible in the raw data and confirmed by the decomposition output. Monthly seasonal indices were extracted from the decomposition to quantify the magnitude of within-year variation.
+
+Rolling statistics (12-month rolling mean and variance) were computed over the training data to provide a visual assessment of non-stationarity prior to formal testing.
+
+### Integrated / Differencing (Stationarity):
 ARIMA models are designed to handle non-stationary time series by incorporating differencing into the model itself. The “I” in ARIMA stands for Integrated, which refers to the differencing step that makes the series stationary.  Stationarity is required for AR (AutoRegressive) and MA (Moving Average) components.  While ARIMA handles stationarity internally via differencing, it may also be required to apply pre-transformation to the data prior to applying the ARIMA methods, for example the data has variance instability (e.g., heteroscedasticity).
 
 Methods to stabilise the variance were investigated including; Log Transformation, Square-Root Transformation and Box-Cox Transformation.
 
 This analysis supports the values of **d** to be used in the ARIMA model, as well as any transformation required to produce more accurate ARIMA predictions.
 
-#### Auto Regression:  
+### Auto Regression:  
 
 Determine the number of lags (past values of the time series) to include in the ARIMA model, using the Partial Autocorrelation Function (PACF).  This relates to the 'AR' aspect of ARIMA, and determines the optimal value of **p** to use in the ARIMA model
 
-#### Moving Averages:
+### Moving Averages:
 
 Determine the number of lags to be used in the ARIMA model in relation to moving averages, using the Autocorrelation Function (ACF). This is used as the **q** parameter in the ARIMA model.
 
-#### Gernerate ARIMA model and validate:
+### Gernerate ARIMA model and validate:
 
 ARIMA models were created and validated using the findings of the Stationarity, Auto Regression and Moving Averages stages.  The validation enabled analysis of the results, and used to determine the optimal model parameters and predictions.
 
