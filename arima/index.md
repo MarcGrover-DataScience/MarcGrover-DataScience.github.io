@@ -120,7 +120,27 @@ The growing seasonal amplitude observed in the raw data represents heteroscedast
 
 All three transformations produce a stationary series at d=1, outperforming the untransformed series which requires d=2 to achieve stationarity. The Box-Cox transformation — which determines its power parameter λ directly from the data — produces the lowest residual variance of the three, making it the strongest candidate for use in the ARIMA model. These findings inform the two models presented in this project: a baseline using untransformed data with d=1 (which required p,d,q = 12,1,12 to be competitive), and an optimal model applying Box-Cox transformation with d=2, using p,d,q = 12,2,12.
 
+### Parameter Identification — PACF and ACF
 
+With the differencing order established, the AR order (p) and MA order (q) were identified from the Partial Autocorrelation Function (PACF) and Autocorrelation Function (ACF) respectively, computed on the first-order differenced untransformed series as an exploratory step.
+
+![arima_pacf](arima_pacf.png)
+
+The PACF shows a dominant significant spike at lag 12, with lags 1 through 11 largely within the confidence interval. This pattern is characteristic of strong annual seasonality and directly indicates p=12 — the model should incorporate autoregressive terms reaching back 12 months.
+
+![arima_acf](arima_acf.png)
+
+The ACF shows a similar pattern, with a prominent spike at lag 12 that decays only slowly at multiples of 12. This seasonal autocorrelation structure points to q=12. The gradual decay rather than sharp cutoff is consistent with a mixed ARIMA process where both AR and MA terms contribute.
+
+A confirmatory ACF/PACF analysis on the Box-Cox transformed series produced identical conclusions, confirming that the parameter selection is robust to the choice of transformation.
+
+![arima_acf_pacf_boxcox](arima_acf_pacf_boxcox.png)
+
+### Baseline Model — ARIMA(12,1,12), Untransformed Data
+
+The baseline model was fitted to the untransformed training data using p,d,q = (12, 1, 12). The forecast and 95% prediction interval for the 29-month test period are shown below.
+
+![pred_1](arima_pred_1.png)
 
 
 
