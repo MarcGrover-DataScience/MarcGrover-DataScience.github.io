@@ -142,6 +142,20 @@ The baseline model was fitted to the untransformed training data using p,d,q = (
 
 ![pred_1](arima_pred_1.png)
 
+Performance Metrics:  
+  Mean Squared Error (MSE): 1684.04  
+  Root Mean Squared Error (RMSE): 41.04  
+  Mean Absolute Error (MAE): 32.34  
+  R² Score: 0.7241  
+  Mean Absolute Percentage Error (MAPE): 6.96%  
+
+The model captures the broad seasonal shape and upward trend across the test period. However, the prediction interval widens noticeably towards the later months of the forecast horizon, reflecting increasing uncertainty — expected behaviour for an ARIMA model forecasting 29 steps ahead. 
+
+In-sample residual diagnostics confirm that the model is adequately specified. The Ljung-Box test returns p > 0.05, indicating that residuals are consistent with white noise and that no significant autocorrelation structure remains unexploited.
+
+
+
+
 
 
 
