@@ -96,7 +96,7 @@ The Air Passengers dataset comprises 144 monthly observations spanning January 1
 
 ![dataplot](arima_data_split.png)
 
-Multiplicative seasonal decomposition of the training data separates the series into its constituent components. The trend component confirms sustained growth across the period. The seasonal component quantifies the regular within-year pattern, with July and August consistently running approximately 35–40% above the prevailing trend, while November and January fall roughly 10–15% below it. The residual component shows no obvious remaining structure, suggesting the decomposition has cleanly separated the primary signals.
+Multiplicative seasonal decomposition of the training data separates the series into its constituent components. The trend component confirms sustained growth across the period. The seasonal component quantifies the regular within-year pattern, with July and August consistently running approximately 20% above the prevailing trend, while November and January fall roughly 10% below it. The residual component shows no obvious remaining structure, suggesting the decomposition has cleanly separated the primary signals.
 
 ![arima_seasonal_decomposition](arima_seasonal_decomposition.png)
 
@@ -176,95 +176,14 @@ In-sample residual diagnostics for the optimal model again confirm white noise r
 
 ### Model Comparison
 
-**Model    Transformation p,d,q     RMSE    MAE    R²     MAPE**  
+```
+Model    Transformation p,d,q     RMSE    MAE    R²     MAPE  
 Baseline None           (12,1,12) 41.0    32.3   0.724  6.96%  
-OptimalBox-Cox          (12,2,12) 18.0    14.9   0.947  3.46%  
+Optimal  Box-Cox        (12,2,12) 18.0    14.9   0.947  3.46%
+```
 
 The improvement from baseline to optimal is directly attributable to the analytical steps taken in the methodology — variance stabilisation via Box-Cox and the use of second-order differencing supported by both the ADF and KPSS tests. This demonstrates that systematic pre-processing decisions, grounded in statistical evidence, translate into measurable gains in forecasting accuracy.
 
-
-
-
-
-
-
-
-
-
-### Stationarity:
-The Augmented Dickey-Fuller (ADF) test was applied to the original training data to test for stationarity, where the null hypothesis (H₀) is that the data is non-stationary.  This produced an ADF test statistic = -0.3569, which produces a p-value of 0.917, therefore there is insufficient evidence to reject to null hypothesis and there is evidence that the data is non-stationary, and differencing is required.
-
-With first order differencing applied to the data, the ADF test was applied returning a p-value = 0.106, which meant that we couldn't reject the null-hypothesis, but suggested that there is weak stationarity in the data after first order differencing, and suggesting further differencing could be applied and analysed.
-
-From the previous plots there was evidence that the variance wasn't stable, and as such three separate transformation methods were applied to stabilise the data prior to first order differencing.  The three transformations applied were Log Transformation, Square-Root Transformation and Box-Cox Transformation.  The ADF test results of applying each of these prior to first order differencing were:
-
-* Log Transformation + First order differencing - p-value = 0.086 - The null hypothesis of non-stationarity cannot be rejected, but this suggests weak stationarity, and suggests the log transformation improves the stationarity  
-* Square-Root Transformation + First order differencing - p-value = 0.046 - The null hypothesis of non-stationarity can be rejected, and this is evidence of stationarity.  We can conclude that the square-root transformation improves the stationarity  
-* Box-Cox Transformation + First order differencing - p-value = 0.084 - The null hypothesis of non-stationarity cannot be rejected, but this suggests weak stationarity, and suggests the Box-Cox transformation improves the stationarity
-
-These findings will be useful when the ARIMA function is applied later, where the differencing relates to the **d** parameter.  The following plots show the data after first order differencing, and the data after the square-root transformation with first order differencing applied.
-
-![differencing](arima_diff.png)  
-![sqrt_differencing](arima_diff_sqrt.png)  
-
-It should be remembered that the stabilising of the data is undertaken in order to provide better results in the AR (AutoRegressive) and MA (Moving Average) stages of ARIMA.
-
-Results from the project related to the business objective.  
-
-### Auto-Regression:
-
-This step is primarily used to determine the number of lags (past values of the time series) to include in the model, related to auto-regression.  This is the **p** parameter in the ARIMA model. The Partial Autocorrelation Function (PACF) is applied to the first order differenced data, to generate the PACF plot, which visualises the influence of lagged values on an observation.  
-
-The plot below shows the PACF values for each lag, which visually implies the most significant lag is 12 - which logically is consistent with the visuals of the passenger volume plots which imply some seasonality of 12 months.  This can be further tested by using different **p** values in the ARIMA model.  
-
-![pacf](arima_pacf.png)  
-
-### Moving Averages:
-
-This step analyses the number of lags to be used in the ARIMA model in relation to moving averages.  This is the **q** parameter in the ARIMA model.  The Autocorrelation Function (ACF) is apllied to the first order differenced data, to generate the ACF plot, which visualises the influence of lagged values on an observation.  
-
-The plot of ACF values below, similar to the PACF plot, visually suggests that the most significant lag is also 12, which logically makes sense given that there is evidence of 12 month seasonality.
-
-![acf](arima_acf.png)  
-
-### ARIMA models:
-
-The workflow developed supports ARIMA modelling with any values of parameters **p**, **d** and **q**, and also supports transformations being applied to the data to stabilise the variance.  For each model generated, predicted passenger volumes for the next 29 months are generated which can be tested against the actual values, to determine accuracy and quality metrics of the model.
-
-Initially, the ARIMA model was applied with **un-transformed** data and practical baseline parameters of **(p, d, q) = (12, 1, 12)**.  This results in a prediction as shown in the plot below, along with plots of the residuals.  The evaluation of the model determined the key values as:
-
-* R² =  0.724 (i.e. 72.4% of all variance can be explained by the model)  
-* Mean Absolute Error (MAE) = 32.3 (i.e. are incorrect by an average of 32)
-* Root Mean Squared Error (RMSE) = 41.0
-
-An interesting finding is that the plots below highlight that the majority of predictions are less than the true values, which is very clear from the histogram of the residuals.
-
-![pred_1](arima_pred_1.png)
-
-![resid_1](arima_residual_1.png)
-
-![resid_histo_1](arima_residual_histo_1.png)
-
-Multiple versions of the ARIMA model were run, changing the p, d, q values as well as trying different transformations to stabilise the variance.  Not all of these are described or visualised here for simplicity, but the key findings are:
-
-* Using p and q values equal to 12 provide the optimal ARIMA model accuracy
-* Increasing d from 1 to 2 improves the model accuracy (i.e. second order differencing produces better results than first order differencing)
-* The application of each of the three of the variance-stabilising transformations improve the model accuracy
-* The best performing model was using the Box-Cox Transform to stabilise the variance (where the lambda value in the Box-Cox Transform is 0.04) and ARIMA parameters of **(p, d, q) = (12, 2, 12)**.
-
-Plots of the predictions of the best-performing model are below.  The model accuracy metrics were:
-
-* R² =  0.947 (i.e. 94.7% of all variance can be explained by the model)  
-* Mean Absolute Error (MAE) = 14.9 (i.e. are incorrect by an average of ~15)
-* Root Mean Squared Error (RMSE) = 18.0
-
-![pred_2](arima_pred_box_2.png)
-
-![resid_2](arima_residual_box_2.png)
-
-![resid_histo_2](arima_residual_histo_box_2.png)  
-
-By comparing the three plots above for the optimal ARIMA model, to the baseline model, it is visible that the prediction is closer to the actual test data.  The plot of the residuals also shows that the errors are smaller, with a more even split of positive and negative errors.
 
 ## Conclusions:
 
