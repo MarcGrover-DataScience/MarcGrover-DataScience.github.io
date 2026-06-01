@@ -60,30 +60,33 @@ A workflow was developed in Python using the statsmodels, scipy, scikit-learn, p
 The dataset of monthly air passenger totals was split chronologically into a training set comprising the first 80% of observations (115 months) and a test set comprising the most recent 20% (29 months). Chronological splitting is essential for time-series data to prevent data leakage — random splitting would allow future observations to inform the model, producing misleadingly optimistic results.
 
 
-### Descriptive Analysis and Seasonal Decomposition:
+### Descriptive Analysis and Seasonal Decomposition
 
 The full time series was plotted to visualise the overall structure prior to any transformation or modelling. A multiplicative seasonal decomposition was then applied to the training data using a period of 12 months, separating the series into trend, seasonal, and residual components. Multiplicative decomposition is appropriate here because the amplitude of the seasonal fluctuations grows in proportion to the level of the series — a characteristic visible in the raw data and confirmed by the decomposition output. Monthly seasonal indices were extracted from the decomposition to quantify the magnitude of within-year variation.
 
 Rolling statistics (12-month rolling mean and variance) were computed over the training data to provide a visual assessment of non-stationarity prior to formal testing.
 
-### Integrated / Differencing (Stationarity):
-ARIMA models are designed to handle non-stationary time series by incorporating differencing into the model itself. The “I” in ARIMA stands for Integrated, which refers to the differencing step that makes the series stationary.  Stationarity is required for AR (AutoRegressive) and MA (Moving Average) components.  While ARIMA handles stationarity internally via differencing, it may also be required to apply pre-transformation to the data prior to applying the ARIMA methods, for example the data has variance instability (e.g., heteroscedasticity).
+### Stationarity and Differencing (d)
+Stationarity — the requirement that the statistical properties of the series do not change over time — is a prerequisite for the AR and MA components of ARIMA. Two complementary formal tests were applied: the Augmented Dickey-Fuller (ADF) test, where the null hypothesis is non-stationarity, and the KPSS test, where the null hypothesis is stationarity. Using both tests together provides stronger evidence than either alone, as they approach the question from opposing directions.
 
-Methods to stabilise the variance were investigated including; Log Transformation, Square-Root Transformation and Box-Cox Transformation.
+First and second-order differencing were both evaluated, with ADF and KPSS results reported for each. This analysis directly informs the choice of **d** in the ARIMA model.
 
-This analysis supports the values of **d** to be used in the ARIMA model, as well as any transformation required to produce more accurate ARIMA predictions.
+The original data exhibits growing variance — a form of heteroscedasticity that differencing alone does not resolve. Three variance-stabilising transformations were therefore investigated prior to differencing: Log Transformation, Square-Root Transformation, and Box-Cox Transformation. For each, the differenced series was tested for stationarity using the ADF test, and the results compared in a summary chart showing all four differenced series side by side. The Box-Cox transformation determines its power parameter λ from the data directly, making it the most flexible of the three methods.
 
-### Auto Regression:  
+### Auto-Regression Order (p)
+The Partial Autocorrelation Function (PACF) was applied to the first-order differenced training data to identify the number of autoregressive lags to include in the model. The PACF measures the correlation between an observation and a lagged value after removing the influence of all intermediate lags, isolating the direct relationship at each lag. Significant lags — those exceeding the 95% confidence interval — indicate which past values carry predictive information. The value of **p** was selected based on visual assessment of the PACF plot rather than an automated rule, consistent with the exploratory intent of the project.
 
-Determine the number of lags (past values of the time series) to include in the ARIMA model, using the Partial Autocorrelation Function (PACF).  This relates to the 'AR' aspect of ARIMA, and determines the optimal value of **p** to use in the ARIMA model
+### Moving Average Order (q)
+The Autocorrelation Function (ACF) was applied to the same differenced series to determine the moving average order. Unlike the PACF, the ACF measures total correlation at each lag including indirect effects, and its pattern of significant lags indicates how many past forecast errors should be incorporated into the model. The value of **q** was selected on the same basis as **p**.
 
-### Moving Averages:
+A confirmatory ACF/PACF analysis was additionally performed on the Box-Cox transformed, first-order differenced series — the series that enters the optimal model — to verify that the parameter conclusions are consistent between the exploratory and model-ready series.
 
-Determine the number of lags to be used in the ARIMA model in relation to moving averages, using the Autocorrelation Function (ACF). This is used as the **q** parameter in the ARIMA model.
+### Model Fitting and Evaluation
 
-### Gernerate ARIMA model and validate:
+ARIMA models were constructed using the statsmodels ARIMA implementation and fitted on the training data. For each model configuration, 29-month forecasts were generated for the test period using get_forecast(), which returns both point estimates and 95% prediction intervals. Where a variance-stabilising transformation was applied, forecasts and confidence intervals were inverse-transformed back to the original passenger scale before evaluation.
 
-ARIMA models were created and validated using the findings of the Stationarity, Auto Regression and Moving Averages stages.  The validation enabled analysis of the results, and used to determine the optimal model parameters and predictions.
+Model performance was assessed using four metrics against the held-out test set: Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), R² Score, and Mean Absolute Percentage Error (MAPE). In addition to test-set evaluation, in-sample residual diagnostics were conducted on the fitted model using the statsmodels plot_diagnostics() output and the Ljung-Box test. The Ljung-Box test formally assesses whether residual autocorrelation remains after fitting — a well-specified model should produce residuals consistent with white noise, indicating that the model has captured all exploitable structure in the training data.
+
 
 ## Results:
 
