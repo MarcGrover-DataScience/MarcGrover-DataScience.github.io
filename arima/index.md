@@ -90,16 +90,42 @@ Model performance was assessed using four metrics against the held-out test set:
 
 ## Results:
 
-The overall training set of passenger volumes has a mean of 239.95, with a standard deviation of 91.35 (variance = 8,344.42), however a plot of the points (both training and testing data) demonstrate a seasonal pattern and also an overall increasing trend.  Additional plots were generated to show the moving average and moving variance of the training data over time.  As shown below these further evidence the overall trend of increasing passenger volumes, and increase in variance over time.
+### Data Overview and Seasonal Decomposition:
 
-The following shows the plot of both the training and testing datasets:
+The Air Passengers dataset comprises 144 monthly observations spanning January 1949 to December 1960, split into 115 training observations and 29 test observations. The raw series exhibits a clear upward trend throughout the period alongside strong 12-month seasonality, with passenger volumes consistently peaking in summer months and troughing in winter. Critically, the amplitude of seasonal fluctuations increases proportionally with the level of the series — a pattern of multiplicative seasonality that has direct implications for the pre-processing approach.
 
 ![dataplot](arima_data_split.png)
 
-The plots below show the moving average and moving variance of the training data, providing evidence of the non-stationarity of the data which will next be more formally tested.
+Multiplicative seasonal decomposition of the training data separates the series into its constituent components. The trend component confirms sustained growth across the period. The seasonal component quantifies the regular within-year pattern, with July and August consistently running approximately 35–40% above the prevailing trend, while November and January fall roughly 10–15% below it. The residual component shows no obvious remaining structure, suggesting the decomposition has cleanly separated the primary signals.
+
+![arima_seasonal_decomposition](arima_seasonal_decomposition.png)
+
+### Stationarity Assessment:
+
+Stationarity — the requirement that the mean, variance, and autocorrelation structure of the series remain constant over time — is a prerequisite for ARIMA modelling. The ADF and KPSS tests were applied in combination, as they test opposing null hypotheses and together provide stronger evidence than either alone.
+
+Applied to the raw training data, both tests confirm non-stationarity. The 12-month rolling mean rises steadily throughout the series, and the rolling variance increases substantially over time, confirming that neither the mean nor the variance are constant.
 
 ![train_mean](arima_train_mean.png)
+
+After first-order differencing, the ADF test returns a p-value of 0.106, which narrowly fails to reject the null hypothesis of non-stationarity at the 5% level. The KPSS test at d=1 similarly indicates that further differencing may be beneficial. Second-order differencing (d=2) brings both tests into agreement, with ADF and KPSS results both confirming stationarity — analytically supporting the use of d=2 in the optimal model.
+
 ![train_variance](arima_train_variance.png)
+
+### Variance Stabilisation:
+
+The growing seasonal amplitude observed in the raw data represents heteroscedasticity — non-constant variance — which differencing alone does not resolve. Three variance-stabilising transformations were evaluated prior to differencing: Log, Square-Root, and Box-Cox. For each, the ADF test was applied to the first-order differenced series and the residual variance recorded.
+
+![arima_transformation_comparison](arima_transformation_comparison.png)
+
+All three transformations produce a stationary series at d=1, outperforming the untransformed series which requires d=2 to achieve stationarity. The Box-Cox transformation — which determines its power parameter λ directly from the data — produces the lowest residual variance of the three, making it the strongest candidate for use in the ARIMA model. These findings inform the two models presented in this project: a baseline using untransformed data with d=1 (which required p,d,q = 12,1,12 to be competitive), and an optimal model applying Box-Cox transformation with d=2, using p,d,q = 12,2,12.
+
+
+
+
+
+
+
 
 ### Stationarity:
 The Augmented Dickey-Fuller (ADF) test was applied to the original training data to test for stationarity, where the null hypothesis (H₀) is that the data is non-stationary.  This produced an ADF test statistic = -0.3569, which produces a p-value of 0.917, therefore there is insufficient evidence to reject to null hypothesis and there is evidence that the data is non-stationary, and differencing is required.
