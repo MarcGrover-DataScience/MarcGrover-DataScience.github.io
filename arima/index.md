@@ -187,6 +187,17 @@ The improvement from baseline to optimal is directly attributable to the analyti
 
 ## Conclusions:
 
+Two ARIMA models were developed and evaluated against a 29-month held-out test set, with performance compared across RMSE, MAE, R², and MAPE.
+
+The baseline model — ARIMA(12,1,12) fitted to untransformed data — produced an R² of 0.724 and a MAPE of 6.96%, capturing the broad seasonal shape and upward trend but diverging from the actuals with increasing error towards the end of the forecast horizon. The shortcoming is directly traceable to heteroscedasticity in the raw series: with variance growing proportionally to the level of the data, the model is fitting a series that violates a key ARIMA assumption.
+
+The optimal model — ARIMA(12,2,12) with Box-Cox pre-transformation — addresses this directly. By stabilising the seasonal variance before fitting and using second-order differencing as supported by both the ADF and KPSS tests, the model operates on a well-conditioned series from the outset. The result is a substantial improvement across all metrics: R² of 0.947, MAPE of 3.46%, RMSE reduced from 41.0 to 18.0, and MAE from 32.3 to 14.9. In practical terms, the optimal model predicts monthly passenger volumes to within approximately 15 passengers on average — an operationally meaningful level of accuracy for capacity planning and demand forecasting applications.
+
+In-sample residual diagnostics for both models confirm that the fitted residuals are consistent with white noise, validating that neither model leaves exploitable structure in the training data. The improvement in forecast accuracy is therefore attributable entirely to better pre-processing, not to a difference in model specification.
+
+The project demonstrates that the quality of an ARIMA forecast is determined as much by the analytical decisions preceding model fitting — stationarity testing, variance stabilisation, and parameter identification — as by the model itself. A systematic, evidence-based workflow, where each decision is grounded in statistical output rather than convention, produces materially better results than applying ARIMA to raw data without pre-processing.
+
+
 The conclusions of the analysis of the ARIMA model for predicting future value include:
 
 * ARIMA methods including transformation of data to stabilise variance and mean values allows highly accurate modelling of time-series data including trends and seasonality.
