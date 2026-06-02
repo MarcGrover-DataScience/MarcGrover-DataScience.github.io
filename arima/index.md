@@ -161,12 +161,12 @@ The optimal model applies Box-Cox variance stabilisation prior to fitting, and u
 
 ![pred_2](arima_pred_2.png)
 
-Performance Metrics:
-  Mean Squared Error (MSE): 323.26
-  Root Mean Squared Error (RMSE): 17.98
-  Mean Absolute Error (MAE): 14.89
-  R² Score: 0.9470
-  Mean Absolute Percentage Error (MAPE): 3.46%
+Performance Metrics:  
+  Mean Squared Error (MSE): 323.26  
+  Root Mean Squared Error (RMSE): 17.98  
+  Mean Absolute Error (MAE): 14.89  
+  R² Score: 0.9470  
+  Mean Absolute Percentage Error (MAPE): 3.46%  
 
 The optimal model delivers a meaningful improvement across all four metrics. The Box-Cox transformation stabilises the seasonal variance before modelling, allowing ARIMA to fit the autocorrelation structure on a more uniformly conditioned series. The result is tighter predictions — particularly in the later months of the forecast horizon where the baseline model diverges most from the actuals.
 
