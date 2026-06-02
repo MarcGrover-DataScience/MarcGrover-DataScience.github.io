@@ -8,8 +8,6 @@ permalink: /data-science-workflow/
 
 ---
 
-# This project is in development
-
 ## Introduction to the Data Science Workflow  
 
 Data science is often presented as a collection of techniques — statistical tests, machine learning algorithms, deep learning architectures. Each is powerful in its own right, but technique alone does not produce good analysis. What separates reliable, impactful data science from ad hoc number-crunching is the process behind it: a disciplined, structured approach that connects a business question to a meaningful, well-evidenced answer.
