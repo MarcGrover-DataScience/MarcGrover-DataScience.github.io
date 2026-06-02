@@ -199,14 +199,12 @@ The project demonstrates that the quality of an ARIMA forecast is determined as 
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+The analytical workflow developed in this project provides a strong foundation for further development, both in terms of modelling sophistication and practical deployment:
 
-Recommendations to improve and manage the model include:
-
-* Consider the application of SARIMA techniques explicitly to model seasonality.  
-* Research the use of alternative variance stabilisation methods to improve the prediction accuracy.  
-* Track model performance against actual values, and retrain the model where required, for example model accuracy decreases.  
-* Assess the possibility of migrating to other Machine Learning models to generate predictions.
+* **SARIMA — Explicit Seasonal Modelling**: The ARIMA(12,2,12) model handles seasonality implicitly through its lag structure. Seasonal ARIMA (SARIMA) extends this by adding dedicated seasonal AR, differencing, and MA terms — denoted SARIMA(p,d,q)(P,D,Q)m — allowing the 12-month seasonal pattern to be modelled explicitly and more parsimoniously. Given the strength of the seasonal signal identified in this project, SARIMA is the most natural next modelling step and would likely reduce the parameter count while maintaining or improving accuracy.
+* **Automated Parameter Selection**: The p, d, and q values in this project were identified through the exploratory ACF/PACF workflow, which builds genuine understanding of the data. An automated alternative is auto_arima from the pmdarima library, which performs a stepwise AIC-minimising search across the parameter space. Comparing the manually derived parameters against those recommended by auto_arima would validate the exploratory approach and provide a useful reference point — particularly when applying ARIMA to new datasets where domain knowledge of the lag structure is not available.
+* **Alternative Forecasting Models**: ARIMA is a linear model and assumes that the relationships in the data are stationary after differencing and transformation. For datasets with more complex non-linear dynamics, alternative approaches may be worth evaluating — including Prophet (designed specifically for business time-series with strong seasonality), LSTM recurrent neural networks (which can capture non-linear temporal dependencies), and ensemble methods. Benchmarking ARIMA against these approaches on the same train/test split would quantify whether the additional complexity is justified by improved accuracy.
+* **Model Monitoring and Retraining**: In a production context, a forecasting model should be monitored continuously against incoming actuals. A practical framework would track MAPE on a rolling basis and trigger retraining when performance degrades beyond a defined threshold. For the Air Passengers dataset this is historical, but in an operational airline capacity planning application, automated retraining on new monthly data would be essential to maintaining forecast reliability as passenger trends evolve.
 
 
 ## Python code:
