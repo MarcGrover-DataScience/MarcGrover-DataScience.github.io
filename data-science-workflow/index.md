@@ -16,7 +16,9 @@ The Data Science Workflow is that process. It describes the end-to-end journey f
 
 It is important to emphasise that the workflow is iterative, not linear. In practice, insights uncovered during exploratory analysis frequently reshape the original problem definition. Data preparation often reveals quality issues that require revisiting the acquisition stage. Model evaluation can expose weaknesses that send the analyst back to feature engineering. This cycle of refinement is not a sign of poor planning — it is the nature of working with real data and real questions, and embracing it is a mark of mature analytical practice.
 
-The sections that follow describe each stage of the workflow in detail, explaining both what happens at that stage and why it matters. Throughout, the projects in this portfolio are referenced to show how each stage is applied in practice — grounding the framework in concrete, worked examples rather than abstract description.  The 8 sections of the Data Science workflow described below are:
+The sections that follow describe each stage of the workflow in detail, explaining both what happens at that stage and why it matters. Throughout, the projects in this portfolio are referenced to show how each stage is applied in practice — grounding the framework in concrete, worked examples rather than abstract description.  The 8 sections of the Data Science workflow are described below.
+
+![Data_Science_Workflow.jpg](Data_Science_Workflow.jpg)
 
 * Problem Definition & Business Understanding  
 * Data Acquisition & Initial Assessment  
