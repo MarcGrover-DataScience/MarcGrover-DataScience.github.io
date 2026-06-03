@@ -1,16 +1,17 @@
 # Decision Tree Classification - Breast Cancer Dataset
-# Proof-of-Concept for Categorical Prediction
+
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.datasets import load_breast_cancer
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import (accuracy_score, precision_score, recall_score,
                              f1_score, confusion_matrix, classification_report)
-from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import roc_curve, auc
+from sklearn.inspection import permutation_importance
 import warnings
 
 # Configure dataframe printing
@@ -56,18 +57,33 @@ print(df)
 print(f"\nDataset description:\n{data.DESCR[:600]}...")
 
 # ============================================================================
-# 2. DATA PREPROCESSING
+# 2. DATA VALIDATION
 # ============================================================================
-print("\n2. Performing Data Preprocessing...")
+print("\n2. Data Validation")
 
 # Check for missing values
-missing_values = df.isnull().sum().sum()
-print(f"Missing values: {missing_values}")
+missing_values = df.isnull().sum()
+print(f"\nMissing values per column:\n{missing_values[missing_values > 0]}")
+print(f"Total missing values: {missing_values.sum()}")
 
-# Check for any preprocessing needs
-print(f"\nData types:\n{df.dtypes.value_counts()}")
+# Check for duplicate rows
+duplicate_count = df.duplicated().sum()
+print(f"\nDuplicate rows: {duplicate_count}")
 
-# No null values in this dataset, no categorical encoding needed
+# Data types
+print(f"\nData types:\n{df.dtypes}")
+
+# Descriptive statistics
+print(f"\nDescriptive Statistics (Features):")
+print(pd.DataFrame(X, columns=feature_names).describe().round(3))
+
+# Class distribution
+print(f"\nClass Distribution:")
+for i, name in enumerate(target_names):
+    count = np.sum(y == i)
+    pct = count / len(y) * 100
+    print(f"  {name}: {count} ({pct:.1f}%)")
+
 
 # ============================================================================
 # 3. EXPLORATORY DATA ANALYSIS
@@ -106,10 +122,25 @@ plt.tight_layout()
 plt.savefig('correlation_matrix.png', dpi=300, bbox_inches='tight')
 plt.show()
 
+# Boxplots: key features by class
+top_eda_features = ['worst radius', 'worst concave points', 'mean concave points', 'worst perimeter']
+
+for i, feat in enumerate(top_eda_features, start=1):
+    plt.figure(figsize=(8, 5))
+    sns.boxplot(x=df['target'].map({0: 'Malignant', 1: 'Benign'}),
+                y=df[feat], palette='viridis')
+    plt.title(f'Distribution of {feat} by Diagnosis', fontsize=14, fontweight='bold')
+    plt.xlabel('Diagnosis', fontsize=12)
+    plt.ylabel(feat, fontsize=12)
+    plt.tight_layout()
+    plt.savefig(f'plot_eda_boxplot_{i:02d}_{feat.replace(" ", "_")}.png',
+                dpi=300, bbox_inches='tight')
+    plt.show()
+
 # ============================================================================
 # 4. TRAIN-TEST SPLIT (80-20)
 # ============================================================================
-print("\n4. Splitting Data into Training and Testing Sets (80-20)...")
+print("\n4. Splitting Data into Training and Testing Sets (80-20)")
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
@@ -142,8 +173,8 @@ for depth in max_depths:
     cv_scores.append(cv_score.mean())
 
 # Find optimal depth
-# optimal_depth = 4                                 # To manually set the number of levels
-optimal_depth = max_depths[np.argmax(test_scores)]
+best_score = max(test_scores)
+optimal_depth = min([d for d, s in zip(max_depths, test_scores) if s == best_score])
 print(f"Optimal tree depth: {optimal_depth}")
 print(f"Best test accuracy: {max(test_scores):.4f}")
 
@@ -174,6 +205,13 @@ dt_optimal_accuracy = dt_optimal.score(X_test, y_test)
 
 print(f"Model trained with max_depth={optimal_depth}")
 print(f"Accuracy: {dt_optimal_accuracy:.4f}")
+
+# Final model cross-validation
+cv_final = cross_val_score(dt_optimal, X_train, y_train, cv=5, scoring='accuracy')
+print(f"\n5-Fold Cross-Validation (Optimal Model, Training Set):")
+print(f"  CV Scores:  {cv_final.round(4)}")
+print(f"  Mean:       {cv_final.mean():.4f}")
+print(f"  Std Dev:    {cv_final.std():.4f}")
 
 # ============================================================================
 # 7. DECISION TREE VISUALIZATION
@@ -229,6 +267,37 @@ plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
+# 8a. PERMUTATION FEATURE IMPORTANCE
+# ============================================================================
+print("\n8a. Permutation Feature Importance")
+
+perm_result = permutation_importance(dt_optimal, X_test, y_test,
+                                      n_repeats=30, random_state=42, scoring='accuracy')
+
+perm_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance_Mean': perm_result.importances_mean,
+    'Importance_Std': perm_result.importances_std
+}).sort_values('Importance_Mean', ascending=False)
+
+# Show only non-trivial features
+perm_df_nonzero = perm_df[perm_df['Importance_Mean'] > 0.001]
+print(f"\nPermutation Feature Importance (non-trivial features):")
+print(perm_df_nonzero.to_string(index=False))
+
+plt.figure(figsize=(10, 6))
+top_perm = perm_df_nonzero.head(10)
+plt.barh(top_perm['Feature'][::-1], top_perm['Importance_Mean'][::-1],
+         xerr=top_perm['Importance_Std'][::-1], color='steelblue', alpha=0.8,
+         capsize=4, ecolor='black')
+plt.xlabel('Mean Accuracy Decrease', fontsize=12)
+plt.ylabel('Feature', fontsize=12)
+plt.title('Permutation Feature Importance (Test Set)', fontsize=14, fontweight='bold')
+plt.tight_layout()
+plt.savefig('plot_permutation_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
 # 9. MODEL EVALUATION METRICS
 # ============================================================================
 print("\n9. Evaluating Model Performance")
@@ -281,10 +350,37 @@ plt.ylabel('Score', fontsize=12)
 plt.title('Model Performance Metrics Comparison', fontsize=14, fontweight='bold')
 plt.xticks(x, metrics_df['Metric'])
 plt.legend(fontsize=10)
-plt.ylim([0.85, 1.0])
+min_val = min(metrics_df['Training'].min(), metrics_df['Testing'].min())
+plt.ylim([max(0, min_val - 0.05), 1.01])
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig('metrics_comparison.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 9a. ROC CURVE
+# ============================================================================
+print("\n9a. ROC Curve and AUC")
+
+# Get predicted probabilities
+y_prob = dt_optimal.predict_proba(X_test)[:, 1]
+
+# Calculate ROC curve
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+roc_auc = auc(fpr, tpr)
+print(f"ROC-AUC Score: {roc_auc:.4f}")
+
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, color='steelblue', lw=2,
+         label=f'ROC Curve (AUC = {roc_auc:.4f})')
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--', lw=1, label='Random Classifier')
+plt.xlabel('False Positive Rate', fontsize=12)
+plt.ylabel('True Positive Rate', fontsize=12)
+plt.title('ROC Curve - Decision Tree Classifier', fontsize=14, fontweight='bold')
+plt.legend(loc='lower right', fontsize=11)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig('plot_roc_curve.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
