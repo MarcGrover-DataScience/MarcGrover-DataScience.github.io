@@ -24,8 +24,6 @@ By the end of the analysis, the project aims to demonstrate the correct end-to-e
 
 ## Application:  
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
 Decision trees are powerful analytical tools that utilise a flowchart-like structure to classify data or predict outcomes by recursively splitting a dataset into smaller subsets based on specific feature criteria. Their primary appeal lies in their high interpretability, as they act as "white-box" models where the logic behind every conclusion is visually traceable and easy to explain to non-technical stakeholders. Beyond clarity, these models are exceptionally robust and versatile; they require minimal data pre-processing — meaning they don't need data scaling or normalisation—and they naturally handle a mix of categorical and numerical variables, making them an efficient and accessible tool for solving complex logic-based problems across various industries.  
 
 They are highly valued because they translate complex data into a visual, human-readable format that simplifies high-stakes decision-making.  
@@ -51,38 +49,58 @@ They are highly valued because they translate complex data into a visual, human-
 
 ## Methodology:  
 
-The dataset used is the Wisconsin Breast Cancer dataset available from scikit-learn, which contains 569 observations, including 30 independent features.
+The Wisconsin Breast Cancer Diagnostic dataset was sourced directly from scikit-learn - also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data). It contains 569 observations and 30 continuous features computed from digitised fine needle aspirate (FNA) images of breast cell nuclei. Features capture geometric and textural properties of cell nuclei — including radius, texture, perimeter, area, smoothness, compactness, concavity, symmetry, and fractal dimension — each computed as the mean, standard error, and worst (largest) value across the cells present in the image. The binary target variable distinguishes malignant (212 observations, 37.3%) from benign (357 observations, 62.7%) cases.
 
-The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
+**Data Validation** confirmed no missing values and no duplicate rows across the 569 observations. All 30 features are continuous numeric variables requiring no encoding or imputation. Descriptive statistics were computed across all features to establish the scale and range of the data.
 
-The dataset was validated to confirm that there are no missing values, and basic descriptive analysis was undertaken on the features including the correlation between the 30 features.  No data pre-processing was undertaken.
+**Exploratory Data Analysis** examined the class distribution and the relationships between features. A correlation matrix across all 30 features was produced, revealing high inter-correlation among the radius, area, and perimeter family of measurements — a characteristic of this dataset noted in the context of future dimensionality reduction work. Boxplots were produced for four key features — worst radius, worst concave points, mean concave points, and worst perimeter — split by diagnosis class, providing visual confirmation that these features carry strong class-separating signal prior to any modelling.
 
-Decision tree depth analysis was undertaken to determine the optimal depth of the decision tree being created, to generate the most accurate model, and not cause overfitting.
+**Train-Test Split** divided the data 80/20 into training (455 samples) and testing (114 samples) sets, with stratification applied to preserve the class distribution across both sets.
 
-Using the optimal tree depth, the model was fitted and applied to the test set to generate the predictions, which could be used with the actual values of the test set to validate the decision tree model.
+**Tree Depth Analysis** evaluated decision tree models across depths 1 to 12, recording training accuracy, test accuracy, and five-fold cross-validation accuracy at each level. The optimal depth was defined as the shallowest depth achieving the maximum test accuracy, ensuring the simplest model that reaches peak predictive performance is selected in preference to a deeper but equally accurate alternative.
+
+**Model Training** fitted the final DecisionTreeClassifier at the optimal depth, using random_state=42 for reproducibility. A five-fold cross-validation was then applied to the training set to confirm the model generalises consistently across data partitions.
+
+**Model Evaluation** assessed performance on the held-out test set using accuracy, precision, recall, F1-score, sensitivity, specificity, and ROC-AUC. A confusion matrix was produced to break down correct and incorrect classifications by class.
+
+**Feature Importance** was assessed using two complementary approaches: Gini impurity-based importance, derived from the tree's internal split structure and reflecting the contribution of each feature to reducing node impurity across the tree; and permutation importance, computed on the test set by measuring the decrease in accuracy when each feature's values are randomly shuffled. Comparing the two methods provides both an intrinsic and a model-agnostic view of which features drive classification decisions.
 
 ## Results:
 
-Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
+### Exploratory Data Analysis
 
-### Feature Correlation:  
+The dataset contains 212 malignant (37.3%) and 357 benign (62.7%) observations — a moderate class imbalance that is reflected in the stratified train/test split applied throughout the analysis, and is worth bearing in mind when interpreting per-class performance metrics.
 
-Correlation of the 30 features was undertaken and visualised as a correlation matrix as shown below.  This highlights that many of the fields have low-correlation, however there appears to be high-correlation in the features relating to radius, area and perimeter metrics.  This was not addressed at this stage, but important insight for any future development to improve the predictions.
+The correlation matrix across all 30 features is shown below.
 
 ![correlation](correlation_matrix.png)
 
-### Tree Depth Analysis:  
+The matrix reveals strong inter-correlation within the radius, area, and perimeter family of measurements — a structural property of the dataset arising from the geometric relationship between these quantities. This multicollinearity means that multiple features carry largely redundant information, which has practical implications for the decision tree: it is not necessary for the model to use all 30 features to make accurate predictions, and the depth analysis confirms this. The insight also points towards dimensionality reduction as a productive direction for future development, as noted in the Next Steps section.
 
-Training and testing sets were determined from the 569 observations in the data, where 80% of the data was for training, and the remaining 20% for testing.  For reference the training set included 455 samples of which 285 were benign cancers and 170 malignant.
+Boxplots for two of the highest-importance features — worst radius and worst concave points — split by diagnosis class are shown below. Both features show clear separation between the malignant and benign distributions, with minimal overlap, providing visual confirmation that these measurements carry strong class-discriminating signal prior to any modelling.
 
-Decision tree depth analysis was undertaken on levels in the range (1,13), for each level three metrics were calculated:
-* accuracy on the training set
-* accuracy on the test set
-* Cross-Validation (CV) Accuracy score, where the number of folds was set to 5.  
+![plot_eda_boxplot_01_worst_radius](plot_eda_boxplot_01_worst_radius.png)
+![plot_eda_boxplot_02_worst_concave_points](plot_eda_boxplot_02_worst_concave_points.png)
 
-The plot below shows the results of the tree depth analysis, which determined that a depth of 3 is optimal, however a depth of 4 also produced similarly accurate results.  This plot also showed that decision trees of 5 or more levels produced less accurate predictions, almost certainly due to over-fitting to the training data.  It is important that a decision tree is fitted with the optimum levels to generate the most accurate model.
+### Tree Depth Analysis
+
+The training set (455 samples) and test set (114 samples) were formed using an 80/20 stratified split. Decision tree models were evaluated at depths 1 to 12, with training accuracy, test accuracy, and five-fold cross-validation accuracy recorded at each level.
 
 ![depth_analysis](depth_analysis.png)
+
+The depth analysis identifies an optimal tree depth of 3 — defined as the shallowest depth achieving the maximum test accuracy. This guards against selecting a deeper, more complex tree when a shallower one performs equivalently. A depth of 4 produces the same test accuracy, while depths of 5 and above show a divergence between training and test accuracy that is characteristic of overfitting: the model learns the training data with increasing fidelity but generalises less well to unseen observations. The cross-validation scores closely track the test accuracy across all depths, confirming that this pattern is consistent and not an artefact of the particular train/test split.
+
+### Model Fitting
+The decision tree fitted at depth 3 is shown below. With only three levels, the full classification logic is visually traceable — each internal node specifies a single feature threshold and the proportion of each class at that point, and each leaf node specifies the final class assignment. This interpretability is a defining characteristic of decision trees and has no direct equivalent in the Random Forest, Gradient Boosted Tree, or SVM models that follow in this series.
+
+![decision_tree](decision_tree_structure.png)
+
+Five-fold cross-validation on the training set returns a mean accuracy of [CV mean] with a standard deviation of [CV std], confirming that the model generalises consistently across data partitions and that the test set result is not the product of a favourable split.
+
+
+
+
+
 
 ### Model Fitting and Validation:
 
