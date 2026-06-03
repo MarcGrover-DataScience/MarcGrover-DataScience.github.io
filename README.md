@@ -47,8 +47,8 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Decision Trees](/decision-trees/)
 * ### [Random Forests](/random-forest/)
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
-* ### [K-Nearest Neighbours](/k-nearest-neighbours/)
 * ### [Support Vector Machines (SVM)](/support-vector-machines/)
+* ### [K-Nearest Neighbours](/k-nearest-neighbours/)
 
 ## Machine Learning — Unsupervised
 * ### [K-Means Clustering](/k-means-clustering/)
