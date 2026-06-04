@@ -53,7 +53,7 @@ The method applied in the analysis:
 * **Decision Tree Depth Analysis** to determine the maximum depth of each tree in the forest to achieve optimal accuracy, prevent overfitting and balance with the compute resources required.
 * **Fitting and Validating Random Forest Model** to build the random forest using the hyperparameters for the optimal number of trees and optimal tree depth.
 
-## Results and conclusions:
+## Results:
 
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
 
@@ -172,7 +172,7 @@ The top 10 features, by importance, are:
 
 ![feature_importance](rf_feature_importance.png)
 
-### Conclusions:
+## Conclusions:
 
 The overall conclusions are summarised as:
 
@@ -224,7 +224,7 @@ With any analysis it is important to assess how the model and application of the
 
 ## Hyperparameter Next Step:
 
-As suggested above in the 'Next Steps' section, research was undertaken to further refine the optimal number of trees and optimal maximum tree depth.  The random tree was build with additional hyperparater values, which determined that the optimal values can be refined to:
+As suggested above in the 'Next Steps' section, research was undertaken to further refine the optimal number of trees and optimal maximum tree depth.  The random tree was build with additional hyperparameter values, which determined that the optimal values can be refined to:
 
 * number of trees (n_estimators) = 145
 * tree depth (max_depth) = 9
@@ -233,4 +233,4 @@ While this didn't produce an improved accuracy or prediction confidence, it demo
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/RandomForest_BreastCancer.py)
+[View the Python Script](/RandomForest_BreastCancer_v2.py)

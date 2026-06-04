@@ -1,5 +1,4 @@
 # Random Forest Classification - Breast Cancer Dataset
-# Proof-of-Concept for Categorical Prediction
 
 import numpy as np
 import pandas as pd
@@ -117,6 +116,11 @@ print("\n5. Fine-tuning Random Forest Model")
 # Test different number of trees
 n_estimators_range = [10, 25, 50, 75, 100, 150, 200]
 max_depths = [3, 5, 7, 10, 15, 20, None]
+
+# # Phase 2 - Parameter testing
+# # Comment out above and uncomment this as required
+# n_estimators_range = [120, 130, 140, 145, 150, 155, 160]
+# max_depths = [5, 7, 8, 9, 10, 15, None]
 
 print("\n5a. Optimising Number of Trees")
 train_scores_trees = []
