@@ -156,28 +156,13 @@ The ROC-AUC of 0.9446, while respectable for a single shallow tree, reflects the
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+**Random Forests** — the natural progression from a single decision tree is to apply the Random Forest algorithm to the same dataset, which is the subject of the next project in this series. Random Forests reduce the variance of a single tree by constructing an ensemble of decorrelated trees and aggregating their predictions, typically yielding material accuracy and robustness improvements. The Random Forest project evaluates whether that additional complexity is justified by measurable performance gains over the 93.86% accuracy and 0.9446 ROC-AUC benchmarks established here.
 
-* Ensemble Methods: Implement Random Forests or Gradient Boosting to improve robustness and potentially increase accuracy by 2-5%.  Random Forests reduce variance through multiple trees, and XGBoost/LightGBM offer superior performance with built-in regularisation.
-* Feature Engineering: 
-  * Create interaction terms between top features (e.g., radius × concavity).
-  * Apply dimensionality reduction (PCA) to reduce multicollinearity among correlated features
-  * Focus data collection on the most predictive features to reduce costs - i.e. reduce the number of features used in the model
-  * Consider investigating the high-correlation between features, and the potential benefit to reducing the number of features included in the random forest.
-* Hyperparameter Optimisation: Fine-tune min_samples_split, min_samples_leaf, and max_features
-* Clinical Validation:
-  * Validate on external datasets from different hospitals/populations
-  * Assess performance across demographic subgroups (age, ethnicity)
-  * Compare predictions against pathologist diagnoses
-* Real-Life implementation considerations:
-  * Prioritise recall (sensitivity) over precision to minimise false negatives (missed cancers)
-  * Implement human-in-the-loop review for borderline cases
-  * Maintain audit trail for all predictions
-  * Assess value of model-assisted diagnosis vs. standard care
-  * Continuous monitoring of predictions and assess re-training of model on new data to identify potentially improved rules
-* Research and compare Alternative Models:
-  * Benchmark against Random Forests, Gradient Boost Trees, Logistic Regression, Neural Networks
-  * Consider stacking/blending multiple model types
+**Dimensionality Reduction** — the EDA correlation matrix identified high inter-correlation among the radius, area, and perimeter family of measurements, and the feature importance analysis confirmed that only 6 of the 30 features contribute to the depth-3 tree's predictions. Principal Component Analysis (PCA) applied as a pre-processing step would reduce this multicollinearity and could yield a more parsimonious model — one achieving comparable accuracy with a materially smaller feature set, reducing the cost of data collection in a real diagnostic application.
+
+**Threshold Optimisation** — the current model uses the default 0.5 classification threshold. Given the asymmetric cost of false negatives in cancer screening — where a missed malignancy is significantly more consequential than an unnecessary follow-up — a lower threshold calibrated to maximise sensitivity on the malignant class would be a meaningful clinical refinement. The ROC curve generated in this project provides the foundation for that analysis.
+
+**Clinical and Demographic Validation** — the analysis is conducted on a single, well-curated dataset from one institution. Validation on external datasets from different hospitals and patient populations, and assessment of performance consistency across demographic subgroups, would be required before any clinical deployment. Performance on the majority benign class should not be allowed to mask weaker performance on malignant cases in subgroup analyses.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
