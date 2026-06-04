@@ -144,24 +144,15 @@ A ROC-AUC of 0.9446 establishes the Decision Tree's discriminative benchmark for
 
 ## Conclusions:
 
-The overall conclusions are summarised as:
+The Decision Tree classifier achieves a test accuracy of **93.86%**, a ROC-AUC of **0.9446**, and an F1-score of **0.9517** in classifying breast tumours as malignant or benign from 30 cell nucleus measurements, using an optimal tree depth of 3 identified through systematic depth analysis with five-fold cross-validation. These figures establish the performance baseline for this dataset that the three subsequent projects in this series — Random Forests, Gradient Boosted Trees, and Support Vector Machines — are evaluated against.
 
-* Decision tree produced accurate predictions and is an appropriate tool
+The depth analysis is one of the more instructive aspects of the project. The divergence between training and test accuracy at depths of 5 and above is a textbook illustration of the bias-variance trade-off made concrete: the model progressively memorises the training data at the cost of generalisation. The cross-validation scores track the test accuracy closely across all candidate depths, confirming that the optimal depth selection is stable and not the product of a favourable split. The five-fold CV on the final model reinforces this — the model generalises consistently across data partitions, and the headline test set result is representative.
 
-* Model Performance:
-  * The decision tree achieves excellent predictive accuracy (>93%) on the test set, demonstrating strong capability for breast cancer classification  
-  * High precision and recall indicate the model reliably identifies both malignant and benign cases with minimal false positives/negatives
-  * The cross-validation scores closely align with test scores, suggesting the model generalises well and isn't overfitting
+The feature importance analysis produces one of the more interesting findings in the project. With a tree depth of 3, only 6 of the 30 features receive a non-zero Gini importance score, and worst radius alone accounts for 76.4% of total importance. The permutation importance results corroborate this ranking on held-out data, confirming that the Gini scores reflect genuine predictive contribution rather than an artefact of the impurity metric. That 30 features can be reduced to effectively 2 meaningful predictors — worst radius and worst concave points — without material loss of accuracy points to significant redundancy in the feature set, a consequence of the high inter-correlation among the radius, area, and perimeter family of measurements identified in the EDA. This has a direct practical implication: in a real diagnostic application, a substantially smaller set of cell nucleus measurements could support predictions of comparable accuracy, reducing the cost and complexity of data collection.
 
-* Feature Insights:
-  * A small subset of features dominates the prediction (typically "worst concave points," "worst perimeter," "worst radius")
-  * Many of the 30 features contribute minimally to predictions, indicating potential redundancy in the dataset
-  * The most important features relate to cell radius and concavity measurements
+The confusion matrix warrants specific attention. The 3 false negatives — malignant tumours classified as benign — are the most consequential errors in the output. A recall of 0.9048 on the malignant class is strong in quantitative terms, but in a clinical screening context the cost of a false negative is asymmetric: a missed malignancy delays treatment in ways that a false positive — an unnecessary follow-up investigation — does not. This asymmetry does not diminish the model's performance, but it does mean that sensitivity on the malignant class, not overall accuracy, should be the governing performance criterion in any real-world deployment. A lower classification threshold, calibrated to maximise recall, would be the appropriate starting point for that adaptation.
 
-* Model Characteristics:
-  * The optimal tree depth (typically 3-5 levels) suggests the decision boundaries are relatively simple
-  * Beyond optimal depth, performance plateaus or declines, indicating unnecessary complexity leads to overfitting
-  * The simplicity of the tree structure makes it highly interpretable for clinical settings
+The ROC-AUC of 0.9446, while respectable for a single shallow tree, reflects the inherent limitation of the model's simple decision structure: with only 3 levels and 6 contributing features, the decision boundary is deliberately constrained. This is the expected trade-off for a model whose primary strength is interpretability — the full classification logic is visible in the tree diagram, every threshold is explainable to a non-technical audience, and the reasoning behind any individual prediction can be traced from root to leaf. That combination of transparency and auditability is genuinely valuable in clinical settings and in any regulated context where the basis for a decision must be documented. It is also precisely what is sacrificed in the ensemble methods that follow in this series, where accuracy gains come at the cost of that interpretability.
 
 ## Next steps:  
 
