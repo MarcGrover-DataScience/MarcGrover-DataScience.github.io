@@ -95,7 +95,34 @@ The decision tree fitted at depth 3 is shown below. With only three levels, the 
 
 ![decision_tree](decision_tree_structure.png)
 
-Five-fold cross-validation on the training set returns a mean accuracy of [CV mean] with a standard deviation of [CV std], confirming that the model generalises consistently across data partitions and that the test set result is not the product of a favourable split.
+Five-fold cross-validation on the training set returns a mean accuracy of 0.9253 with a standard deviation of 0.0245, confirming that the model generalises consistently across data partitions and that the test set result is not the product of a favourable split.
+
+### Feature Importance
+
+Gini impurity-based importance and permutation importance were computed for the fitted model. The two methods answer related but distinct questions: Gini importance reflects how much each feature reduces node impurity across all splits in the tree; permutation importance measures the decrease in test accuracy when each feature's values are randomly shuffled, providing an out-of-sample, model-agnostic view of predictive contribution.
+
+![feature_importance](feature_importance.png)
+![plot_permutation_importance](plot_permutation_importance.png)
+
+With a tree depth of 3, only 6 of the 30 features receive a non-zero Gini importance score. Worst radius dominates, accounting for 76.4% of total Gini importance — it appears at the root node of the tree and provides the primary class-separating split. Worst concave points is the second most important feature at 12.7%, consistent with the clear class separation visible in the EDA boxplot above. The permutation importance results corroborate this ordering, confirming that the Gini ranking is not an artefact of the impurity metric and reflects genuine predictive contribution on held-out data. The agreement between the two methods strengthens confidence in the feature importance findings.
+
+The dominance of the worst (largest observed value) family of measurements — rather than mean or standard error values — is a clinically interpretable finding: it is the most extreme cell measurements within a sample, rather than the average, that carry the greatest diagnostic signal.
+
+### Model Evaluation
+
+The key performance metrics on the held-out test set are:
+
+```
+Metric             Score
+Accuracy           0.9386
+Precision          0.9452
+Recall             0.9583
+F1-Score           0.9517
+Sensitivity (TPR)  0.9583
+Specificity (TNR)  0.9048
+ROC-AUC[value]
+```
+
 
 
 
