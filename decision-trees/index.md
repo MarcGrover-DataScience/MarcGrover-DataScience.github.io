@@ -115,32 +115,12 @@ The key performance metrics on the held-out test set are:
 ```
 Metric             Score
 Accuracy           0.9386
-Precision          0.9452
-Recall             0.9583
+Precision          0.9452   (Predicted Positives)
+Recall             0.9583   (True Positive Rate)
 F1-Score           0.9517
-Sensitivity (TPR)  0.9583
-Specificity (TNR)  0.9048
-ROC-AUC[value]
+Specificity        0.9048  (True Negative Rate)
+ROC-AUC            0.9446
 ```
-
-
-
-
-
-
-
-### Model Fitting and Validation:
-
-Using the optimal tree depth equal to 3 (as determined above), the decision tree was trained, as visualised below. 
-
-![decision_tree](decision_tree_structure.png)
-
-The model performance was evaluated to quantify the quality of the predictions.  The key metrics (based on the testing set) are:  
-* Accuracy:    0.9386
-* Precision:   0.9452  (Predicted Positives)
-* Recall:      0.9583  (True Positive Rate)
-* F1-Score:    0.9517
-* Specificity: 0.9048  (True Negative Rate)
 
 The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions.  This is based on the testing dataset.
 ```
@@ -149,39 +129,18 @@ The detailed classification report provides additional information on the predic
    malignant       0.93      0.90      0.92        42
       benign       0.95      0.96      0.95        72
 ```
-The confusion matrix visually demonstrates the performance of the decision tree applied to the testing dataset.
+
+The confusion matrix below presents the full breakdown of predictions on the test set.
 
 ![confusion_matrix](confusion_matrix.png)  
 
-In summary the confusion matrix presents the results:
-* True Positives (True Benign):  69
-* True Negatives (True Malignant):  38
-* False Positives (False Benign): 4
-* False Negatives (False Malignant): 3
+The model correctly classifies 38 of the 42 malignant test observations and 69 of the 72 benign observations. There are 3 false negatives — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up. There are 4 false positives. The specificity of 0.9048 is marginally lower than the sensitivity of 0.9583, reflecting this slight asymmetry in the model's tendency to err.
 
-### Feature Importance:
+The ROC curve below provides a threshold-independent view of discriminative ability across all possible classification thresholds, and enables direct comparison with the subsequent models in this series.
 
-A key insight from the generation of Decision Trees is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
+![plot_roc_curve](plot_roc_curve.png)  
 
-The most important factors are listed below, along with the importance score.  The total importance sums to 1. It should be noted that with a tree depth of 3, not all features are included in the tree and hence most features have an importance score of zero.
-
-The 6 features with a non-zero importance score are:
-
-```
-             Feature  Importance
-        worst radius       0.764
-worst concave points       0.127
-       texture error       0.048
-       worst texture       0.034
-     worst concavity       0.018
-          area error       0.010
-```
-
-![feature_importance](feature_importance.png)
-
-### Tree Depth = 4
-
-From the charts shown above, it indicated that a tree-depth of 4 produced results similar to a tree-depth of 4.  As such the model was fitted and validated with a tree-depth of 4.  The overall accuracy was of 0.9386 (the same accuracy achieved with a depth of 3), however the F1-score was slightly less.  Further analysis of a decision tree of depth 4 was not undertaken here.
+A ROC-AUC of 0.9446 establishes the Decision Tree's discriminative benchmark for this dataset. Each successive project in this series — Random Forests, Gradient Boosted Trees, and Support Vector Machines — reports ROC-AUC against this baseline.
 
 ## Conclusions:
 
