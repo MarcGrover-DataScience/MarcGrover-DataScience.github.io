@@ -25,25 +25,20 @@ The optimal model achieves a **test accuracy of 95.61%** with optimal hyperparam
 
 ## Application:  
 
-A Random Forest is an ensemble learning method that constructs a multitude of decision trees during training. It is one of the most popular and versatile tools in industry because it follows the "wisdom of the crowd" principle: while a single decision tree might be biased or prone to errors, the collective vote of hundreds of trees usually leads to a much more accurate and stable prediction.  
+A Random Forest is an ensemble learning method that constructs a large number of decision trees during training and aggregates their predictions — using majority voting for classification — to produce a final output. It follows the "wisdom of the crowd" principle: while any individual decision tree may overfit the training data or be sensitive to noise in a particular feature, the collective vote of many decorrelated trees cancels out those individual errors and produces predictions that are both more accurate and more stable.
 
-As such, many examples of applications and benefits of Random Forests in commercial settings are similar to those described in the Decision Tree project.  
+As many of the industry applications of Random Forests are shared with Decision Trees — credit scoring, fraud detection, medical diagnosis, churn prediction, predictive maintenance — this section focuses specifically on the characteristics that distinguish Random Forests from a single Decision Tree, and on the trade-offs that determine which approach is more appropriate in a given context.
 
-The primary reason industries move from a single decision tree to a random forest is the trade-off between interpretability and performance.  A decision tree is a single flowchart-like structure, and hence easier to understand the logic.  In scenarios where an industry is highly regulated (like law or certain government sectors) and there is a need to explain exactly why every single decision was made, a single Decision Tree's transparency can be preferable, even if it produced lower accuracy.  The higher predictive accuracy of Random Forests is typically the primary reason for using Random Forests.
+**The primary reason to move from a Decision Tree to a Random Forest is the trade-off between interpretability and performance.** A Decision Tree's single flowchart structure is fully transparent: every classification decision can be traced from root to leaf and explained in plain terms to a non-technical audience. This auditability is genuinely valuable in regulated industries where a rationale for each decision must be documented — credit decisions under financial regulation, or clinical decisions subject to audit. Where that transparency is a hard requirement, the interpretability of a Decision Tree may outweigh its lower accuracy. In most commercial settings, however, predictive performance is the primary objective, and the accuracy gains of Random Forests are well-established and material.
 
-The primary benefits of using Random Forests over Decision Trees include:
+The key advantages of Random Forests over single Decision Trees are:
 
-* Higher accuracy through ensemble voting
-* Reduced overfitting via randomisation
-* More robust to outliers and noise
-* Better generalisation to unseen data
+* **Reduced overfitting through randomisation**. Each tree in the forest is trained on a bootstrapped sample of the data (random sampling with replacement) and considers only a random subset of features at each split. This decorrelates the trees, meaning their errors are largely independent, and aggregating independent errors through voting substantially reduces the variance of the final prediction compared to any single tree.
+* **More robust and distributed feature importance**. A single Decision Tree of limited depth assigns non-zero importance to only a small number of features — in this project, 6 of 30. A Random Forest evaluates all features across hundreds of trees with varying feature subsets, producing a more robust and comprehensive importance profile that is less susceptible to the arbitrary feature selection of any single split.
+* **Calibrated prediction confidence**. Random Forests produce probability estimates by averaging class probabilities across all trees. These ensemble-averaged probabilities are more reliable indicators of prediction certainty than those from a single tree, enabling confidence thresholds to be applied in practice — for example, flagging predictions below 80% confidence for human review.
+* **Stability across data samples**. Single Decision Trees are sensitive to small changes in the training data — a slightly different split can produce a materially different tree structure. Random Forests are inherently stable because the ensemble structure absorbs this variance; the aggregate prediction changes little as individual trees vary.
 
-The key benefits of using a Random Forest include:
-
-* Handles Missing Data: In the real world, data is rarely perfect. Random Forests can maintain high accuracy even when a significant portion of the data is missing.
-* Feature Importance: It tells you which variables actually matter. For a business, knowing that "Customer Age" is 10x more important than "Postal Code" for sales is invaluable for strategy.
-* No Need for Scaling: Unlike other models (like Neural Networks), you don't need to normalise your data (e.g., converting all numbers to a 0–1 scale). It works with raw numbers and categories out of the box.
-* Parallelisation: Because each tree is built independently, they can be trained simultaneously on modern multi-core computers, making it very fast to train on large datasets.
+The primary limitation relative to a Decision Tree is interpretability. While a single tree from the forest can be visualised, the final prediction is the aggregate of all trees and cannot be reduced to a single traceable decision path. For applications where auditability of individual decisions is required, this "black box" characteristic is a genuine constraint. The computational cost is also higher — roughly proportional to the number of trees — though for datasets of this scale this is negligible in practice.
 
 ## Methodology:  
 
