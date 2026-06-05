@@ -1,5 +1,12 @@
 # Random Forest Classification - Breast Cancer Dataset
 
+# ============================================================================
+# 0. LOAD LIBRARIES
+# ============================================================================
+
+import matplotlib
+matplotlib.use('Agg')       # use non-interactive backend to avoid tkinter threading errors
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,6 +17,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import plot_tree
 from sklearn.metrics import (accuracy_score, precision_score, recall_score,
                              f1_score, confusion_matrix, classification_report)
+from sklearn.metrics import roc_curve, auc
+from sklearn.inspection import permutation_importance
 import warnings
 import time
 
@@ -140,7 +149,9 @@ for n_trees in n_estimators_range:
     print(f"  Trees: {n_trees:3d} | Train: {train_scores_trees[-1]:.4f} | "
           f"Test: {test_scores_trees[-1]:.4f} | CV: {cv_scores_trees[-1]:.4f}")
 
-optimal_n_trees = n_estimators_range[np.argmax(cv_scores_trees)]
+# optimal_n_trees = n_estimators_range[np.argmax(cv_scores_trees)]
+best_cv = max(cv_scores_trees)
+optimal_n_trees = min([n for n, s in zip(n_estimators_range, cv_scores_trees) if s == best_cv])
 print(f"\nOptimal number of trees: {optimal_n_trees}")
 
 # Visualisation of number of trees analysis
@@ -211,11 +222,17 @@ rf_optimal = RandomForestClassifier(
     n_estimators=optimal_n_trees,
     max_depth=optimal_depth,
     random_state=42,
-    n_jobs=-1
+    n_jobs=-1,
+    oob_score=True
 )
 rf_optimal.fit(X_train, y_train)
 
-# print(f"Optimal Random Forest model trained with n_estimators={optimal_n_trees}, max_depth={optimal_depth}")
+cv_final = cross_val_score(rf_optimal, X_train, y_train, cv=5,
+                            scoring='accuracy', n_jobs=-1)
+print(f"\n5-Fold Cross-Validation (Optimal Model, Training Set):")
+print(f"  CV Scores: {cv_final.round(4)}")
+print(f"  Mean:      {cv_final.mean():.4f}")
+print(f"  Std Dev:   {cv_final.std():.4f}")
 
 # Forest characteristics
 print(f"\nForest Characteristics:")
@@ -319,6 +336,41 @@ plt.savefig('rf_cumulative_importance.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
+# 8b. PERMUTATION FEATURE IMPORTANCE
+# ============================================================================
+
+print("\n8b. Permutation Feature Importance")
+
+plt.close('all')
+
+perm_result = permutation_importance(rf_optimal, X_test, y_test,
+                                      n_repeats=30, random_state=42,
+                                      scoring='accuracy',
+                                      n_jobs=1)
+
+perm_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance_Mean': perm_result.importances_mean,
+    'Importance_Std': perm_result.importances_std
+}).sort_values('Importance_Mean', ascending=False)
+
+print(f"\nPermutation Feature Importance (Top 10):")
+print(perm_df.head(10).to_string(index=False))
+
+plt.figure(figsize=(10, 6))
+top_perm = perm_df.head(10)
+plt.barh(top_perm['Feature'][::-1], top_perm['Importance_Mean'][::-1],
+         xerr=top_perm['Importance_Std'][::-1],
+         color='steelblue', alpha=0.8, capsize=4, ecolor='black')
+plt.xlabel('Mean Accuracy Decrease', fontsize=12)
+plt.ylabel('Feature', fontsize=12)
+plt.title('Permutation Feature Importance - Random Forest (Test Set)',
+          fontsize=14, fontweight='bold')
+plt.tight_layout()
+plt.savefig('rf_permutation_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
 # 9. MODEL EVALUATION METRICS
 # ============================================================================
 print("\n9. Evaluating Random Forest Performance")
@@ -388,7 +440,9 @@ plt.ylabel('Score', fontsize=12)
 plt.title('Random Forest Performance Metrics Comparison', fontsize=14, fontweight='bold')
 plt.xticks(x, metrics_df['Metric'])
 plt.legend(fontsize=10)
-plt.ylim([0.85, 1.0])
+min_val = min(metrics_df['Training'].min(), metrics_df['Testing'].min())
+plt.ylim([max(0, min_val - 0.05), 1.01])
+# plt.ylim([0.85, 1.0])
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig('rf_metrics_comparison.png', dpi=300, bbox_inches='tight')
@@ -441,6 +495,31 @@ print(f"  False Positives: {fp}")
 print(f"  False Negatives: {fn}")
 print(f"  Sensitivity (TPR): {sensitivity:.4f}")
 print(f"  Specificity (TNR): {specificity:.4f}")
+
+# ============================================================================
+# 10b. ROC CURVE
+# ============================================================================
+
+print("\n10b. ROC Curve and AUC")
+
+y_prob = rf_optimal.predict_proba(X_test)[:, 1]
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+roc_auc = auc(fpr, tpr)
+print(f"ROC-AUC Score: {roc_auc:.4f}")
+
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, color='steelblue', lw=2,
+         label=f'ROC Curve (AUC = {roc_auc:.4f})')
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--', lw=1,
+         label='Random Classifier')
+plt.xlabel('False Positive Rate', fontsize=12)
+plt.ylabel('True Positive Rate', fontsize=12)
+plt.title('ROC Curve - Random Forest Classifier', fontsize=14, fontweight='bold')
+plt.legend(loc='lower right', fontsize=11)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig('rf_roc_curve.png', dpi=300, bbox_inches='tight')
+plt.show()
 
 # ============================================================================
 # SUMMARY & COMPARISON
