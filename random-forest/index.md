@@ -117,7 +117,19 @@ The cumulative importance plot shows that the top 14 features account for 90% of
 
 The key performance metrics on the held-out test set are:
 
-MetricDecision TreeRandom ForestChangeAccuracy0.93860.9561+0.0175Precision0.9452[value]Recall0.9583[value]F1-Score0.9517[value]Sensitivity (TPR)0.9583[value]Specificity (TNR)0.9048[value]ROC-AUC0.9446[value]OOB Score—[value]
+```
+Metric             Decision Tree     Random Forest      Change
+Accuracy           0.9386            0.9561             +0.0175
+Precision          0.9452            0.9589             +0.0137
+Recall             0.9583            0.9722             +0.0139
+F1-Score           0.9517            0.9655             +0.0138
+Specificity (TNR)  0.9048            0.9286             +0.0238
+ROC-AUC            0.9446            0.9929             +0.0483
+OOB Score          N/A               0.9560
+```
+
+The comparison table is intentional — the primary objective of this project is to quantify improvement over the Decision Tree baseline, and presenting the metrics side by side makes that comparison immediate and unambiguous.
+
 
 
 
