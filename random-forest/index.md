@@ -93,10 +93,31 @@ The Random Forest was trained using the optimal hyperparameters (150 trees, maxi
 
 This single tree — constrained to a maximum depth of 10 — is substantially more complex than the depth-3 Decision Tree built in the previous project. In isolation, this individual tree would be less accurate than the optimal Decision Tree; it is trained on a bootstrap sample of the data rather than the full training set, and its greater depth means it is more susceptible to overfitting its particular sample. The accuracy of the Random Forest derives not from any individual tree but from the aggregated vote of 150 such trees, each trained on a different bootstrap sample and considering a random feature subset at each split — precisely the mechanism that cancels out individual tree errors and produces a more accurate ensemble prediction.
 
-The Out-of-Bag (OOB) score for the fitted model is [OOB value]. This is computed by evaluating each tree only on the observations excluded from its bootstrap training sample, providing a built-in generalisation estimate at no additional computational cost. The OOB score serves as an independent cross-validation estimate and its proximity to the test set accuracy confirms the model generalises consistently.
+The Out-of-Bag (OOB) score for the fitted model is 0.9560. This is computed by evaluating each tree only on the observations excluded from its bootstrap training sample, providing a built-in generalisation estimate at no additional computational cost. The OOB score serves as an independent cross-validation estimate and its proximity to the test set accuracy confirms the model generalises consistently.
 
-Five-fold cross-validation on the full training set returns a mean accuracy of [CV mean] (std: [CV std]), further confirming stable generalisation across data partitions.
+Five-fold cross-validation on the full training set returns a mean accuracy of 0.9604 (std: 0.0192), further confirming stable generalisation across data partitions.
 
+### Feature Importance
+
+Gini impurity-based importance and permutation importance were computed for the fitted model and are shown below.
+
+![feature_importance](rf_feature_importance.png)
+
+![rf_permutation_importance](rf_permutation_importance.png)
+
+Unlike the Decision Tree — where only 6 of 30 features received a non-zero Gini importance score — the Random Forest assigns non-zero importance to all 30 features, reflecting its use of random feature subsets across 150 trees. The top feature is worst area (Gini importance: 0.1413), compared to worst radius in the Decision Tree. This shift is analytically meaningful: with a depth-3 tree, the single most separating feature dominates all splits; across 150 deeper trees with randomised feature selection, the importance is distributed more broadly and the ranking reflects a more complete assessment of each feature's predictive contribution. Worst radius remains in the top 5, consistent with its dominance in the Decision Tree, confirming it carries genuine signal rather than being an artefact of the shallower model's limited split structure.
+
+The permutation importance results corroborate the Gini ranking for the top features, with worst concave points and worst perimeter also appearing prominently in both measures. The error bars on the permutation importance chart reflect variability across the 30 shuffle repeats; the narrow bars for the top features confirm their importance estimates are stable.
+
+![rf_cumulative_importance](rf_cumulative_importance.png)
+
+The cumulative importance plot shows that the top 14 features account for 90% of the model's total Gini importance. This is a direct consequence of the high inter-correlation among the radius, area, and perimeter family of measurements identified in the Decision Tree EDA — multiple features carry largely redundant information, meaning a small subset captures the majority of predictive power. This finding directly motivates the dimensionality reduction work noted in the Next Steps section.
+
+### Model Evaluation
+
+The key performance metrics on the held-out test set are:
+
+MetricDecision TreeRandom ForestChangeAccuracy0.93860.9561+0.0175Precision0.9452[value]Recall0.9583[value]F1-Score0.9517[value]Sensitivity (TPR)0.9583[value]Specificity (TNR)0.9048[value]ROC-AUC0.9446[value]OOB Score—[value]
 
 
 
