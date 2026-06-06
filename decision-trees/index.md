@@ -118,7 +118,7 @@ Accuracy           0.9386
 Precision          0.9452   (Predicted Positives)
 Recall             0.9583   (True Positive Rate)
 F1-Score           0.9517
-Specificity        0.9048  (True Negative Rate)
+Specificity        0.9048   (True Negative Rate)
 ROC-AUC            0.9446
 ```
 
