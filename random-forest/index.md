@@ -138,94 +138,15 @@ The confusion matrix shows 70 correct benign classifications and 39 correct mali
 
 The ROC-AUC of 0.9929 represents a material improvement over the Decision Tree's 0.9446, reflecting the Random Forest's superior discriminative ability across all classification thresholds. The ROC curve approaches the top-left corner more closely than the Decision Tree equivalent, confirming the improvement is consistent and not confined to the default 0.5 threshold.
 
-
-
-
-
-
-
-
-
-### Model Fitting and Validation:
-
-Using the optimal number of trees and optimal tree depth, the random forest was trained.  For illustrative purposes, one of the 150 trees is visualised below, noting the increased depth and overall complexity to the optimal decision tree created in the previous project.  The accuracy of this single tree in isolation would likely have less accuracy that the optimal tree in the previous project, however the accuracy of the collective 150 decision trees in the random forest produce a more accurate model (as highlighted below).
-
-![tree_example](rf_single_tree_structure.png)
-
-The random forest contains 150 trees, which have the following metrics:
-
-* Average tree depth: 7.07  
-* Min tree depth: 4  
-* Max tree depth: 10  
-* Average nodes per tree: 35.67  
-
-The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
-
-* Accuracy: 0.9561  
-* Precision: 0.9589 (Predicted Positives)  
-* Recall: 0.9722 (True Positive Rate)  
-* F1-Score: 0.9655  
-* Specificity: 0.9286 (True Negative Rate)
-
-The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions. This is based on the testing dataset.
-
-```
-              precision    recall  f1-score   support
-   malignant       0.95      0.93      0.94        42
-      benign       0.96      0.97      0.97        72
-```
-
-The confusion matrix visually demonstrates the performance of the random forest applied to the testing dataset.
-
-![confusion_matrix](rf_confusion_matrix.png)
-
-In summary the confusion matrix presents the results:
-
-* True Positives (True Benign): 70
-* True Negatives (True Malignant): 39
-* False Positives (False Benign): 3
-* False Negatives (False Malignant): 2
-
-### Model Prediction Confidence:
-
-Prediction Confidence (often referred to as Prediction Probability) refers to a numerical score that represents how "sure" the model is that a specific data point belongs to a certain category.  It is fundamentally different from Accuracy, which states how often the model is right; Confidence measures how much the model "believes" in its specific answer for a single instance.
-
-In a single tree, confidence is determined by the purity of the leaf node where the data point ends up.  When you train a tree, each leaf node contains a small group of samples from the training data.  A Random Forest is an ensemble of many trees, because it has multiple trees, the confidence is usually calculated by averaging the probabilities from every individual tree.
-
-Confidence is often more important than the final label in high-importance scenarios.
-
-For the random forest the mean confidence for each of the 114 test observations is 0.9336.
-
-Each observation has a confidence value, the histogram below shows the distribution of these confidences.  This shows that many of the observations have a prediction confidence over 0.9 and 0.95, however there are observations that yielded a predictions with a confidence lower than 0.8.  In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further tests be undertaken.  In this project related to cancerous cells, patients with such low confidence predictions may undergo further medical testing and analysis.
+### Prediction Confidence
 
 ![confidence_distribution](rf_confidence_distribution.png)
 
-### Feature Importance:
+The mean prediction confidence (often referred to as Prediction Probability) across the 114 test observations is 0.9336, with the distribution heavily concentrated above 0.90. Prediction Confidence refers to a numerical score that represents how "sure" the model is that a specific data point belongs to a certain category. This is a characteristic property of Random Forest probability estimates: averaging class probabilities across 150 trees produces more stable and calibrated confidence scores than a single tree can generate. The practical implication is that a confidence threshold can be applied operationally — for example, flagging predictions below 0.80 for additional clinical review — providing a mechanism to handle borderline cases that is not available from a single Decision Tree's binary output.
 
-A key insight from the generation of a Random Forest is the importance of each factor in generating a prediction, and hence the most important factors can be determined.
+In a single tree, confidence is determined by the purity of the leaf node where the data point ends up.  When you train a tree, each leaf node contains a small group of samples from the training data.  As a Random Forest is an ensemble of many trees, the confidence is calculated by averaging the probabilities from every individual tree.
 
-The most important factors are listed below, along with the importance score. The total importance sums to 1. It should be noted that with a Random Forest, it is typical that all features have a non-zero importance score, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. For the decision tree project, where the optimum tree depth was 3, only 6 features had a non-zero importance score.
-
-Feature importance in Random Forest is calculated by measuring how much each feature decreases impurity (Gini/entropy).  It is calculated by averaging importance across all trees in the forest.  
-
-The top 10 most important features are below, noting that for the decision tree project, the 'worst radius' feature was identified as the most important, whereas for the random forest it is the 5th most important feature:
-
-```
-             Feature  Importance
-          worst area    0.1413
-     worst perimeter    0.1338
-worst concave points    0.1107
- mean concave points    0.0882
-        worst radius    0.0821
-         mean radius    0.0638
-      mean perimeter    0.0527
-      mean concavity    0.0504
-           mean area    0.0504
-     worst concavity    0.0339
-```
-The top 10 features, by importance, are:
-
-![feature_importance](rf_feature_importance.png)
+Prediction confidence is often considered more important than the final label in high-importance scenarios.
 
 ## Conclusions:
 
