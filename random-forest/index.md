@@ -150,62 +150,28 @@ Prediction confidence is often considered more important than the final label in
 
 ## Conclusions:
 
-The overall conclusions are summarised as:
+The Random Forest classifier achieves a test **accuracy of 95.61%**, a **ROC-AUC of 0.9929**, and an **F1-score of 0.9655** on the Wisconsin Breast Cancer Diagnostic dataset, using an ensemble of 150 trees at a maximum depth of 10. Against the Decision Tree baseline established in the previous project, this represents a 1.75 percentage point improvement in accuracy and a substantial improvement in ROC-AUC from 0.9446 to 0.9929 — confirming that the ensemble approach produces meaningfully better discriminative performance across all classification thresholds, not just at the default 0.5 decision boundary.
 
-* Model Performance:
-  * The random forest produced accurate predictions and is an appropriate tool.  
-  * The random forest achieves excellent predictive accuracy (>95.6%) on the test set, demonstrating strong capability for breast cancer classification predictions.  
-  * The decision tree had an accuracy of 93.9%, which relates to approximately 61 incorrect predictions per 1,000 observations, however the random forest produces approximately 44 incorrect predictions per 1,000 observations, which equates to approximately 28% less incorrect predictions.
-  * This represents a meaningful improvement in predictive capability while maintaining excellent performance.  
-  * High precision and recall indicate the model reliably identifies both malignant and benign cases with minimal false positives/negatives.  
-  * The cross-validation scores closely align with test scores, suggesting the model generalises well and isn’t overfitting.  
-  * Random Forest predictions are more stable across different data samples due to voting from multiple trees. Single decision trees can be sensitive to small changes in training data.
-  * Random Forest provides probability estimates that are high confidence scores (typically >0.95), which correlate strongly with correct predictions, in this example giving clinicians valuable insight into prediction reliability.
-  * Random Forest achieves fewer false negatives (missed cancers) - critical in medical diagnosis where missing a malignant case is far worse than a false alarm
-* Feature Insights:
-  * The top feature is 'worst area', whereas for the decision tree the top feature was 'worst radius', though this is in the top 5 features for the random forest.
-  * The nature of the decision tree meant that only a few features had a non-zero importance, however for the random forest all factors had a non-zero importance.
-  * Random Forest feature importance is more robust because it averages across many trees with different feature subsets, reducing the impact of false correlations
-  * The top 10 features account for approximately 90% of the predictive power of the random forest model.  This can suggest that features are highly correlated, and the dimensionality reduction could simplify the model without losing accuracy. 
-* Model Characteristics:
-  * While the single Decision Tree is fully interpretable (one clear decision path), Random Forest requires aggregating 50-100+ trees, making it a "black box" model
-  * Random Forest requires 50-100x more computation than a single tree, though this is negligible for this dataset size, it can be significant for larger datasets and where quick computation is required.
-  * For the dataset, both the decision tree and random forest models benefit from depth limiting, confirming that simple decision boundaries work well for this dataset.  
-  * Accuracy plateaus at approximately 150 trees, indicating additional trees offer no benefit for this dataset.  
+Translating the accuracy figures into practical terms makes the improvement concrete: the Decision Tree produces approximately 61 incorrect predictions per 1,000 observations; the Random Forest reduces this to approximately 44 — a 28% reduction in error rate. For a diagnostic screening application, this improvement is not merely statistical; each percentage point of recall on the malignant class corresponds to real patients whose diagnosis would otherwise be missed.
+
+The hyperparameter tuning analysis produces an instructive finding in its own right. The CV accuracy stabilises at 150 trees — additional trees beyond this point provide no measurable benefit, confirming that the ensemble has reached a stable aggregation of its component trees. The depth analysis shows that trees of maximum depth 10 are optimal, with shallower trees underfitting and unconstrained trees showing slight generalisation loss. The refinement phase subsequently confirmed that 145 trees at depth 9 achieves equivalent CV accuracy, demonstrating that the original optimum is robust and that no meaningfully better configuration exists in the neighbourhood of the initial search. This two-stage tuning process is an example of principled hyperparameter selection — coarse-to-fine rather than exhaustive — which scales well to more computationally expensive models.
+
+The feature importance analysis reveals a more distributed and analytically richer importance profile than the Decision Tree produced. While _worst radius_ dominated the Decision Tree with 76.4% of total Gini importance, the Random Forest's top feature — _worst area_ — accounts for only 14.1% of total importance, with the remaining predictive power spread across all 30 features. This shift is expected: random feature subsampling at each split prevents any single feature from dominating, and the aggregate importance across 150 trees reflects a more reliable estimate of each feature's true predictive contribution. The agreement between Gini and permutation importance for the top features confirms this ranking is not an artefact of the impurity metric. The cumulative importance analysis shows that the top 10 features account for approximately 90% of predictive power — a direct consequence of the high inter-correlation among the radius, area, and perimeter feature family identified in the Decision Tree EDA, and a finding that directly motivates the dimensionality reduction work noted in the Next Steps.
+
+The OOB score of 0.9560 closely tracks the test set accuracy, providing an independent confirmation of generalisation quality derived entirely from observations withheld from each individual tree during training. The mean prediction confidence of 0.9336 — with the distribution heavily concentrated above 0.90 — reflects the calibration benefit of ensemble averaging: 150 trees voting on each observation produces more stable probability estimates than any single tree, enabling a confidence threshold to be applied operationally to flag borderline cases for additional review. This capability has no direct equivalent in the Decision Tree and represents a practically meaningful operational advantage in a clinical screening context.
+
+The primary trade-off relative to the Decision Tree remains interpretability. The 150-tree ensemble cannot be reduced to a single traceable decision path, and no individual tree is representative of the forest's predictions. For the objectives of this project — maximising predictive accuracy on a well-characterised dataset — this is an acceptable trade-off. Whether it is acceptable in a specific deployment context depends on the auditability requirements of that setting, a point addressed in the Next Steps section.
+
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.  The following are example recommendations for future research and implementation considerations.
+**Gradient Boosted Trees** — the natural progression from a Random Forest is to apply a boosting ensemble method to the same dataset, which is the subject of the next project in this series. Where Random Forests build trees in parallel on independent bootstrap samples, Gradient Boosted Trees build trees sequentially — each tree correcting the residual errors of the previous one — and typically achieve higher accuracy at the cost of additional hyperparameter complexity and greater sensitivity to overfitting. The Gradient Boosted Trees project evaluates whether that sequential learning approach produces a further measurable improvement over the 95.61% accuracy and 0.9930 ROC-AUC benchmarks established here.
 
-* Additional Models:
-  * Research Gradient Boosting Models, such as Gradient Boosted Trees (XGBoost, LightGBM, CatBoost).  These offer sequential learning (unlike the random forest with parallel trees), and can provide improved accuracy on random forests.
-  * Consider implementing deep learning approaches such as neural networks.  
-  * Consider blending models to optimise performance, for example combining multiple models including random forests, gradient boost trees, logistic regression or neural networks.
-* Models Enhancements:
-  * Undertake more detailed analysis of the volume of trees to be included in the random forest, to refine the optimal number of trees.  For example consider 110, 120, 130 and 140 trees.
-  * Undertake more detailed analysis of the maximum tree depth to be included in the random forest, to further refine the model.  For example consider maximum_depths of 8 and 9.
-  * Research parameter optimisation for the random forest such as 'minimum samples per split', 'minimum samples per leaf', 'maximum features'
-* Dimensionality Reduction:
-  * Investigating the high-correlation between features, and the potential benefit to reducing the number of features included in the random forest.
-  * Principal Component Analysis (PCA): Reduce 30 features to 10-15 components while retaining 95% variance.
-  * Feature selection models, such as Recursive Feature Elimination (RFE) or LASSO regularisation for automatic selection
-* Feature Engineering:
-  * Introduce measures such as interaction terms (e.g. area × concavity), or ratios (e.g. circularity - perimeter²/area).  
-  * Create variance, skewness measures across related features.  
-  * Research anomalous / outlier observations, and research methods to improve model performance of edge cases
-* Additional data and validation:
-  * Collect additional observations and confirm actual outcomes to predictions to validate model performance
-  * Consider model training based on new data to maintain or improve accuracy
-  * Research real-life implementation considerations, such as human-in-the-loop review for borderline cases, and in-depth analysis of incorrect predictions
+**Dimensionality Reduction** — the cumulative importance analysis showed that the top 10 features account for approximately 90% of the Random Forest's predictive power, and the Decision Tree EDA identified high inter-correlation among the radius, area, and perimeter family of measurements. Principal Component Analysis (PCA) applied as a pre-processing step would address this multicollinearity directly, and Recursive Feature Elimination (RFE) would provide a model-driven approach to identifying the minimum feature set that preserves predictive accuracy. Either approach could yield a more parsimonious model with reduced data collection costs in a real diagnostic application.
 
-## Hyperparameter Next Step:
+**Threshold Optimisation** — the current model uses the default 0.5 classification threshold. Given the asymmetric cost of false negatives in cancer screening, a lower threshold calibrated to maximise sensitivity on the malignant class is a meaningful clinical refinement. The prediction confidence distribution — with the majority of observations classified at above 0.90 confidence — also suggests that a confidence threshold could be applied operationally to flag borderline cases for human review, without materially affecting throughput on high-confidence predictions.
 
-As suggested above in the 'Next Steps' section, research was undertaken to further refine the optimal number of trees and optimal maximum tree depth.  The random tree was build with additional hyperparameter values, which determined that the optimal values can be refined to:
-
-* number of trees (n_estimators) = 145
-* tree depth (max_depth) = 9
-
-While this didn't produce an improved accuracy or prediction confidence, it demonstrates that the same accuracy can be produced with less trees and smaller trees, and further evidence that the initial random forest model produced was optimal in producing high-accuracy.
+**Clinical and Demographic Validation** — as with the Decision Tree, validation on external datasets from different institutions and assessment of performance consistency across demographic subgroups would be required before any clinical deployment. The OOB score and cross-validation results confirm the model generalises well on this dataset; whether that generalisation holds across different patient populations is a separate and clinically important question.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
