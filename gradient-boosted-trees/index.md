@@ -264,4 +264,4 @@ The following are example recommendations for future research and implementation
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/XGBoost_BreastCancer.py)
+[View the Python Script](/XGBoost_BreastCancer_v2.py)
