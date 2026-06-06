@@ -134,7 +134,7 @@ The confusion matrix below presents the full breakdown of predictions on the tes
 
 ![confusion_matrix](confusion_matrix.png)  
 
-The model correctly classifies 38 of the 42 malignant test observations and 69 of the 72 benign observations. There are 3 false negatives — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up. There are 4 false positives. The specificity of 0.9048 is marginally lower than the sensitivity of 0.9583, reflecting this slight asymmetry in the model's tendency to err.
+The model correctly classifies 38 of the 42 malignant test observations and 69 of the 72 benign observations. There are 4 false negatives — malignant tumours predicted as benign — which in a clinical context represent the most consequential error type, as a missed malignancy carries significantly greater risk than an unnecessary follow-up. There are 3 false positives. The specificity of 0.9048 is marginally lower than the sensitivity of 0.9583, reflecting this slight asymmetry in the model's tendency to err.
 
 The ROC curve below provides a threshold-independent view of discriminative ability across all possible classification thresholds, and enables direct comparison with the subsequent models in this series.
 
