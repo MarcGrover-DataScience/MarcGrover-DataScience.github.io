@@ -42,16 +42,25 @@ The primary limitation relative to a Decision Tree is interpretability. While a 
 
 ## Methodology:  
 
-The dataset used is the same as used in the Decision Tree project - the Wisconsin Breast Cancer dataset, which enables comparison of the two methods.  This is available from scikit-learn, including 569 observations, including 30 independent features.
+The Wisconsin Breast Cancer Diagnostic dataset is used throughout this series of projects to enable direct comparison between classification algorithms. Full data validation and exploratory data analysis for this dataset — including missing value checks, descriptive statistics, class distribution, and feature correlation analysis — were conducted in the Decision Tree project and are not repeated here. The dataset comprises 569 observations across 30 continuous features, with 212 malignant (37.3%) and 357 benign (62.7%) cases, available from scikit-learn as well as Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data).
 
-The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
+The same **80/20 stratified train-test split** (random_state=42) applied in the Decision Tree project is used here, producing an identical training set (455 samples) and test set (114 samples). This is a deliberate methodological choice: using the same split ensures that any difference in performance between the two models reflects genuine algorithmic differences, not variation in the data partitioning.
 
-The method applied in the analysis:
+**Hyperparameter Tuning** is the primary methodological challenge specific to Random Forests, which introduce two key hyperparameters absent from the simpler Decision Tree: the number of trees in the ensemble (n_estimators) and the maximum depth of each individual tree (max_depth). Both are determined through systematic evaluation using five-fold cross-validation accuracy on the training set as the selection criterion — test set accuracy is deliberately excluded from this process to avoid data leakage and overly optimistic estimates.
 
-* **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
-* **Decision Tree Number Analysis** to determine the optimal number of trees in the forest, balancing accuracy of the model and compute resources required.
-* **Decision Tree Depth Analysis** to determine the maximum depth of each tree in the forest to achieve optimal accuracy, prevent overfitting and balance with the compute resources required.
-* **Fitting and Validating Random Forest Model** to build the random forest using the hyperparameters for the optimal number of trees and optimal tree depth.
+The tuning proceeds sequentially in two stages:
+
+* **Number of trees** is evaluated first across a coarse range (10, 25, 50, 75, 100, 150, 200 trees), with no depth constraint applied, to identify the point at which adding further trees produces no meaningful improvement in CV accuracy. The optimal value is defined as the fewest trees achieving the maximum CV accuracy, preferring parsimony when performance is equivalent.
+* **Tree depth** is then evaluated across a range of candidate values (3, 5, 7, 10, 15, 20, and unconstrained) using the previously identified optimal tree count, applying the same parsimony criterion.
+
+A refinement phase subsequently evaluates a narrower parameter range centred on the initially identified optima, confirming that the selected values are not simply a local maximum in a coarse search and identifying the most parsimonious combination that achieves equivalent accuracy.
+
+**Model Training** fits the final RandomForestClassifier using the optimal hyperparameters with oob_score=True, enabling the out-of-bag score to be computed as an additional generalisation estimate. The OOB score is a property unique to bootstrap-based ensemble methods — each tree is evaluated on the observations excluded from its bootstrap sample, providing a built-in cross-validation estimate at no additional computational cost. A five-fold cross-validation is also applied to the training set to confirm consistent generalisation across data partitions.
+
+**Model Evaluation** assesses performance on the held-out test set using accuracy, precision, recall, F1-score, sensitivity, specificity, and ROC-AUC, enabling direct comparison with the Decision Tree results across all metrics. The single-tree visualisation produced in the Decision Tree project has no meaningful equivalent here — the forest comprises 150 trees and no single tree is representative of the ensemble — but one illustrative tree is visualised to demonstrate the increased complexity of each individual tree relative to the optimal depth-3 Decision Tree.
+
+**Feature Importance** is assessed using the same two complementary methods applied in the Decision Tree project: Gini impurity-based importance averaged across all trees in the forest, and permutation importance computed on the test set. A cumulative importance plot is additionally produced, quantifying how many features are required to account for 90% of the model's total predictive power. **Prediction confidence** is examined through the distribution of ensemble-averaged class probabilities across the test set, providing insight into the certainty with which the model classifies each observation.
+
 
 ## Results:
 
