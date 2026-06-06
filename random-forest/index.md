@@ -61,44 +61,33 @@ A refinement phase subsequently evaluates a narrower parameter range centred on 
 
 **Feature Importance** is assessed using the same two complementary methods applied in the Decision Tree project: Gini impurity-based importance averaged across all trees in the forest, and permutation importance computed on the test set. A cumulative importance plot is additionally produced, quantifying how many features are required to account for 90% of the model's total predictive power. **Prediction confidence** is examined through the distribution of ensemble-averaged class probabilities across the test set, providing insight into the certainty with which the model classifies each observation.
 
-
 ## Results:
 
-Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
+### Hyperparameter Tuning
 
-The correlation matrix is the same as that shown for the Decision Tree project [here](https://marcgrover-datascience.github.io/decision-trees/) as it uses the same dataset, and as such not shown here.
+Training accuracy, test accuracy, and five-fold cross-validation accuracy were recorded across all candidate hyperparameter values. CV accuracy on the training set is the governing selection criterion throughout; test set accuracy is shown for reference only and plays no part in parameter selection.
 
-### Tree Number Analysis
-
-When tuning hyperparameters like the number of trees (n_estimators) and tree depth (max_depth), the standard metric to apply is the Cross-Validation (CV) accuracy score based on the training set.
-
-The alternative, using the accuracy score based on the test set to make these decisions, can lead to overly optimistic results and poor performance on truly "unseen" data.
-
-To determine the optimal number of trees in the random forest, key metrics were calculated for Random Forests with the following number of trees; 10, 25, 50, 75, 100, 150, 200, the three metrics being: 
-
-* Accuracy on the training set
-* Accuracy on the test set
-* Cross-Validation (CV) Accuracy score, where the number of folds was set to 5.
-
-It should be noted that there was no maximum depth defined for any of these random forests built.
+#### Number of Trees
 
 ![tree_number](rf_trees_analysis.png)
 
-Based on this analysis, 150 trees was determined to be the optimal value, using the CV Accuracy Score as the metric being assessed.
+CV accuracy stabilises at 150 trees, with no meaningful improvement observed at 200 trees. Applying the parsimony criterion — fewest trees achieving the maximum CV accuracy — an optimal value of 150 trees is selected. The training accuracy of 1.0000 across all tree counts is expected behaviour for an unconstrained Random Forest: with no depth limit applied during this phase, individual trees overfit their bootstrap samples completely, but the ensemble generalises well regardless, as evidenced by the stable CV scores.
 
-### Tree Depth Analysis
+#### Tree Depth
 
-Similarly the optimal tree depth was determined, using 150 trees per random forest, which was previously identified as the optimal number.  The same three key metrics were calculated for each random forest with a maximum depth of; 3, 5, 7, 10, 15, 20, None
-
-The chart below shows the metrics for each random forest for each of the maximum depths.
+With 150 trees fixed, maximum tree depth was evaluated across depths 3, 5, 7, 10, 15, 20, and unconstrained.
 
 ![tree_depth](rf_depth_analysis.png)
 
-Based on this analysis, using the CV Accuracy Score as the metric to assess the optimal structure, it was determined that a maximum depth of 10 is optimal.
+CV accuracy peaks at a maximum depth of **10**, with shallower trees underfitting and deeper trees showing marginal decline. The unconstrained depth produces a training accuracy of 1.0000 but a lower CV score than depth 10, confirming that some depth constraint is beneficial. The optimal hyperparameters from the initial tuning phase are therefore **150 trees**, **maximum depth 10**.
 
-To summarise the analysis has provided evidence that for the given data the optimal hyperparameters are:
-* number of trees (n_estimators) = 150
-* tree depth (max_depth) = 10
+#### Hyperparameter Refinement
+
+A second tuning phase evaluated a narrower range centred on the initial optima — tree counts of 120, 130, 140, 145, 150, 155, 160 and depths of 5, 7, 8, 9, 10, 15 — to confirm whether a more parsimonious model achieves equivalent performance. This analysis determined that **145 trees at a maximum depth of 9** produces the same CV accuracy as the initial optimum. Both configurations are carried forward; the primary model uses 150 trees / depth 10, with the refinement result noted as confirmation that the optimum is robust and that a marginally simpler model performs equivalently.
+
+
+
+
 
 ### Model Fitting and Validation:
 
