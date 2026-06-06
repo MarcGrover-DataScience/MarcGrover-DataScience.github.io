@@ -130,6 +130,17 @@ OOB Score          N/A               0.9560
 
 The comparison table is intentional — the primary objective of this project is to quantify improvement over the Decision Tree baseline, and presenting the metrics side by side makes that comparison immediate and unambiguous.
 
+![confusion_matrix](rf_confusion_matrix.png)
+
+The confusion matrix shows 70 correct benign classifications and 39 correct malignant classifications from 114 test observations. There are 3 false negatives — malignant tumours predicted as benign — compared to 4 in the Decision Tree. The false negative count is the most clinically consequential metric in this context; any reduction relative to the Decision Tree represents a meaningful improvement in diagnostic safety.
+
+![rf_roc_curve](rf_roc_curve.png)
+
+The ROC-AUC of 0.9929 represents a material improvement over the Decision Tree's 0.9446, reflecting the Random Forest's superior discriminative ability across all classification thresholds. The ROC curve approaches the top-left corner more closely than the Decision Tree equivalent, confirming the improvement is consistent and not confined to the default 0.5 threshold.
+
+
+
+
 
 
 
