@@ -85,6 +85,19 @@ CV accuracy peaks at a maximum depth of **10**, with shallower trees underfittin
 
 A second tuning phase evaluated a narrower range centred on the initial optima — tree counts of 120, 130, 140, 145, 150, 155, 160 and depths of 5, 7, 8, 9, 10, 15 — to confirm whether a more parsimonious model achieves equivalent performance. This analysis determined that **145 trees at a maximum depth of 9** produces the same CV accuracy as the initial optimum. Both configurations are carried forward; the primary model uses 150 trees / depth 10, with the refinement result noted as confirmation that the optimum is robust and that a marginally simpler model performs equivalently.
 
+### Model Fitting
+
+The Random Forest was trained using the optimal hyperparameters (150 trees, maximum depth 10) with oob_score=True. One of the 150 trees is visualised below for illustrative purposes.
+
+![tree_example](rf_single_tree_structure.png)
+
+This single tree — constrained to a maximum depth of 10 — is substantially more complex than the depth-3 Decision Tree built in the previous project. In isolation, this individual tree would be less accurate than the optimal Decision Tree; it is trained on a bootstrap sample of the data rather than the full training set, and its greater depth means it is more susceptible to overfitting its particular sample. The accuracy of the Random Forest derives not from any individual tree but from the aggregated vote of 150 such trees, each trained on a different bootstrap sample and considering a random feature subset at each split — precisely the mechanism that cancels out individual tree errors and produces a more accurate ensemble prediction.
+
+The Out-of-Bag (OOB) score for the fitted model is [OOB value]. This is computed by evaluating each tree only on the observations excluded from its bootstrap training sample, providing a built-in generalisation estimate at no additional computational cost. The OOB score serves as an independent cross-validation estimate and its proximity to the test set accuracy confirms the model generalises consistently.
+
+Five-fold cross-validation on the full training set returns a mean accuracy of [CV mean] (std: [CV std]), further confirming stable generalisation across data partitions.
+
+
 
 
 
