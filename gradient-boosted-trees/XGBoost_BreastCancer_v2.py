@@ -5,12 +5,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.datasets import load_breast_cancer
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import (accuracy_score, precision_score, recall_score,
                             f1_score, confusion_matrix, classification_report,
                             roc_auc_score, roc_curve)
-from xgboost import to_graphviz
-from xgboost import XGBClassifier, plot_tree
+from xgboost import XGBClassifier
 import time
 import warnings
 warnings.filterwarnings('ignore')
@@ -176,8 +175,10 @@ for lr in learning_rates:
             eval_metric='logloss',
             n_jobs=-1
         )
-        xgb.fit(X_train, y_train)
-        score = xgb.score(X_test, y_test)
+
+        cv_scores = cross_val_score(xgb, X_train, y_train, cv=5,
+                                    scoring='accuracy', n_jobs=-1)
+        score = cv_scores.mean()
         lr_results['scores'].append(score)
     results_lr.append(lr_results)
     best_n_est = n_estimators_range[np.argmax(lr_results['scores'])]
@@ -225,8 +226,10 @@ for depth in max_depths:
         eval_metric='logloss',
         n_jobs=-1
     )
-    xgb.fit(X_train, y_train)
-    score = xgb.score(X_test, y_test)
+
+    cv_scores = cross_val_score(xgb, X_train, y_train, cv=5,
+                                scoring='accuracy', n_jobs=-1)
+    score = cv_scores.mean()
     depth_scores.append(score)
     print(f"max_depth={depth:2d}: Score={score:.4f}")
 
@@ -265,8 +268,10 @@ for i, subsample in enumerate(subsample_range):
             eval_metric='logloss',
             n_jobs=-1
         )
-        xgb.fit(X_train, y_train)
-        sampling_results[i, j] = xgb.score(X_test, y_test)
+
+        cv_scores = cross_val_score(xgb, X_train, y_train, cv=5,
+                                    scoring='accuracy', n_jobs=-1)
+        sampling_results[i, j] = cv_scores.mean()
 
 optimal_subsample_idx, optimal_colsample_idx = np.unravel_index(
     sampling_results.argmax(), sampling_results.shape
@@ -311,8 +316,10 @@ for gamma in gamma_range:
             eval_metric='logloss',
             n_jobs=-1
         )
-        xgb.fit(X_train, y_train)
-        score = xgb.score(X_test, y_test)
+
+        cv_scores = cross_val_score(xgb, X_train, y_train, cv=5,
+                                    scoring='accuracy', n_jobs=-1)
+        score = cv_scores.mean()
         reg_results.append({
             'gamma': gamma,
             'reg_lambda': reg_lambda,
@@ -351,6 +358,13 @@ xgb_optimal = XGBClassifier(
 eval_set = [(X_train, y_train), (X_test, y_test)]
 xgb_optimal.fit(X_train, y_train, eval_set=eval_set, verbose=False)
 
+cv_final = cross_val_score(xgb_optimal, X_train, y_train,
+                            cv=5, scoring='accuracy', n_jobs=-1)
+print(f"\n5-Fold Cross-Validation (Optimal Model, Training Set):")
+print(f"  CV Scores: {cv_final.round(4)}")
+print(f"  Mean:      {cv_final.mean():.4f}")
+print(f"  Std Dev:   {cv_final.std():.4f}")
+
 print(f"\nOptimal Hyperparameters:")
 print(f"n_estimators: {optimal_n_est}")
 print(f"learning_rate: {optimal_lr}")
@@ -384,25 +398,6 @@ plt.show()
 # ============================================================================
 print("\n8. Visualising Optimal Tree from XGBoost Model")
 
-# # Plot the best tree (tree with highest gain)
-# # Get feature importances by gain to identify most important tree
-# plt.figure(figsize=(20, 12))
-# plot_tree(xgb_optimal, num_trees=0, rankdir='LR')
-# plt.title(f'XGBoost Decision Tree #0 (First Tree in Ensemble)',
-#           fontsize=16, fontweight='bold', pad=20)
-# plt.tight_layout()
-# plt.savefig('xgb_tree_structure.png', dpi=300, bbox_inches='tight')
-# plt.show()
-#
-# # Alternative: plot a more refined tree
-# plt.figure(figsize=(20, 12))
-# plot_tree(xgb_optimal, num_trees=4, rankdir='TB')
-# plt.title(f'XGBoost Decision Tree #4 (Mid-Ensemble Tree)',
-#           fontsize=16, fontweight='bold', pad=20)
-# plt.tight_layout()
-# plt.savefig('xgb_tree_structure_mid.png', dpi=300, bbox_inches='tight')
-# plt.show()
-
 print(f"\nModel Characteristics:")
 print(f"Total number of trees: {xgb_optimal.n_estimators}")
 print(f"Maximum tree depth: {xgb_optimal.max_depth}")
@@ -432,7 +427,7 @@ print(importance_df.head(10).to_string(index=False))
 
 # Calculate cumulative importance
 importance_df['Cumulative'] = importance_df['Importance'].cumsum()
-features_90_pct = (importance_df['Cumulative'] <= 0.90).sum()
+features_90_pct = (importance_df['Cumulative'] < 0.90).sum() + 1
 print(f"\nFeatures accounting for 90% of importance: {features_90_pct}")
 
 # Visualise feature importance (top 15)
@@ -481,6 +476,98 @@ print(f"\nFeature Importance Insights:")
 print(f"  Most important by Gain: {importance_df.iloc[0]['Feature']}")
 print(f"  Most frequently used: {max(importance_weight, key=importance_weight.get)}")
 print(f"  Highest coverage: {max(importance_cover, key=importance_cover.get)}")
+
+# ============================================================================
+# 9a. PERMUTATION FEATURE IMPORTANCE
+# ============================================================================
+from sklearn.inspection import permutation_importance
+
+print("\n9a. Permutation Feature Importance")
+
+plt.close('all')
+
+perm_result = permutation_importance(xgb_optimal, X_test, y_test,
+                                      n_repeats=30, random_state=42,
+                                      scoring='accuracy',
+                                      n_jobs=1)
+
+perm_df = pd.DataFrame({
+    'Feature': feature_names,
+    'Importance_Mean': perm_result.importances_mean,
+    'Importance_Std': perm_result.importances_std
+}).sort_values('Importance_Mean', ascending=False)
+
+print(f"\nPermutation Feature Importance (Top 10):")
+print(perm_df.head(10).to_string(index=False))
+
+plt.figure(figsize=(10, 6))
+top_perm = perm_df.head(10)
+plt.barh(top_perm['Feature'][::-1], top_perm['Importance_Mean'][::-1],
+         xerr=top_perm['Importance_Std'][::-1],
+         color='steelblue', alpha=0.8, capsize=4, ecolor='black')
+plt.xlabel('Mean Accuracy Decrease', fontsize=12)
+plt.ylabel('Feature', fontsize=12)
+plt.title('Permutation Feature Importance - XGBoost (Test Set)',
+          fontsize=14, fontweight='bold')
+plt.tight_layout()
+plt.savefig('xgb_permutation_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 9b. XGBOOST IMPORTANCE TYPE COMPARISON
+# ============================================================================
+print("\n9b. XGBoost Importance Type Comparison (Gain vs Weight vs Cover)")
+
+booster = xgb_optimal.get_booster()
+
+feature_name_map = {f'f{i}': name for i, name in enumerate(feature_names)}
+
+def get_named_scores(importance_type):
+    raw = booster.get_score(importance_type=importance_type)
+    return {feature_name_map.get(k, k): v for k, v in raw.items()}
+
+imp_gain   = get_named_scores('gain')
+imp_weight = get_named_scores('weight')
+imp_cover  = get_named_scores('cover')
+
+# Normalise each to sum to 1 for fair comparison
+def normalise_dict(d):
+    total = sum(d.values())
+    return {k: v / total for k, v in d.items()}
+
+imp_gain_n   = normalise_dict(imp_gain)
+imp_weight_n = normalise_dict(imp_weight)
+imp_cover_n  = normalise_dict(imp_cover)
+
+# Top 10 features by gain
+top10_features = importance_df.head(10)['Feature'].tolist()
+
+comp_df = pd.DataFrame({
+    'Feature': top10_features,
+    'Gain':    [imp_gain_n.get(f, 0) for f in top10_features],
+    'Weight':  [imp_weight_n.get(f, 0) for f in top10_features],
+    'Cover':   [imp_cover_n.get(f, 0) for f in top10_features]
+})
+
+print("\nNormalised Importance Comparison (Top 10 Features by Gain):")
+print(comp_df.to_string(index=False))
+
+comp_melted = comp_df.melt(id_vars='Feature',
+                            var_name='Importance Type',
+                            value_name='Normalised Importance')
+
+plt.figure(figsize=(12, 7))
+sns.barplot(data=comp_melted, x='Normalised Importance', y='Feature',
+            hue='Importance Type', palette='viridis',
+            order=top10_features)
+plt.title('XGBoost Feature Importance: Gain vs Weight vs Cover (Top 10)',
+          fontsize=14, fontweight='bold')
+plt.xlabel('Normalised Importance', fontsize=12)
+plt.ylabel('Feature', fontsize=12)
+plt.legend(title='Importance Type', fontsize=10)
+plt.tight_layout()
+plt.savefig('xgb_importance_comparison.png', dpi=300, bbox_inches='tight')
+plt.show()
 
 # ============================================================================
 # 10. MODEL EVALUATION METRICS
@@ -551,7 +638,8 @@ plt.ylabel('Score', fontsize=12)
 plt.title('XGBoost Performance Metrics Comparison', fontsize=14, fontweight='bold')
 plt.xticks(x, metrics_df['Metric'])
 plt.legend(fontsize=10)
-plt.ylim([0.85, 1.0])
+min_val = min(metrics_df['Training'].min(), metrics_df['Testing'].min())
+plt.ylim([max(0, min_val - 0.05), 1.01])
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig('xgb_metrics_comparison.png', dpi=300, bbox_inches='tight')
