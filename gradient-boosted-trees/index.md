@@ -40,23 +40,24 @@ Multiple implementations of Gradient Boosted Trees exist — including LightGBM 
 
 ## Methodology:  
 
-The dataset used is the same as used in the Decision Tree project - the Wisconsin Breast Cancer dataset, which enables comparison of the two methods.  This is available from scikit-learn, including 569 observations, including 30 independent features.
+The Wisconsin Breast Cancer Diagnostic dataset is used throughout this series. Full data validation and exploratory data analysis were conducted in the Decision Tree project, and the dataset description, class distribution, and feature correlation findings established there apply equally here. The same 80/20 stratified train-test split (random_state=42) is used across all projects in the series, producing an identical training set (455 samples) and test set (114 samples) and ensuring that performance differences between models reflect genuine algorithmic differences rather than variation in data partitioning.
 
-The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
+**Baseline Model** — prior to any tuning, a baseline XGBoost model was fitted using standard default parameters (100 estimators, learning rate 0.1, maximum depth 3). This provides a reference point that directly quantifies the contribution of the subsequent hyperparameter tuning to the final model performance, and establishes whether the default configuration is already competitive on this dataset.
 
-The method applied in the analysis:
+**Hyperparameter Tuning** is the primary methodological focus of this project. XGBoost introduces a substantially richer hyperparameter space than either the Decision Tree or Random Forest, and seven parameters are optimised across four sequential phases. Five-fold cross-validation accuracy on the training set is the selection criterion throughout; the test set plays no part in hyperparameter selection.
 
-* **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.
-* **Fine-tuning XGBoost Hyperparameters** to determine the optimal hyperparameters for the model including:
-  * Number of boosting rounds (trees)
-  * Maximum tree depth
-  * Learning_rate: Step size for each tree's contribution
-  * Subsample: Fraction of samples used per tree
-  * Fraction of features used per tree
-  * Minimum loss reduction for split (regularisation)
-* **Fitting and Validating Gradient Boosted Tree Model** to build the model using the optimal hyperparameters to make predictions.
+The four tuning phases are:
 
-Details of the methodology applied in the project.
+* **Phase 1 — Number of estimators and learning rate:** Both parameters are optimised jointly across a grid of 5 estimator counts (50–250) and 4 learning rates (0.01–0.20), producing 20 candidate configurations. The learning rate controls the contribution of each tree to the ensemble — lower rates require more trees but generalise better; higher rates converge faster but risk overfitting. The optimal combination is identified as the configuration achieving the highest mean CV accuracy, with parsimony applied when configurations tie.
+* **Phase 2 — Maximum tree depth:** With the optimal estimator count and learning rate fixed, tree depth is evaluated across 6 candidate values (2–8). Depth controls the complexity of each individual tree; unlike the Random Forest where deeper trees are corrected by ensemble averaging, XGBoost's sequential structure means excessive depth can cause the model to overfit early boosting rounds before regularisation takes effect.
+* **Phase 3 — Subsampling:** Row subsampling (subsample) and column subsampling (colsample_bytree) are optimised jointly across a grid of 4 values each (0.6–1.0), introducing randomness analogous to the bootstrap sampling in Random Forests. This decorrelates the trees in the sequence and reduces the risk of overfitting to specific observations or features.
+* **Phase 4 — Regularisation:** Gamma (minimum loss reduction required to make a split) and L2 regularisation (reg_lambda) are evaluated across candidate values, directly penalising model complexity. These are parameters with no equivalent in the Random Forest and are a distinguishing feature of XGBoost's design.
+
+**Model Training** fits the final XGBClassifier using the optimal hyperparameters identified across all four phases. A five-fold cross-validation on the training set is then applied to the optimal model to confirm consistent generalisation across data partitions.
+
+**Model Evaluation** assesses performance on the held-out test set using accuracy, precision, recall, F1-score, ROC-AUC, sensitivity, and specificity — the same metric set used across the series. Prediction confidence is additionally examined through the distribution of ensemble-averaged class probabilities, which reflects the decisiveness of the model's classifications across the test set.
+
+**Feature Importance** is assessed using four complementary measures: gain, weight, and cover importance derived from XGBoost's internal booster, and permutation importance computed on the test set. A dedicated comparison chart visualises the top 10 features by all three XGBoost-native measures simultaneously. Gain reflects the average improvement in loss function achieved by splits on each feature; weight counts the number of times a feature is used in a split; cover measures the average number of observations affected by splits on each feature. Comparing all three alongside permutation importance provides the most complete feature analysis in this series and directly demonstrates the depth of XGBoost's interpretability toolkit relative to the single importance measure available in the preceding projects.
 
 ## Results and conclusions:
 
