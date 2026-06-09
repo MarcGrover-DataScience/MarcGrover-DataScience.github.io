@@ -40,7 +40,7 @@ Multiple implementations of Gradient Boosted Trees exist — including LightGBM 
 
 ## Methodology:  
 
-The Wisconsin Breast Cancer Diagnostic dataset is used throughout this series. Full data validation and exploratory data analysis were conducted in the Decision Tree project, and the dataset description, class distribution, and feature correlation findings established there apply equally here. The same 80/20 stratified train-test split (random_state=42) is used across all projects in the series, producing an identical training set (455 samples) and test set (114 samples) and ensuring that performance differences between models reflect genuine algorithmic differences rather than variation in data partitioning.
+The Wisconsin Breast Cancer Diagnostic dataset is used throughout this series. Full data validation and exploratory data analysis were conducted in the [Decision Tree Project](https://marcgrover-datascience.github.io/decision-trees/), and the dataset description, class distribution, and feature correlation findings established there apply equally here. The same 80/20 stratified train-test split (random_state=42) is used across all projects in the series, producing an identical training set (455 samples) and test set (114 samples) and ensuring that performance differences between models reflect genuine algorithmic differences rather than variation in data partitioning.
 
 **Baseline Model** — prior to any tuning, a baseline XGBoost model was fitted using standard default parameters (100 estimators, learning rate 0.1, maximum depth 3). This provides a reference point that directly quantifies the contribution of the subsequent hyperparameter tuning to the final model performance, and establishes whether the default configuration is already competitive on this dataset.
 
@@ -59,7 +59,23 @@ The four tuning phases are:
 
 **Feature Importance** is assessed using four complementary measures: gain, weight, and cover importance derived from XGBoost's internal booster, and permutation importance computed on the test set. A dedicated comparison chart visualises the top 10 features by all three XGBoost-native measures simultaneously. Gain reflects the average improvement in loss function achieved by splits on each feature; weight counts the number of times a feature is used in a split; cover measures the average number of observations affected by splits on each feature. Comparing all three alongside permutation importance provides the most complete feature analysis in this series and directly demonstrates the depth of XGBoost's interpretability toolkit relative to the single importance measure available in the preceding projects.
 
-## Results and conclusions:
+## Results:
+
+### Baseline Model
+
+Before hyperparameter tuning, a baseline XGBoost model was fitted using default parameters (100 estimators, learning rate 0.1, maximum depth 3). The baseline achieves a training accuracy of 1.000 and a test accuracy of 0.9474, establishing the performance of an untuned model as the reference point for quantifying the contribution of the subsequent four-phase tuning process.
+
+### Hyperparameter Tuning
+
+**Phase 1 — Number of Estimators and Learning Rate**
+
+Twenty configurations spanning 5 estimator counts (50–250) and 4 learning rates (0.01–0.20) were evaluated using five-fold CV accuracy on the training set.
+
+[plot: xgb_lr_estimators.png]
+
+
+
+
 
 Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
 
@@ -216,7 +232,7 @@ worst concave points    0.1871
 
 ![feature_importance](xgb_feature_importance.png)
 
-### Conclusions:
+## Conclusions:
 
 The overall conclusions are summarised as:
 
