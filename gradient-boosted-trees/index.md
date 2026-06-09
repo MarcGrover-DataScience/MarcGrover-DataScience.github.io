@@ -71,7 +71,9 @@ Before hyperparameter tuning, a baseline XGBoost model was fitted using default 
 
 Twenty configurations spanning 5 estimator counts (50–250) and 4 learning rates (0.01–0.20) were evaluated using five-fold CV accuracy on the training set.
 
-[plot: xgb_lr_estimators.png]
+![xgb_lr_nestimators_analysis](xgb_lr_nestimators_analysis.png)
+
+The chart shows that lower learning rates require more estimators to converge but produce smoother, more stable CV accuracy curves. Higher learning rates converge faster but plateau earlier and are more sensitive to the estimator count. The optimal configuration from Phase 1 is a learning rate of 0.05 and 250 estimators, achieving a CV accuracy of 0.9758.
 
 
 
