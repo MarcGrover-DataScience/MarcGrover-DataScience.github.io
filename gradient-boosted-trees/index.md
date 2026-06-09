@@ -49,8 +49,8 @@ The Wisconsin Breast Cancer Diagnostic dataset is used throughout this series. F
 The four tuning phases are:
 
 * **Phase 1 — Number of estimators and learning rate:** Both parameters are optimised jointly across a grid of 5 estimator counts (50–250) and 4 learning rates (0.01–0.20), producing 20 candidate configurations. The learning rate controls the contribution of each tree to the ensemble — lower rates require more trees but generalise better; higher rates converge faster but risk overfitting. The optimal combination is identified as the configuration achieving the highest mean CV accuracy, with parsimony applied when configurations tie.
-* **Phase 2 — Maximum tree depth:** With the optimal estimator count and learning rate fixed, tree depth is evaluated across 6 candidate values (2–8). Depth controls the complexity of each individual tree; unlike the Random Forest where deeper trees are corrected by ensemble averaging, XGBoost's sequential structure means excessive depth can cause the model to overfit early boosting rounds before regularisation takes effect.
-* **Phase 3 — Subsampling:** Row subsampling (subsample) and column subsampling (colsample_bytree) are optimised jointly across a grid of 4 values each (0.6–1.0), introducing randomness analogous to the bootstrap sampling in Random Forests. This decorrelates the trees in the sequence and reduces the risk of overfitting to specific observations or features.
+* **Phase 2 — Maximum tree depth:** With the optimal estimator count and learning rate fixed, tree depth is evaluated across 5 candidate values (3-15). Depth controls the complexity of each individual tree; unlike the Random Forest where deeper trees are corrected by ensemble averaging, XGBoost's sequential structure means excessive depth can cause the model to overfit early boosting rounds before regularisation takes effect.
+* **Phase 3 — Subsampling:** Row subsampling (subsample) and column subsampling (colsample_bytree) are optimised jointly across a grid of 5 values each (0.6–1.0), introducing randomness analogous to the bootstrap sampling in Random Forests. This decorrelates the trees in the sequence and reduces the risk of overfitting to specific observations or features.
 * **Phase 4 — Regularisation:** Gamma (minimum loss reduction required to make a split) and L2 regularisation (reg_lambda) are evaluated across candidate values, directly penalising model complexity. These are parameters with no equivalent in the Random Forest and are a distinguishing feature of XGBoost's design.
 
 **Model Training** fits the final XGBClassifier using the optimal hyperparameters identified across all four phases. A five-fold cross-validation on the training set is then applied to the optimal model to confirm consistent generalisation across data partitions.
@@ -73,91 +73,58 @@ Twenty configurations spanning 5 estimator counts (50–250) and 4 learning rate
 
 ![xgb_lr_nestimators_analysis](xgb_lr_nestimators_analysis.png)
 
-The chart shows that lower learning rates require more estimators to converge but produce smoother, more stable CV accuracy curves. Higher learning rates converge faster but plateau earlier and are more sensitive to the estimator count. The optimal configuration from Phase 1 is a learning rate of 0.05 and 250 estimators, achieving a CV accuracy of 0.9758.
+The chart shows that lower learning rates require more estimators to converge but produce smoother, more stable CV accuracy curves. Higher learning rates converge faster but plateau earlier and are more sensitive to the estimator count. The optimal configuration from Phase 1 is a learning rate of 0.05 and 250 estimators, achieving a CV accuracy of **0.9758**.
 
+### Phase 2 — Maximum Tree Depth
 
+With the Phase 1 parameters fixed, maximum tree depth was evaluated across candidate values of 3, 5, 7, 10 and 15.
 
+![xgb_depth_analysis](xgb_depth_analysis.png)
 
+A maximum depth of 3 achieves the highest CV accuracy of **0.9758**. Shallower trees underfit the sequential boosting process; deeper trees provide diminishing returns as the regularisation parameters introduced in Phase 4 are not yet active.
 
-Simple descriptive analytics determined that 212 observations relate to malignant cancers and 357 relate to benign cancers.
+### Phase 3 — Subsampling
 
-The correlation matrix is the same as that shown for the Decision Tree project [here](https://marcgrover-datascience.github.io/decision-trees/) as it uses the same dataset, and as such not shown here.
+Row subsampling (subsample) and column subsampling (colsample_bytree) were evaluated jointly across a 5×5 grid of candidate values (0.6, 0.7, 0.8, 0.9, 1.0). The optimal values are subsample = 0.6 and colsample_bytree = 0.6, achieving a CV accuracy of **0.9780**. Subsampling introduces randomness into the sequential boosting process — analogous to the bootstrap sampling in Random Forests — and its contribution to the final model is confirmed by comparing this result against the Phase 2 score.
 
-### Fine-tuning XGBoost Hyperparameters
+### Phase 4 — Regularisation
 
-An Baseline XGBoost Model was generated which produced an accuracy of 94.74%.  This used the following hyperparameters (arguments):
+Gamma (minimum loss reduction required to make a split) and L2 regularisation (reg_lambda) were evaluated across candidate values. The optimal values are gamma = 0.0 and reg_lambda = 0.5, achieving a final CV accuracy of **0.9780**. These regularisation parameters are specific to XGBoost and have no direct equivalent in the Decision Tree or Random Forest implementations used in this series; they act directly on the tree-building process by penalising unnecessary splits and shrinking leaf weights.
 
-n_estimators=100,  
-learning_rate=0.1,  
-max_depth=3,  
-random_state=42,  
-eval_metric='logloss',  
-n_jobs=-1  
-
-**Optimising number of trees and learning rate** - multiple GBT models were created using various values for the number of trees (n_estimators) and learning rate, to determine optimal values for each metric.  
-n_estimators = [50, 100, 150, 200, 250]  
-learning_rate = [0.01, 0.05, 0.1, 0.2]  
-
-The accuracy of these models (based on the testing set) are visualised below, where the results suggest an optimal learning rate of 0.1 and an optimal number of trees equal to 250, which produce a GBT model with an accuracy of 95.61% which is higher than the baseline model.
-
-![tree_number_learning_rate](xgb_lr_nestimators_analysis.png)
-
-**Optimising tree depth** - multiple GBT models were created testing multiple values of tree depth [3, 5, 7, 10, 15], using the optimal number of trees and optimal learning rate previously identified.  The accuracy of each model is the same and as such the optimal tree depth is considered to be 3, which is the same as the baseline model.
-
-![tree_depth](xgb_depth_analysis.png)
-
-**Optimising Sampling Parameters** - multiple GBT models were created and tested with the values for subsample and colsample being the variables.  
-
-The subsample parameter controls the fraction of training samples used to build each individual tree in the boosting sequence. It operates similarly to bootstrap sampling in Random Forest, but is applied at each boosting round. For example, subsample=0.8 means each tree is trained on a randomly selected 80% of the training data, with the remaining 20% excluded from that particular tree's construction. This adds randomness to the learning process and helps prevent overfitting. 
-
-The colsample_bytree parameter determines the fraction of features (columns) randomly sampled when constructing each tree in the boosting ensemble. For instance, colsample_bytree=0.8 means each tree uses only 80% of available features, with a different random subset selected for each tree. This feature subsampling mechanism serves multiple purposes: it reduces correlation between trees in the ensemble (making their combined predictions more robust), speeds up training by reducing the number of features each tree must evaluate, and helps prevent overfitting by forcing the model to find alternative feature combinations for making predictions. 
-
-The values tested for these two hyperparameters were:  
-subsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]  
-colsample_range = [0.6, 0.7, 0.8, 0.9, 1.0]  
-
-It was determined that the optimal values were:  subsample: 0.7; colsample_bytree: 0.7, which produced an accuracy of 96.49%
-
-**Optimising Regularisation Parameters**
-
-For optimising gradient boosted trees, Minimum Loss Reduction (gamma) and L1 Regularisation (reg_alpha) are crucial tools for preventing overfitting by penalising model complexity.
-
-**Minimum Loss Reduction (gamma)** acts as a gatekeeper for tree growth by specifying the minimum improvement in the loss function required to justify a new split. When the algorithm considers splitting a leaf, it calculates the "Gain", which is the reduction in training loss achieved by that split.  If this Gain is less than the value of gamma, the split is discarded.  Increasing gamma makes the algorithm more conservative, forcing it to only create branches that provide a significant, meaningful improvement to the model's predictive power, which helps prune away noise-driven branches.
-
-**L1 regularisation (reg_alpha)** is applied to the weights assigned to the leaves of the tree. In gradient boosting, each leaf in a tree has an associated score or "weight" that contributes to the final prediction. reg_alpha adds a penalty term to the objective function proportional to the absolute value of these weights. Because L1 regularisation has a mathematical property that encourages "sparsity," a higher reg_alpha can drive the weights of less important leaves or features all the way to zero. This simplifies the model, makes it more robust against high-dimensional noise, and can even act as a form of automatic feature selection by effectively "turning off" parts of the tree that do not contribute significantly to the overall ensemble.
-
-The optimal values for gamma and reg_lambda were both determined to be 0.
+The optimal hyperparameters across all four phases are summarised below:
 
 ```
-    gamma  reg_lambda     score
-0     0.0         0.0  0.973684
-1     0.0         0.5  0.956140
-2     0.0         1.0  0.964912
-3     0.0         2.0  0.956140
-4     0.0         5.0  0.956140
-5     0.1         0.0  0.964912
-6     0.1         0.5  0.956140
-7     0.1         1.0  0.956140
-8     0.1         2.0  0.956140
-9     0.1         5.0  0.956140
-10    0.5         0.0  0.956140
-11    0.5         0.5  0.956140
-12    0.5         1.0  0.956140
-13    0.5         2.0  0.956140
-14    0.5         5.0  0.964912
-15    1.0         0.0  0.964912
-16    1.0         0.5  0.956140
-17    1.0         1.0  0.956140
-18    1.0         2.0  0.956140
-19    1.0         5.0  0.956140
-20    2.0         0.0  0.964912
-21    2.0         0.5  0.964912
-22    2.0         1.0  0.956140
-23    2.0         2.0  0.964912
-24    2.0         5.0  0.964912
+Hyperparameter      Value
+n_estimators        250
+learning_rate       0.05
+max_depth           3
+subsample           0.6
+colsample_bytree    0.6
+gamma               0.0
+reg_lambda          0.5
 ```
 
-### Model Fitting and Validation:
+### Model Fitting
+
+The XGBoost classifier was trained using the optimal hyperparameters. Five-fold cross-validation on the training set returns a mean accuracy of 0.9780 (std: 0.0231), confirming consistent generalisation across data partitions.
+
+### Feature Importance
+
+Gain-based importance and cumulative importance are shown below.
+
+![feature_importance](xgb_feature_importance.png)
+
+![xgb_cumulative_importance](xgb_cumulative_importance.png)
+
+
+
+
+
+
+
+
+
+### Model Validation:
 Using the optimal hyperparameters, the gradient boosted tree model was trained on the training data, which was validated using the test data. 
 
 The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
