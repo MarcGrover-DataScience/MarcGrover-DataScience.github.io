@@ -116,7 +116,7 @@ Gain-based importance and cumulative importance are shown below.
 
 ![xgb_cumulative_importance](xgb_cumulative_importance.png)
 
-Worst concave points is the top feature by gain importance at [value], followed by _worst area_ and _worst radius_. This is broadly consistent with the Random Forest ranking, where _worst area_ was the top feature — the same cluster of cell nucleus measurements dominates across both ensemble methods, reinforcing the finding from the Decision Tree EDA that these features carry the strongest class-separating signal. The cumulative importance analysis shows that the top 19 features account for 90% of total gain importance, consistent with the Random Forest finding and again reflecting the high inter-correlation among the radius, area, and perimeter measurement family.
+_Worst concave points_ is the top feature by gain importance at 0.1827, followed by _worst perimeter_ and _worst radius_. This is broadly consistent with the Random Forest ranking, where _worst area_ was the top feature — the same cluster of cell nucleus measurements dominates across both ensemble methods, reinforcing the finding from the Decision Tree EDA that these features carry the strongest class-separating signal. The cumulative importance analysis shows that the top 19 features account for 90% of total gain importance, consistent with the Random Forest finding and again reflecting the high inter-correlation among the radius, area, and perimeter measurement family.
 
 ![xgb_permutation_importance](xgb_permutation_importance.png)
 
