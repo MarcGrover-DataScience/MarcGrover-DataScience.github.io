@@ -116,6 +116,20 @@ Gain-based importance and cumulative importance are shown below.
 
 ![xgb_cumulative_importance](xgb_cumulative_importance.png)
 
+Worst concave points is the top feature by gain importance at [value], followed by _worst area_ and _worst radius_. This is broadly consistent with the Random Forest ranking, where _worst area_ was the top feature — the same cluster of cell nucleus measurements dominates across both ensemble methods, reinforcing the finding from the Decision Tree EDA that these features carry the strongest class-separating signal. The cumulative importance analysis shows that the top 19 features account for 90% of total gain importance, consistent with the Random Forest finding and again reflecting the high inter-correlation among the radius, area, and perimeter measurement family.
+
+![xgb_permutation_importance](xgb_permutation_importance.png)
+
+The permutation importance results corroborate the gain ranking for the leading features. As with the Random Forest, the agreement between the intrinsic importance measure and the model-agnostic permutation estimate strengthens confidence in the feature importance findings.
+
+![xgb_importance_comparison](xgb_importance_comparison.png)
+
+The comparison of gain, weight, and cover importance across the top 10 features is the most analytically distinctive result of this project. The three measures frequently disagree: a feature may appear frequently in splits (high weight) without contributing proportionally to loss reduction (gain), or may affect a large number of observations (cover) without being a high-frequency split feature. _Worst concave points_ ranks highly on all three measures, providing the strongest evidence that it is a genuinely important predictor rather than one whose importance is an artefact of the metric used. Where rankings diverge — particularly between weight and gain — the gain ranking is the more analytically meaningful measure for predictive purposes, as it directly reflects contribution to the model's loss function.
+
+### Model Evaluation
+
+The key performance metrics on the held-out test set, compared against the two preceding projects, are:
+
 
 
 
