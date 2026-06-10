@@ -118,6 +118,8 @@ Gain-based importance and cumulative importance are shown below.
 
 _Worst concave points_ is the top feature by gain importance at 0.1827, followed by _worst perimeter_ and _worst radius_. This is broadly consistent with the Random Forest ranking, where _worst area_ was the top feature — the same cluster of cell nucleus measurements dominates across both ensemble methods, reinforcing the finding from the Decision Tree EDA that these features carry the strongest class-separating signal. The cumulative importance analysis shows that the top 19 features account for 90% of total gain importance, consistent with the Random Forest finding and again reflecting the high inter-correlation among the radius, area, and perimeter measurement family.
 
+XGBoost's gain importance can be sensitive to features that appear in many splits at shallow depths; permutation importance provides an independent, out-of-sample check on whether the gain ranking holds on unseen data.
+
 ![xgb_permutation_importance](xgb_permutation_importance.png)
 
 The permutation importance results corroborate the gain ranking for the leading features. As with the Random Forest, the agreement between the intrinsic importance measure and the model-agnostic permutation estimate strengthens confidence in the feature importance findings.
