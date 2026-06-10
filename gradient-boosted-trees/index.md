@@ -130,90 +130,33 @@ The comparison of gain, weight, and cover importance across the top 10 features 
 
 The key performance metrics on the held-out test set, compared against the two preceding projects, are:
 
-
-
-
-
-
-
-
-
-### Model Validation:
-Using the optimal hyperparameters, the gradient boosted tree model was trained on the training data, which was validated using the test data. 
-
-The model performance was evaluated to quantify the quality of the predictions. The key metrics (based on the testing set) are:
-
-* Accuracy: 0.9737  
-* Precision: 0.9600 (Predicted Positives)  
-* Recall: 1.0000 (True Positive Rate)  
-* F1-Score: 0.9796  
-* Specificity: 0.9286 (True Negative Rate)
-* ROC-AUC:   0.9964
-
-The ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a comprehensive performance metric that measures a classification model's ability to distinguish between classes across all possible classification thresholds.  For Gradient Boosted Trees specifically, ROC-AUC is particularly valuable because it evaluates the quality of the probability estimates produced by the ensemble, not just the final binary predictions. Since XGBoost combines predictions from multiple trees using weighted sums, it naturally produces continuous probability scores rather than hard classifications. An ROC-AUC of 0.99, for example, means there's a 99% probability that the model will rank a randomly chosen positive instance (malignant tumour) higher than a randomly chosen negative instance (benign tumour), demonstrating exceptional discriminative ability. 
-
-The ROC curve plots the True Positive Rate (TPR) on the y-axis against the False Positive Rate (FPR) on the x-axis at various probability thresholds, creating a curve that shows how the model performs as you vary the decision boundary. The AUC (Area Under the Curve) quantifies this into a single number between 0 and 1, where 1.0 represents perfect classification (the model correctly ranks all positive cases above all negative cases).
-
-ROC-AUC is superior to simple accuracy in several ways: it's insensitive to class imbalance (unlike accuracy which can be misleading when classes are unbalanced), it evaluates the entire range of operating points rather than just one threshold, and it directly measures the model's ranking ability which is fundamental to how boosted trees make predictions. In the context of breast cancer diagnosis, a high ROC-AUC (>0.98) indicates the Gradient Boosted Tree consistently assigns higher probability scores to malignant cases than benign ones, providing clinicians with reliable confidence scores they can use to prioritise cases for further review or adjust decision thresholds based on clinical protocols.
-
-![roc_curve](xgb_roc_curve.png)
-
-The detailed classification report provides additional information on the predictions, breaking down the performance metrics for malignant and benign predictions. This is based on the testing dataset.
-
 ```
-              precision    recall  f1-score   support
-   malignant       1.00      0.93      0.96        42
-      benign       0.96      1.00      0.98        72
+Metric             Decision Tree     Random Forest      XGBoost
+Accuracy           0.9386            0.9561             0.9561
+Precision          0.9452            0.9589             0.9589
+Recall             0.9583            0.9722             0.9722
+F1-Score           0.9517            0.9655             0.9655
+Specificity (TNR)  0.9048            0.9286             0.9286
+ROC-AUC            0.9446            0.9929             0.9947
 ```
 
-The confusion matrix visually demonstrates the performance of the model applied to the testing dataset.
+XGBoost matches the Random Forest's test accuracy of 95.61% — identical to the nearest whole observation on a 114-sample test set. As noted in the Goals and Objectives, a single misclassification changes accuracy by 0.88 percentage points at this scale, meaning the accuracy figures for these two models are indistinguishable in any practically meaningful sense. The ROC-AUC of 0.9947, however, represents a further improvement over the Random Forest's 0.9929, confirming that XGBoost's discriminative ability across all classification thresholds is genuinely superior, and that the sequential boosting process produces better-calibrated probability estimates even where it does not change the binary classification outcome.
 
 ![confusion_matrix](xgb_confusion_matrix.png)
 
-In summary the confusion matrix presents the results:
+The confusion matrix shows 70 correct benign classifications and 39 correct malignant classifications. There are 3 false negatives — malignant tumours predicted as benign, the same number as in the Random Forest. The false negative count is the most clinically consequential error type in a diagnostic screening context, and any reduction relative to the preceding models represents a meaningful improvement in diagnostic safety.
 
-* True Positives (True Benign): 72
-* True Negatives (True Malignant): 39
-* False Positives (False Benign): 3
-* False Negatives (False Malignant): 0
+![roc_curve](xgb_roc_curve.png)
 
-### Model Prediction Confidence:
+The ROC curve approaches the top-left corner closely across the full range of thresholds, with the AUC of 0.9947 confirming strong discriminative performance. This curve establishes the XGBoost benchmark for the series ahead of the Support Vector Machine project.
 
-Prediction Confidence, or Prediction Probability, is a score that represents how “sure” the model is that a specific data point belongs to a certain category. It is fundamentally different from Accuracy, which states how often the model is right; Confidence measures how much the model “believes” in its specific answer for a single instance.
-
-Confidence is often more important than the final label in high-importance scenarios.
-
-For the gradient boosted tree model the mean confidence for each of the 114 test observations is 0.9738.  For comparison the mean confidence of the test observations using the optimum Random Forest was 0.9336, which is significantly lower than that from the Gradient Boosted Trees model.  
-
-Each observation has a confidence value, the histogram below shows the distribution of these confidences. This shows that many of the observations have a prediction confidence near 1.0, which demonstrates excellent predictive power of the model.  There are observations with predictions with a lower confidence however these are infrequent. In a real-world scenario predictions with a confidence less than a specified threshold, such as 0.8, may be considered unreliable, and further medical testing and analysis be required. 
+### Prediction Confidence
 
 ![confidence_distribution](xgb_confidence_distribution.png)  
 
-### Feature Importance:
+The mean prediction confidence across the 114 test observations is 0.9637, with the distribution heavily concentrated above 0.90. This is materially higher than the Random Forest's mean confidence of 0.9336, reflecting the sequential boosting mechanism's tendency to produce more decisive probability estimates: each additional tree in the sequence refines the ensemble's probability output for the observations it finds most uncertain, progressively resolving borderline cases. The practical implication is the same as for the Random Forest — a confidence threshold can be applied operationally to flag low-confidence predictions for additional clinical review — but the higher mean confidence means fewer observations would be flagged under any given threshold, reducing the operational burden of the review process.
 
-A key insight from the generation of a Gradient Boosted Tree is the importance of each factor in generating a prediction, and hence the most important factors can be determined.  
 
-Feature importance in a Gradient Boosted Tree is calculated from all trees in the ensemble, aggregating importance across all trees.
-
-The 10 most important factors are listed below, along with the importance score. The total importance across all features sums to 1. With a Gradient Boosted Trees model, it is typical that all features have a non-zero importance score, similar to a Random Forest model, whereas for a Decision Tree it is common for only a sub-set of features to have a non-zero importance score. 
-
-The most important feature identified as ‘worse concave points’.  The top five most important features are the same as those for the optimal random forest, though in a different order and with different importance scores, highlighting both the similarities and differences. It was identified that 14 features account for over 90% of importance.   
-
-```
-             Feature  Importance
-worst concave points    0.1871
-     worst perimeter    0.1711
-          worst area    0.1473
- mean concave points    0.1005
-        worst radius    0.0711
-           mean area    0.0465
-     worst concavity    0.0267
-       worst texture    0.0233
-          area error    0.0228
-        mean texture    0.0203
-```
-
-![feature_importance](xgb_feature_importance.png)
 
 ## Conclusions:
 
