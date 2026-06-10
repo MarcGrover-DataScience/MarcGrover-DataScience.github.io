@@ -103,6 +103,8 @@ Gini impurity-based importance and permutation importance were computed for the 
 
 ![feature_importance](rf_feature_importance.png)
 
+Gini importance in Random Forests has a known tendency to overstate the contribution of high-cardinality continuous features; permutation importance on the test set provides a model-agnostic check on whether the Gini ranking reflects genuine predictive contribution.
+
 ![rf_permutation_importance](rf_permutation_importance.png)
 
 Unlike the Decision Tree — where only 6 of 30 features received a non-zero Gini importance score — the Random Forest assigns non-zero importance to all 30 features, reflecting its use of random feature subsets across 150 trees. The top feature is worst area (Gini importance: 0.1413), compared to worst radius in the Decision Tree. This shift is analytically meaningful: with a depth-3 tree, the single most separating feature dominates all splits; across 150 deeper trees with randomised feature selection, the importance is distributed more broadly and the ranking reflects a more complete assessment of each feature's predictive contribution. Worst radius remains in the top 5, consistent with its dominance in the Decision Tree, confirming it carries genuine signal rather than being an artefact of the shallower model's limited split structure.
