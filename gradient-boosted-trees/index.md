@@ -85,7 +85,7 @@ A maximum depth of 3 achieves the highest CV accuracy of **0.9758**. Shallower t
 
 ### Phase 3 — Subsampling
 
-Row subsampling (subsample) and column subsampling (colsample_bytree) were evaluated jointly across a 5×5 grid of candidate values (0.6, 0.7, 0.8, 0.9, 1.0). The optimal values are subsample = 0.6 and colsample_bytree = 0.6, achieving a CV accuracy of **0.9780**. Subsampling introduces randomness into the sequential boosting process — analogous to the bootstrap sampling in Random Forests — and its contribution to the final model is confirmed by comparing this result against the Phase 2 score.
+Row subsampling (subsample) and column subsampling (colsample_bytree) were evaluated jointly across a 5×5 grid of candidate values (0.6, 0.7, 0.8, 0.9, 1.0). The optimal values are subsample = 0.6 and colsample_bytree = 0.6, achieving a CV accuracy of **0.9780**. Subsampling introduces randomness into the sequential boosting process — analogous to the bootstrap sampling in Random Forests — and its contribution to the final model is confirmed by comparing this result against the Phase 2 score, where the accuracy increase is negligible.
 
 ### Phase 4 — Regularisation
 
