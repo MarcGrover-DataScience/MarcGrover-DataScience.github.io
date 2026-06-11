@@ -20,12 +20,15 @@ The results of the K-Means clustering produced good agreement with the known lab
 
 K-Means Clustering is a versatile and widely used technique in many business sectors, the following is a subset of applications:
 
-🏦 **Financial Services** - K-Means is primarily used to group customers, transactions, or financial instruments based on similar attributes for risk management, fraud detection and marketing.
-🛍️ **Retail** - businesses use K-Means to understand customer behaviour and optimize inventory and marketing strategies.
-🏭 **Manufacturing** - K-Means helps in anomaly detection and process optimization using sensor and operational data, allowing preventative maintenance.
-💻 **Technology** - businesses use K-Means for everything from organizing content to optimizing complex systems.
-  * Helps in organising content, creating recommendation systems, and improving search results by grouping similar topics.
-  * Load balancing - Allows the system to intelligently distribute new workloads to the least utilized clusters, ensuring optimal resource allocation and preventing server overload.
+🏦 **Financial Services** - K-Means is primarily used to group customers, transactions, or financial instruments based on similar attributes for risk management, fraud detection and marketing. 
+
+🛍️ **Retail** - businesses use K-Means to understand customer behaviour and optimize inventory and marketing strategies.  
+
+🏭 **Manufacturing** - K-Means helps in anomaly detection and process optimization using sensor and operational data, allowing preventative maintenance.  
+
+💻 **Technology** - businesses use K-Means for everything from organizing content to optimizing complex systems.  
+  * Helps in organising content, creating recommendation systems, and improving search results by grouping similar topics.  
+  * Load balancing - Allows the system to intelligently distribute new workloads to the least utilized clusters, ensuring optimal resource allocation and preventing server overload.  
 
 ## Methodology:  
 
