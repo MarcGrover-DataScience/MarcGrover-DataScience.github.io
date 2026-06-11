@@ -75,7 +75,7 @@ Twenty configurations spanning 5 estimator counts (50–250) and 4 learning rate
 
 The chart shows that lower learning rates require more estimators to converge but produce smoother, more stable CV accuracy curves. Higher learning rates converge faster but plateau earlier and are more sensitive to the estimator count. The optimal configuration from Phase 1 is a learning rate of 0.05 and 250 estimators, achieving a CV accuracy of **0.9758**.
 
-### Phase 2 — Maximum Tree Depth
+**Phase 2 — Maximum Tree Depth**
 
 With the Phase 1 parameters fixed, maximum tree depth was evaluated across candidate values of 3, 5, 7, 10 and 15.
 
@@ -83,11 +83,11 @@ With the Phase 1 parameters fixed, maximum tree depth was evaluated across candi
 
 A maximum depth of 3 achieves the highest CV accuracy of **0.9758**. Shallower trees underfit the sequential boosting process; deeper trees provide diminishing returns as the regularisation parameters introduced in Phase 4 are not yet active.
 
-### Phase 3 — Subsampling
+**Phase 3 — Subsampling**
 
 Row subsampling (subsample) and column subsampling (colsample_bytree) were evaluated jointly across a 5×5 grid of candidate values (0.6, 0.7, 0.8, 0.9, 1.0). The optimal values are subsample = 0.6 and colsample_bytree = 0.6, achieving a CV accuracy of **0.9780**. Subsampling introduces randomness into the sequential boosting process — analogous to the bootstrap sampling in Random Forests — and its contribution to the final model is confirmed by comparing this result against the Phase 2 score, where the accuracy increase is negligible.
 
-### Phase 4 — Regularisation
+**Phase 4 — Regularisation**
 
 Gamma (minimum loss reduction required to make a split) and L2 regularisation (reg_lambda) were evaluated across candidate values. The optimal values are gamma = 0.0 and reg_lambda = 0.5, achieving a final CV accuracy of **0.9780**. These regularisation parameters are specific to XGBoost and have no direct equivalent in the Decision Tree or Random Forest implementations used in this series; they act directly on the tree-building process by penalising unnecessary splits and shrinking leaf weights.
 
