@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
-from sklearn.metrics import (silhouette_score, davies_bouldin_score,
+from sklearn.metrics import (silhouette_score, silhouette_samples, davies_bouldin_score,
                              calinski_harabasz_score, adjusted_rand_score,
                              homogeneity_score, completeness_score, v_measure_score)
 from sklearn.decomposition import PCA
+import matplotlib.cm as cm
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -52,9 +53,54 @@ print(f"Target vector shape: {y.shape}")
 print(f"Unique classes in target: {np.unique(y)}")
 
 # ============================================================================
+# 1b. FEATURE DISTRIBUTIONS & SKEWNESS CHECK
+# ============================================================================
+print("\nSTEP 1b: Feature Distributions and Skewness")
+
+feature_names = df.columns[:-1].tolist()   # all columns except the last (target)
+
+skewness = df[feature_names].skew().round(3)
+print("\nFeature Skewness (|skew| > 1.0 is materially skewed):")
+print(skewness)
+
+fig, axes = plt.subplots(2, 4, figsize=(16, 7))
+axes = axes.flatten()
+for i, col in enumerate(feature_names):
+    axes[i].hist(df[col], bins=20, color='steelblue', edgecolor='white', alpha=0.8)
+    axes[i].set_title(f'{col}\nskew = {skewness[col]:.2f}', fontsize=10)
+axes[-1].set_visible(False)
+plt.suptitle('Feature Distributions (Raw Data)', fontsize=13, fontweight='bold', y=1.01)
+plt.tight_layout()
+plt.savefig('kmeans-feat-distributions.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 1c. FEATURE CORRELATION HEATMAP
+# ============================================================================
+print("\nSTEP 1c: Feature Correlation Analysis")
+
+corr = df[feature_names].corr()
+
+fig, ax = plt.subplots(figsize=(9, 7))
+mask = np.triu(np.ones_like(corr, dtype=bool))
+sns.heatmap(corr, mask=mask, annot=True, fmt='.2f', cmap='coolwarm',
+            center=0, linewidths=0.5, ax=ax, annot_kws={'size': 9})
+ax.set_title('Feature Correlation Matrix', fontsize=13, fontweight='bold', pad=12)
+plt.tight_layout()
+plt.savefig('kmeans-correlation.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+# Print highly correlated pairs for reporting
+print("\nHighly correlated feature pairs (|r| > 0.85):")
+for i in range(len(corr.columns)):
+    for j in range(i):
+        if abs(corr.iloc[i, j]) > 0.85:
+            print(f"  {corr.columns[i]} vs {corr.columns[j]}: r = {corr.iloc[i, j]:.3f}")
+
+# ============================================================================
 # 2. DATA PREPROCESSING
 # ============================================================================
-print("STEP 2: Data Preprocessing (Standardization)")
+print("\nSTEP 2: Data Preprocessing (Standardization)")
 
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
@@ -65,7 +111,7 @@ print(f"Scaled data - Std: {X_scaled.std(axis=0)}")
 # ============================================================================
 # 3. ELBOW METHOD - FINDING OPTIMAL K
 # ============================================================================
-print("STEP 3: Elbow Method - Finding Optimal K")
+print("\nSTEP 3: Elbow Method - Finding Optimal K")
 
 # Calculate WSS (Within-Cluster Sum of Squares) for different k values
 k_range = range(2, 11)
@@ -136,6 +182,7 @@ ax.set_xticks(k_range)
 ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
 
 plt.tight_layout()
+plt.savefig('kmeans-wss.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Plot 2: Silhouette Score (higher is better)
@@ -153,6 +200,7 @@ ax.set_xticks(k_range)
 # Enhance grid
 ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
 plt.tight_layout()
+plt.savefig('kmeans-silh.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Plot 3: Davies-Bouldin Index (lower is better)
@@ -171,6 +219,7 @@ ax.set_xticks(k_range)
 ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
 
 plt.tight_layout()
+plt.savefig('kmeans-dbi.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Plot 4: Calinski-Harabasz Index (higher is better)
@@ -189,6 +238,7 @@ ax.set_xticks(k_range)
 ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
 
 plt.tight_layout()
+plt.savefig('kmeans-chi.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
@@ -208,7 +258,30 @@ unique, counts = np.unique(cluster_labels, return_counts=True)
 for cluster, count in zip(unique, counts):
     print(f"  Cluster {cluster}: {count} samples ({count / len(cluster_labels) * 100:.1f}%)")
 
-# Centres of scaled clusters a: kmeans_final.cluster_centers_
+
+# ============================================================================
+# 5a. CLUSTER CENTROID PROFILES
+# ============================================================================
+print("\nSTEP 5a: Cluster Centroid Analysis")
+
+# Cluster means in scaled space
+centroid_df = pd.DataFrame(kmeans_final.cluster_centers_,
+                           columns=feature_names,
+                           index=[f'Cluster {i}' for i in range(optimal_k)])
+
+print("\nCluster centroids (scaled feature values):")
+print(centroid_df.round(3))
+
+fig, ax = plt.subplots(figsize=(10, 4))
+sns.heatmap(centroid_df.T, annot=True, fmt='.2f', cmap='RdBu_r',
+            center=0, linewidths=0.5, ax=ax, annot_kws={'size': 9})
+ax.set_title('Cluster Centroids — Mean Scaled Feature Values',
+             fontsize=13, fontweight='bold', pad=12)
+ax.set_xlabel('Cluster', fontsize=11)
+ax.set_ylabel('Feature', fontsize=11)
+plt.tight_layout()
+plt.savefig('kmeans-centroids.png', dpi=150, bbox_inches='tight')
+plt.show()
 
 # ============================================================================
 # 6. INTRINSIC VALIDATION METRICS
@@ -235,6 +308,37 @@ print(f"  Interpretation: Higher values indicate denser and better separated clu
 
 print(f"\nWSS value: {kmeans_final.inertia_:.2f}")
 
+# ============================================================================
+# 6a. PER-SAMPLE SILHOUETTE PLOT
+# ============================================================================
+print("\nSTEP 6a: Per-Sample Silhouette Analysis")
+
+silhouette_vals = silhouette_samples(X_scaled, cluster_labels)
+y_lower = 10
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
+
+fig, ax = plt.subplots(figsize=(8, 6))
+for i in range(optimal_k):
+    cluster_sil = np.sort(silhouette_vals[cluster_labels == i])
+    size = cluster_sil.shape[0]
+    y_upper = y_lower + size
+    ax.fill_betweenx(np.arange(y_lower, y_upper), 0, cluster_sil,
+                     alpha=0.7, color=colors[i], label=f'Cluster {i}')
+    ax.text(-0.05, y_lower + 0.5 * size, str(i), fontsize=10, fontweight='bold')
+    y_lower = y_upper + 10
+
+avg_score = silhouette_vals.mean()
+ax.axvline(x=avg_score, color='red', linestyle='--', linewidth=1.5,
+           label=f'Mean = {avg_score:.3f}')
+ax.set_xlabel('Silhouette Coefficient', fontsize=11)
+ax.set_ylabel('Cluster', fontsize=11)
+ax.set_yticks([])
+ax.set_title('Per-Sample Silhouette Plot (K=3)', fontsize=13, fontweight='bold')
+ax.legend(loc='upper right', fontsize=9)
+ax.set_xlim(-0.35, 1.0)
+plt.tight_layout()
+plt.savefig('kmeans-silhouette-detail.png', dpi=150, bbox_inches='tight')
+plt.show()
 
 # ============================================================================
 # 7. EXTRINSIC VALIDATION METRICS (Compare with Ground Truth)
@@ -264,10 +368,53 @@ print(f"  Range: [0, 1], Higher is better")
 print(f"  Harmonic mean of homogeneity and completeness")
 
 # ============================================================================
-# 8. VISUALIZE CLUSTERING RESULTS
+# 8. PCA EXPLAINED VARIANCE (SCREE PLOT)
+# ============================================================================
+print("\nSTEP 8: PCA Explained Variance")
+
+pca_full = PCA(n_components=7)
+pca_full.fit(X_scaled)
+
+explained = pca_full.explained_variance_ratio_
+cumulative = np.cumsum(explained)
+
+print("\nVariance explained per component:")
+for i, (e, c) in enumerate(zip(explained, cumulative)):
+    print(f"  PC{i+1}: {e*100:.1f}%  (cumulative: {c*100:.1f}%)")
+
+fig, ax1 = plt.subplots(figsize=(9, 5))
+bars = ax1.bar(range(1, 8), explained * 100, color='steelblue', alpha=0.7, label='Individual')
+ax1.set_xlabel('Principal Component', fontsize=11)
+ax1.set_ylabel('Explained Variance (%)', fontsize=11, color='steelblue')
+ax1.tick_params(axis='y', labelcolor='steelblue')
+
+# Label each bar
+for bar, val in zip(bars, explained * 100):
+    ax1.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.3,
+             f'{val:.1f}%', ha='center', va='bottom', fontsize=9)
+
+ax2 = ax1.twinx()
+ax2.plot(range(1, 8), cumulative * 100, 'o-', color='coral',
+         linewidth=2, label='Cumulative')
+ax2.axhline(y=85, color='grey', linestyle='--', linewidth=1, alpha=0.7, label='85%')
+ax2.axhline(y=95, color='grey', linestyle=':', linewidth=1, alpha=0.7, label='95%')
+ax2.set_ylabel('Cumulative Explained Variance (%)', fontsize=11, color='coral')
+ax2.tick_params(axis='y', labelcolor='coral')
+ax2.set_ylim(0, 108)
+
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1 + lines2, labels1 + labels2, loc='center right', fontsize=9)
+ax1.set_title('PCA – Explained Variance by Component', fontsize=13, fontweight='bold')
+plt.tight_layout()
+plt.savefig('kmeans-pca-variance.png', dpi=150, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 8a. VISUALIZE CLUSTERING RESULTS
 # ============================================================================
 
-print("\nSTEP 8: Visualizing Clustering Results")
+print("\nSTEP 8a: Visualizing Clustering Results")
 
 # Apply PCA for 2D visualization
 pca = PCA(n_components=2)
@@ -275,29 +422,52 @@ X_pca = pca.fit_transform(X_scaled)
 
 print(f"\nExplained variance by first 2 PCs: {sum(pca.explained_variance_ratio_) * 100:.2f}%")
 
-# Create visualization
-fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+# Plot 1: K-Means Clustering Results
+fig, ax = plt.subplots(figsize=(8, 6))
 
-# Plot 1: Clustering Results
-scatter1 = axes[0].scatter(X_pca[:, 0], X_pca[:, 1], c=cluster_labels,
-                           cmap='viridis', s=100, alpha=0.6, edgecolors='black', linewidth=0.5)
-# Plot cluster centers
+ax.scatter(X_pca[:, 0], X_pca[:, 1], c=cluster_labels,
+           cmap='viridis', s=100, alpha=0.6, edgecolors='black', linewidth=0.5)
 centers_pca = pca.transform(kmeans_final.cluster_centers_)
-axes[0].scatter(centers_pca[:, 0], centers_pca[:, 1], c='red', marker='X',
-                s=300, edgecolors='black', linewidth=2, label='Centroids')
-axes[0].set_xlabel(f'First Principal Component ({pca.explained_variance_ratio_[0] * 100:.1f}%)', fontsize=12)
-axes[0].set_ylabel(f'Second Principal Component ({pca.explained_variance_ratio_[1] * 100:.1f}%)', fontsize=12)
-axes[0].set_title('K-Means Clustering Results (PCA Projection)', fontsize=14, fontweight='bold')
-axes[0].legend()
-
-# Plot 2: True Labels
-scatter2 = axes[1].scatter(X_pca[:, 0], X_pca[:, 1], c=y,
-                           cmap='plasma', s=100, alpha=0.6, edgecolors='black', linewidth=0.5)
-axes[1].set_xlabel(f'First Principal Component ({pca.explained_variance_ratio_[0] * 100:.1f}%)', fontsize=12)
-axes[1].set_ylabel(f'Second Principal Component ({pca.explained_variance_ratio_[1] * 100:.1f}%)', fontsize=12)
-axes[1].set_title('True Labels (Ground Truth)', fontsize=14, fontweight='bold')
+ax.scatter(centers_pca[:, 0], centers_pca[:, 1], c='red', marker='X',
+           s=300, edgecolors='black', linewidth=2, label='Centroids')
+ax.set_xlabel(f'First Principal Component ({pca.explained_variance_ratio_[0] * 100:.1f}%)', fontsize=12)
+ax.set_ylabel(f'Second Principal Component ({pca.explained_variance_ratio_[1] * 100:.1f}%)', fontsize=12)
+ax.set_title('K-Means Clustering Results (PCA Projection)', fontsize=14, fontweight='bold')
+ax.legend()
 
 plt.tight_layout()
+plt.savefig('kmeans-pca.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Plot 2: True Labels (Ground Truth)
+fig, ax = plt.subplots(figsize=(8, 6))
+
+ax.scatter(X_pca[:, 0], X_pca[:, 1], c=y,
+           cmap='plasma', s=100, alpha=0.6, edgecolors='black', linewidth=0.5)
+ax.set_xlabel(f'First Principal Component ({pca.explained_variance_ratio_[0] * 100:.1f}%)', fontsize=12)
+ax.set_ylabel(f'Second Principal Component ({pca.explained_variance_ratio_[1] * 100:.1f}%)', fontsize=12)
+ax.set_title('True Labels (Ground Truth)', fontsize=14, fontweight='bold')
+
+plt.tight_layout()
+plt.savefig('kmeans-truth.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# ============================================================================
+# 8b. FEATURE PAIRPLOT BY CLUSTER
+# ============================================================================
+print("\nSTEP 8b: Feature Pair Relationships by Cluster")
+
+# Build a scaled DataFrame for plotting
+scaled_df = pd.DataFrame(X_scaled, columns=feature_names)
+scaled_df['Cluster'] = cluster_labels.astype(str)
+
+palette = {'0': '#1f77b4', '1': '#ff7f0e', '2': '#2ca02c'}
+
+g = sns.pairplot(scaled_df, hue='Cluster', palette=palette,
+                 diag_kind='kde', plot_kws={'alpha': 0.4, 's': 20})
+g.figure.suptitle('Feature Pair Relationships by Cluster (Scaled)',
+                  y=1.02, fontsize=13, fontweight='bold')
+g.figure.savefig('kmeans-pairplot.png', dpi=150, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
@@ -323,6 +493,7 @@ plt.title('Contingency Table: True Classes vs Predicted Clusters',
 plt.ylabel('True Class', fontsize=12)
 plt.xlabel('Predicted Cluster', fontsize=12)
 plt.tight_layout()
+plt.savefig('kmeans-contingency.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # ============================================================================
