@@ -67,15 +67,21 @@ Convergence across all four metrics on K=3 provided objective confirmation of th
 
 **Visualisation** Principal Component Analysis (PCA) was applied to the scaled data to enable visualisation of the seven-dimensional feature space. A full seven-component PCA was first used to produce a scree plot quantifying the variance captured at each component. A two-component PCA was then used to project the data into two dimensions, generating scatter plots of the K-Means cluster assignments alongside the true variety labels for direct visual comparison. A per-sample silhouette plot and a pairplot of cluster assignments across all feature pairs were also produced to support deeper interpretation of the clustering structure.
 
-## Results and conclusions:
+## Results:
 
-Initially the data was scaled to support optimal clustering, and prevent single factors dominating the clustering process.  The clustering transformed the values, so that each IV has a mean of 0 and a standard deviation equal to 1.
+**Data Validation and Exploratory Analysis**  
+The dataset contains 210 observations and 7 features, with no missing values. The three wheat varieties — Kama, Rosa, and Canadian — are perfectly balanced at 70 observations each, meaning no variety is over- or under-represented in the clustering.
 
-The K-Means Cluster model was run for each value of K in the range [2, 11].
+Feature skewness was examined prior to modelling. All seven features returned skewness values within an acceptable range, indicating that the distributions are approximately symmetric and that no transformation was required before scaling.
 
-For each value of K, the WSS (Within-Cluster Sum of Squares) was calculated, which were used to determine the optimal value of K, i.e. the optimal number of clusters.  
+The correlation analysis revealed strong positive correlations between several size-related features — area, perimeter, kernel length, and kernel width — which is geometrically expected, as larger seeds tend to be larger across all linear dimensions simultaneously. This multicollinearity means these features share explanatory information, and their collective influence on Euclidean distance is noted as a factor in the cluster geometry.
 
-For each value of K intrinsic measures were also measured and recorded; Silhouette Scores, Davies Bouldin Scores, and Calinski Harabasz Scores.  
+![kmeans-feat-distributions](kmeans-feat-distributions.png)
+
+![kmeans-correlation](kmeans-correlation.png)
+
+**Determining the Optimal Number of Clusters**  
+K-Means was run for K = 2 to 10, with four metrics recorded at each value.
 
 ![WSS - Elbow](kmeans-wss.png)
 
@@ -85,7 +91,13 @@ For each value of K intrinsic measures were also measured and recorded; Silhouet
 
 ![Calinski_Harabasz](kmeans-chi.png)
 
-The Elbow Method, which uses the WSS scores for each K value, along with the plots of the other intrinsic measures, was used to determine the optimal K value of 3, which was then used to define the final K-Means Model, and apply the clustering to the observations.
+The Elbow Method shows a clear change in the rate of WSS reduction at K=3, beyond which additional clusters yield diminishing returns. This is corroborated by the Silhouette Score, which peaks at K=3, and the Davies-Bouldin Index, which reaches its minimum at K=3. The Calinski-Harabasz Index also achieves its highest value at K=3. Convergence across all four independent metrics provides strong objective confirmation that **K=3 is the optimal number of clusters** — consistent with, but not assumed from, the known three varieties.
+
+
+
+
+
+
 
 ### Intrinsic Validation Metrics
 
@@ -151,7 +163,7 @@ Finally the predicted clusters were compared to the actuals, noting that as this
 
 ![contingency](kmeans-contingency.png)
 
-### Conclusions:
+## Conclusions:
 
 The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277, -0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
 
