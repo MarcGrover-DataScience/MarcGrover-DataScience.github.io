@@ -48,19 +48,24 @@ The dataset contains **210 observations** across **seven continuous features**: 
 
 The workflow proceeded through the following stages:
 
-1. **Data Validation and Exploratory Analysis**
+**Data Validation and Exploratory Analysis** The dataset was checked for missing values, data types, and class balance across the three varieties. Feature distributions were examined and skewness quantified for each variable, since K-Means relies on Euclidean distance and can be sensitive to heavily skewed features. A correlation analysis was also conducted to identify highly correlated features, as multicollinearity effectively over-weights certain dimensions in the distance calculation.
 
-The dataset was checked for missing values, data types, and class balance across the three varieties. Feature distributions were examined and skewness quantified for each variable, since K-Means relies on Euclidean distance and can be sensitive to heavily skewed features. A correlation analysis was also conducted to identify highly correlated features, as multicollinearity effectively over-weights certain dimensions in the distance calculation.
+**Feature Scaling** All features were standardised using StandardScaler, transforming each to zero mean and unit variance. This is a prerequisite for K-Means, ensuring no single feature dominates the clustering due to differences in scale or units.
 
+**Determining the Optimal Number of Clusters** Rather than assuming K=3 from domain knowledge, the optimal K was determined objectively by running K-Means across K = 2 to 10 and evaluating four independent metrics at each value:
 
+* **Within-Cluster Sum of Squares (WSS)** — used in the Elbow Method to identify the point of diminishing returns
+* **Silhouette Score** — measures how similar each observation is to its own cluster versus neighbouring clusters
+* **Davies-Bouldin Index** — assesses the ratio of within-cluster scatter to between-cluster separation
+* **Calinski-Harabasz Index** — evaluates cluster density and separation simultaneously
 
+Convergence across all four metrics on K=3 provided objective confirmation of the optimal cluster count.
 
+**Model Training** The final K-Means model was trained with K=3, random_state=42 for reproducibility, and n_init=10 — meaning the algorithm was run ten times with different centroid initialisations, with the best result selected. Cluster centroids were extracted and analysed to characterise the defining features of each cluster.
 
-The data contains 7 independent variables:  area (A), perimeter (P), compactness (C), length of kernel (LK), width of kernel (WK), asymmetry coefficient (A_Coef) and length of kernel groove (LKG), which are used to generate the clusters.
+**Validation** Clustering quality was assessed using both intrinsic and extrinsic metrics. Intrinsic metrics (Silhouette Score, Davies-Bouldin Index, Calinski-Harabasz Index) evaluate cluster structure independently of the true labels. Extrinsic metrics (Adjusted Rand Index, Homogeneity, Completeness, and V-Measure) compare the clustering result directly against the withheld variety labels to quantify agreement with ground truth.
 
-The overall method was to scale the data, determine the optimal number of clusters (i.e. the optimal value of K), and then generate the clusters, using the optimal K value, and assess the results to determine the quality of the clustering.
-
-Data preparation:  The data for the clustering did not undergo any transformation or preparation, other than scaling as part of the analytical process. 
+**Visualisation** Principal Component Analysis (PCA) was applied to the scaled data to enable visualisation of the seven-dimensional feature space. A full seven-component PCA was first used to produce a scree plot quantifying the variance captured at each component. A two-component PCA was then used to project the data into two dimensions, generating scatter plots of the K-Means cluster assignments alongside the true variety labels for direct visual comparison. A per-sample silhouette plot and a pairplot of cluster assignments across all feature pairs were also produced to support deeper interpretation of the clustering structure.
 
 ## Results and conclusions:
 
