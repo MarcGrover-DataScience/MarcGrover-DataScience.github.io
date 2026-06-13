@@ -10,29 +10,51 @@ permalink: /k-means-clustering/
 
 ## Goals and objectives:
 
-The business objective is to understand the clustering of wheat seeds based on measurements of geometrical properties of kernels belonging to three different varieties of wheat; Kama, Rosa and Canadian.
+The objective of this project is to apply **K-Means Clustering** to a dataset of geometric measurements taken from wheat seeds, with the goal of discovering whether the data naturally separates into meaningful groups — without using the known seed variety labels during the analysis.
 
-A soft X-ray technique was used to construct all seven, real-valued attributes (features), for each seed on which the clustering is based.
+The dataset contains 210 seeds drawn from three varieties: **Kama**, **Rosa**, and **Canadian**. For each seed, seven geometric properties were measured using a soft X-ray imaging technique: area, perimeter, compactness, kernel length, kernel width, asymmetry coefficient, and groove length. These seven features form the basis of the clustering.
+The analysis is structured around three questions:
 
-The results of the K-Means clustering produced good agreement with the known labels, with approximately 73% of seeds classified correctly, with three distinct clusters emerging.  It was also noted that ~85-90% of variance was explained by 2 Principle Components. 
+* **Can K-Means recover the true variety structure from geometry alone?** The model is trained entirely without labels, making this a test of whether the geometric measurements carry enough discriminatory signal to distinguish the varieties.
+* **What is the optimal number of clusters?** Rather than assuming three clusters because we know there are three varieties, the optimal K is determined objectively using four independent methods: the Elbow Method (WSS), Silhouette Score, Davies-Bouldin Index, and Calinski-Harabasz Index.
+* **How well do the recovered clusters align with the true varieties?** Because the true labels are available (but withheld from the model), both intrinsic metrics (which measure clustering quality independently) and extrinsic metrics (which compare against ground truth) are used to assess performance.
+
+The analysis also includes an examination of the feature space: checking for skewness, multicollinearity between features, and using Principal Component Analysis (PCA) to reduce the seven dimensions to two for visualisation. The PCA scree plot quantifies how much variance is captured at each component, directly supporting the interpretation of the cluster scatter plots.
+
+The project concludes by assessing where and why the clustering falls short of perfect agreement with the true labels — specifically exploring the natural overlap between varieties in the feature space — and identifies clear next steps, including a transition to supervised learning methods which leverage the available labels directly.
+
 
 ## Application:  
 
-K-Means Clustering is a versatile and widely used technique in many business sectors, the following is a subset of applications:
+K-Means Clustering is an unsupervised machine learning algorithm that partitions observations into **K distinct, non-overlapping groups** based on similarity. The algorithm works iteratively: it assigns each observation to its nearest cluster centroid, then recalculates the centroid positions based on the new assignments, repeating until the assignments stabilise. The result is a set of clusters where observations within a group are as similar as possible to each other, and as different as possible from observations in other groups.
 
-🏦 **Financial Services** - K-Means is primarily used to group customers, transactions, or financial instruments based on similar attributes for risk management, fraud detection and marketing. 
+A key practical decision in any K-Means analysis is selecting the optimal value of K. This project determines K objectively using four complementary methods — the **Elbow Method** (minimising Within-Cluster Sum of Squares), **Silhouette Score**, **Davies-Bouldin Index**, and **Calinski-Harabasz Index** — with convergence across all four providing confidence in the chosen value.
 
-🛍️ **Retail** - businesses use K-Means to understand customer behaviour and optimize inventory and marketing strategies.  
+Because K-Means operates purely on distance in feature space, it requires **scaled data** to prevent features with larger absolute ranges dominating the clustering. It is also worth noting that K-Means assumes clusters are roughly spherical and of similar density; where these assumptions do not hold, alternative methods such as DBSCAN or Gaussian Mixture Models may be more appropriate.
 
-🏭 **Manufacturing** - K-Means helps in anomaly detection and process optimization using sensor and operational data, allowing preventative maintenance.  
+K-Means is one of the most widely deployed clustering techniques across industry, with applications including:
 
-💻 **Technology** - businesses use K-Means for everything from organizing content to optimizing complex systems.  
-  * Helps in organising content, creating recommendation systems, and improving search results by grouping similar topics.  
-  * Load balancing - Allows the system to intelligently distribute new workloads to the least utilized clusters, ensuring optimal resource allocation and preventing server overload.  
+🏦 **Financial Services** — customer segmentation for targeted products, transaction clustering for fraud detection, and risk tiering of financial instruments.  
+🛍️ **Retail** — grouping customers by purchasing behaviour to inform marketing strategy, and clustering product lines to optimise inventory management.  
+🏭 **Manufacturing** — anomaly detection in sensor data to identify equipment at risk, and grouping operational states to support process optimisation and preventative maintenance.  
+💻 **Technology** — organising content for recommendation systems, clustering search queries to improve relevance, and load balancing by distributing workloads across server clusters based on utilisation.  
+🌾 **Agriculture** — the focus of this project — grouping crops by measurable physical properties to support variety classification, quality control, and seed selection, without requiring manual expert labelling of every sample.  
 
 ## Methodology:  
 
-A workflow in Python was developed using libraries Scikit-learn, Pandas and Numpy, utilising Matplotlib and Seaborn for visualisations.  The data used was obtained from [Kaggle](https://www.kaggle.com/datasets/dongeorge/seed-from-uci).  
+The analysis was developed in Python using Scikit-learn, Pandas, and NumPy, with visualisations produced using Matplotlib and Seaborn. The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/dongeorge/seed-from-uci), originally compiled from the UCI Machine Learning Repository.
+
+The dataset contains **210 observations** across **seven continuous features**: area (A), perimeter (P), compactness (C), length of kernel (LK), width of kernel (WK), asymmetry coefficient (A_Coef) and length of kernel groove (LKG). A target label identifying the wheat variety (Kama, Rosa, or Canadian) is present in the data but was withheld from the model throughout — used only at the evaluation stage to assess clustering quality against ground truth.
+
+The workflow proceeded through the following stages:
+
+1. **Data Validation and Exploratory Analysis**
+
+The dataset was checked for missing values, data types, and class balance across the three varieties. Feature distributions were examined and skewness quantified for each variable, since K-Means relies on Euclidean distance and can be sensitive to heavily skewed features. A correlation analysis was also conducted to identify highly correlated features, as multicollinearity effectively over-weights certain dimensions in the distance calculation.
+
+
+
+
 
 The data contains 7 independent variables:  area (A), perimeter (P), compactness (C), length of kernel (LK), width of kernel (WK), asymmetry coefficient (A_Coef) and length of kernel groove (LKG), which are used to generate the clusters.
 
