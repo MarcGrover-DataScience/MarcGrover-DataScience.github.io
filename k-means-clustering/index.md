@@ -158,23 +158,21 @@ Finally, the contingency table below compares the K-Means cluster assignments di
 
 The diagonal of the contingency table confirms strong alignment between clusters and true varieties for all three groups, with the off-diagonal counts concentrated between the two most morphologically similar varieties. This pattern is consistent with the natural overlap in the feature space observed in the PCA scatter plots and is expected given that K-Means had no label information during training.
 
-
-
 ## Conclusions:
 
-The fact that all three scores extrinsic metrics (Homogeneity, Completeness and V-Measure) are nearly identical (0.7277, -0.7280) indicates balanced clustering - neither homogeneity nor completeness is significantly better or worse.
+The K-Means clustering analysis successfully recovered the underlying variety structure of the wheat seed dataset from geometric measurements alone, with no access to the true labels during training. The key findings are summarised below.
 
-These scores collectively suggest that the K-Means algorithm achieved moderately strong alignment with the true seed varieties. The clustering is not perfect (which would be 1.0), but it successfully captures much of the underlying structure in the data. The ~73% agreement indicates that the features used are reasonably predictive of seed variety, howevever, there may be some natural overlap between varieties in the feature space.  
+**K-selection was robust**. The optimal cluster count of K=3 was confirmed independently by four metrics — WSS elbow, Silhouette Score, Davies-Bouldin Index, and Calinski-Harabasz Index — all converging on the same value. This convergence removes reliance on domain knowledge and validates the choice on purely statistical grounds.
 
-It also highlights that small portion of seeds (~27%) are either misclassified or represent boundary cases that are difficult to distinguish
+**Cluster structure is physically interpretable**. The centroid profiles reveal three geometrically distinct groups: one characterised by large seed dimensions, one by smaller dimensions, and one by intermediate size with elevated asymmetry. These profiles map naturally onto the known morphological differences between the Kama, Rosa, and Canadian varieties, confirming that the clustering has captured meaningful structure rather than noise.
 
-This level of performance is quite respectable for unsupervised learning, especially considering K-Means had no knowledge of the true labels during training.
+**Performance is strong for an unsupervised approach**. An Adjusted Rand Index of 0.773 — accounting for chance agreement — indicates that the geometric features carry substantial discriminatory information. Homogeneity and Completeness scores of 0.728 are balanced, confirming that the model neither systematically splits true varieties across clusters nor conflates distinct varieties into one.
 
-Overall the clustering is considered successful, given the evidence that there is natural overlap of observations in the feature space of the true varieties, i.e. there is not a clear separation of true clusters.
+**The ~27% misassignment rate reflects genuine feature overlap, not model failure**. The per-sample silhouette plot shows that two of the three clusters are well-separated, with consistently high silhouette coefficients across their members. The third cluster accounts for the majority of boundary cases — an observation reinforced by the PCA scatter plots and the contingency table, where off-diagonal counts are concentrated between the two most morphologically similar varieties. This is a property of the data, not an artefact of the method.
 
-Known limitations of this model:
-* K-Means assumes spherical clusters (may not match data geometry)
-* Unsupervised approach doesn't leverage available labels for training
+**Known limitations** of this analysis are that K-Means assumes spherical, similarly-sized clusters, which may not fully reflect the geometry of these varieties in feature space. Additionally, the strong correlations between size-related features (area, perimeter, kernel length, kernel width) mean these dimensions collectively carry disproportionate weight in the Euclidean distance calculation — a factor that could be addressed through feature selection or dimensionality reduction prior to clustering in future work.
+
+Overall, the results demonstrate that K-Means is an effective tool for variety discovery in this domain, and establish a well-validated baseline against which supervised and alternative unsupervised approaches can be benchmarked.
 
 ## Next steps:  
 
