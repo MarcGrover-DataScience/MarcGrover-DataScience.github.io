@@ -69,7 +69,7 @@ Convergence across all four metrics on K=3 provided objective confirmation of th
 
 ## Results:
 
-**Data Validation and Exploratory Analysis**  
+### Data Validation and Exploratory Analysis  
 The dataset contains 210 observations and 7 features, with no missing values. The three wheat varieties — Kama, Rosa, and Canadian — are perfectly balanced at 70 observations each, meaning no variety is over- or under-represented in the clustering.
 
 Feature skewness was examined prior to modelling. All seven features returned skewness values within an acceptable range, indicating that the distributions are approximately symmetric and that no transformation was required before scaling.
@@ -80,7 +80,7 @@ The correlation analysis revealed strong positive correlations between several s
 
 ![kmeans-correlation](kmeans-correlation.png)
 
-**Determining the Optimal Number of Clusters**  
+### Determining the Optimal Number of Clusters  
 K-Means was run for K = 2 to 10, with four metrics recorded at each value.
 
 ![WSS - Elbow](kmeans-wss.png)
@@ -93,75 +93,72 @@ K-Means was run for K = 2 to 10, with four metrics recorded at each value.
 
 The Elbow Method shows a clear change in the rate of WSS reduction at K=3, beyond which additional clusters yield diminishing returns. This is corroborated by the Silhouette Score, which peaks at K=3, and the Davies-Bouldin Index, which reaches its minimum at K=3. The Calinski-Harabasz Index also achieves its highest value at K=3. Convergence across all four independent metrics provides strong objective confirmation that **K=3 is the optimal number of clusters** — consistent with, but not assumed from, the known three varieties.
 
+### Cluster Centroid Profiles
 
+With K=3 confirmed, the final model was trained and the cluster centroids examined to characterise what each cluster represents in terms of the original features.
 
+![kmeans-centroids](kmeans-centroids.png)
 
-
-
+The centroid heatmap reveals clear structural differences between the three clusters. One cluster is characterised by consistently high values across the size-related features (area, perimeter, kernel length, kernel width), corresponding to larger seeds. A second cluster shows the opposite pattern — smaller values across those same features. The third cluster occupies an intermediate position on size but is distinguished by a notably higher asymmetry coefficient. These profiles are physically interpretable and align well with the known morphological differences between the Kama, Rosa, and Canadian varieties.
 
 ### Intrinsic Validation Metrics
 
-Where K=3 the K-Means Model generated the following metrics:
+The following metrics assess the quality of the clustering independently of the true labels:
 
-WSS = 430.66
+```
+Metric                     Value     Interpretation
+Silhouette Score           0.40      Moderate cluster separation
+Davies-Bouldin Index       0.93      Good cluster separation
+Calinski-Harabasz Index    249.78    Well-separated, dense clusters
+WSS                        430.66    Within-cluster compactness reference
+```
 
-Silhouette Score: 0.40  
-  Range: [-1, 1], Higher is better  
-  Interpretation: 0.40 indicates moderate separation  
+The Silhouette Score of 0.40 indicates moderate but meaningful separation — clusters are distinguishable, though with some overlap at the boundaries. The per-sample silhouette plot below provides a more detailed breakdown of this score.
 
-Davies-Bouldin Index: 0.9279  
-  Range: [0, ∞), Lower is better  
-  Interpretation: 0.93 indicates good cluster separation  
+![kmeans-silhouette-detail](kmeans-silhouette-detail.png)
 
-Calinski-Harabasz Index: 249.78  
-  Range: [0, ∞), Higher is better  
-  Interpretation: Higher values indicate denser and better separated clusters
+Each horizontal bar represents a single observation, with width equal to its silhouette coefficient — a measure of how well that observation fits its assigned cluster relative to the nearest alternative cluster. Values approaching 1.0 indicate a confident, well-separated assignment; values near 0 indicate a boundary case; negative values indicate a likely misassignment. The dashed red line marks the overall mean of 0.40.
+
+The plot shows that two of the three clusters contain a large proportion of observations with consistently positive silhouette values, indicating well-defined membership. The third cluster — which corresponds to the variety with the highest morphological overlap with its neighbours — contains a wider spread of values and a higher proportion of near-zero coefficients, indicating that this is where most boundary cases and misassignments are concentrated. This is an important finding: the aggregate Silhouette Score of 0.40 does not reflect uniform performance across all clusters, and the per-sample plot reveals that the clustering is stronger for two of the three varieties than the single summary figure suggests.
 
 ### Extrinsic Validation Metrics
 
-This project is an unsupervised learning project as the model was generated unsing unlabelled data, however the data used did have labels (they just weren't presented to the K-Means Clustering model).
+Because the true variety labels were withheld from the model but are available for evaluation, extrinsic metrics can be calculated to directly quantify agreement between the cluster assignments and the ground truth:
 
-As such extrinsic validation metrics can be determined, by comparing the clustering result to the grounded truth.
+```
+Metric                       Value     Interpretation
+Adjusted Rand Index (ARI)    0.773     Very good agreement with true labels
+Homogeneity                  0.728     ~73% of clusters contain single-variety members
+Completeness                 0.728     ~73% of variety members assigned to same cluster
+V-Measure                    0.728     Balanced harmonic mean of above two scores
+```
 
-First it should be noted that the intrinsic validation and elbow method determine the optimal clusters to be 3, which is correct, as there are three varieties of wheat seeds.
+The ARI of 0.773 is particularly informative, as it accounts for agreement occurring by chance — a score this high from a model that had no access to the labels during training indicates that the geometric features carry substantial discriminatory information about variety. The near-identical Homogeneity and Completeness scores indicate balanced clustering performance: the model is neither systematically splitting true varieties across multiple clusters nor merging distinct varieties into one.
 
-Adjusted Rand Index (ARI): 0.773  
-  Range: [-1, 1], 1 = perfect match, 0 = random labeling  
-  Interpretation: 0.7733 indicates very good agreement with true labels  
+Visualising the Clustering Results
 
-Homogeneity Score: 0.728  
-  Range: [0, 1], Higher is better - Measures if clusters contain only members of a single class  
-  This score indicates that approximately 73% of the time, each cluster contains only samples from a single true class
+To visualise the seven-dimensional feature space, PCA was applied to reduce the data to two dimensions. The scree plot below quantifies the variance captured at each principal component.
 
-Completeness Score: 0.728  
-  Range: [0, 1], Higher is better - Measures if all members of a class are in the same cluster  
-  This score shows that about 73% of samples belonging to the same true class are assigned to the same cluster  
+![kmeans-pca-variance](kmeans-pca-variance.png)
 
-V-Measure Score: 0.728  
-  Range: [0, 1], Higher is better - Harmonic mean of homogeneity and completeness  
-  Indicates a good performance of the clustering  
+The first two principal components capture approximately 85–90% of the total variance in the data, confirming that a two-dimensional projection retains the dominant structure of the feature space and is a reliable basis for visual interpretation.
 
-### Visualising Clustering Results  
+The scatter plots below show the K-Means cluster assignments and the true variety labels projected onto the same two principal component axes.
 
-As the independent variables represent 7 dimensions, it is not possible to visualise the clusters in relation to these 7 dimensions.
+![kmeans-pca](kmeans-pca.png)
+![kmeans-truth](kmeans-truth.png)
 
-A technique commonly used for visualising clusters with 4+ dimensions is to utilise Princple Component Analysis (PCA), which won't be described fully within this project, but is covered in a separate project within this portfolio.
+The two plots are visually similar, with three broadly coherent groupings apparent in both. The primary discrepancies occur at the cluster boundaries — particularly between the two groups that overlap most in the centre of the PCA space — which is consistent with the boundary cases identified in the per-sample silhouette plot and the ~27% of observations not perfectly assigned by the extrinsic metrics.
 
-In summary PCA (Principal Component Analysis) is a dimensionality reduction technique that:
-- Transforms the original 7 features into new uncorrelated variables (components)
-- Each principal component is a LINEAR COMBINATION of the original features
-- Components are ordered by the amount of variance they explain
-- PC1 captures the most variance, PC2 the second most, etc.
+### Cluster-to-Variety Mapping
 
-Using PCA, the first 2 principle components were identified, which were used to produce a scatter plot of the K-Means generated clusters, as well as a scatter plot of the true groups (or clusters):
+Finally, the contingency table below compares the K-Means cluster assignments directly against the true variety labels, making it possible to identify precisely where the misassignments occur.
 
-![Pca_generated clusters](kmeans-pca.png)
+![kmeans-contingency](kmeans-contingency.png)
 
-![Pca_actual_clusters](kmeans-truth.png)
+The diagonal of the contingency table confirms strong alignment between clusters and true varieties for all three groups, with the off-diagonal counts concentrated between the two most morphologically similar varieties. This pattern is consistent with the natural overlap in the feature space observed in the PCA scatter plots and is expected given that K-Means had no label information during training.
 
-Finally the predicted clusters were compared to the actuals, noting that as this was an unsupervised learning method, the model was unaware of the true labels and hence the correct predictions are in the bottom-left to top-right diagonal.
 
-![contingency](kmeans-contingency.png)
 
 ## Conclusions:
 
