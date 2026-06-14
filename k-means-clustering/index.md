@@ -176,39 +176,36 @@ Overall, the results demonstrate that K-Means is an effective tool for variety d
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and data collection can be improved to better support the business goals.
+The analysis has established a strong unsupervised baseline and identified clear directions for further development. The following are the recommended next steps, in approximate order of expected impact.
 
-Recommended next steps include:
+### Transition to Supervised Learning
 
-#### Transition to Supervised Learning
-Having labeled data enables supervised methods will significantly outperform unsupervised clustering, potentially providing higher accuracy and better handling of boundary cases.  This requires creating a dataset with labelled data.
-Recommended Algorithms:
-* Random Forest Classifier: Handles non-linear relationships, provides feature importance
-* Support Vector Machine (SVM): Excellent for finding complex decision boundaries
-* Gradient Boosting (XGBoost/LightGBM): State-of-the-art performance for tabular data
-* Neural Networks: If pattern complexity requires it, but  likely overkill for 7 features
+The most impactful next step is to leverage the available variety labels directly. The ~27% misassignment rate observed here represents an upper bound on the difficulty of the classification problem — supervised methods, which learn decision boundaries from labelled examples, should substantially outperform unsupervised clustering on this dataset. Recommended algorithms include:
 
-#### Increasing Sample Size
-Collect more samples while ensuring a balanced sampling of varieties.  Look to include boundary examples, and take samples from multiple conditions
+* **Random Forest** — handles non-linear boundaries and provides feature importance rankings, directly addressing the question of which geometric properties are most discriminatory
+* **Support Vector Machine (SVM)** — well-suited to finding complex decision boundaries in cases of partial class overlap, as observed here
+* **Gradient Boosting (XGBoost / LightGBM)** — state-of-the-art performance on tabular data with robust handling of correlated features
 
-#### Feature Engineering
-* Feature Analysis
-  * Assess PCA loadings
-  * Which features have highest loadings on PC1/PC2?
-  * Are any features redundant (highly correlated)?
-  * Do any features have low variance or discriminatory power?
-* Create New Features - Consider Ratios and Interactions of dimensions, for example:
-  * Aspect Ratio: Length / Width
-  * Shape Index: 4π×Area / Perimeter²
-  * Volume Proxy: Area × Kernel Width
-* Feature Selection - Identify if redundant features exist
-  * Test model performance with reduced feature sets
+This would also enable a direct performance comparison against the K-Means baseline established here, quantifying the value of the label information.
 
-#### Try Alternative Clustering Methods
-* Hierarchical Clustering
-* DBSCAN (Density-Based Clustering)
-* Gaussian Mixture Models (GMM)
-* Ensemble Clustering
+### Address Feature Multicollinearity
+
+The correlation analysis identified strong intercorrelation between the four size-related features — area, perimeter, kernel length, and kernel width. In future work this could be addressed in two ways:
+
+* **Feature selection** — removing redundant features and testing whether a reduced set produces equivalent or improved clustering, given that correlated features currently over-weight the size dimension in the Euclidean distance calculation
+* **PCA as a pre-processing step** — projecting the data onto uncorrelated principal components prior to clustering, rather than using PCA solely for visualisation as in this project. Given that the first two components explain ~85–90% of variance, a two- or three-component representation may be sufficient for clustering with reduced noise
+
+### Explore Alternative Clustering Methods
+
+K-Means assumes spherical, similarly-sized clusters — an assumption that may not fully hold given the natural overlap observed between varieties. Alternative methods that relax this assumption include:
+
+* **Gaussian Mixture Models (GMM)** — a probabilistic approach that allows clusters of varying shape and size, and assigns soft membership probabilities rather than hard assignments, which may better represent the boundary cases identified in this analysis
+* **DBSCAN** — a density-based method that does not require K to be specified in advance and can identify arbitrarily shaped clusters, though it requires careful tuning of its density parameters
+* **Hierarchical Clustering** — produces a full dendrogram of cluster relationships, providing additional insight into the degree of similarity between the three varieties at multiple levels of granularity
+
+### Expand the Dataset
+
+The current dataset of 210 observations is modest. Collecting additional samples — particularly from the boundary region between the most similar varieties — would provide a more robust basis for both clustering and supervised classification, and would help clarify whether the observed overlap is a consistent property of these varieties or an artefact of the current sample.
 
 
 ## Python code:
