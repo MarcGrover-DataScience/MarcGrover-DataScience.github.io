@@ -33,13 +33,13 @@ Benefits of Using PCA include:
 
 PCA is a technique that can be applied in multiple scenarios across all business sectors. PCA serves as a "noise filter," allowing professionals to ignore the hundreds of minor variables and focus on the few underlying forces that actually drive results.  Practical real-world examples include:
 
-* **Medical Sector: Genomics & Disease Subtyping** - In modern medicine, a single patient sample can contain data on expression levels for over 20,000 genes. Researchers use PCA to condense these thousands of gene expressions into a few "eigen-genes".  This helps identify distinct patient clusters. For example, in cancer research, PCA can reveal that what looks like one disease is actually three different subtypes that require different treatments, based on how the gene data clusters in multi-dimensional space, where PCA reduces the dimensions simplfying the understanding.
+🏥 **Life Sciences: Genomics & Disease Subtyping** - In modern medicine, a single patient sample can contain data on expression levels for over 20,000 genes. Researchers use PCA to condense these thousands of gene expressions into a few "eigen-genes".  This helps identify distinct patient clusters. For example, in cancer research, PCA can reveal that what looks like one disease is actually three different subtypes that require different treatments, based on how the gene data clusters in multi-dimensional space, where PCA reduces the dimensions simplfying the understanding.
 
-* **Finance Sector: Portfolio Risk Management** - Financial markets contain multiple fluctuating stock prices, interest rates, and commodity values.  Analysts apply PCA to a portfolio of dozens of stocks to find "Common Factors".  Instead of watching many individual stock movements (e.g. 50-100), they watch the first few principal components (e.g. 3-5), which often represent Market Sentiment, Interest Rate Sensitivity, and Industry Trends.  A primary benefit is that PCA simplifies Risk Assessment.  As an example, should the first principal component (e.g. "The General Market") drop, the analyst knows exactly how much of their portfolio is exposed to that specific systematic risk versus individual company risk.
+🏦 **Finance: Portfolio Risk Management** - Financial markets contain multiple fluctuating stock prices, interest rates, and commodity values.  Analysts apply PCA to a portfolio of dozens of stocks to find "Common Factors".  Instead of watching many individual stock movements (e.g. 50-100), they watch the first few principal components (e.g. 3-5), which often represent Market Sentiment, Interest Rate Sensitivity, and Industry Trends.  A primary benefit is that PCA simplifies Risk Assessment.  As an example, should the first principal component (e.g. "The General Market") drop, the analyst knows exactly how much of their portfolio is exposed to that specific systematic risk versus individual company risk.
 
-* **Manufacturing Sector: Quality Control & Predictive Maintenance** - High-tech factories use hundreds of sensors to monitor temperature, vibration, pressure, and speed on an assembly line.  PCA aggregates these sensor readings into a a few (or even a single) "Health Score".  This application of PCA supports improved Anomaly Detection. For example, in a 30-sensor system, it’s hard to tell if one sensor is slightly off. However, when PCA combines them, a "drift" in the first principal component can signal that a machine is beginning to fail long before an actual breakdown occurs, allowing for proactive maintenance.
+🏭 **Manufacturing: Quality Control & Predictive Maintenance** - High-tech factories use hundreds of sensors to monitor temperature, vibration, pressure, and speed on an assembly line.  PCA aggregates these sensor readings into a a few (or even a single) "Health Score".  This application of PCA supports improved Anomaly Detection. For example, in a 30-sensor system, it’s hard to tell if one sensor is slightly off. However, when PCA combines them, a "drift" in the first principal component can signal that a machine is beginning to fail long before an actual breakdown occurs, allowing for proactive maintenance.
 
-* **Science Sector: Remote Sensing & Climate Study** - Satellite imagery (Hyperspectral imaging) captures data across hundreds of different light wavelengths, many of which are invisible to the human eye. Scientists apply PCA to satellite data of a forest or ocean.  A key benefit of this application of PCA, is Feature Extraction. While a raw image might just look green, PCA can separate the "noise" of sunlight reflection from the "signal" of chlorophyll density or moisture levels. This allows scientists to map deforestation or drought levels with extreme precision using just the top 2 or 3 components.
+🏥 **Science: Remote Sensing & Climate Study** - Satellite imagery (Hyperspectral imaging) captures data across hundreds of different light wavelengths, many of which are invisible to the human eye. Scientists apply PCA to satellite data of a forest or ocean.  A key benefit of this application of PCA, is Feature Extraction. While a raw image might just look green, PCA can separate the "noise" of sunlight reflection from the "signal" of chlorophyll density or moisture levels. This allows scientists to map deforestation or drought levels with extreme precision using just the top 2 or 3 components.
 
 ## Methodology:  
 
@@ -53,7 +53,7 @@ The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets
 * **Understand the principal components** to interpret the components identified, translating the abstract nature of the components to the features within the data
 * **Determine optimal number of components** to ensure the components retained contain sufficient information to be beneficial which providing the required simplicity
 
-## Results and conclusions:
+## Results:
 
 ### Feature Correlation:
 
@@ -115,7 +115,7 @@ PC10: 1.17% (Cumulative: 95.16%)
 
 ![pca_variance_analysis](pca_variance_analysis.png)
 
-### Conclusions:
+## Conclusions:
 
 * **Large Data Redundancy** - The 30 features measured in the Wisconsin dataset are highly redundant.  The first two principal components alone capture approximately 63% of the total variance, and just 7 components reach the 91% mark.  Most of the information needed to describe these tumors is contained in less than a quarter of the variables collected, i.e. the datasets can be reduced from 30 features to 7 components while still retaining 91% of the original information.  The remaining 23 components only contain about 9% of the total variance combined, confirming that most features in this dataset were highly redundant.
 
