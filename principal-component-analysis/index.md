@@ -10,11 +10,16 @@ permalink: /principal-component-analysis/
 
 ## Goals and objectives:
 
-The business objective is to predict the cancer status of cells (benign or malignant) based on 30 features of the cells observed via digitised images.  Three previous projects build prediction models using different techniques to achieve high accuracy predictions (decision trees, random forests and gradient boosted trees).  High levels of correlation between some of the features were identified, which lead to recommended analysis into opportunities for dimensionality reduction.  This project is to research the benefits of applying Principal Component Analysis (PCA) as a technique for dimensionality reduction on the 30 features within the Wisconsin Breast Cancer dataset, as well as to better understand the drivers for the predictions.
+Three previous projects applied supervised classification models (Decision Tree, Random Forest, and Gradient Boosted Trees) to the Wisconsin Breast Cancer dataset, achieving high predictive accuracy across 30 morphological features. High inter-feature correlation was identified in those projects, motivating investigation into dimensionality reduction as a means of simplifying the feature space without significant loss of information.
 
-The Wisconsin Breast Cancer dataset is considered a good case for researching and demonstrating PCA because it demonstrates high redundancy, as highlighted by the high correlation of features. When features are highly correlated, they are essentially telling the same story multiple times.
+This project applies Principal Component Analysis (PCA) to the same dataset, with the following objectives:
 
-The analysis showed that there is high redundency of features in the dataset.  The two principle components identified explain over 63% of variance, with the first 7 components explaining over 91% of the variance.  This shows that using less than a quarter of the variables collected (30 features are measured), most of the information needed to describe these tumors is included.  The two principal components relate to size & shape and irregularity.  Overall the dataset supported the demonstration of the benefits of applying PCA to data with a large volume of features.
+* **Justify the application of PCA** by validating the presence of high multicollinearity across the 30 features via a correlation matrix.
+* **Demonstrate dimensionality reduction** by projecting the data onto two principal components and visualising the resulting class separation between malignant and benign samples.
+* **Interpret the principal components** by analysing feature loadings to assign meaningful real-world meaning to the abstract components identified.
+* **Determine the optimal number of components** using a Scree Plot and cumulative variance analysis, identifying both the elbow point and a defined variance threshold.
+
+The analysis confirms substantial redundancy across the 30 features: PC1 and PC2 together explain 63.24% of variance, and the Scree Plot identifies an elbow at 3 components (72.64%). For the purposes of demonstration and visualisation, this project focuses on 2 components; in a downstream classification task, 3 or more components would be the recommended starting point.
 
 ## Application:  
 
