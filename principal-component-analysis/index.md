@@ -48,15 +48,25 @@ PCA is a technique that can be applied in multiple scenarios across all business
 
 ## Methodology:  
 
-The dataset used is the same as used in the Decision Tree, Random Forest and Gradient Boosted Trees projects - the Wisconsin Breast Cancer dataset.  This is available from scikit-learn, including 569 observations, including 30 independent features.
+The dataset used is the Wisconsin Breast Cancer dataset, consistent with the Decision Tree, Random Forest, and Gradient Boosted Trees projects in this portfolio. It is available directly from scikit-learn and comprises 569 observations across 30 numerical features derived from digitised images of fine needle aspirate (FNA) biopsies, with a binary target of Malignant (212) or Benign (357).
 
-The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)  
+The dataset is also available from Kaggle [here](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data)
 
-* **Dataset validation** to confirm no missing values, and basic descriptive analysis on the features including the correlation between the 30 features. No data pre-processing was undertaken.  
-* **Scaling**  the feature data, so that for each feature the mean is zero, with a standard deviation equal to 1.  This is an important step in performing PCA as the technique is based on variance, therefore a variable with a range of 0–1,000 will unfairly dominate a variable with a range of 0–1.
-* **Identify the top 2 components** for the breast cancer features.  The initial model was to determine the top 2
-* **Understand the principal components** to interpret the components identified, translating the abstract nature of the components to the features within the data
-* **Determine optimal number of components** to ensure the components retained contain sufficient information to be beneficial which providing the required simplicity
+The following steps were undertaken:
+
+* **Dataset Validation** — The dataset was confirmed to contain no missing values. Descriptive statistics were reviewed across the 30 features, and the class distribution was confirmed as 212 Malignant (37.3%) and 357 Benign (62.7%).
+
+* **Correlation Analysis** — A correlation matrix was computed across all 30 features and visualised as a lower-triangle heatmap. Pairs with an absolute correlation exceeding 0.90 were identified and printed, providing the analytical justification for applying PCA: where features are highly correlated, they are conveying redundant information that PCA can consolidate.
+
+* **Feature Scaling** — All features were standardised to zero mean and unit variance using `StandardScaler` prior to applying PCA. This step is essential, as PCA is variance-based: without scaling, features with larger numerical ranges would disproportionately dominate the principal components regardless of their true informational value.
+
+* **PCA — 2 Components** — PCA was applied reducing the 30 features to 2 principal components for the purposes of visualisation and demonstration. The resulting projections were plotted as a scatter plot, coloured by diagnosis, to assess class separability in the reduced space.
+
+* **Feature Loadings Analysis** — The contribution of each original feature to PC1 and PC2 was extracted as a loadings matrix and visualised as an annotated heatmap. The top 5 features by absolute loading were identified for each component and printed, providing the basis for interpreting the components in real-world terms.
+
+* **Biplot** — A biplot was produced overlaying the 2-component scatter plot with loading vectors for the first 10 features. This bridges the gap between the abstract components and the original features: arrow direction indicates which component a feature contributes to most, arrow length indicates the strength of that contribution, and arrows pointing in similar directions confirm high inter-feature correlation.
+
+* **Scree Plot and Variance Analysis** — PCA was re-fitted without a component limit to capture the full variance profile across all 30 components. Individual and cumulative explained variance were plotted as a combined Scree Plot. The number of components required to exceed 90% cumulative variance was computed programmatically, and the elbow point was annotated directly on the chart. This analysis determines the optimal number of components for a downstream classification task, independent of the 2-component choice made for visualisation purposes.
 
 ## Results:
 
