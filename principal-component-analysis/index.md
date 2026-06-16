@@ -72,47 +72,43 @@ The following steps were undertaken:
 
 ### Feature Correlation:
 
-Correlation of the 30 features was determine as visualised in the correlation matrix below. This highlights that many of the fields have low-correlation, however there appears to be high-correlation in the features relating to radius, area and perimeter metrics, where the correlation is in the range (0.8, 1.0).  This evidence of high-correlation suggests the implementation of PCA is suitable to this data.
+A correlation matrix was computed across all 30 features to assess the suitability of PCA prior to its application. The heatmap below reveals substantial multicollinearity, particularly amongst features related to tumour size: radius, perimeter, and area metrics exhibit pairwise correlations in the range (0.95, 1.00) across both mean and worst-case measurements. In total, several feature pairs exceed the |r| > 0.90 threshold, confirming that the feature space contains significant redundancy that PCA is well-suited to address.
 
 ![correlation_matrix](correlation_matrix.png)
 
-### Identifying 2 Principal Components:
+### Dimensionality Reduction — 2 Principal Components:
 
-The plot below shows the plot of the points for the training data against the top 2 principal components, mapped to the determined diagnosis of malignant or benign.  This plot visualises there is good separation of the dependent variable for the data plotted against the two principal components.
+PCA was applied to reduce the 30 standardised features to 2 principal components. The scatter plot below projects all 569 observations onto PC1 and PC2, coloured by diagnosis.
 
 ![pca_scatter](pca_scatter.png)
 
-Each of the two principal components are a combination of the features in the original data.  The variance explained by the first 2 principal components is 63.24%.  The PCA scatter plot shows a clear boundary between the two classes, which reveals that the "Malignant" and "Benign" samples are not randomly distributed, as they form distinct, separable clusters in reduced space.
+The two classes form distinct, well-separated clusters in the reduced space, with malignant samples concentrated at higher PC1 values and benign samples at lower values. This confirms that the dominant sources of variance in the data align strongly with the diagnostic outcome — a meaningful result given that PCA operates entirely unsupervised, with no access to the class labels during fitting. PC1 and PC2 together account for 63.24% of the total variance in the original 30-feature dataset.
 
-Visualising PCA is crucial because the components themselves are "abstract", they don't have the simple names (like "mean radius") that original data has. To truly understand them, you need to look at both the variance they capture and the influence of the original variables.
+### Feature Loadings and Component Interpretation:
+
+To interpret what PC1 and PC2 represent in real-world terms, the feature loadings were extracted and visualised as an annotated heatmap.
 
 ![pca_comp_heatmap](pca_comp_heatmap.png)
 
-### Understanding the Principal Components:
+The top 5 contributing features by absolute loading for each component are:
 
-A Biplot is a powerful visualisation in PCA because it bridges the gap between the "abstract" principal components and the "real-world" features.  
+**PC1** is dominated by size and shape features — worst area, worst perimeter, worst radius, mean area, and mean perimeter all carry strong positive loadings. This component can reasonably be interpreted as a measure of **Tumour Size and Shape**.
 
-A Biplot is a scatter plot with vectors (arrows) overlaid. Each arrow represents an original feature (e.g., area, smoothness).  The direction of the arrow shows which component that feature contributes to most.  If an arrow for "Mean Area" points heavily along the X-axis (PC1), then PC1 represents "Size".  Longer arrows indicate that the feature has a stronger influence on that component.
+**PC2** is most strongly influenced by texture and irregularity features — mean fractal dimension, worst fractal dimension, and mean smoothness carry the highest loadings, with a different directional profile to PC1. PC2 can be interpreted as a measure of **Tumour Irregularity**.
 
-If two arrows are close together, those features are highly correlated.  If arrows are 90° apart, they are uncorrelated.
-
-The Biplot below shows the relation of the top 10 features for the 2 principal components (not all 30 features were included for simplicity).  
+The biplot below reinforces these interpretations visually, overlaying loading vectors for the first 10 features onto the 2-component scatter plot. Features with arrows pointing in similar directions are highly correlated (confirming the earlier correlation analysis), and the dominant alignment of size-related arrows along the PC1 axis is clearly visible.
 
 ![pca_biplot](pca_biplot.png)
 
-From the biplot it can be seen that arrows for "mean area", "mean perimeter", and "mean radius" all pointing in almost exactly the same direction (the labels are overlapping as a consequence).  This is visual confirmation of the high correlation we discussed earlier, i.e. they are effectively providing the same information to the model.  As the the "mean area", "mean perimeter", "mean radius", and "mean concavity" features point heavily along the PC1 axis, it can be interpretted that these are strongly associated with a high value in PC1.
+### Optimal Number of Components:
 
-It is seen from the heatmap and the biplot that PC1 is heavily weighted by "Size" and "Shape" features (Concavity, Area, Radius, Perimeter), while PC2 is heavily weighted by "Shape Irregularity" features (Fractal Dimension). This suggests renaming PC1 to "Tumour Size and Shape" and PC2 to "Tumour Irregularity" may support better understanding of the components.
+The 2-component model was chosen for the purposes of visualisation and demonstration. To determine the optimal number of components for a downstream analytical task, PCA was re-fitted across all 30 components and the explained variance profile examined via a Scree Plot.
 
-### Optimum number of components:
+![pca_variance_analysis](pca_variance_analysis.png)
 
-A Scree Plot shows the percentage of total variance explained by each principal component, and is a key analytical tool to determine the optimum number of components to use.  The initial analysis of principal components considered the top 2, where the value of 2 was selected for demonstration purposes.  More thorough analysis of the optimum number of components.
+The Scree Plot identifies a clear elbow at **3 components**, which together explain **72.64%** of the total variance. Beyond this point, each additional component contributes diminishing marginal variance, suggesting that 3 components represent a practical optimum balancing information retention against dimensionality reduction.
 
-To understand how many components are needed, a Scree Plot combined with a Cumulative Variance calculation is used. This allows quantifying exactly how much information is retained as dimensions are reduced.  The goal of this is to simplify the data by having a small number of components, to capture a large amount of information.
-
-The component variance report below shows the variance captured by each component in decreasing order.  It shows that should the number of components be required to capture >90% of the variance, then the top 7 components would provide this (accounting for 91.01% of the variance).  The scree plot shows the explained variance for the components in decreasing order, as well as the cumulative variance.
-
-The scree plot shows an elbow at 3 components, explaining 72.64% of the variance.  This suggests that the optimum number of components is 3 as the variance explained by subsequent components is diminishing.  However, should it be required to select components that explain a specified percentage of variance (say 90%), then 3 isn't the optimal value, and the scree plot would provide the required analytics.
+Should a specific variance threshold be required — for example, to retain at least 90% of the information in the original dataset — the cumulative variance curve shows that **7 components** are needed, accounting for 91.01% of total variance. The appropriate choice depends on the requirements of the downstream task.
 
 ```
 Component Explained Variance
@@ -127,8 +123,6 @@ PC8: 1.59% (Cumulative: 92.60%)
 PC9: 1.39% (Cumulative: 93.99%)
 PC10: 1.17% (Cumulative: 95.16%)
 ```  
-
-![pca_variance_analysis](pca_variance_analysis.png)
 
 ## Conclusions:
 
