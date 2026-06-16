@@ -72,7 +72,7 @@ The following steps were undertaken:
 
 ### Feature Correlation:
 
-A correlation matrix was computed across all 30 features to assess the suitability of PCA prior to its application. The heatmap below reveals substantial multicollinearity, particularly amongst features related to tumour size: radius, perimeter, and area metrics exhibit pairwise correlations in the range (0.95, 1.00) across both mean and worst-case measurements. In total, several feature pairs exceed the |r| > 0.90 threshold, confirming that the feature space contains significant redundancy that PCA is well-suited to address.
+A correlation matrix was computed across all 30 features to assess the suitability of PCA prior to its application. The heatmap below reveals substantial multicollinearity, particularly amongst features related to tumour size: radius, perimeter, and area metrics exhibit pairwise correlations in the range (0.95, 1.00) across both mean and worst-case measurements. In total, several feature pairs exceed the threshold of the absolute value of r > 0.9, confirming that the feature space contains significant redundancy that PCA is well-suited to address.
 
 ![correlation_matrix](correlation_matrix.png)
 
