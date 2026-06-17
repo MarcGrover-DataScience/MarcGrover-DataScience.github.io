@@ -126,8 +126,6 @@ PC10: 1.17% (Cumulative: 95.16%)
 
 ## Conclusions:
 
-## Conclusions:
-
 * **High Feature Redundancy Confirmed** — The 30 morphological features in the Wisconsin dataset are substantially redundant. Just 2 principal components capture 63.24% of total variance, and 7 components reach 91.01%, meaning that the dataset can be reduced from 30 features to 7 components while retaining the vast majority of its information content. This validates PCA as an appropriate dimensionality reduction technique for this dataset.
 
 * **Unsupervised Separation of Diagnostic Classes** — Projecting onto just 2 principal components produces clear, well-separated clusters for malignant and benign samples, with malignant cases concentrated at higher PC1 values. This separation was achieved entirely without class labels during fitting, confirming that the underlying physical characteristics of the cell nuclei are fundamentally different between the two diagnostic groups, and that this signal is strong enough to be recovered through variance maximisation alone.
@@ -139,22 +137,6 @@ PC10: 1.17% (Cumulative: 95.16%)
 * **Feature Redundancy Has Practical Implications** — The biplot reveals that radius, perimeter, and area vectors are nearly perfectly aligned, confirming they convey near-identical information. In a clinical data collection context, this suggests that measuring all three is unnecessary — a single size metric (such as mean area) would serve as an adequate proxy for the others, with potential to simplify diagnostic workflows without material loss of information.
 
 * **Optimal Component Count is Task-Dependent** — The Scree Plot elbow at 3 components (72.64%) represents the practical optimum for a downstream classification task. The 2-component choice in this project was made deliberately for visualisation purposes. Where a defined variance threshold is required, the analysis shows 7 components are needed to exceed 90%, providing a data-driven basis for component selection in any subsequent modelling work.
-
-
-
-  
-
-* **Large Data Redundancy** - The 30 features measured in the Wisconsin dataset are highly redundant.  The first two principal components alone capture approximately 63% of the total variance, and just 7 components reach the 91% mark.  Most of the information needed to describe these tumours is contained in less than a quarter of the variables collected, i.e. the datasets can be reduced from 30 features to 7 components while still retaining 91% of the original information.  The remaining 23 components only contain about 9% of the total variance combined, confirming that most features in this dataset were highly redundant.
-
-* **Structural Separation of Tumour Types** - PCA reveals that the "Malignant" and "Benign" samples are not randomly distributed; they form distinct, separable clusters in reduced space.  The PCA scatter plot shows a clear boundary between the two classes.  This confirms that the underlying physical characteristics of the cells are fundamentally different between the two groups, making this dataset an excellent candidate for machine learning classification.
-
-* **Size and Shape as the Primary Drivers (PC1)** - By examining the loadings, we can conclude that the first principal component (PC1) essentially represents the overall magnitude or "bulk" of the cell nuclei, along with the shape in terms of the concavity.  Features like mean radius, mean perimeter, mean area, and mean concavity all have high, positive loadings on PC1 and their vectors in the Biplot point in the same direction.  The single most important factor distinguishing these samples is how large and concave the cells are. Larger values on the PC1 axis correlate strongly with malignant samples.
-
-* **"Irregularity" as the Secondary Driver (PC2)** - While PC1 focuses on size, PC2 often captures features related to the complexity or irregularity of the cell boundary.  This can be interpreted as the texture of the cell boundary.  Features like smoothness, and fractal dimension often weight heavily on PC2.  After accounting for size, the next most important differentiator is how "deformed" or "rough" the cell edges are. This provides a secondary layer of diagnostic information that size alone might miss.
-
-* **Identification of "Proxy" Features** - The Biplot reveals that many features are virtually identical in the information they provide.  This is evidenced by the arrows for radius, perimeter, and area are almost perfectly overlapping.  In a real-world clinical setting, the data collection process could be simplified by reducing the number of measurements. Instead of meticulously measuring all three, just one could be measured (e.g., mean area) to act as a "proxy" for the others without losing significant diagnostic power.
-
-* **Detection of Transitionary Samples** - Not all points sit deep within their respective clusters; some sit in the "border zone" between Benign and Malignant.  This is represented as the overlap area in the PCA scatter plot.  These points represent "borderline" cases where the cell characteristics are ambiguous.  PCA helps identify these specific samples for further review by a human pathologist, highlighting where the automated model might be less certain.
 
 ## Next Steps:
 
