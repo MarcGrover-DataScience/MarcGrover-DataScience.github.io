@@ -101,6 +101,6 @@ Recommendations include:
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/Zero_Shot_Classification_Books.py)  
-[View the Python Script for Gradio application](/Zero_Shot_Classification_Books_Gradio.py)
+[View the Python Script](/Zero_Shot_Classification_Books_v3.py)  
+[View the Python Script for Gradio application](/Zero_Shot_Classification_Books_Gradio_v2.py)
 
