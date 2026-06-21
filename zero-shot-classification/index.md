@@ -8,6 +8,8 @@ permalink: /zero-shot-classification/
 
 ---
 
+# Project currently undergoing enhancements
+
 ## Goals and objectives:
 
 The business objective is to categorise each book in a bookstore's inventory to support physical shelf layout and to improve the customer experience on the bookstore's website. The originally specified categories were: Science Fiction, Romance, Mystery, Adventure, Fantasy, Historical, and Biography. As set out in the Methodology and Results sections below, analysis of the source data's genre tagging led to a justified revision of this scheme — a structural finding about the genre data itself, rather than a simplification of the original business requirement.
@@ -115,13 +117,69 @@ facebook/bart-large-mnli achieves an overall accuracy of 38.89% on the validatio
 
 This is a modest 2.78 percentage point difference on a validation set of 108 books, and is consistent with a pattern observed throughout development of this project: across several different validation samples and label-scheme revisions tested, the relative ranking between the two models reversed each time, with the gap never exceeding around 6 percentage points. Given a validation set of this size, this level of fluctuation is well within ordinary sampling variation. The more defensible conclusion is that the two models perform comparably on this task, rather than one being reliably superior.
 
+### Per-Category Performance:
+
+The classification reports below break down precision, recall, and F1-score by category for both models.
+
+**facebook/bart-large-mnli:**
+```
+                              precision    recall  f1-score   support
+ Science Fiction and Fantasy       1.00      0.12      0.21        42
+                     Romance       0.88      0.44      0.58        16
+                     Mystery       0.14      0.46      0.21        13
+                  Historical       0.58      0.71      0.64        31
+                   Biography       0.14      0.33      0.20         6
+```
+
+**roberta-large-mnli:**
+```
+                              precision    recall  f1-score   support
+ Science Fiction and Fantasy       1.00      0.19      0.32        42
+                     Romance       0.60      0.19      0.29        16
+                     Mystery       0.12      0.08      0.10        13
+                  Historical       0.31      0.87      0.46        31
+                   Biography       0.00      0.00      0.00         6
+```
+![plot_03_f1_comparison](plot_03_f1_comparison.png)
+
+The two models show distinct, contrasting error patterns rather than a uniform difference in quality. facebook/bart-large-mnli is highly conservative for Science Fiction and Fantasy — perfect precision (1.00) but very low recall (0.12) — meaning it is correct whenever it predicts this category, but predicts it for only a small fraction of the books that genuinely belong to it. roberta-large-mnli, in contrast, shows a strong directional bias toward over-predicting Historical (precision 0.31, recall 0.87): it captures most genuinely Historical books correctly, but at the cost of misclassifying a large number of other books into that category too, and fails to identify a single Biography book correctly.
+
+## A Specific Confusion: Mystery and Science Fiction/Fantasy:
+
+The confusion matrix below shows the full breakdown of `bart-large-mnli`'s predictions against the validation ground truth.
+
+![plot_04_confusion_matrix](plot_04_confusion_matrix.png)
+
+A clear pattern is visible: a large share of bart's "Mystery" predictions, and a large share of the missed Science Fiction and Fantasy books, are one and the same. Of the 42 true Science Fiction and Fantasy books, only around 5 are correctly identified (recall 0.12); the remaining 37 are predicted as something else. Of bart's roughly 43 total Mystery predictions, only around 6 are genuinely Mystery books (precision 0.14) — the remaining 37 are false positives. These two figures match closely, indicating that the great majority of misclassified Science Fiction and Fantasy books are specifically being routed into the Mystery category, rather than spread evenly across the other categories.
+
+This is a genuine, reportable limitation of zero-shot classification rather than an artefact of this particular dataset. The model has received no domain-specific fine-tuning on book genres, and is instead matching the general semantic and narrative tone of the description text against the candidate label. Many Fantasy and Science Fiction book descriptions are written using thriller-style narrative hooks — danger, hidden secrets, a sense of impending threat — rather than explicit genre markers such as magic systems or futuristic technology, particularly in short blurbs. A model with no genre-specific training is liable to read that surface tone as evidence for Mystery, even where the underlying content is unambiguously Fantasy or Science Fiction. The label-wording experiment described in the Methodology section ruled out the phrasing of the candidate label itself as the cause, reinforcing that this is a genuine content-level confusion rather than a fixable wording issue.
+
+### Confidence Score Analysis:
+
+Across all 200 classified books, the mean top-1 confidence score is 0.41 for bart and 0.40 for roberta, and the confidence margin between the top two categories falls below 0.10 for 42.0% and 39.5% of classifications respectively.
+
+![plot_05_confidence_distribution](plot_05_confidence_distribution.png)
+![plot_06_confidence_margin](plot_06_confidence_margin.png)
+
+A confidence margin below 0.10 for over 40% of classifications indicates that, for a substantial share of the inventory, the model finds two categories close to equally plausible. This has a direct practical implication for deployment, discussed further in the Conclusions and Next Steps sections: low-margin classifications are natural candidates for a human-in-the-loop review step, rather than being accepted automatically.
+
+### Fiction / Non-Fiction:
+
+Re-testing the original fiction/non-fiction negative finding quantitatively, the better-performing model achieves 43.43% accuracy against the genre-tag-derived fiction/non-fiction ground truth — below the 50% random baseline for a balanced binary task, though the test set itself is heavily imbalanced (161 Fiction books to 14 Non-Fiction). The per-class breakdown shows near-perfect precision but low recall for Fiction (1.00 precision, 0.39 recall), and the inverse for Non-Fiction (0.12 precision, 1.00 recall) — the model substantially over-predicts Non-Fiction relative to its true prevalence in the data. This confirms, with quantified evidence, the original project's qualitative finding that the model cannot reliably distinguish fiction from non-fiction from description text alone.
+
+### A Note on Ground Truth Reliability:
+
+The genre tags used throughout this Results section originate from Goodreads' user-submitted shelving system, not an independently verified taxonomy. Some of the disagreement reported above between model predictions and "ground truth" may reflect genuine model error, and some may reflect inconsistency in how books were tagged by Goodreads users in the first place; the dataset does not allow these two sources of disagreement to be separated with certainty. The accuracy figures reported here should be read as a measure of agreement with crowd-sourced genre tagging, not as an absolute measure of classification correctness.
+
+### 'Book Genre Classifier' web application
+
+The 'Book Genre Classifier' web application was deployed in a temporary online environment and produces a live classification, full confidence breakdown, and human-review flag for any submitted book description. The screenshot below shows the output for one example description.
+
+![Gradio_App](Gradio_Zero-Shot-Classification.jpg)
 
 
 
-
-
-
-
+### Results_old
 
 A sample of the results of the inventory classification is below, which provided a category for each of the 50 thousand books in the inventory.  The accuracy was to a sufficiently high level noting that the definition of 'correct' is subjective.  Two separate models from Hugging Face were used for classifications with the results compared to determine the most accurate method.  The models used were 'facebook/bart-large-mnli' and 'roberta-large-mnli', where the results showed that the 'facebook/bart-large-mnli' was the more accurate of the two.
 
