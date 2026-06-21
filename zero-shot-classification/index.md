@@ -55,11 +55,11 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 ## Methodology:  
 
-The methodology for this project is implemented as two Python scripts. The first (Zero_Shot_Classification_Books.py) is the main analysis pipeline: it loads and cleans the source data, constructs a ground truth via genre-tag mapping, runs two zero-shot models on a sampled subset of the inventory, evaluates and compares both models against the constructed ground truth, and produces six diagnostic visualisations. The second (Zero_Shot_Classification_Books_Gradio.py) is a companion web application allowing live classification of a single book description. Both scripts use pandas for data handling, Hugging Face Transformers for the zero-shot classification pipeline, and seaborn/matplotlib for visualisation; the web application additionally uses Gradio.
+The methodology for this project is implemented as two Python scripts. The first (`Zero_Shot_Classification_Books.py`) is the main analysis pipeline: it loads and cleans the source data, constructs a ground truth via genre-tag mapping, runs two zero-shot models on a sampled subset of the inventory, evaluates and compares both models against the constructed ground truth, and produces six diagnostic visualisations. The second (`Zero_Shot_Classification_Books_Gradio.py`) is a companion web application allowing live classification of a single book description. Both scripts use pandas for data handling, Hugging Face Transformers for the zero-shot classification pipeline, and seaborn/matplotlib for visualisation; the web application additionally uses Gradio.
 
 ### Data Source:
 
-The dataset used is the "Goodreads Best Books Ever" dataset, available at [Kaggle](https://www.kaggle.com/datasets/arnabchaki/goodreads-best-books-ever), comprising approximately 50,000 book records with titles, authors, descriptions, and user-submitted genre tags ("shelves"). The genre tags are crowd-sourced rather than editorially curated against a fixed taxonomy — a limitation discussed further in the Results section. The raw CSV file also contains a number of malformed rows with unescaped quoting that cause pandas' default C parser to fail outright partway through the file; this is resolved by reading the file with the slower but more tolerant Python parsing engine (engine='python') and discarding any row that remains unparseable (on_bad_lines='skip').
+The dataset used is the "Goodreads Best Books Ever" dataset, available at [Kaggle](https://www.kaggle.com/datasets/arnabchaki/goodreads-best-books-ever), comprising approximately 50,000 book records with titles, authors, descriptions, and user-submitted genre tags ("shelves"). The genre tags are crowd-sourced rather than editorially curated against a fixed taxonomy — a limitation discussed further in the Results section. The raw CSV file also contains a number of malformed rows with unescaped quoting that cause pandas' default C parser to fail outright partway through the file; this is resolved by reading the file with the slower but more tolerant Python parsing engine (`engine='python'`) and discarding any row that remains unparseable (`on_bad_lines='skip'`).
 
 ### Data Preparation and Sampling:
 
@@ -69,7 +69,7 @@ An important methodological correction was identified during development: an ear
 
 ### Ground Truth Construction — Genre-Tag Mapping:
 
-Because no editorially verified genre label exists for these books, the user-submitted Goodreads genre tags are used to construct a ground truth for quantitative evaluation — a meaningful improvement on a purely qualitative human-validation approach, but one with an important caveat addressed in the Results section. Each book carries multiple free-text genre tags (e.g. ['Fantasy', 'Young Adult', 'Fiction', 'Magic']); these are parsed and mapped to the project's target categories via a curated keyword dictionary. A book is included in the quantitative evaluation only if its tags map to exactly one target category — books whose tags map to zero categories, or to more than one, are excluded as unclassifiable or genuinely ambiguous respectively. This produces a smaller but clean validation subset, and the exclusion rate is itself reported as a measure of the inherent ambiguity in how books are genre-tagged.
+Because no editorially verified genre label exists for these books, the user-submitted Goodreads genre tags are used to construct a ground truth for quantitative evaluation — a meaningful improvement on a purely qualitative human-validation approach, but one with an important caveat addressed in the Results section. Each book carries multiple free-text genre tags (e.g. `['Fantasy', 'Young Adult', 'Fiction', 'Magic']`); these are parsed and mapped to the project's target categories via a curated keyword dictionary. A book is included in the quantitative evaluation only if its tags map to exactly one target category — books whose tags map to zero categories, or to more than one, are excluded as unclassifiable or genuinely ambiguous respectively. This produces a smaller but clean validation subset, and the exclusion rate is itself reported as a measure of the inherent ambiguity in how books are genre-tagged.
 
 ### Category Scheme Revision — Resolving Genre Overlap:
 
@@ -81,7 +81,7 @@ A follow-up experiment tested whether the exact wording of the merged label affe
 
 ### Model Comparison:
 
-Two pretrained zero-shot classification models from Hugging Face are run on the same sample for direct comparison: facebook/bart-large-mnli and roberta-large-mnli. Both are run with the identical candidate label set and book descriptions, allowing a like-for-like accuracy comparison.
+Two pretrained zero-shot classification models from Hugging Face are run on the same sample for direct comparison: `facebook/bart-large-mnli` and `roberta-large-mnli`. Both are run with the identical candidate label set and book descriptions, allowing a like-for-like accuracy comparison.
 
 ### Evaluation Metrics:
 
@@ -97,7 +97,7 @@ The original version of this project excluded fiction/non-fiction classification
 
 ### Web Application (Gradio):
 
-A companion Gradio web application allows a user to submit a book description directly and receive a live classification, using the same five-category scheme established above. The application surfaces the full confidence breakdown across all five categories using Gradio's Label component, and — informed directly by the confidence and error analysis in the main pipeline — automatically flags low-confidence or low-margin predictions as candidates for human review, reflecting how a classifier of this kind would realistically be deployed in a production workflow rather than treated as a fully automated final decision.
+A companion Gradio web application allows a user to submit a book description directly and receive a live classification, using the same five-category scheme established above. The application surfaces the full confidence breakdown across all five categories using Gradio's `Label` component, and — informed directly by the confidence and error analysis in the main pipeline — automatically flags low-confidence or low-margin predictions as candidates for human review, reflecting how a classifier of this kind would realistically be deployed in a production workflow rather than treated as a fully automated final decision.
 
 ## Results:
 
@@ -111,7 +111,7 @@ Science Fiction and Fantasy is the largest category in the validation subset (42
 
 ### Model Accuracy Comparison:
 
-facebook/bart-large-mnli achieves an overall accuracy of 38.89% on the validation subset; roberta-large-mnli achieves 36.11%.
+`facebook/bart-large-mnli` achieves an overall accuracy of 38.89% on the validation subset; `roberta-large-mnli` achieves 36.11%.
 
 ![plot_02_model_accuracy](plot_02_model_accuracy.png)
 
@@ -142,7 +142,7 @@ The classification reports below break down precision, recall, and F1-score by c
 ```
 ![plot_03_f1_comparison](plot_03_f1_comparison.png)
 
-The two models show distinct, contrasting error patterns rather than a uniform difference in quality. facebook/bart-large-mnli is highly conservative for Science Fiction and Fantasy — perfect precision (1.00) but very low recall (0.12) — meaning it is correct whenever it predicts this category, but predicts it for only a small fraction of the books that genuinely belong to it. roberta-large-mnli, in contrast, shows a strong directional bias toward over-predicting Historical (precision 0.31, recall 0.87): it captures most genuinely Historical books correctly, but at the cost of misclassifying a large number of other books into that category too, and fails to identify a single Biography book correctly.
+The two models show distinct, contrasting error patterns rather than a uniform difference in quality. `facebook/bart-large-mnli` is highly conservative for Science Fiction and Fantasy — perfect precision (1.00) but very low recall (0.12) — meaning it is correct whenever it predicts this category, but predicts it for only a small fraction of the books that genuinely belong to it. `roberta-large-mnli`, in contrast, shows a strong directional bias toward over-predicting Historical (precision 0.31, recall 0.87): it captures most genuinely Historical books correctly, but at the cost of misclassifying a large number of other books into that category too, and fails to identify a single Biography book correctly.
 
 ## A Specific Confusion: Mystery and Science Fiction/Fantasy:
 
@@ -177,31 +177,21 @@ The 'Book Genre Classifier' web application was deployed in a temporary online e
 
 ![Gradio_App](Gradio_Zero-Shot-Classification_2.jpg)
 
-
-
-### Results_old
-
-A sample of the results of the inventory classification is below, which provided a category for each of the 50 thousand books in the inventory.  The accuracy was to a sufficiently high level noting that the definition of 'correct' is subjective.  Two separate models from Hugging Face were used for classifications with the results compared to determine the most accurate method.  The models used were 'facebook/bart-large-mnli' and 'roberta-large-mnli', where the results showed that the 'facebook/bart-large-mnli' was the more accurate of the two.
-
-![Classification_Output](Classification_Zero-Shot-Classification.jpg)
-
-The 'Book Genre Classifier' app was deployed in a temporary environment on-line and produced accurate and timely results for any textual description provided.  The screenshot below shows the output of one example book description.  
-
-![Gradio_App](Gradio_Zero-Shot-Classification.jpg)
-
-In summary, the classification model met the business requirements for classifying the inventory of books, and the 'Book Genre Classifier' app similarly met the requirements, both in terms of quality of output and time to generate results.
-
 ## Conclusions:
 
-The primary conclusion is that it is possible to create a model to classify books in an accurate and timely manner, which can be applied to multiple records of book descriptions, which addresses the initial business objective.  
+This project demonstrates that a usable, business-relevant book genre classifier can be built using a pretrained zero-shot transformer model, with no labelled training data and no model fine-tuning — but it also demonstrates, with quantified evidence, that the model's real-world reliability is considerably more nuanced than a qualitative "looks accurate" assessment would suggest. Both points matter for an honest evaluation of when this approach is appropriate.
 
-The overall conclusions are:
-* A zero-shot classification model can categorise text without labelled data.  
-* A zero-shot classification model can be quickly deployed, with low upfront costs and time.  
-  * Utilising python and associated libraries using freely available resources.  
-* It highlights the power of using Deep Learning models to solve business problems and provide tangible benefits, and the accessibility of such models.
-* Tangible operational efficiencies and savings can be made, freeing up staff for higher-value tasks
-* The outputs may not be 100% accurate but the designs are open to additional development and configuration to improve results.
+The single most significant methodological finding is the category scheme revision. The original seven-category business specification assumed a level of separability between Science Fiction, Fantasy, and Adventure that does not exist in how these genres are actually tagged — 93% of Science Fiction-tagged books in the source data are also tagged Fantasy. Merging these three into a single "Science Fiction and Fantasy" category is not a simplification made for analytical convenience; it reflects a genuine characteristic of the genre space, consistent with how many physical bookstores shelve these categories together rather than apart. This finding was surfaced through systematic ground-truth construction, and would have gone unnoticed under the original project's qualitative human-validation approach.
+
+The comparison between `facebook/bart-large-mnli` and `roberta-large-mnli` produced no consistent winner. Across several validation samples and label-scheme revisions tested during development, the relative ranking between the two models reversed multiple times, with the margin between them never exceeding a few percentage points on a validation set of around 100 books — well within ordinary sampling variation at this scale. The honest conclusion is that the two models are comparably suited to this task, and a production deployment could reasonably select either, or run both in parallel for cross-validation on low-confidence cases.
+
+A specific and genuinely useful limitation was identified: `bart-large-mnli` systematically misclassifies a large share of Science Fiction and Fantasy books as Mystery, a pattern explained by the model interpreting the suspense-driven, secrets-and-danger narrative tone common to many genre book blurbs as evidence for Mystery, rather than picking up the explicit fantastical or futuristic content markers that distinguish the genuine genre. A follow-up experiment ruled out the wording of the candidate label as the cause, confirming this as a genuine content-level confusion characteristic of zero-shot classification's reliance on general semantic matching rather than domain-specific genre knowledge. This finding directly motivates the Fine-Tuning recommendation carried forward into the Next Steps section, with a concrete, evidenced rationale rather than a generic suggestion.
+
+The original project's qualitative finding that the model cannot reliably distinguish fiction from non-fiction is reconfirmed here with quantified evidence — 43.43% accuracy against a genre-tag-derived ground truth, with a strong asymmetric bias toward predicting Non-Fiction. This supports the original decision not to offer this classification as a feature of the live application.
+
+A necessary caveat applies to every accuracy figure reported in this project: the ground truth used for evaluation is itself derived from Goodreads' user-submitted, crowd-sourced genre tags, which have not been independently verified. The reported accuracy figures measure agreement with this crowd-sourced tagging convention, not an absolute standard of correctness, and some portion of the measured "error" may reflect inconsistent source tagging rather than genuine model mistakes. This represents a meaningful improvement in rigour over the original project's unquantified human-validation approach, but it is not equivalent to a gold-standard, professionally curated genre taxonomy.
+
+Finally, the confidence margin analysis — showing that over 40% of classifications fall within a narrow margin between the top two candidate categories — points toward the most practically important conclusion of the project: a zero-shot classifier of this kind is best deployed with a human-in-the-loop review step for low-confidence predictions, rather than as a fully automated final decision. This principle is built directly into the companion Gradio application, which flags low-confidence and low-margin classifications for review rather than presenting every prediction with equal confidence.
 
 ## Next steps:  
 
