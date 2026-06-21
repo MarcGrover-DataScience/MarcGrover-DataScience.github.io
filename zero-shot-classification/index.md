@@ -195,17 +195,22 @@ Finally, the confidence margin analysis — showing that over 40% of classificat
 
 ## Next steps:  
 
-While the output of the model met the business requirements, there are recommendations for extending the model to increase accuracy, and extend the information that is provided by the model.
+While the PoC met its objective of demonstrating a working, rigorously evaluated zero-shot classification pipeline, the findings above point to several concrete directions for further development.
 
-Recommendations include:
-* Undertake data cleansing and pre-processing of the book descriptions prior to being applied to the classification model
-* Identify additional descriptions for each book from other sources, potentially utilising the unique ISBN code for each book to map to other descriptions of each book
-* Implement RAG (Retrieval-Augmented Generation) to augment the descriptions with additional data, to allow better handling of vague or ambiguous descriptions.
-* Implement Fine-Tuning on the model using labelled datasets where descriptions are mapped to classifications.
-* Multi-category results, e.g. using the top 2 categories
-* Hierarchical categories, for example sub-categories of 'Adventure'
-* Applying other classifications such as themes of the book
-* Experiment with other zero-shot classification models and determine if better results can be generated
+**Fine-Tuning on Labelled Genre Data**: The Mystery / Science Fiction and Fantasy confusion identified in the Results section is the strongest evidenced rationale for fine-tuning in this project. A model fine-tuned on a labelled sample of book descriptions and genres would learn that suspense-driven, secrets-and-danger narrative framing is common across multiple genres, rather than being a distinguishing feature of Mystery specifically — directly addressing the failure mode demonstrated here, rather than fine-tuning being a generic improvement suggestion.
+
+**Richer Candidate Label Hypotheses**: The label-wording experiment in this project tested only short label-text variants and found no improvement. A more promising and as yet untested direction is to replace the single-word or short-phrase candidate labels with richer, multi-sentence hypothesis templates — for example, describing Fantasy explicitly in terms of magic, mythical creatures, or otherworldly settings, rather than relying on the bare word "Fantasy" — which may give the NLI model more specific semantic anchors than a bare category name provides.
+
+**Independent Verification of Ground Truth**: Given that the genre tags used for evaluation are crowd-sourced and unverified, manually reviewing a sample of the validation subset against the model's predictions would help disentangle genuine model error from inconsistent source tagging, and would establish how much of the measured "error" in this project is attributable to each cause.
+
+**Scale to the Full Inventory**: This project is explicitly scoped as a Proof of Concept on a 200-book random sample due to local CPU-only compute constraints. The pipeline, including the corrected sampling and ground-truth construction logic, is directly applicable to the full ~50,000-book inventory given access to GPU compute, and would also substantially increase the per-category sample sizes used for evaluation — Biography and Mystery in particular remain thinly represented at the current sample size.
+
+**Multi-Category Output and Hierarchical Refinement**: For low-margin classifications, presenting the top two candidate categories rather than a single forced choice would more honestly reflect the model's genuine uncertainty. Separately, now that Science Fiction, Fantasy, and Adventure are merged into one category for clean ground-truth evaluation, a secondary classification step within that merged category — distinguishing genuine Science Fiction from Fantasy where possible — could recover some of the granularity lost in the merge, once a larger sample or a fine-tuned model makes that distinction more reliable than the current zero-shot approach allows.
+
+**Data Enrichment and Additional Models**: Undertaking text cleansing and pre-processing of the book descriptions, sourcing additional descriptions per book via ISBN where available, and implementing Retrieval-Augmented Generation (RAG) to handle vague or ambiguous descriptions, all remain valid extensions for improving input data quality. Having established a two-model comparison framework in this project, extending it to additional zero-shot models (for example `deberta-v3-large-mnli`) would be a natural, low-cost next step.
+
+**Operationalising Human-in-the-Loop Review**: The confidence-based review flag built into the Gradio demo handles a single book at a time. A production deployment would extend this into a proper review queue — surfacing all low-confidence and low-margin classifications from a batch run for staff review, rather than requiring each book to be checked individually.
+
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
