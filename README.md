@@ -76,11 +76,9 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Exploratory Data Analysis](/exploratory-data-analysis/)
 * ### [Great Expectations (Validation)](/great-expectations/)
 
-<!-- * ### Responsible AI / ML (Explainability, transparency etc.) -->
-
+<!-- * ### MLOps -->
 <!-- * ### Fine Tuning / RAG / Transfer Learning -->
 <!-- * ### Text pre-processing (NLP) -->
-<!-- * ### Sentiment Analysis (NLP) -->
 <!-- * ### Review classification (NLP) -->
 <!-- * ### Category Classification Prediction (Neural Network) -->
 <!-- * ### Text Classification (Neural Network) -->
