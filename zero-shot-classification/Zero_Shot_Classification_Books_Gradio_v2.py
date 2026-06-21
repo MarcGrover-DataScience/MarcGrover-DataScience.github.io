@@ -142,13 +142,13 @@ def predict_genre(description):
 iface = gr.Interface(
     fn=predict_genre,
     inputs=gr.Textbox(
-        lines=6,
+        lines=12,
         placeholder='Enter a book description here...',
         label='Book Description'
     ),
     outputs=[
         gr.Label(num_top_classes=5, label='Predicted Category'),
-        gr.Textbox(label='Review Flag', interactive=False),
+        gr.Textbox(lines=6, label='Review Flag', interactive=False),
     ],
     examples=EXAMPLE_DESCRIPTIONS,
     title='Book Genre Classifier',
