@@ -175,7 +175,7 @@ The genre tags used throughout this Results section originate from Goodreads' us
 
 The 'Book Genre Classifier' web application was deployed in a temporary online environment and produces a live classification, full confidence breakdown, and human-review flag for any submitted book description. The screenshot below shows the output for one example description.
 
-![Gradio_App](Gradio_Zero-Shot-Classification.jpg)
+![Gradio_App](Gradio_Zero-Shot-Classification_2.jpg)
 
 
 
