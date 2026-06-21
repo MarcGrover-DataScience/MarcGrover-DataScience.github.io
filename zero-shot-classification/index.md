@@ -213,7 +213,7 @@ While the PoC met its objective of demonstrating a working, rigorously evaluated
 
 
 ## Python code:
-You can view the full Python script used for the analysis here: 
+You can view the full Python script used for the analysis here:  
 [View the Python Script](/Zero_Shot_Classification_Books_v3.py)  
 [View the Python Script for Gradio application](/Zero_Shot_Classification_Books_Gradio_v2.py)
 
