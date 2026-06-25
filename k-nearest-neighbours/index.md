@@ -199,5 +199,4 @@ Finally, the classification results presented here provide a natural point of co
 
 ## Python code:
 You can view the full Python script used for the analysis here:  
-[Kernel Trick Illustration Python Script](/svm_kernel_illustration.py)  
-[Breast Cancer Classification Python Script](/svm_breast_cancer.py)
+[k_nearest_neighbours_v1](/k_nearest_neighbours_v1.py)  
