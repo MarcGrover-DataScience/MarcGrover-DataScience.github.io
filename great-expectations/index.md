@@ -87,6 +87,26 @@ The corrupted batch failed 11 of 19 expectations (58% success). The chart below 
 
 Structural checks show the sharpest deterioration, falling from 100% to 0% — every structural expectation failed, since the corrupted batch simultaneously has the wrong row count (duplicated rows), the wrong column count, and a column set that no longer matches the expected schema (the dropped `deck` column). Content and Type checks each show a substantial but partial decline, consistent with corruptions that were deliberately scoped to a subset of rows rather than the whole dataset. Missingness checks show the smallest decline, for a reason discussed below.
 
+### Inside the tool: Great Expectations' own Data Docs
+
+The chart above summarises results across categories; the screenshots below show what Great Expectations itself produces for each batch, taken directly from the generated Data Docs HTML.
+
+The clean batch's overview confirms the 100% pass rate reported earlier, with all three structural checks and the full `age` expectation group shown as green passes.
+
+![gx_clean_overview](gx_clean_overview.png)
+
+The corrupted batch's overview shows the same suite, applied to the same structural and `age` checks, now reporting 8 of 19 expectations successful (≈42.11%). The `age` group specifically shows GX's own sampled unexpected values — the negative ages (-9.71, -9.34, -8.73...) injected as Corruption 1 are listed directly in the tool's output, not just summarised as a percentage.
+
+![gx_corrupt_overview_age](gx_corrupt_overview_age.png)
+
+The `pclass` column illustrates the all-or-nothing dtype behaviour discussed above. The type check fails at 100% (1,041 of 1,041 rows), while the value-set check immediately below it — checking the same column for valid category codes (1, 2, or 3) — fails at only ≈30.45%. Seeing both rows together in the same table makes the distinction concrete: the dtype check is a single property of the column as a whole, while the value-set check is evaluated row by row.
+
+![gx_corrupt_pclass](gx_corrupt_pclass.png)
+
+The `deck` column shows a third, distinct failure mode. Rather than a red ✗ failure, GX renders this as a yellow warning triangle with the message "raised an exception: Error: The column 'deck' in BatchData does not exist," reflecting the fact that Corruption 8 removed the column entirely rather than altering its values. Great Expectations visually distinguishes this case from a normal rule violation, which is a useful signal in its own right: a warning icon here indicates a schema problem to investigate at source, rather than a data-cleansing task on existing values.
+
+![gx_corrupt_deck](gx_corrupt_deck.png)
+
 The table below breaks out the specific failures, with the observed value or unexpected-percentage figure for each.
 
 | Expectation | Column | Observed Result |
