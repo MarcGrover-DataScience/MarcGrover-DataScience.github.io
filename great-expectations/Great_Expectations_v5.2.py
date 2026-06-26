@@ -1,20 +1,27 @@
 # Demonstrates Great Expectations (v1.18) using the Seaborn Titanic dataset.
 #
-# The project builds a single ingestion-stage expectation suite and validates it against TWO batches:
-#   1. "Clean" batch  - the unmodified Titanic dataset, used to confirm the suite is correctly specified against known-good data.
-#   2. "Corrupted" batch - the same dataset with eight deliberately injected, realistic data quality issues (nulls, out-of-range values,
-#                        bad categorical codes, type drift, duplicate rows, a dropped column), used to confirm the SAME suite reliably
+# The project builds a single ingestion-stage expectation suite and validates it
+# against TWO batches:
+#   1. "Clean" batch  - the unmodified Titanic dataset, used to confirm the suite
+#                        is correctly specified against known-good data.
+#   2. "Corrupted" batch - the same dataset with eight deliberately injected,
+#                        realistic data quality issues (nulls, out-of-range values,
+#                        bad categorical codes, type drift, duplicate rows, a
+#                        dropped column), used to confirm the SAME suite reliably
 #                        detects ingestion-stage corruption.
 #
-# Both runs use the identical suite - nothing is loosened or tightened between runs - so every failure on the corrupted
-# batch is a genuine drift-detection result rather than an artefact of different validation criteria.
+# Both runs use the identical suite - nothing is loosened or tightened between
+# runs - so every failure on the corrupted batch is a genuine drift-detection
+# result rather than an artefact of different validation criteria.
 #
 # Outputs:
 #   - Great Expectations Data Docs (static HTML), covering both validation runs
-#   - PNG charts in ./outputs/ (EDA charts that justify threshold choices, plus a clean-vs-corrupted pass/fail summary chart)
-#   - A markdown failure-detail table (per failed expectation, observed value, threshold, and unexpected percentage) printed to console and saved to disk
-
-# NOTE that the html output is saved to:  \DataProcessing\gx\uncommitted\data_docs\local_site
+#   - PNG charts in ./outputs/ (EDA charts that justify threshold choices, plus
+#     a clean-vs-corrupted pass/fail summary chart)
+#   - A markdown failure-detail table (per failed expectation, observed value,
+#     threshold, and unexpected percentage) printed to console and saved to disk
+#
+# HTML output saved to:  \DataProcessing\outputs\data_docs
 
 import os
 import warnings
@@ -48,11 +55,13 @@ print_header("1) Loading the Seaborn Titanic dataset (clean batch)")
 
 titanic_clean = sns.load_dataset("titanic")
 
-# NOTE on dtypes: depending on the pandas version installed, columns such as "sex" and "embarked" may be reported
-# internally as either the legacy "object" dtype or the newer pandas "str" dtype (PDEP-14, default in pandas # 3.x).
-# Great Expectations' ExpectColumnValuesToBeOfType check is sensitive to this distinction. To keep the suite's behaviour
-# identical regardless of the pandas version running it, string columns are explicitly cast to "object" # immediately after loading.
-
+# NOTE on dtypes: depending on the pandas version installed, columns such as
+# "sex" and "embarked" may be reported internally as either the legacy
+# "object" dtype or the newer pandas "str" dtype (PDEP-14, default in pandas
+# 3.x). Great Expectations' ExpectColumnValuesToBeOfType check is sensitive to
+# this distinction. To keep the suite's behaviour identical regardless of the
+# pandas version running it, string columns are explicitly cast to "object"
+# immediately after loading.
 STRING_COLUMNS = ["sex", "embarked", "who", "embark_town", "alive"]
 titanic_clean = titanic_clean.astype({c: "object" for c in STRING_COLUMNS})
 
@@ -230,10 +239,22 @@ corrupt_bd = get_or_add_batch_definition(corrupt_asset, "corrupted_whole_df")
 print_header("5) Defining the ingestion-stage expectation suite")
 
 suite_name = "titanic_ingestion_suite"
+
+# The suite is deleted and rebuilt from scratch on every run, rather than
+# fetched-and-reused. This is deliberate: context.suites.get() would return
+# whatever expectations were persisted to disk from ANY previous run of this
+# (or an earlier) version of the script, and add_or_update() only adds or
+# updates expectations - it does not remove ones that are no longer defined
+# here. Without this delete step, expectations left over from earlier
+# iterations of this project (e.g. an old deck/age threshold) would continue
+# being silently tested against, even though the current script never
+# defines them.
 try:
-    suite = context.suites.get(suite_name)
+    context.suites.delete(suite_name)
 except Exception:
-    suite = context.suites.add(gx.ExpectationSuite(name=suite_name))
+    pass  # suite did not exist yet - nothing to delete
+
+suite = context.suites.add(gx.ExpectationSuite(name=suite_name))
 
 # -------------------------
 # Structural checks
@@ -304,6 +325,12 @@ vd_corrupt = context.validation_definitions.add_or_update(vd_corrupt)
 
 # Data Docs site - created before the checkpoints run so results render
 # immediately after each run.
+# NOTE: A GX file-mode context ALREADY registers a default "local_site" data
+# docs site out of the box (pointing at gx/uncommitted/data_docs/local_site/).
+# Because that site name already exists, add_data_docs_site() is a no-op for
+# it - so update_data_docs_site() must be used instead to redirect it to this
+# project's own outputs/data_docs/ folder, alongside the PNG charts and
+# failure table.
 site_name = "local_site"
 site_dir = os.path.abspath(os.path.join(OUTPUT_DIR, "data_docs"))
 site_config = {
@@ -314,10 +341,17 @@ site_config = {
         "base_directory": site_dir,
     },
 }
-try:
-    context.add_data_docs_site(site_name=site_name, site_config=site_config)
-except Exception:
-    pass  # site already exists
+context.update_data_docs_site(site_name=site_name, site_config=site_config)
+
+# Clear any validation results retained from previous executions of this
+# script, so that build_data_docs() (Section 11) only ever renders the
+# current clean-vs-corrupted comparison rather than accumulating every
+# historical run as separate timestamped pages. clean_data_docs() alone is
+# not sufficient here, since it only clears already-rendered HTML - the
+# underlying validation_results_store is what build_data_docs() reads from,
+# and it otherwise retains every past run indefinitely.
+for key in list(context.validation_results_store.list_keys()):
+    context.validation_results_store.remove_key(key)
 
 checkpoint_clean = gx.Checkpoint(
     name="titanic_clean_checkpoint",
