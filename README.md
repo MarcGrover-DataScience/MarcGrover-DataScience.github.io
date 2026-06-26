@@ -77,13 +77,6 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Great Expectations (Validation)](/great-expectations/)
 
 <!-- * ### MLOps -->
-<!-- * ### Fine Tuning / RAG / Transfer Learning -->
-<!-- * ### Text pre-processing (NLP) -->
-<!-- * ### Review classification (NLP) -->
-<!-- * ### Category Classification Prediction (Neural Network) -->
-<!-- * ### Text Classification (Neural Network) -->
-<!-- * ### Named Entity Recognition (Deep Learning) -->
-<!-- * ### Text Summarisation (Deep Learning) -->
-<!-- * ### Topic Modelling and Clustering (Deep Learning) -->
+
 
 ![logo](Data Scientist Logo_small.png)
