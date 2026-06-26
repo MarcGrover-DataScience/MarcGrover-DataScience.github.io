@@ -71,7 +71,7 @@ A single expectation suite of 19 expectations is defined, covering four categori
 
 The missing-value chart below confirms the basis for the suite's null-tolerance settings.
 
-![plot_01_missing_fraction_by_column](https://marcgrover-datascience.github.io/great-expectations/plot_01_missing_fraction_by_column.png)
+![plot_01_missing_fraction_by_column](plot_01_missing_fraction_by_column.png)
 
 `deck` is missing in 77.2% of rows and `age` in 19.9% of rows; all other columns are effectively complete. This is the figure that exposed a genuine error carried over from an earlier version of this project: a non-null threshold of 85% had previously been set for `deck`, which — given that only ~23% of `deck` values exist in the unmodified data — would have caused that expectation to fail on every single clean run. The threshold used in the current suite (a minimum of 15% non-null) is instead set with direct reference to this chart.
 
@@ -83,7 +83,7 @@ The clean batch passed all 19 expectations (100% success), confirming the suite 
 
 The corrupted batch failed 11 of 19 expectations (58% success). The chart below summarises the pass rate by validation category for both batches side by side.
 
-![plot_04_pass_rate_by_category](https://marcgrover-datascience.github.io/great-expectations/plot_04_pass_rate_by_category.png)
+![plot_04_pass_rate_by_category](plot_04_pass_rate_by_category.png)
 
 Structural checks show the sharpest deterioration, falling from 100% to 0% — every structural expectation failed, since the corrupted batch simultaneously has the wrong row count (duplicated rows), the wrong column count, and a column set that no longer matches the expected schema (the dropped `deck` column). Content and Type checks each show a substantial but partial decline, consistent with corruptions that were deliberately scoped to a subset of rows rather than the whole dataset. Missingness checks show the smallest decline, for a reason discussed below.
 
@@ -133,4 +133,4 @@ Finally, the type-coercion behaviour observed for `pclass` — where a single al
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/Great_Expectations_v5.1.py)
+[View the Python Script](/Great_Expectations_v5.2.py)
