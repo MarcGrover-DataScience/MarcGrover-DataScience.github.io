@@ -81,7 +81,7 @@ The clean batch passed all 19 expectations (100% success), confirming the suite 
 
 ### Validation outcome: corrupted batch
 
-The corrupted batch failed 11 of 19 expectations (58% success). The chart below summarises the pass rate by validation category for both batches side by side.
+The corrupted batch failed 11 of 19 expectations (≈42.11% success). The chart below summarises the pass rate by validation category for both batches side by side.
 
 ![plot_04_pass_rate_by_category](plot_04_pass_rate_by_category.png)
 
@@ -135,7 +135,7 @@ Despite injecting an additional 133 nulls into `embarked` (Corruption 4), the co
 
 ## Conclusions:
 
-The central finding of this project is that an expectation suite written once against known-good data reliably detects realistic ingestion-stage corruption across every category it was designed to cover — structural, type, content, and missingness — falling from a 100% pass rate on the clean batch to 58% on the corrupted batch, with every individual failure attributable to a specific, identifiable injected flaw.
+The central finding of this project is that an expectation suite written once against known-good data reliably detects realistic ingestion-stage corruption across every category it was designed to cover — structural, type, content, and missingness — falling from a 100% pass rate on the clean batch to ≈42.11% on the corrupted batch, with every individual failure attributable to a specific, identifiable injected flaw.
 
 Equally important are the two findings that emerged only because the suite was tested against a flawed batch rather than a clean one. The discovery that a single mixed-type value coerces an entire pandas column's dtype, causing a type check to fail at 100% rather than in proportion to the actual corruption, is a concrete illustration of why type expectations behave fundamentally differently from value-level checks — a distinction that matters when interpreting validation failures in any real pipeline. The discovery that the `embarked` expectation has no explicit non-null check, and therefore cannot detect a rise in missingness for that column, is a genuine gap in the suite's coverage that would have gone unnoticed had the suite only ever been run against clean data. Both findings reinforce the same underlying principle: a validation suite's quality can only be properly assessed by testing it against failure, not merely confirming it agrees with success.
 
