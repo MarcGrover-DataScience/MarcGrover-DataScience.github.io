@@ -54,7 +54,7 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [K-Means Clustering](/k-means-clustering/)
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
 * ### [Association Rule Mining](/association-rule/)
-* ### [Anomaly Detection (Isolation Forest)](/anomaly-detection/)
+<!-- * ### [Anomaly Detection (Isolation Forest)](/anomaly-detection/) -->
 
 ## Causal & Experimental Analysis
 * ### [Causal Impact Analysis](/causal-impact-analysis/)
@@ -63,8 +63,8 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 ## Deep Learning & NLP
 * ### [Zero-shot Classification](/zero-shot-classification/)
 * ### [Image Classification](/image-classification/)
-* ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
-* ### [Sentiment Analysis (Transformers)](/sentiment_analysis/)
+<!-- * ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/) -->
+<!-- * ### [Sentiment Analysis (Transformers)](/sentiment_analysis/) -->
 
 ## Model Interpretability & Explainability
 * ### [SHAP - SHapley Additive exPlanations](/shap/)
