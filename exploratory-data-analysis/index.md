@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Exploratory Data Analysis: Uncovering Hidden Data Quality Issues and Income Drivers in Census Data
+title: Exploratory Data Analysis (Uncovering Hidden Data Quality Issues and Income Drivers in Census Data)
 
 permalink: /exploratory-data-analysis/
 
