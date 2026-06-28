@@ -44,7 +44,7 @@ The clean batch is loaded directly from Seaborn's built-in Titanic dataset (891 
 
 ### Exploratory Analysis — Deriving Validation Thresholds
 
-Before any threshold is set in the expectation suite, the clean batch is profiled to establish what "normal" actually looks like. A missing-value chart by column shows that `age` is approximately 80% complete and `deck` is only approximately 23% complete — a finding that directly overturns an assumption present in an earlier version of this project, which had set a uniform 85% non-null threshold across both columns. That threshold would have caused the `deck` expectation to fail even on perfectly clean data, since the column is sparsely populated by nature. Age and fare distributions are also profiled to set the numeric range bounds used later in the suite, anchored to the observed minimum and maximum values rather than arbitrary figures.
+Before any threshold is set in the expectation suite, the clean batch is profiled to establish what "normal" actually looks like. A missing-value chart by column shows that `age` is approximately 80% complete and `deck` is only approximately 23% complete — contradicting any assumptions made on completeness, and the setting of arbitrary thresholds, for exmple  a uniform 85% non-null threshold across both columns. That threshold would have caused the `deck` expectation to fail even on perfectly clean data, since the column is sparsely populated by nature. Age and fare distributions are also profiled to set the numeric range bounds used later in the suite, anchored to the observed minimum and maximum values rather than arbitrary figures.
 
 ### Constructing the Corrupted Batch
 
@@ -63,7 +63,7 @@ Corruptions are applied only to rows that did not already hold a missing value f
 
 ### Suite Definition and Validation
 
-A single expectation suite of 19 expectations is defined, covering four categories: structural checks (row count, column count, column set), type checks, content checks (value sets and numeric ranges), and missingness checks. This suite is bound, unmodified, to both the clean batch and the corrupted batch as two separate Data Assets, and a Checkpoint is run against each. Results from both runs are written to a shared Data Docs site, and are also extracted programmatically into a structured comparison, since Data Docs alone shows pass/fail status but not the cross-batch pattern of detection that is the actual subject of this analysis.
+A single expectation suite of 19 expectations is defined, covering four categories: **structural checks** (row count, column count, column set), **type checks**, **content checks** (value sets and numeric ranges), and **missingness checks**. This suite is bound, unmodified, to both the clean batch and the corrupted batch as two separate Data Assets, and a Checkpoint is run against each. Results from both runs are written to a shared Data Docs site, and are also extracted programmatically into a structured comparison, since Data Docs alone shows pass/fail status but not the cross-batch pattern of detection that is the actual subject of this analysis.
 
 ## Results:
 
@@ -73,7 +73,7 @@ The missing-value chart below confirms the basis for the suite's null-tolerance 
 
 ![plot_01_missing_fraction_by_column](plot_01_missing_fraction_by_column.png)
 
-`deck` is missing in 77.2% of rows and `age` in 19.9% of rows; all other columns are effectively complete. This is the figure that exposed a genuine error carried over from an earlier version of this project: a non-null threshold of 85% had previously been set for `deck`, which — given that only ~23% of `deck` values exist in the unmodified data — would have caused that expectation to fail on every single clean run. The threshold used in the current suite (a minimum of 15% non-null) is instead set with direct reference to this chart.
+`deck` is missing in 77.2% of rows and `age` in 19.9% of rows; all other columns are effectively complete. Setting an arbitrary non-null threshold of 85%,  would have caused that expectation to fail on every single clean run. The threshold used in the current suite (a minimum of 15% non-null) is instead set with direct reference to this chart.
 
 ### Validation outcome: clean batch
 
@@ -139,7 +139,7 @@ The central finding of this project is that an expectation suite written once ag
 
 Equally important are the two findings that emerged only because the suite was tested against a flawed batch rather than a clean one. The discovery that a single mixed-type value coerces an entire pandas column's dtype, causing a type check to fail at 100% rather than in proportion to the actual corruption, is a concrete illustration of why type expectations behave fundamentally differently from value-level checks — a distinction that matters when interpreting validation failures in any real pipeline. The discovery that the `embarked` expectation has no explicit non-null check, and therefore cannot detect a rise in missingness for that column, is a genuine gap in the suite's coverage that would have gone unnoticed had the suite only ever been run against clean data. Both findings reinforce the same underlying principle: a validation suite's quality can only be properly assessed by testing it against failure, not merely confirming it agrees with success.
 
-The decision to derive every threshold from the clean batch's actual observed characteristics — rather than round, unvalidated numbers — also proved its worth directly. The original `deck` non-null threshold of 85%, carried over from an earlier version of this analysis, would have failed on every clean run, since `deck` is genuinely only ~23% populated. Anchoring the threshold to the observed distribution instead avoids this category of error entirely, and the missingness chart that exposed it stands as a useful, low-cost validation habit it would be worth applying to every future suite.
+The decision to derive every threshold from the clean batch's actual observed characteristics — rather than round, unvalidated numbers — also proved its worth directly. The setting of arbitrary thresholds, would have failed on every clean run - since `deck` is genuinely only ~23% populated, a threshold of 85% would have caused a failure on each run. Anchoring the threshold to the observed distribution instead avoids this category of error entirely, and the missingness chart that exposed it stands as a useful, low-cost validation habit it would be worth applying to every future suite.
 
 ## Next steps:
 
