@@ -59,7 +59,7 @@ EDA is not a preliminary formality; it is where the majority of a project's even
 
 ![Income class distribution](plot_01_income_class_distribution.png)
 
-**Disguised missingness.** Three columns contained the `"?"` placeholder: `workclass` (1,836 records, 3.76%), `occupation` (1,843 records, 3.78%), and `native_country` (582 records, 1.19%) — 4,261 affected cells in total, 0.58% of the dataset. A conventional null check would have reported none of this.
+**Disguised missingness.** Three columns contained the `"?"` placeholder: `workclass` (2,799 records, 5.73%), `occupation` (2,809 records, 5.76%), and `native_country` (856 records, 1.75%) — 6,464 affected cells in total, 0.88% of the dataset. A conventional null check would have reported none of this. 
 
 **Missingness co-occurrence.** `workclass` and `occupation` missingness were almost perfectly correlated (0.998), with 1,836 of 1,843 occupation-missing records (99.6%) also missing `workclass`. This pattern is consistent with individuals outside conventional employment, and directly justified imputing both with an explicit `"Unknown"` category rather than the column mode.
 
