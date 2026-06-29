@@ -119,7 +119,18 @@ categorical_cols = [c for c in categorical_cols if c != target_col]
 
 disguised_missing_counts = {}
 for col in categorical_cols:
-    df[col] = df[col].astype(str).str.strip()
+    # Note: do NOT call .astype(str) here. ucimlrepo loads this dataset via
+    # pandas.read_csv() internally, and pandas' default na_values list
+    # already converts some "?" placeholders to genuine NaN on load before
+    # this script ever sees the data (the remainder survive as literal "?"
+    # strings, which is why both forms must be handled). Calling
+    # .astype(str) on a column that already contains real NaN silently
+    # converts those NaN values into the literal string "nan", which is
+    # no longer recognised as missing by pandas - it would then survive
+    # imputation untouched and appear as its own spurious category in
+    # any downstream plot. .str.strip() works directly on object-dtype
+    # columns without this side effect, so it is used alone here.
+    df[col] = df[col].str.strip()
     n_missing = (df[col] == "?").sum()
     if n_missing > 0:
         disguised_missing_counts[col] = n_missing
@@ -141,6 +152,22 @@ print(f"\nStandard (NaN) missing values per column:\n{standard_nulls[standard_nu
 # missing-value tooling (isnull, dropna, fillna) can be used consistently
 # from this point forward.
 df[categorical_cols] = df[categorical_cols].replace("?", np.nan)
+
+# Safety-net check: confirm no stray string-typed placeholder values
+# (e.g. the literal string "nan", "none", "null") have survived as
+# ordinary category values. These would not be caught by .isnull() and
+# would silently bypass imputation, appearing as a spurious category in
+# downstream plots. None are expected at this point; this assertion
+# exists to catch any future regression in the cleaning logic above.
+stray_placeholder_mask = df[categorical_cols].isin(["nan", "none", "null", "NaN", "None", "NULL"])
+n_stray = stray_placeholder_mask.sum().sum()
+if n_stray > 0:
+    stray_cols = stray_placeholder_mask.sum()
+    raise ValueError(
+        f"Found {n_stray} stray string-typed placeholder value(s) that bypassed "
+        f"missing-value handling: {stray_cols[stray_cols > 0].to_dict()}. "
+        f"Check for unintended .astype(str) calls on columns containing NaN."
+    )
 
 total_missing = df.isnull().sum().sum()
 total_cells = df.shape[0] * df.shape[1]

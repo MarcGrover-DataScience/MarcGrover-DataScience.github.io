@@ -108,4 +108,4 @@ This EDA establishes a validated, well-understood foundation for two natural fol
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/EDA_v0.1.py)
+[View the Python Script](/EDA_v0.2.py)
