@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Decision Trees)
+title: Project (Technique)
 
 permalink: /test_project/
 
@@ -12,7 +12,7 @@ permalink: /test_project/
 
 ## Goals and objectives:
 
-The business objective is ...
+The business objective
 
 ## Application:  
 
