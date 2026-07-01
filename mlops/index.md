@@ -29,29 +29,37 @@ MLOps matters commercially because the gap between a promising model in a notebo
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where MLOps provides clear business value include:
 
-💻 Technology & SaaS:
+💻 **Technology & SaaS**:
 
-Recommendation engine reliability: A streaming platform uses automated CI/CD pipelines to safely deploy updated recommendation models multiple times per week, with automated rollback if key engagement metrics regress post-deployment.
-A/B testing infrastructure: A product team runs controlled experiments comparing model versions in production, using MLOps tooling to route traffic and compare business metrics before a full rollout.
-Feature store management: Engineering teams maintain a centralised feature store ensuring the exact same feature calculations are used in both model training and live production inference, eliminating training-serving skew.
+**Recommendation engine reliability**: A streaming platform uses automated CI/CD pipelines to safely deploy updated recommendation models multiple times per week, with automated rollback if key engagement metrics regress post-deployment.
 
-🏦 Finance:
+**A/B testing infrastructure**: A product team runs controlled experiments comparing model versions in production, using MLOps tooling to route traffic and compare business metrics before a full rollout.
 
-Fraud model freshness: A payments company automatically retrains fraud detection models on a rolling basis as fraud patterns evolve, with drift monitoring triggering earlier retraining when detection performance begins to degrade.
-Regulatory model governance: Financial institutions maintain full lineage and version history for credit risk models, satisfying regulatory requirements to reproduce and justify any historical lending decision.
-Trading model deployment safety: Quantitative trading desks use staged, monitored deployment pipelines to roll out updated models gradually, limiting financial exposure to newly deployed model errors.
+**Feature store management**: Engineering teams maintain a centralised feature store ensuring the exact same feature calculations are used in both model training and live production inference, eliminating training-serving skew.
 
-🏭 Manufacturing:
+🏦 **Finance**:
 
-Predictive maintenance at scale: A manufacturer deploys and monitors hundreds of predictive maintenance models across different factory sites, using centralised MLOps tooling to manage versioning and performance tracking consistently across locations.
-Quality control model updates: Computer vision models inspecting products on a production line are automatically retrained as new defect types are labelled, with monitoring ensuring updated models are validated before replacing the live model.
-Supply chain forecasting governance: Demand forecasting models are automatically re-evaluated against actual outcomes each period, with underperforming models flagged for retraining before they materially affect inventory decisions.
+**Fraud model freshness**: A payments company automatically retrains fraud detection models on a rolling basis as fraud patterns evolve, with drift monitoring triggering earlier retraining when detection performance begins to degrade.
 
-🏥 Healthcare:
+**Regulatory model governance**: Financial institutions maintain full lineage and version history for credit risk models, satisfying regulatory requirements to reproduce and justify any historical lending decision.
 
-Clinical model validation pipelines: Healthcare providers enforce rigorous, auditable validation and approval stages before any diagnostic support model update reaches clinical use, supporting patient safety and regulatory compliance.
-Drift detection for changing patient populations: Hospitals monitor deployed risk-prediction models for data drift as patient demographics or care protocols shift over time, triggering review before predictive accuracy degrades in ways that could affect care decisions.
-Reproducible research-to-deployment pathways: Health systems maintain full reproducibility between the research environment in which a model was validated and the production environment in which it is deployed, a critical requirement for clinical accountability.
+**Trading model deployment safety**: Quantitative trading desks use staged, monitored deployment pipelines to roll out updated models gradually, limiting financial exposure to newly deployed model errors.
+
+🏭 **Manufacturing**:
+
+**Predictive maintenance at scale**: A manufacturer deploys and monitors hundreds of predictive maintenance models across different factory sites, using centralised MLOps tooling to manage versioning and performance tracking consistently across locations.
+
+**Quality control model updates**: Computer vision models inspecting products on a production line are automatically retrained as new defect types are labelled, with monitoring ensuring updated models are validated before replacing the live model.
+
+**Supply chain forecasting governance**: Demand forecasting models are automatically re-evaluated against actual outcomes each period, with underperforming models flagged for retraining before they materially affect inventory decisions.
+
+🏥 **Healthcare**:
+
+**Clinical model validation pipelines**: Healthcare providers enforce rigorous, auditable validation and approval stages before any diagnostic support model update reaches clinical use, supporting patient safety and regulatory compliance.
+
+**Drift detection for changing patient populations**: Hospitals monitor deployed risk-prediction models for data drift as patient demographics or care protocols shift over time, triggering review before predictive accuracy degrades in ways that could affect care decisions.
+
+**Reproducible research-to-deployment pathways**: Health systems maintain full reproducibility between the research environment in which a model was validated and the production environment in which it is deployed, a critical requirement for clinical accountability.
 
 ## Results:
 
