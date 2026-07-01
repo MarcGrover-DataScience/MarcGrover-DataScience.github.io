@@ -24,17 +24,17 @@ This approach is model-agnostic by design — the same procedure applies whether
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where LIME provides clear business value include:
 
-🏦 Finance:
+🏦 **Finance**:
 
-Credit scoring: A bank explains to a loan applicant precisely which factors — such as credit utilisation or length of credit history — drove a rejection, satisfying regulatory requirements for explainable adverse action notices.
-Fraud alert triage: Fraud analysts use LIME to understand why a transaction-monitoring model flagged a specific transaction as suspicious, allowing them to prioritise investigation effort and reduce false-positive escalations.
-Algorithmic trading oversight: Risk teams audit individual trade recommendations from a black box model to confirm that decisions are driven by legitimate market signals rather than spurious correlations.
+**Credit scoring**: A bank explains to a loan applicant precisely which factors — such as credit utilisation or length of credit history — drove a rejection, satisfying regulatory requirements for explainable adverse action notices.
+**Fraud alert triage**: Fraud analysts use LIME to understand why a transaction-monitoring model flagged a specific transaction as suspicious, allowing them to prioritise investigation effort and reduce false-positive escalations.
+**Algorithmic trading oversight**: Risk teams audit individual trade recommendations from a black box model to confirm that decisions are driven by legitimate market signals rather than spurious correlations.
 
-🏥 Healthcare:
+🏥 **Healthcare**:
 
-Diagnostic support: A clinician reviewing a model's prediction that a patient is high-risk for a condition can see which specific test results and vital signs contributed most, integrating the model into clinical judgement rather than replacing it.
-Patient risk stratification: Hospital administrators explain to a review board why a particular patient was flagged for a readmission-prevention programme, supporting accountable resource allocation.
-Treatment recommendation review: Pharmacists validate individual drug-interaction risk predictions by inspecting which combination of prescribed medications the model weighted most heavily.
+**Diagnostic support**: A clinician reviewing a model's prediction that a patient is high-risk for a condition can see which specific test results and vital signs contributed most, integrating the model into clinical judgement rather than replacing it.
+**Patient risk stratification**: Hospital administrators explain to a review board why a particular patient was flagged for a readmission-prevention programme, supporting accountable resource allocation.
+**Treatment recommendation review**: Pharmacists validate individual drug-interaction risk predictions by inspecting which combination of prescribed medications the model weighted most heavily.
 
 👥 Human Resources:
 
@@ -42,11 +42,11 @@ Resume screening audits: HR teams inspect why an automated screening model ranke
 Attrition risk explanation: A people-analytics team explains to a line manager why a specific employee was flagged as a high flight-risk, translating a model score into actionable retention conversations.
 Performance model transparency: Employees are given individual, feature-level explanations for algorithmically-informed performance ratings, supporting procedural fairness and employee trust.
 
-🛍️ Retail & Marketing:
+🛍️ **Retail & Marketing**:
 
-Personalisation explanation: An e-commerce platform explains to internal stakeholders why a specific customer was shown a particular offer, supporting marketing governance and campaign auditing.
-Churn prediction review: Customer success teams inspect the specific behavioural signals — such as declining login frequency or support ticket sentiment — that drove a model's prediction that an individual customer is likely to churn.
-Dynamic pricing accountability: Pricing teams verify that an individual price recommendation was driven by legitimate demand signals rather than sensitive or protected customer attributes.
+**Personalisation explanation**: An e-commerce platform explains to internal stakeholders why a specific customer was shown a particular offer, supporting marketing governance and campaign auditing.
+**Churn prediction review**: Customer success teams inspect the specific behavioural signals — such as declining login frequency or support ticket sentiment — that drove a model's prediction that an individual customer is likely to churn.
+**Dynamic pricing accountability**: Pricing teams verify that an individual price recommendation was driven by legitimate demand signals rather than sensitive or protected customer attributes.
 
 
 ## Methodology:  
