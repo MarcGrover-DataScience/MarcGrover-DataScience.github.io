@@ -24,29 +24,37 @@ Once fitted, the resulting factor loadings — the strength of association betwe
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where Factor Analysis provides clear business value include:
 
-🛍️ Marketing & Retail:
+🛍️ **Marketing & Retail**:
 
-Customer satisfaction modelling: A retailer analyses dozens of individual survey items and identifies that they load onto a small number of underlying factors, such as "service quality" and "value perception", simplifying reporting and prioritisation for improvement initiatives.
-Brand perception research: Market researchers reduce a large battery of brand attribute ratings into a handful of interpretable underlying dimensions, such as "trustworthiness" and "innovation", that more efficiently summarise consumer perception.
-Customer segmentation inputs: Marketing analysts derive a small set of latent behavioural factors from a wide range of purchasing and engagement variables, providing cleaner, less redundant inputs to downstream segmentation models.
+**Customer satisfaction modelling**: A retailer analyses dozens of individual survey items and identifies that they load onto a small number of underlying factors, such as "service quality" and "value perception", simplifying reporting and prioritisation for improvement initiatives.
 
-👥 Human Resources:
+**Brand perception research**: Market researchers reduce a large battery of brand attribute ratings into a handful of interpretable underlying dimensions, such as "trustworthiness" and "innovation", that more efficiently summarise consumer perception.
 
-Employee engagement surveys: HR teams reduce a lengthy engagement questionnaire into a small number of underlying factors — such as "management support" and "career development" — that are easier for leadership to act upon than dozens of individual survey items.
-Competency framework validation: Organisational psychologists use Factor Analysis to validate that a set of performance assessment items genuinely measures the distinct underlying competencies they were designed to capture.
-Organisational culture measurement: People analytics teams identify a small number of latent cultural dimensions underlying a broad set of workplace climate survey questions, supporting targeted culture initiatives.
+**Customer segmentation inputs**: Marketing analysts derive a small set of latent behavioural factors from a wide range of purchasing and engagement variables, providing cleaner, less redundant inputs to downstream segmentation models.
 
-🏦 Finance & Economics:
+👥 **Human Resources**:
 
-Macroeconomic indicator summarisation: Economists reduce a large panel of economic indicators — interest rates, inflation measures, employment figures — into a small number of latent factors representing broad economic conditions, used as inputs to forecasting models.
-Investment risk factor modelling: Portfolio managers identify a small number of latent risk factors, such as market risk and credit risk, that explain the co-movement of returns across a large universe of assets, informing portfolio construction and risk management.
-Credit risk construct identification: Lenders reduce a wide range of financial behaviour variables into a smaller number of interpretable underlying risk constructs, supporting more transparent credit policy design.
+**Employee engagement surveys**: HR teams reduce a lengthy engagement questionnaire into a small number of underlying factors — such as "management support" and "career development" — that are easier for leadership to act upon than dozens of individual survey items.
 
-🔬 Science & Social Research:
+**Competency framework validation**: Organisational psychologists use Factor Analysis to validate that a set of performance assessment items genuinely measures the distinct underlying competencies they were designed to capture.
 
-Psychometric test development: Psychologists use Factor Analysis to confirm that a personality or aptitude questionnaire measures the distinct underlying traits it was designed to assess, a foundational step in validating any new measurement instrument.
-Public health survey analysis: Researchers reduce large batteries of lifestyle and health behaviour questions into a smaller number of latent factors, such as "health consciousness", used as predictors in subsequent epidemiological models.
-Educational assessment design: Educational researchers validate that a set of exam or assessment questions genuinely measures the distinct underlying academic skills they were intended to test, supporting fair and valid assessment design.
+**Organisational culture measurement**: People analytics teams identify a small number of latent cultural dimensions underlying a broad set of workplace climate survey questions, supporting targeted culture initiatives.
+
+🏦 **Finance & Economics**:
+
+**Macroeconomic indicator summarisation**: Economists reduce a large panel of economic indicators — interest rates, inflation measures, employment figures — into a small number of latent factors representing broad economic conditions, used as inputs to forecasting models.
+
+**Investment risk factor modelling**: Portfolio managers identify a small number of latent risk factors, such as market risk and credit risk, that explain the co-movement of returns across a large universe of assets, informing portfolio construction and risk management.
+
+**Credit risk construct identification**: Lenders reduce a wide range of financial behaviour variables into a smaller number of interpretable underlying risk constructs, supporting more transparent credit policy design.
+
+🔬 **Science & Social Research**:
+
+**Psychometric test development**: Psychologists use Factor Analysis to confirm that a personality or aptitude questionnaire measures the distinct underlying traits it was designed to assess, a foundational step in validating any new measurement instrument.
+
+**Public health survey analysis**: Researchers reduce large batteries of lifestyle and health behaviour questions into a smaller number of latent factors, such as "health consciousness", used as predictors in subsequent epidemiological models.
+
+**Educational assessment design**: Educational researchers validate that a set of exam or assessment questions genuinely measures the distinct underlying academic skills they were intended to test, supporting fair and valid assessment design.
 
 
 ## Methodology:  
