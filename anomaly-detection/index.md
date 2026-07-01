@@ -24,29 +24,37 @@ This approach offers two significant practical advantages over distance- or dens
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where Isolation Forest provides clear business value include:
 
-🏦 Finance:
+🏦 **Finance**:
 
-Fraud detection: Payment processors flag transactions with unusual combinations of amount, location, and timing for review, without requiring pre-labelled examples of every possible fraud pattern.
-Anti-money laundering monitoring: Compliance teams identify accounts exhibiting transaction patterns that deviate sharply from typical customer behaviour, supporting the detection of previously unseen laundering techniques.
-Market surveillance: Trading venues detect unusual order patterns that may indicate market manipulation, flagging activity that departs from established trading norms for further investigation.
+**Fraud detection**: Payment processors flag transactions with unusual combinations of amount, location, and timing for review, without requiring pre-labelled examples of every possible fraud pattern.
 
-🏭 Manufacturing:
+**Anti-money laundering monitoring**: Compliance teams identify accounts exhibiting transaction patterns that deviate sharply from typical customer behaviour, supporting the detection of previously unseen laundering techniques.
 
-Predictive maintenance: Factories monitor sensor readings from industrial equipment in real time, flagging vibration, temperature, or pressure patterns that isolate quickly from normal operating behaviour as early indicators of impending failure.
-Quality control: Automated inspection systems identify manufactured units with unusual combinations of dimensional or material properties, catching defect types that were never explicitly defined in advance.
-Process monitoring: Process engineers detect abnormal combinations of process parameters on a continuous production line, enabling intervention before an anomaly develops into a costly batch failure.
+**Market surveillance**: Trading venues detect unusual order patterns that may indicate market manipulation, flagging activity that departs from established trading norms for further investigation.
 
-💻 Cybersecurity & Technology:
+🏭 **Manufacturing**:
 
-Network intrusion detection: Security teams identify network traffic exhibiting unusual patterns of volume, protocol, or destination, flagging potential intrusions that do not match any previously catalogued attack signature.
-Account takeover detection: Platforms flag user sessions with login or activity patterns that deviate sharply from an account's established behaviour, supporting early detection of compromised accounts.
-System health monitoring: DevOps teams detect unusual combinations of infrastructure metrics — CPU, memory, latency — that may indicate an emerging system fault before it triggers a full outage.
+**Predictive maintenance**: Factories monitor sensor readings from industrial equipment in real time, flagging vibration, temperature, or pressure patterns that isolate quickly from normal operating behaviour as early indicators of impending failure.
 
-🏥 Healthcare:
+**Quality control**: Automated inspection systems identify manufactured units with unusual combinations of dimensional or material properties, catching defect types that were never explicitly defined in advance.
 
-Patient monitoring: Intensive care systems flag combinations of vital sign readings that deviate sharply from a patient's own baseline, supporting earlier clinical intervention.
-Insurance claims review: Health insurers identify claims with unusual combinations of procedure, cost, and provider characteristics for further review, supporting fraud and billing-error detection.
-Medical device quality assurance: Manufacturers monitor device telemetry data for anomalous readings that may indicate a device malfunction, supporting proactive recall or maintenance decisions.
+**Process monitoring**: Process engineers detect abnormal combinations of process parameters on a continuous production line, enabling intervention before an anomaly develops into a costly batch failure.
+
+💻 **Cybersecurity & Technology**:
+
+**Network intrusion detection**: Security teams identify network traffic exhibiting unusual patterns of volume, protocol, or destination, flagging potential intrusions that do not match any previously catalogued attack signature.
+
+**Account takeover detection**: Platforms flag user sessions with login or activity patterns that deviate sharply from an account's established behaviour, supporting early detection of compromised accounts.
+
+**System health monitoring**: DevOps teams detect unusual combinations of infrastructure metrics — CPU, memory, latency — that may indicate an emerging system fault before it triggers a full outage.
+
+🏥 **Healthcare**:
+
+**Patient monitoring**: Intensive care systems flag combinations of vital sign readings that deviate sharply from a patient's own baseline, supporting earlier clinical intervention.
+
+**Insurance claims review**: Health insurers identify claims with unusual combinations of procedure, cost, and provider characteristics for further review, supporting fraud and billing-error detection.
+
+**Medical device quality assuranc**e: Manufacturers monitor device telemetry data for anomalous readings that may indicate a device malfunction, supporting proactive recall or maintenance decisions.
 
 
 ## Methodology:  
