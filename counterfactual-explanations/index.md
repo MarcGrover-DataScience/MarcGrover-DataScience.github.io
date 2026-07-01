@@ -29,29 +29,37 @@ This distinguishes counterfactual explanations from feature-attribution methods 
 
 This approach is applicable across many sectors and scenarios. Practical examples showing where Counterfactual Explanations provide clear business value include:
 
-🏦 Finance:
+🏦 **Finance**:
 
-Credit decision recourse: A lender tells a declined loan applicant that approval would have followed if their credit utilisation had been reduced by a specific amount, giving the applicant a concrete, achievable path to future approval rather than a vague rejection.
-Insurance premium guidance: An insurer explains to a policyholder the specific behavioural or coverage changes that would reduce their premium, supporting transparent and actionable customer communication.
-Regulatory compliance: Financial institutions use counterfactual explanations to demonstrate to regulators that adverse automated decisions are based on legitimate, actionable factors rather than protected characteristics.
+**Credit decision recourse**: A lender tells a declined loan applicant that approval would have followed if their credit utilisation had been reduced by a specific amount, giving the applicant a concrete, achievable path to future approval rather than a vague rejection.
 
-🏥 Healthcare:
+**Insurance premium guidance**: An insurer explains to a policyholder the specific behavioural or coverage changes that would reduce their premium, supporting transparent and actionable customer communication.
 
-Treatment pathway planning: Clinicians explore which modifiable patient factors — such as blood pressure or medication adherence — would need to change to move a patient out of a high-risk prediction band, informing care planning discussions.
-Preventative care targeting: Public health teams identify the smallest lifestyle interventions that would shift an individual out of a predicted high-risk category, focusing preventative resources on the most impactful, achievable changes.
-Clinical trial eligibility: Researchers determine the minimal changes in patient biomarkers that would alter eligibility classification for a trial, supporting recruitment strategy.
+**Regulatory compliance**: Financial institutions use counterfactual explanations to demonstrate to regulators that adverse automated decisions are based on legitimate, actionable factors rather than protected characteristics.
 
-👥 Human Resources:
+🏥 **Healthcare**:
 
-Hiring feedback: Recruiters give rejected candidates specific, constructive feedback on which qualifications or experience would have changed an automated screening outcome, improving candidate experience and reducing legal exposure.
-Promotion pathway clarity: Employees are shown the specific, achievable performance changes that would alter a predicted promotion-readiness classification, supporting transparent career development.
-Retention intervention design: HR teams identify the minimal, actionable changes — such as workload adjustment — that would shift an employee out of a high flight-risk prediction, informing targeted retention conversations.
+**Treatment pathway planning**: Clinicians explore which modifiable patient factors — such as blood pressure or medication adherence — would need to change to move a patient out of a high-risk prediction band, informing care planning discussions.
 
-🛍️ Retail & Marketing:
+**Preventative care targeting**: Public health teams identify the smallest lifestyle interventions that would shift an individual out of a predicted high-risk category, focusing preventative resources on the most impactful, achievable changes.
 
-Customer retention offers: A subscription business identifies the smallest incentive or service change that would flip a customer's predicted churn outcome, informing cost-effective retention offer design.
-Loan and credit product eligibility: A retail finance provider shows a customer declined for a store credit product the specific change in spending behaviour that would alter their eligibility outcome.
-Marketing eligibility transparency: Customers excluded from a loyalty tier are shown the specific, achievable spending threshold that would include them, supporting transparent programme design.
+**Clinical trial eligibility**: Researchers determine the minimal changes in patient biomarkers that would alter eligibility classification for a trial, supporting recruitment strategy.
+
+👥 **Human Resources**:
+
+**Hiring feedback**: Recruiters give rejected candidates specific, constructive feedback on which qualifications or experience would have changed an automated screening outcome, improving candidate experience and reducing legal exposure.
+
+**Promotion pathway clarity**: Employees are shown the specific, achievable performance changes that would alter a predicted promotion-readiness classification, supporting transparent career development.
+
+**Retention intervention design**: HR teams identify the minimal, actionable changes — such as workload adjustment — that would shift an employee out of a high flight-risk prediction, informing targeted retention conversations.
+
+🛍️ **Retail & Marketing**:
+
+**Customer retention offers**: A subscription business identifies the smallest incentive or service change that would flip a customer's predicted churn outcome, informing cost-effective retention offer design.
+
+**Loan and credit product eligibility**: A retail finance provider shows a customer declined for a store credit product the specific change in spending behaviour that would alter their eligibility outcome.
+
+**Marketing eligibility transparency**: Customers excluded from a loyalty tier are shown the specific, achievable spending threshold that would include them, supporting transparent programme design.
 
 ## Results:
 
