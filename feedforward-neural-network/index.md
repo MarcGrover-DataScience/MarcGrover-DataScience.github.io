@@ -96,9 +96,6 @@ Across every one of these examples, the appeal of the MLP is the same: it remove
 
 **Class imbalance was addressed cleanly at the training stage only.** The pre-resampling training set (25,246 majority / 7,946 minority records) was rebalanced to a full 50/50 split of 25,246 records each via oversampling, while the validation and test sets were left untouched at their natural 76% / 24% distribution throughout.
 
-![Training set class balance before resampling](plot_01_train_class_balance_before.png)
-![Training set class balance after resampling](plot_02_train_class_balance_after.png)
-
 **Test set performance at the default 0.5 threshold** reached a ROC-AUC of 0.9141 and a PR-AUC of 0.7920 — well above the 0.2394 baseline a random classifier would achieve on this imbalanced target. At this threshold, the model achieved 94% precision / 82% recall on the `<=50K` class and 59% precision / 83% recall on the `>50K` class (82% overall accuracy), reflecting the oversampling strategy's effect of pushing the model toward higher recall on the minority class at some cost to its precision.
 
 ![ROC curve on the test set](plot_05_mlp_roc_curve.png)
