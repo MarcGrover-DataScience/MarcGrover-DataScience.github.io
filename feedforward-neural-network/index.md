@@ -111,16 +111,23 @@ Across every one of these examples, the appeal of the MLP is the same: it remove
 
 ![MLP versus Logistic Regression baseline benchmark](plot_09_mlp_vs_logistic_regression_benchmark.png)
 
-
 ## Conclusions:
 
-Conclusions from the project findings and results.
+- **Resolving redundant and low-value features before training paid off directly.** Confirming the clean 1:1 relationship between `education` and `education_num` before dropping the redundant categorical column, and removing the non-informative `fnlwgt` sampling weight, prevented the network from having to learn around duplicated or irrelevant information — a step the tree-based models used elsewhere in this portfolio could safely skip, but an MLP cannot.
+- **The zero-inflation handling strategy proposed in the EDA held up in practice.** Representing `capital_gain` and `capital_loss` as a binary activity flag alongside a scaled continuous amount, rather than passing the raw skewed values directly into a scaler, avoided compressing 91.7% and 95.3% of records respectively into a narrow, uninformative band near zero.
+- **Random oversampling, applied strictly after the data split and after preprocessing was fit, is a sound imbalance strategy when class weighting is unavailable.** It rebalanced the training signal without contaminating the validation set, test set, or the scaler's learned statistics — evidenced by the validation and test sets holding their natural, near-identical class proportions throughout.
+- **Manual early stopping against an untouched validation set was not a formality — it changed the outcome.** Validation ROC-AUC peaked five epochs before the training loop's eventual stopping point, and continued to decline for a further fifteen epochs while training loss kept falling. Relying on training loss alone, or on `MLPClassifier`'s built-in early stopping (which would have drawn its validation split from the already-oversampled training data), would have risked selecting a worse-generalising model.
+- **A neural network is not automatically the right choice, and this project is honest about that.** The MLP beat the Logistic Regression baseline on every metric, but only modestly. For this dataset, a linear model captures most of the available signal in a fraction of the training time and with substantially greater interpretability — a genuinely useful finding in its own right, and a more credible conclusion than assuming added model complexity is inherently worth its cost.
 
 ## Next steps:  
 
-With any analysis it is important to assess how the model and application of the analytical methods can be used and evolved to support the business goals and business decisions and yield tangible benefits.
+This project was designed from the outset as the second step in a three-part EDA → MLP → LIME arc, and the trained model, fitted preprocessor, and held-out test split have been persisted specifically to support that continuation:
 
+- **Model interpretability with LIME.** The next project in this portfolio will use LIME (Local Interpretable Model-agnostic Explanations) to generate individual-level explanations for this network's predictions, using the exported `mlp_model.joblib`, `preprocessor.joblib`, `X_test_raw.csv`, and `y_test.csv` artifacts directly, without repeating any of the cleaning, splitting, or training steps carried out here.
+- **Counterfactual explanations.** A natural companion to LIME, examining the minimal changes to an individual's features that would flip the model's prediction — directly relevant to the credit scoring and loan default use cases discussed in the Application section above.
+- **MLOps.** This project's manual early-stopping loop and artifact export process are a natural starting point for a future MLOps-focused project examining how a model like this would be versioned, monitored, and retrained in a production setting.
+- **Fairness across demographic subgroups.** The EDA's automated profiling flagged high imbalance in `race` and `native_country`; with a trained model now available, a future project could examine whether this network's error rates are consistent across those subgroups, rather than only across the dataset as a whole.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+[View the Python Script](/MLP_v1.py)
