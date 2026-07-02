@@ -63,7 +63,7 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 ## Deep Learning & NLP
 * ### [Zero-shot Classification](/zero-shot-classification/)
 * ### [Image Classification](/image-classification/)
-<!-- * ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/) -->
+* ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
 <!-- * ### [Sentiment Analysis (Transformers)](/sentiment_analysis/) -->
 
 ## Model Interpretability & Explainability
