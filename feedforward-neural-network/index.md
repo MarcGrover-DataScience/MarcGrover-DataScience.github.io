@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Feedforward Neural Network)
+title: Predicting Income Above $50,000 from Census Data (Feedforward Neural Network)
 
 permalink: /feedforward-neural-network/
 
@@ -12,7 +12,18 @@ permalink: /feedforward-neural-network/
 
 ## Goals and objectives:
 
-The business objective is ...
+Every model developed so far in this portfolio's supervised learning section has been tree-based — inherently robust to feature scale, categorical splits, and monotonic transforms. A Feedforward Neural Network (Multi-Layer Perceptron) removes all three of those conveniences at once, and this project is designed to confront that directly rather than gloss over it.
+
+This project builds a binary classifier to predict whether an individual earns more or less than $50,000 per year, using the cleaned UCI Adult Income dataset produced by the [Exploratory Data Analysis project](/exploratory-data-analysis/) earlier in this portfolio. Rather than treating that EDA as a formality to reference and move past, this project deliberately picks up every open item its Next Steps section identified, and resolves each one as an explicit, justified modelling decision.
+
+The specific objectives were to:
+
+- **Resolve the `education` / `education_num` redundancy** flagged but deliberately left unresolved in the EDA, ahead of feeding features into a model where duplicated information is not merely wasteful, as it was for the tree-based models used elsewhere in this portfolio, but can distort the network's learned weights.  
+- **Design an explicit, defensible strategy for the dataset's 76% / 24% class imbalance**, given accuracy alone would be a misleading headline metric on this target, and MLPClassifier's lack of built-in class-weighting support rules out the simplest fix.  
+- **Engineer the zero-inflated `capital_gain` and `capital_loss` features** (91.7% and 95.3% zeros respectively) as a two-part representation, exactly as proposed in the EDA's Next Steps, rather than passing heavily skewed raw values into a scaler.  
+- **Design the training process around a genuine CPU-only constraint** — a modest architecture, sensible batch size, and manual early stopping — rather than discovering the practical limits of a laptop-scale network after the fact.  
+- **Benchmark the network honestly against a simpler linear baseline**, to establish whether its added complexity and training cost are actually justified by a meaningful performance gain on this particular dataset, rather than assuming a neural network is automatically the better choice.
+
 
 ## Application:  
 
