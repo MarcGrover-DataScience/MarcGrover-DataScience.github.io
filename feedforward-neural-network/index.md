@@ -8,8 +8,6 @@ permalink: /feedforward-neural-network/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 Every model developed so far in this portfolio's supervised learning section has been tree-based — inherently robust to feature scale, categorical splits, and monotonic transforms. A Feedforward Neural Network (Multi-Layer Perceptron) removes all three of those conveniences at once, and this project is designed to confront that directly rather than gloss over it.
@@ -77,6 +75,8 @@ Across every one of these examples, the appeal of the MLP is the same: it remove
 3. **Encoding and scaling.** The five remaining numeric features were standardised with `StandardScaler`; the seven categorical features were one-hot encoded with `OneHotEncoder`, expanding the 14 pre-encoding feature columns to 92 model-ready columns. Both were fitted on the training split only, to avoid any leakage of validation or test set statistics into the model.
 
 **Data splitting**: a three-way, stratified 68% / 12% / 20% split into training (33,192 rows), validation (5,858 rows), and test (9,763 rows) sets, rather than the more common two-way split. The validation split exists specifically to support early stopping, and stratification confirmed the target's 76% / 24% balance was preserved near-identically across all three sets (23.94% / 23.93% / 23.94% positive).
+
+**Data splitting**: a three-way, stratified 68% / 12% / 20% split into training (33,192 rows), validation (5,858 rows), and test (9,763 rows) sets, rather than the more common two-way split used elsewhere in this portfolio. A validation set is necessary here specifically because of manual early stopping: checking training progress against the training set itself is misleading, since performance there keeps improving even as the model starts memorising noise rather than learning genuine patterns, while checking against the test set would "spend" it during training and leave no clean, untouched data left to report a final, honest performance figure. The validation set gives early stopping a decision-making sample that is never used to update weights and never touched until training is complete. Stratification confirmed the target's 76% / 24% balance was preserved near-identically across all three sets (23.94% / 23.93% / 23.94% positive).
 
 **Class imbalance**: the training set (23.9% positive) was rebalanced to 50/50 via random oversampling of the minority class, applied *after* the train/validation/test split and *after* the preprocessor was fitted — so neither the validation set, the test set, nor the scaler's learned statistics were affected by any duplicated row. Random oversampling was chosen over two alternatives: `MLPClassifier` has no built-in `class_weight` or `sample_weight` support (unlike the tree-based and linear models used elsewhere in this portfolio), ruling out class weighting directly; and SMOTE was ruled out because, after one-hot encoding, most of the feature space is binary — interpolating between real examples in that space would generate invalid fractional category values.
 
