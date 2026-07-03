@@ -68,7 +68,7 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 
 ## Model Interpretability & Explainability
 * ### [SHAP - SHapley Additive exPlanations](/shap/)
-* ### LIME (Local Interpretable Model-Agnostic Explanations)
+* ### [LIME (Local Interpretable Model-Agnostic Explanations)](/lime/)
 <!-- * ### Partial Dependence Plots -->
 <!-- * ### Counterfactual Explanations -->
 
