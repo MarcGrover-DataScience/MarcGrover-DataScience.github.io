@@ -49,6 +49,7 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Gradient Boosted Trees](/gradient-boosted-trees/)
 * ### [Support Vector Machines (SVM)](/support-vector-machines/)
 * ### [K-Nearest Neighbours](/k-nearest-neighbours/)
+* ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
 
 ## Machine Learning — Unsupervised
 * ### [K-Means Clustering](/k-means-clustering/)
@@ -63,12 +64,11 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 ## Deep Learning & NLP
 * ### [Zero-shot Classification](/zero-shot-classification/)
 * ### [Image Classification](/image-classification/)
-* ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
 <!-- * ### [Sentiment Analysis (Transformers)](/sentiment_analysis/) -->
 
 ## Model Interpretability & Explainability
 * ### [SHAP - SHapley Additive exPlanations](/shap/)
-<!-- * ### LIME (Local Interpretable Model-Agnostic Explanations) -->
+* ### LIME (Local Interpretable Model-Agnostic Explanations)
 <!-- * ### Partial Dependence Plots -->
 <!-- * ### Counterfactual Explanations -->
 
