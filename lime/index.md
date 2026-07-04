@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (LIME)
+title: Explaining Individual Predictions (LIME)
 
 permalink: /lime/
 
