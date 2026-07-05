@@ -69,8 +69,8 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 ## Model Interpretability & Explainability
 * ### [SHAP - SHapley Additive exPlanations](/shap/)
 * ### [LIME (Local Interpretable Model-Agnostic Explanations)](/lime/)
+* ### [Counterfactual Explanations](/counterfactual-explanations/)
 <!-- * ### Partial Dependence Plots -->
-<!-- * ### Counterfactual Explanations -->
 
 ## Data Quality & Validation
 * ### [Exploratory Data Analysis](/exploratory-data-analysis/)
