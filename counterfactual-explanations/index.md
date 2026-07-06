@@ -23,7 +23,6 @@ Reusing the same trained MLP, fitted preprocessor, and test-set artifacts export
 - **Cross-validate DiCE's proposals with an independent, exactly-computable method** — a manual single-axis search along `capital_gain` alone — rather than relying on a single search algorithm's output.
 - **Treat "no counterfactual found" as a legitimate result**, not a failure to hide, wherever the locked regime genuinely cannot flip a case within a realistic search budget.
 
-
 ## Application:  
 
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
