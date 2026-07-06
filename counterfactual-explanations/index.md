@@ -25,11 +25,6 @@ Reusing the same trained MLP, fitted preprocessor, and test-set artifacts export
 
 ## Application:  
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
-
-
-## Methodology:  
-
 Counterfactual explanations address a different and complementary question to most explainability techniques: not "why did the model predict this?", but "what would need to change for the model to predict something else?" A counterfactual explanation identifies the smallest, most plausible change to an individual's input features that would flip the model's prediction to a different, typically more favourable, outcome.
 
 The core principle is one of minimal, actionable perturbation. Given a specific observation and an undesired prediction, a counterfactual search algorithm explores the feature space to find a nearby point — one differing from the original as little as possible, and ideally involving only features the individual could realistically influence — that the model would classify differently. Rather than describing the model's internal reasoning, this approach describes a concrete path from the current outcome to a desired one, framed in terms the affected individual can act upon. Constraints are typically applied during the search to ensure the resulting counterfactual is both plausible, remaining within the realistic bounds of the training data distribution, and actionable, avoiding changes to immutable characteristics such as age or protected attributes.
@@ -69,6 +64,31 @@ This approach is applicable across many sectors and scenarios. Practical example
 **Loan and credit product eligibility**: A retail finance provider shows a customer declined for a store credit product the specific change in spending behaviour that would alter their eligibility outcome.
 
 **Marketing eligibility transparency**: Customers excluded from a loyalty tier are shown the specific, achievable spending threshold that would include them, supporting transparent programme design.
+
+## Methodology:  
+
+The methodology builds directly on the artifacts and case-selection logic established by the MLP and LIME projects, extending them with a purpose-built dual-regime counterfactual search. The project is implemented in Python, using DiCE (`dice-ml`) for counterfactual generation, scikit-learn for the model pipeline, and seaborn/matplotlib for visualisation.
+
+**Reused artifacts and case selection.** The trained MLP, fitted preprocessor, and test-set features/labels exported by the MLP project are loaded unchanged. The two are wrapped into a single `sklearn.pipeline.Pipeline`, requiring no refitting, so that DiCE can query one object that accepts raw 14-column input directly — matching the raw-feature-space approach LIME used for readability. A round-trip check confirms the wrapped pipeline's predictions are identical to computing the two stages separately. The same four cases LIME explained — the most confident true positive, false positive, and false negative, plus the row sitting exactly on the tuned 0.626 decision threshold — are reselected here using LIME's identical selection logic, guaranteeing continuity rather than coincidence.
+
+**Actionable vs. immutable features.** Counterfactual search is restricted to features an individual could plausibly act on: `workclass`, `occupation`, `education_num`, `hours_per_week`, `capital_gain`, `capital_loss`, and their two engineered binary flags. `age`, `race`, `sex`, and `native_country` are excluded as immutable or protected characteristics. `marital_status` and `relationship` are *also* treated as immutable here — a deliberate judgement call, not a hard rule: neither is legally protected in the same way as the features above, but neither is something a loan applicant could realistically act on to change an outcome, and allowing the model to "recommend" changing them would sit poorly against the credit-scoring framing this project uses. A different, equally defensible portfolio might treat these two as actionable; this project states the choice explicitly rather than leaving it implicit.
+
+**Dual-regime search.** Every case is searched twice:
+- **Regime A** — all actionable features free to vary, including `capital_gain`/`capital_loss`.
+- **Regime B** — the same actionable set, but with `capital_gain`, `capital_loss`, and their binary flags locked at the individual's actual values.
+
+Regime B is the direct, falsifiable extension of the LIME finding: if the model's reliance on capital activity is genuinely close to deterministic, Regime B should struggle or fail outright to find a valid counterfactual for cases where those features are doing the work — even with every other actionable feature still available to compensate.
+
+**DiCE configuration.** DiCE's genetic method is used rather than its gradient-based alternative, since the wrapped pipeline includes a `ColumnTransformer` and is not differentiable end-to-end. DiCE's reference distribution is built from the same 9,763-row test set LIME used, for the same reason: only the test split was persisted by the MLP project, and at that size it is a large, representative sample of the population.
+
+**A genuine engineering constraint surfaced during development.** DiCE's genetic method builds its initial population by repeatedly sampling random candidate instances until enough valid ones are found — a loop with no built-in upper bound. Where a flip is genuinely very hard or impossible to reach at random (precisely the scenario Regime B is designed to probe), this loop can run indefinitely with no error raised. Every search is therefore run under a hard wall-clock timeout (90 seconds), enforced via a background thread rather than a signal-based timeout, for portability across the Windows environment this portfolio is developed in. A search that exhausts this budget without finding a valid counterfactual is treated as a legitimate, reportable result — a locked-out search — rather than a bug to be hidden.
+
+**Feature-consistency repair.** `capital_gain`/`capital_loss` and their engineered binary flags (`has_capital_gain`/`has_capital_loss`) are presented to DiCE as independent features, since DiCE has no built-in concept of a derived column. A raw proposal could therefore suggest an internally inconsistent combination — `capital_gain = 5,000` alongside `has_capital_gain = 0`. Every generated counterfactual is repaired post-hoc by recomputing the two flags from the proposed numeric values, and only re-scored through the pipeline afterwards, before being counted as valid. This step turned out to matter substantively, not just defensively — see Results.
+
+**Metrics.** Every valid counterfactual is scored on **validity** (does it actually achieve the opposite predicted class, at the tuned 0.626 threshold, after repair?), **sparsity** (how many actionable features changed), and **proximity** (mean absolute normalised distance, continuous features only — undefined, not zero, where every changed feature was categorical).
+
+**Manual sanity-check.** For each case, `capital_gain` is swept in isolation — holding every other feature, including every other actionable feature, fixed at its actual value — to find the minimum single-axis change that crosses the decision threshold. This answers a narrower, exactly-computable question than DiCE's search, and provides an independent cross-check on whatever DiCE proposes for the same feature under Regime A.
+
 
 ## Results:
 
