@@ -89,18 +89,52 @@ Regime B is the direct, falsifiable extension of the LIME finding: if the model'
 
 **Manual sanity-check.** For each case, `capital_gain` is swept in isolation — holding every other feature, including every other actionable feature, fixed at its actual value — to find the minimum single-axis change that crosses the decision threshold. This answers a narrower, exactly-computable question than DiCE's search, and provides an independent cross-check on whatever DiCE proposes for the same feature under Regime A.
 
-
 ## Results:
 
-Results from the project related to the business objective.
+**The dual-regime search produced a clean, three-way split across the four cases — the clearest possible confirmation of the LIME finding.**
+
+| Case | Regime A (capital free) | Regime B (capital locked) |
+|---|---|---|
+| True Positive (`capital_gain` = 99,999) | Valid CF found in 0.6s | **Timed out after 90s — no valid CF found** |
+| False Positive (`capital_gain` = 34,095) | Valid CF found in 1.2s | **Timed out after 90s — no valid CF found** |
+| False Negative (`capital_gain` = 0) | Valid CF found in 0.8s | **Completed in 2.6s, but 0/5 proposed CFs survived consistency repair** |
+| Borderline Case (`capital_gain` = 0) | Valid CF found in 6.1s | Valid CF found in 0.8s |
+
+![Counterfactual cost by regime](plot_01_regime_comparison_proximity_sparsity.png)
+
+**True Positive and False Positive: the model cannot be flipped without touching capital activity.** For both cases — where `capital_gain` is large and doing the heavy lifting of the original prediction — Regime A finds a valid counterfactual almost immediately (mean sparsity 4.8 and 3.0 features changed respectively, mean proximity 0.64 and 0.24), invariably changing `capital_gain` alongside one or two other features. Regime B, locked out of touching `capital_gain`/`capital_loss` at all, exhausts the full 90-second search budget for both cases without finding a single valid flip. This is not a soft "harder to flip" result — it is a hard, quantified boundary: no combination of `education_num`, `hours_per_week`, `workclass`, and `occupation` alone was sufficient within the search budget to overcome what `capital_gain` alone was contributing.
+
+**False Negative: the consistency-repair step changed the actual finding, not just the code's robustness.** Regime A found four valid counterfactuals easily (mean sparsity 4.75, mean proximity 0.38), each pushing predicted probability to 1.000. Regime B *completed* in 2.6 seconds — it did not time out — but every one of its five proposed counterfactuals failed the post-repair validity check. DiCE's internal validity check evidently passed these proposals using an inconsistent combination of `capital_gain` and its binary flag; once repaired to a consistent state and re-scored, none actually flipped the prediction. Without the repair step, this would have been miscounted as a Regime B success. With it, this case joins the True Positive and False Positive as a third case where Regime B produces no valid counterfactual — for a subtly different reason than a timeout, but the same underlying conclusion.
+
+**Borderline Case: the only case where locking capital activity doesn't matter.** Starting from `capital_gain = 0` and sitting exactly on the 0.626 threshold, this case flips easily under both regimes — Regime A in 6.1 seconds (mean sparsity 1.8), Regime B in 0.8 seconds (mean sparsity 1.6) — almost always via a change to `occupation` alone or in combination with `workclass`. Because every valid counterfactual found for this case changed only categorical features, proximity is genuinely undefined (not zero) for most of them; the one Regime A counterfactual that did touch a continuous feature (`hours_per_week`, alongside `occupation`) shows a proximity of just 0.020 — the cheapest flip found anywhere in this project, consistent with this case already sitting on the boundary in the first place.
+
+**Manual single-axis sanity-check.**
+
+![Manual capital_gain sensitivity](plot_02_manual_capital_gain_sensitivity.png)
+
+Holding every other feature fixed, `capital_gain` alone is swept from each case's actual value toward the opposite class:
+
+- **True Positive**: no value of `capital_gain` in [0, 99,999] flips the prediction alone — consistent with Regime B's inability to flip this case even with every *other* feature free to move; here, not even `capital_gain` in isolation is enough without also changing something else.
+- **False Positive**: `capital_gain` 34,095 → 20,166 flips the prediction alone (a reduction of 13,929) — a specific, independent confirmation of the same feature DiCE's Regime A proposed changing.
+- **False Negative**: `capital_gain` 0 → 12,782 flips the prediction alone (an increase of 12,782).
+- **Borderline Case**: trivially, no value flips it, since the actual value is already 0 and the individual is predicted `>50K` — there is no room to search in either direction along this one axis.
+
+The sensitivity curve above also reveals a sharper, more mechanistic version of the LIME finding. Rather than a smooth ramp, the True Positive's curve shows a sharp drop right at `capital_gain = 0` before recovering: because the swept grid keeps `has_capital_gain` consistent with `capital_gain` throughout, only the single exact `capital_gain = 0` point has the flag at 0 — every other point, however small, has the flag at 1. The result is that the binary flag itself carries a large, near-discontinuous jump in predicted probability right at the zero/non-zero boundary, on top of a smoother response to magnitude above that. LIME's explanations already showed the flag and the numeric value as separately-weighted contributors; this shows how the two compose in practice.
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+- **`capital_gain`/`capital_loss` are not merely influential — for two of the four cases, they are load-bearing in a strict, quantified sense.** The True Positive and False Positive cases cannot be flipped by any combination of the remaining actionable features within a realistic search budget, once capital activity is locked at its actual value. This is a materially stronger claim than LIME's original finding, which showed high contribution magnitude but could not show whether other features could substitute for it.
+- **The False Negative and Borderline cases reveal exactly where that reliance stops applying.** Both start from `capital_gain = 0`. For the Borderline Case, the remaining actionable features are more than sufficient to flip the prediction cheaply in either regime. For the False Negative, Regime A flips it easily by raising `capital_gain`, but Regime B — forced to use only the other actionable features — fails once repaired for consistency, despite DiCE's own internal check initially reporting otherwise.
+- **The consistency-repair step was not a defensive formality — it changed a result.** Had the repaired, re-scored validity check not been applied, the False Negative's Regime B search would have been counted as a success, understating the extent of the model's reliance on capital activity. This is a direct methodological argument for verifying, rather than trusting, what a counterfactual library's own validity flag reports whenever engineered features are involved.
+- **A hard, quantified split emerged across the four cases: three lock out entirely under Regime B (two by timeout, one by failed repair), and only one — the case that started at zero capital activity in the first place — does not.** That asymmetry is the central, falsifiable extension of the LIME project's closing paragraph, and it held up cleanly on the real trained model, not just in principle.
+- **The manual single-axis search corroborates, rather than merely repeats, DiCE's Regime A proposals.** For the False Positive and False Negative cases, the independently-computed minimum `capital_gain` change (13,929 and 12,782 respectively) is consistent with DiCE choosing to change `capital_gain` as part of its own proposed combination — two different search methods pointing at the same feature as decisive.
 
 ## Next steps:  
 
-Next steps based on current results and conclusions from above and suggested follow-up actions, analysis etc.
+- **Extend the dual-regime methodology beyond four hand-picked cases.** This project, like the LIME project before it, deliberately explains a small, representative set of cases rather than the full test set. Running the same Regime A/B search across a larger random sample would establish whether the True Positive/False Positive pattern found here — full lock-out under Regime B — is typical of any individual with substantial capital activity, or specific to these two cases.
+- **MLOps.** The exported artifacts, the wrapped pipeline, and the dual-regime search logic built here are a natural fit for the planned MLOps project, particularly around monitoring whether a deployed model's reliance on a small number of dominant features drifts over time as the underlying population changes.
+- **Anomaly Detection.** The False Positive case — a 19-year-old with 6 years of education and a large `capital_gain` value — is itself an unusual combination of features. A dedicated anomaly detection pass over the test set could identify whether other individuals share this same "atypical profile, dominant capital signal" pattern, and whether they cluster around similarly hard-to-flip Regime B outcomes.
+- **A finer-grained manual search.** The single-axis sanity-check swept `capital_gain` only, per this project's agreed scope. Extending it to a joint `capital_gain`/`capital_loss` grid for cases where both are non-zero would show whether the two features trade off against each other, or whether one alone always dominates the flip.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
