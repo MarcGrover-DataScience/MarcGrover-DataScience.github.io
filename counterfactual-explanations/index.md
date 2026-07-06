@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Counterfactual Explanations)
+title: The Minimal Path to a Different Outcome (Counterfactual Explanations)
 
 permalink: /counterfactual-explanations/
 
@@ -12,7 +12,17 @@ permalink: /counterfactual-explanations/
 
 ## Goals and objectives:
 
-The business objective
+The [LIME project](/lime/) established that the MLP model's decisions rest on a strikingly narrow foundation: across four representative cases, `capital_gain` and `capital_loss` dominated every single explanation, at contribution magnitudes so consistent (+0.65 to +0.69 for `capital_gain`, regardless of which individual was being explained) that the finding looked less like ordinary feature importance and more like near-deterministic reliance on two features out of fourteen.
+
+LIME can show that this reliance exists. It cannot show how far it goes. This project answers the natural follow-up question LIME's own Next Steps section raised: if `capital_gain`/`capital_loss` were locked at an individual's actual values and every *other* actionable feature were free to change, could the model's decision still be flipped — or is the reliance strong enough that no combination of the remaining features can substitute for it?
+
+Reusing the same trained MLP, fitted preprocessor, and test-set artifacts exported by the MLP project — and explaining the identical four cases LIME selected, for direct continuity — the objectives were to:
+
+- **Find the minimal, actionable change to an individual's features that would flip the model's prediction**, using DiCE (Diverse Counterfactual Explanations) as the primary search method, restricted to features an individual could plausibly act on.
+- **Directly stress-test the LIME finding** by searching under two regimes for every case: once with `capital_gain`/`capital_loss` free to vary, and once with them locked at the individual's actual values — turning "these features dominate the explanation" into a falsifiable, quantified claim about whether the model can be flipped *without* them at all.
+- **Cross-validate DiCE's proposals with an independent, exactly-computable method** — a manual single-axis search along `capital_gain` alone — rather than relying on a single search algorithm's output.
+- **Treat "no counterfactual found" as a legitimate result**, not a failure to hide, wherever the locked regime genuinely cannot flip a case within a realistic search budget.
+
 
 ## Application:  
 
@@ -75,4 +85,4 @@ Next steps based on current results and conclusions from above and suggested fol
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+[View the Python Script](/conterfactual_explanations_v1.2.py)
