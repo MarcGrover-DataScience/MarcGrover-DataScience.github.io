@@ -8,8 +8,6 @@ permalink: /counterfactual-explanations/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 The [LIME project](/lime/) established that the MLP model's decisions rest on a strikingly narrow foundation: across four representative cases, `capital_gain` and `capital_loss` dominated every single explanation, at contribution magnitudes so consistent (+0.65 to +0.69 for `capital_gain`, regardless of which individual was being explained) that the finding looked less like ordinary feature importance and more like near-deterministic reliance on two features out of fourteen.
