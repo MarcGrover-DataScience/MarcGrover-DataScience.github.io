@@ -91,7 +91,7 @@ Regime B is the direct, falsifiable extension of the LIME finding: if the model'
 
 ## Results:
 
-**The dual-regime search produced a clean, three-way split across the four cases — the clearest possible confirmation of the LIME finding.**
+The dual-regime search produced a clean, three-way split across the four cases — the clearest possible confirmation of the LIME finding.
 
 | Case | Regime A (capital free) | Regime B (capital locked) |
 |---|---|---|
@@ -132,7 +132,7 @@ The sensitivity curve above also reveals a sharper, more mechanistic version of 
 ## Next steps:  
 
 - **Extend the dual-regime methodology beyond four hand-picked cases.** This project, like the LIME project before it, deliberately explains a small, representative set of cases rather than the full test set. Running the same Regime A/B search across a larger random sample would establish whether the True Positive/False Positive pattern found here — full lock-out under Regime B — is typical of any individual with substantial capital activity, or specific to these two cases.
-- **MLOps.** The exported artifacts, the wrapped pipeline, and the dual-regime search logic built here are a natural fit for the planned MLOps project, particularly around monitoring whether a deployed model's reliance on a small number of dominant features drifts over time as the underlying population changes.
+- **MLOps.** The exported artifacts, the wrapped pipeline, and the dual-regime search logic built here are a natural fit for an MLOps project, particularly around monitoring whether a deployed model's reliance on a small number of dominant features drifts over time as the underlying population changes.
 - **Anomaly Detection.** The False Positive case — a 19-year-old with 6 years of education and a large `capital_gain` value — is itself an unusual combination of features. A dedicated anomaly detection pass over the test set could identify whether other individuals share this same "atypical profile, dominant capital signal" pattern, and whether they cluster around similarly hard-to-flip Regime B outcomes.
 - **A finer-grained manual search.** The single-axis sanity-check swept `capital_gain` only, per this project's agreed scope. Extending it to a joint `capital_gain`/`capital_loss` grid for cases where both are non-zero would show whether the two features trade off against each other, or whether one alone always dominates the flip.
 
