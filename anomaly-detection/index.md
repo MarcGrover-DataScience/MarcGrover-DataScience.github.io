@@ -12,7 +12,13 @@ permalink: /anomaly-detection/
 
 ## Goals and objectives:
 
-The business objective is ...
+The business objective is to demonstrate how an unsupervised anomaly detection model can support fault monitoring in an industrial manufacturing setting, where machine failures are rare, costly, and not reliably predictable using fixed rules or thresholds on individual sensors.
+
+In many real-world manufacturing environments, historical examples of failure are too scarce, too varied in cause, or too poorly labelled to train a reliable supervised classifier. This project simulates that constraint directly: Isolation Forest is trained without access to failure labels, learning to isolate anomalous combinations of sensor readings — air and process temperature, rotational speed, torque, and tool wear — purely from the structure of the data itself. The dataset's true failure labels are withheld from training and used only afterwards, to evaluate how well the unsupervised model's flags align with genuine equipment failures.
+
+A central theme of this project is that the two ways the model can be wrong are not equally costly. A missed anomaly may allow an undetected fault to progress towards unplanned equipment failure and production downtime; a false alert may trigger an unnecessary inspection or intervention, consuming maintenance resource and, if frequent, eroding operator trust in the monitoring system. Rather than treating the model's sensitivity as an arbitrary setting, this project treats the contamination parameter as a business decision, tuned against a stated cost asymmetry between these two outcomes.
+
+This asymmetry also raises a question that extends beyond the model itself: who is accountable when a monitoring system misses a genuine fault, or when it raises an alert that turns out to be unwarranted? This question is explored further in the Ethics in Applied Data Science page, which references this project as a case study in high-stakes automated decision-making.
 
 ## Application:  
 
@@ -60,6 +66,13 @@ This approach is applicable across many sectors and scenarios. Practical example
 ## Methodology:  
 
 Details of the methodology applied in the project.
+
+1 Dataset and Business Context  
+2 Exploratory Data Analysis  
+3 Preprocessing and Feature Preparation  
+4 Model Selection Rationale (why Isolation Forest / why unsupervised)  
+5 Contamination Tuning Against a Cost Function  
+6 Model Training  
 
 ## Results:
 
