@@ -54,7 +54,7 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 **Insurance claims review**: Health insurers identify claims with unusual combinations of procedure, cost, and provider characteristics for further review, supporting fraud and billing-error detection.
 
-**Medical device quality assuranc**e: Manufacturers monitor device telemetry data for anomalous readings that may indicate a device malfunction, supporting proactive recall or maintenance decisions.
+**Medical device quality assurance**: Manufacturers monitor device telemetry data for anomalous readings that may indicate a device malfunction, supporting proactive recall or maintenance decisions.
 
 
 ## Methodology:  
