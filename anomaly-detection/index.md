@@ -78,19 +78,19 @@ Details of the methodology applied in the project.
 
 **Exploratory Data Analysis**
 
-Show Image
+![01_feature_distributions](01_feature_distributions.png)
 
 _Figure 1: Distributions of the five numeric process and sensor readings._ Air and process temperature are both mildly multimodal, rotational speed is right-skewed, torque is approximately normal, and tool wear is close to uniform across its range — consistent with how the AI4I dataset was synthetically generated.
 
-Show Image
+![02_correlation_heatmap](02_correlation_heatmap.png)
 
 _Figure 2: Correlation matrix of the numeric features._ Air and process temperature are strongly correlated (0.88), as expected since process temperature is generated as a small offset above air temperature. More significantly, rotational speed and torque are strongly negatively correlated (−0.88), consistent with the machine holding power roughly constant under normal operation — this relationship directly motivated the power engineered feature described below.
 
-Show Image
+![03_feature_boxplots_by_failure](03_feature_boxplots_by_failure.png)
 
 _Figure 3: Boxplots of each numeric feature, split by true failure status._ Torque and rotational speed show a visible median shift under failure (higher torque, lower speed), but all five features overlap substantially between failed and non-failed observations. No single feature offers a clean separating threshold, motivating a multivariate, isolation-based approach over simple rule-based monitoring.
 
-Show Image
+![04_failure_mode_counts](04_failure_mode_counts.png)
 
 _Figure 4: Frequency of each of the five individual failure modes._ Counts range from 115 (HDF) down to 19 (RNF); failure modes are not mutually exclusive, so a single failed observation can trigger more than one flag. The low counts for several modes, particularly RNF, limit how much confidence can be placed in per-mode detection rates calculated later in this section.
 
@@ -111,7 +111,7 @@ The move from v2 to v3 normalised the overstrain feature by its true, product-Ty
 
 **Contamination Tuning Against Cost Ratios**
 
-Show Image
+![05_cost_curve_contamination_sweep](05_cost_curve_contamination_sweep.png)
 
 _Figure 5: Weighted cost (ratio × missed failures + false alerts) across a swept range of contamination values, for three illustrative cost ratios._ The optimal contamination rises sharply with the assumed cost ratio: 0.030 at 5:1, 0.135 at 10:1, and 0.180 at 20:1. This sixfold shift in operating point, driven by only a fourfold change in assumed relative cost, is the clearest evidence in this project that contamination functions as an encoding of business judgement rather than a purely technical setting — a small change in how costly a missed failure is assumed to be produces a large change in how the model actually behaves in deployment.
 
@@ -119,15 +119,15 @@ The 10:1 ratio was carried forward as the primary evaluation point, reflecting a
 
 **Model Evaluation**
 
-Show Image
+![06_anomaly_score_distribution](06_anomaly_score_distribution.png)
 
 _Figure 6: Distribution of Isolation Forest decision function scores (lower = more anomalous), split by true failure status._ The distribution is genuinely bimodal rather than a single blurred boundary: a distinct left tail, composed almost entirely of true failures, represents cases the model isolates with high confidence. A substantial share of failures nonetheless sits within the main hump shared with normal observations — these are the failures the model is structurally less able to distinguish, discussed further below.
 
-Show Image
+![07_confusion_matrix](07_confusion_matrix.png)
 
 _Figure 7: Confusion matrix of predicted anomaly against actual failure, at the chosen 10:1 operating point._ Of 339 genuine failures, 197 were flagged (true positives) and 142 were missed (false negatives); of 9,661 normal observations, 1,153 were flagged unnecessarily. This corresponds to a recall of 58.1% and precision of 14.6% (F1 = 0.233) — in practical terms, the model catches close to three in five genuine failures, at a cost of fewer than one in six flagged observations actually being a failure.
 
-Show Image
+![08_failure_mode_detection_rates](08_failure_mode_detection_rates.png)
 
 _Figure 8: Detection rate for each of the five individual failure modes._ The pattern closely tracks which failure modes are represented by a dedicated engineered feature: PWF (85.3%) and OSF (85.7%), both with bespoke features (power and overstrain_ratio), are detected far more reliably than TWF (37.0%) and HDF (33.9%), which have no equivalent. RNF's reported 31.6% detection rate should not be read as genuine signal: RNF is defined in the dataset as a 0.1% random failure probability, independent of any process parameter, so no feature-based approach can meaningfully detect it. At this contamination level, roughly a third of all observations are flagged, so RNF's detection rate is best explained by incidental overlap rather than the model having learned anything about random failure.
 
