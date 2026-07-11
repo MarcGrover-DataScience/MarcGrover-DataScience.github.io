@@ -261,8 +261,27 @@ def tune_contamination(X_encoded, y_true, cost_ratios, contamination_grid):
     optimal_contamination = {}
     for ratio in cost_ratios:
         col = f"cost_ratio_{ratio}"
-        best_idx = results_df[col].idxmin()
+
+        # The raw cost curve can be noisy (Isolation Forest's random splits
+        # mean neighbouring contamination values sometimes swap rank by a
+        # small margin), so a lightly smoothed curve is used to select the
+        # optimum rather than the raw argmin, to avoid reporting a false
+        # sense of precision from a shallow, noisy plateau.
+        smoothed = results_df[col].rolling(window=5, center=True, min_periods=1).mean()
+        best_idx = smoothed.idxmin()
         optimal_contamination[ratio] = results_df.loc[best_idx, "contamination"]
+
+        # Warn if the selected optimum sits at either edge of the swept
+        # range, since this indicates the true minimum may lie outside the
+        # grid rather than having genuinely been found.
+        if best_idx in (0, len(results_df) - 1):
+            print(
+                f"  WARNING: optimal contamination for cost ratio {ratio}:1 "
+                f"sits at the edge of the swept range "
+                f"({results_df.loc[best_idx, 'contamination']}). Consider "
+                f"widening contamination_grid to confirm a true minimum "
+                f"has been found."
+            )
 
     # 05: Cost curves across contamination values, one line per cost ratio
     fig, ax = plt.subplots(figsize=(8, 5.5))
@@ -291,7 +310,7 @@ def tune_contamination(X_encoded, y_true, cost_ratios, contamination_grid):
     for ratio in cost_ratios:
         print(
             f"  Cost ratio {ratio}:1 -> optimal contamination = "
-            f"{optimal_contamination[ratio]:.3f}"
+            f"{optimal_contamination[ratio]:.3f} (selected from smoothed cost curve)"
         )
     print()
 
@@ -419,7 +438,7 @@ def main():
     X_encoded = preprocess(X)
 
     cost_ratios = [5, 10, 20]
-    contamination_grid = np.round(np.arange(0.01, 0.16, 0.005), 3)
+    contamination_grid = np.round(np.arange(0.01, 0.26, 0.005), 3)
 
     results_df, optimal_contamination = tune_contamination(
         X_encoded, y["Machine failure"].values, cost_ratios, contamination_grid
