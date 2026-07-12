@@ -65,21 +65,68 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 ## Methodology:  
 
-The four failure modes are:
-* TWF: Tool Wear Failure
-* HDF: Heat Dissipation Failure
-* PWF: Power Failure
-* OSF: Overstrain Failure
-* RNF: Random Failure
+## Methodology:
 
-Details of the methodology applied in the project.
+This project follows six stages, from framing the business problem through to a final trained model. Exploratory Data Analysis is treated as a stage within this Methodology, in keeping with this portfolio's convention, rather than as a standalone section — its findings are reported below and referenced again in Results.
 
-1 Dataset and Business Context  
-2 Exploratory Data Analysis  
-3 Preprocessing and Feature Preparation  
-4 Model Selection Rationale (why Isolation Forest / why unsupervised)  
-5 Contamination Tuning Against a Cost Function  
-6 Model Training  
+Five failure modes are recorded in the AI4I 2020 dataset, and a machine is considered to have failed if at least one of them occurs:
+
+* **TWF** — Tool Wear Failure
+* **HDF** — Heat Dissipation Failure
+* **PWF** — Power Failure
+* **OSF** — Overstrain Failure
+* **RNF** — Random Failure
+
+These five modes provide essential context for the results, charts, and conclusions that follow: several of the engineered features introduced later in this section are built to reflect the specific physical mechanism behind one of these modes, and the per-failure-mode detection rates reported in Results can only be interpreted meaningfully with these definitions in mind.
+
+### 1. Dataset and Business Context
+
+The AI4I 2020 Predictive Maintenance Dataset comprises 10,000 observations from a simulated milling machine, recording air and process temperature, rotational speed, torque, tool wear, and product Type (Low/Medium/High quality variant), alongside the overall `Machine failure` label and the five individual failure-mode flags above. The overall failure rate is 3.39%.
+
+Consistent with the business framing set out in Goals and Objectives, the five subtype flags and the overall `Machine failure` label are withheld from the model during training. Isolation Forest sees only the raw sensor and process features; the true labels are reserved entirely for post-hoc evaluation, mirroring a deployment where reliable historical failure labels cannot be assumed to exist.
+
+### 2. Exploratory Data Analysis
+
+EDA examined the distribution of each numeric feature, the correlation structure between them, and how each feature's distribution shifted under true failure status. Two findings from this stage directly shaped later decisions:
+
+- Rotational speed and torque were found to be strongly negatively correlated (−0.88), consistent with the machine holding power roughly constant under normal operation — motivating an engineered `power` feature (Stage 3).
+- No single feature showed a clean separating threshold between failed and non-failed observations, despite some visible shift in torque and rotational speed medians — supporting the case for a multivariate, isolation-based approach rather than univariate rule-based monitoring.
+
+Full detail and supporting charts for this stage are presented in the Exploratory Data Analysis subsection of Results.
+
+### 3. Preprocessing and Feature Preparation
+
+The categorical `Type` feature was one-hot encoded. No feature scaling was applied: Isolation Forest partitions on raw feature values via random splits rather than computing distances, so — unlike this portfolio's distance-based projects (K-Nearest Neighbours, Support Vector Machines) — scaling confers no methodological benefit here.
+
+Three features were engineered directly from AI4I's documented failure-generating logic, on the reasoning that Isolation Forest can only isolate an interaction between sensors if that interaction is presented to it explicitly, rather than left for random splits to rediscover by chance:
+
+- **`power`** — torque × angular velocity, reflecting the mechanism behind Power Failure (PWF), which occurs when this quantity falls outside an operating band.
+- **`temp_diff`** — process temperature minus air temperature, reflecting the mechanism behind Heat Dissipation Failure (HDF).
+- **`overstrain`**, refined to **`overstrain_ratio`** — tool wear × torque, normalised by the product-Type-specific Overstrain Failure (OSF) threshold (11,000 / 12,000 / 13,000 minNm for Types L / M / H respectively), since OSF is only meaningful relative to this Type-dependent threshold rather than as an absolute figure.
+
+The iterative impact of each of these additions on model performance is reported in the Iterative Feature Engineering subsection of Results.
+
+### 4. Model Selection Rationale
+
+Isolation Forest was chosen over this portfolio's existing tree-ensemble projects (Random Forest, XGBoost) specifically for its unsupervised mechanic: rather than splitting on a known label, it isolates each observation through random feature splits and derives an anomaly score from average path length, on the principle that anomalous points require fewer splits to isolate than normal points. This makes it suited to a deployment setting where no reliable historical failure labels can be assumed to exist — the defining constraint set out in Goals and Objectives.
+
+The `contamination` parameter — the proportion of observations Isolation Forest treats as anomalous — was identified as the key lever governing the trade-off between missed failures and false alerts, and was treated as a business decision rather than a default setting, as detailed in Stage 5.
+
+### 5. Contamination Tuning Against a Cost Function
+
+Rather than fixing `contamination` at a default or arbitrary value, it was tuned by minimising a weighted cost function:
+
+> Cost = (cost ratio × false negatives) + false positives
+
+where the cost ratio expresses how many times more costly a missed failure is assumed to be than an unnecessary alert. This ratio is not derived from real financial figures — for a synthetic dataset, invented monetary costs would not withstand scrutiny — but it is not arbitrary either. It is grounded in a real, qualitative business judgement that a manufacturer would have to make in practice: unplanned equipment failure typically carries costs — lost production time, expedited repairs, potential safety implications — that substantially exceed the cost of a maintenance team investigating a machine that turns out to be operating normally. This qualitative asymmetry is what justifies treating missed failures as more costly throughout this project, without needing to claim a specific number that the AI4I dataset cannot support.
+
+Three illustrative cost ratios were swept — 5:1, 10:1, and 20:1 — to examine how sensitive the resulting operating point is to this business judgement, rather than committing to a single assumed ratio in isolation. This sensitivity analysis, and its result, are reported in the Contamination Tuning subsection of Results; the 10:1 ratio was carried forward as the primary evaluation point, reflecting an assumption that a missed failure is meaningfully, but not extremely, more costly than an unnecessary inspection.
+
+This is what elevates the project beyond a purely academic tuning exercise: the choice of operating point is framed explicitly as a business decision with real operational consequences, made transparently and revisited under multiple assumptions, rather than a single hyperparameter value reported without justification.
+
+### 6. Model Training
+
+The final Isolation Forest model was trained on the full, engineered feature set using the contamination value selected in Stage 5. Consistent with this portfolio's conventions, `RANDOM_STATE = 42` was fixed throughout for reproducibility, and `n_estimators = 200` was used across all contamination sweeps and the final model to ensure a like-for-like comparison at every stage.
 
 ## Results:
 
@@ -140,7 +187,7 @@ _Figure 7: Confusion matrix of predicted anomaly against actual failure, at the 
 
 ![08_failure_mode_detection_rates](08_failure_mode_detection_rates.png)
 
-_Figure 8: Detection rate for each of the five individual failure modes._ The pattern closely tracks which failure modes are represented by a dedicated engineered feature: PWF (85.3%) and OSF (85.7%), both with bespoke features (power and overstrain_ratio), are detected far more reliably than TWF (37.0%) and HDF (33.9%), which have no equivalent. RNF's reported 31.6% detection rate should not be read as genuine signal: RNF is defined in the dataset as a 0.1% random failure probability, independent of any process parameter, so no feature-based approach can meaningfully detect it. At this contamination level, roughly a third of all observations are flagged, so RNF's detection rate is best explained by incidental overlap rather than the model having learned anything about random failure.
+_Figure 8: Detection rate for each of the five individual failure modes._ The pattern closely tracks which failure modes are represented by a dedicated engineered feature: PWF (85.3%) and OSF (85.7%), both with bespoke features (power and overstrain_ratio), are detected far more reliably than TWF (37.0%) and HDF (33.9%), which have no equivalent. RNF's reported 31.6% detection rate warrants particular caution: cross-checking the 19 rows flagged RNF=1 against the dataset's overall Machine failure label shows that 18 of these 19 are not otherwise recorded as failures at all — a known inconsistency in the widely-distributed AI4I2020.csv file. This is discussed further in the Conclusions.
 
 Taken together, these results indicate that Isolation Forest's effectiveness in this setting was driven substantially by how well each failure mechanism was represented in the feature space — a finding with direct implications for the Conclusions that follow.
 
