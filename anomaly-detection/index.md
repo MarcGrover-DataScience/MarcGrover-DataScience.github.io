@@ -65,6 +65,13 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 ## Methodology:  
 
+The four failure modes are:
+* TWF: Tool Wear Failure
+* HDF: Heat Dissipation Failure
+* PWF: Power Failure
+* OSF: Overstrain Failure
+* RNF: Random Failure
+
 Details of the methodology applied in the project.
 
 1 Dataset and Business Context  
