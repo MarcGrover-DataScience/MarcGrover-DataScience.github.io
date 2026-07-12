@@ -105,14 +105,18 @@ _Figure 4: Frequency of each of the five individual failure modes._ Counts range
 
 Three versions of the feature set were evaluated, each built on evidence from the previous version's results rather than speculative tuning:
 
-```
-Version     Feature set                           Recall   Precision  F1
-v1          Raw sensor readings only              14.2%    19.2%      0.163
-v2          + power, temp_diff, overstrain        26.3%    19.8%      0.226
-v3 (final)  + overstrain_ratio (Type-normalised)  58.1%    14.6%      0.233
-```
+| Version | Feature set | Recall | Precision | F1 |
+|---|---|---|---|---|
+| v1 | Raw sensor readings only | 14.2% | 19.2% | 0.163 |
+| v2 | + `power`, `temp_diff`, `overstrain` | 26.3% | 19.8% | 0.226 |
+| v3 (final) | + `overstrain_ratio` (Type-normalised) | 58.1% | 14.6% | 0.233 |
 
-The move from v1 to v2 added three features reflecting the physical mechanisms behind AI4I's failure modes — power (torque × angular velocity), temp_diff (process minus air temperature), and overstrain (tool wear × torque) — on the reasoning that Isolation Forest can only isolate an interaction between sensors if that interaction is presented to it directly, rather than left for random splits to rediscover. This raised recall from 14.2% to 26.3% while precision held broadly steady, confirming a genuine improvement rather than a shift along the same precision–recall trade-off.
+The move from v1 to v2 added three features reflecting the physical mechanisms behind AI4I's failure modes:  
+* power (torque × angular velocity)  
+* temp_diff (process minus air temperature)  
+* overstrain (tool wear × torque)  
+
+These were added on the reasoning that Isolation Forest can only isolate an interaction between sensors if that interaction is presented to it directly, rather than left for random splits to rediscover. This raised recall from 14.2% to 26.3% while precision held broadly steady, confirming a genuine improvement rather than a shift along the same precision–recall trade-off.
 
 The move from v2 to v3 normalised the overstrain feature by its true, product-Type-specific threshold (11,000 / 12,000 / 13,000 minNm for Types L / M / H respectively, per AI4I's documented generating logic), since overstrain failure is only meaningful relative to that Type-dependent threshold. This nearly doubled OSF detection (see per-mode breakdown below) and, combined with the contamination sweep re-optimising to a higher value once the model could better isolate genuine outliers, lifted overall recall to 58.1% — at a corresponding cost to precision, discussed further below.
 
