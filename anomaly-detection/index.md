@@ -8,8 +8,6 @@ permalink: /anomaly-detection/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 The business objective is to demonstrate how an unsupervised anomaly detection model can support fault monitoring in an industrial manufacturing setting, where machine failures are rare, costly, and not reliably predictable using fixed rules or thresholds on individual sensors.
