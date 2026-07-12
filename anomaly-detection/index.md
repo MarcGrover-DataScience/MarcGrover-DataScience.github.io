@@ -144,14 +144,17 @@ _Figure 8: Detection rate for each of the five individual failure modes._ The pa
 
 Taken together, these results indicate that Isolation Forest's effectiveness in this setting was driven substantially by how well each failure mechanism was represented in the feature space — a finding with direct implications for the Conclusions that follow.
 
-
-
-
-
-
 ## Conclusions:
 
-Conclusions from the project findings and results.
+This project set out to demonstrate how an unsupervised anomaly detector can support fault monitoring in a manufacturing setting where reliable historical failure labels cannot be assumed at deployment time. Isolation Forest was trained without access to the AI4I dataset's failure labels, with those labels reserved purely for post-hoc validation — and on that basis, the model succeeds in a meaningful but bounded way: at the chosen 10:1 cost-ratio operating point, it recovers 58.1% of genuine failures, at a cost of roughly six false alerts for every genuine one caught.
+
+**Feature engineering mattered more than model tuning.** The single largest driver of improvement across this project was not the choice of contamination or cost ratio, but whether a failure mechanism was explicitly represented in the feature space. Power failure and overstrain failure, both given dedicated engineered features grounded in AI4I's documented generating logic, were detected at 85.3% and 85.7% respectively — compared with 33.9% and 37.0% for heat dissipation and tool wear failure, which had no equivalent bespoke feature. This is a more instructive finding than any single accuracy figure: Isolation Forest can only isolate an interaction between sensors if that interaction is placed in front of it, and random splits over raw readings should not be expected to rediscover physically meaningful relationships on their own.
+
+**Contamination is a business decision, not a technical default.** The tuning exercise showed the "optimal" contamination shifting from 0.030 to 0.180 as the assumed cost ratio moved from 5:1 to 20:1 — a sixfold change in deployed behaviour driven by a fourfold change in an assumption about relative cost. Whoever sets that ratio in a real deployment is making a consequential decision about how the system trades off missed failures against unnecessary interventions, not selecting a hyperparameter. This connects directly to the accountability question raised on the Ethics in Applied Data Science page: a monitoring system's behaviour is only as defensible as the judgement behind its threshold, and that judgement deserves the same scrutiny as the model itself.
+
+**Some failures cannot be detected by construction.** RNF is defined in the AI4I dataset as a fixed 0.1% random failure probability, independent of every process parameter measured. No amount of feature engineering, contamination tuning, or model selection can improve detection of a failure mode with no signal in the data — its apparent 31.6% "detection rate" at the chosen operating point reflects the sheer volume of observations flagged at that contamination level, not genuine recognition. This is a useful, concrete illustration for high-stakes deployment more broadly: knowing which categories of failure a system is structurally incapable of catching is part of responsible deployment, not a gap to be quietly tuned away.
+
+**Limitations.** Contamination was tuned and the model evaluated on the full dataset rather than a held-out split, a deliberate choice given how thin some failure modes are (as few as 19 observations for RNF) — but this means the reported recall and precision reflect in-sample performance, and a genuine test of generalisation to unseen sensor readings remains untested here. The cost ratios used throughout (5:1, 10:1, 20:1) are illustrative rather than derived from real operational costs, in keeping with the decision to avoid fabricated financial figures that would not withstand scrutiny; a genuine deployment would need to ground this ratio in real maintenance and downtime costs specific to the plant in question.
 
 ## Next steps:  
 
