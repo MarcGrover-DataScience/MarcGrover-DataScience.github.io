@@ -62,9 +62,6 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 **Medical device quality assurance**: Manufacturers monitor device telemetry data for anomalous readings that may indicate a device malfunction, supporting proactive recall or maintenance decisions.
 
-
-## Methodology:  
-
 ## Methodology:
 
 This project follows six stages, from framing the business problem through to a final trained model. Exploratory Data Analysis is treated as a stage within this Methodology, in keeping with this portfolio's convention, rather than as a standalone section — its findings are reported below and referenced again in Results.
