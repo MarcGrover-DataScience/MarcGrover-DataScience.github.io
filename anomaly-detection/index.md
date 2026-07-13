@@ -62,7 +62,7 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 ## Methodology:
 
-This project follows six stages, from framing the business problem through to a final trained model. Exploratory Data Analysis is treated as a stage within this Methodology, in keeping with this portfolio's convention, rather than as a standalone section — its findings are reported below and referenced again in Results.
+This project follows six stages, from framing the business problem through to a final trained model. 
 
 Five failure modes are recorded in the AI4I 2020 dataset, and a machine is considered to have failed if at least one of them occurs:
 
