@@ -87,7 +87,7 @@ This is a maintained, live data product rather than a one-time export. Two updat
 
 **Application Build and Deployment**:
 
-The application is built as a multi-page Streamlit app, with one page per analytical theme (Overview, Best Times, Distance, Quality, Races, and Geography), each using filters scoped to that page rather than a single global filter state. Charting is done in Plotly throughout, chosen for its native interactivity — hover detail, zoom, and legend toggling — over static image-based charts. The full deployment pipeline runs from local development in PyCharm, through version control on GitHub, to public hosting on Streamlit Community Cloud, with the live application and full source code both publicly accessible.
+The application is built as a multi-page Streamlit app, with one page per analytical theme (Overview, Best Times, Distance, Quality, Races, and Geography), each using filters scoped to that page rather than a single global filter state. Charting is done in Plotly throughout, chosen for its native interactivity — hover detail, zoom, and legend toggling — over static image-based charts. The full deployment pipeline runs from local development in PyCharm, through version control on GitHub, to public hosting on Streamlit Community Cloud, with the live application and full source code both publicly accessible. 
 
 **Accessibility-Aware Design**:
 
