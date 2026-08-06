@@ -77,8 +77,8 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Exploratory Data Analysis](/exploratory-data-analysis/)
 * ### [Great Expectations (Validation)](/great-expectations/)
 
-<!-- ## Analytics Visualisation -->
-<!-- * ### Running Analytics -->
+## Analytics Visualisation
+* ### [Running Analytics](/running-analytics/)
 
 <!-- * ### MLOps -->
 
