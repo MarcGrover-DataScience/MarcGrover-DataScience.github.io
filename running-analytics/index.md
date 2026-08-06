@@ -1,10 +1,12 @@
 ---
+
+layout: default
+
 title: Running Performance Analytics Dashboard
+
+permalink: /running-analytics/
+
 ---
-
-# Running Performance Analytics Dashboard
-
-## Turning data into decisions — applied Machine Learning, Deep Learning and Statistical Analysis
 
 ## Goals and objectives:
 
@@ -30,27 +32,27 @@ This approach is applicable across many sectors and scenarios. Practical example
 
 🏭 **Manufacturing & Operations**:
 
-**Production Monitoring**: Plant managers track output volume, defect rate, and machine uptime against target on a live shift-by-shift dashboard, rather than waiting for an end-of-week report.
-**Quality Trend Tracking**: Quality teams monitor a rolling average of defect or rework rates over time, surfacing gradual process drift long before it becomes a formal non-conformance.
-**Maintenance Scheduling**: Engineering teams track equipment runtime and service intervals across a fleet of machines, flagging units approaching their next scheduled maintenance window.
+**Production Monitoring**: Plant managers track output volume, defect rate, and machine uptime against target on a live shift-by-shift dashboard, rather than waiting for an end-of-week report.  
+**Quality Trend Tracking**: Quality teams monitor a rolling average of defect or rework rates over time, surfacing gradual process drift long before it becomes a formal non-conformance.  
+**Maintenance Scheduling**: Engineering teams track equipment runtime and service intervals across a fleet of machines, flagging units approaching their next scheduled maintenance window.  
 
 💰 **Finance & Spend Analytics**:
 
-**Budget vs Actual Tracking**: Finance teams monitor departmental spend against budget in real time, with drill-down from monthly totals to individual transaction categories.
-**Cash Flow Monitoring**: Treasury teams track incoming and outgoing cash positions on a rolling basis, identifying seasonal patterns and flagging unusual month-on-month movements.
-**Expense Category Analysis**: Procurement teams break down spend by supplier and category over time, identifying where consolidation or renegotiation would have the greatest impact.
+**Budget vs Actual Tracking**: Finance teams monitor departmental spend against budget in real time, with drill-down from monthly totals to individual transaction categories.  
+**Cash Flow Monitoring**: Treasury teams track incoming and outgoing cash positions on a rolling basis, identifying seasonal patterns and flagging unusual month-on-month movements.  
+**Expense Category Analysis**: Procurement teams break down spend by supplier and category over time, identifying where consolidation or renegotiation would have the greatest impact.  
 
 📈 **Sales & Marketing**:
 
-**Pipeline and Conversion Tracking**: Sales leaders monitor deal volume, conversion rate, and average deal size across a rolling period, comparing current performance against historical trends.
-**Campaign Performance**: Marketing teams track engagement and conversion metrics by channel and campaign over time, reallocating spend towards what is currently working.
-**Territory Performance Comparison**: Regional managers compare performance metrics across territories or stores, using heat-map style views to identify strong and weak performers at a glance.
+**Pipeline and Conversion Tracking**: Sales leaders monitor deal volume, conversion rate, and average deal size across a rolling period, comparing current performance against historical trends.  
+**Campaign Performance**: Marketing teams track engagement and conversion metrics by channel and campaign over time, reallocating spend towards what is currently working.  
+**Territory Performance Comparison**: Regional managers compare performance metrics across territories or stores, using heat-map style views to identify strong and weak performers at a glance.  
 
 🚚 **Logistics & Supply Chain**:
 
-**Delivery Performance Tracking**: Logistics teams monitor on-time delivery rate and average transit time over rolling periods, identifying routes or carriers whose performance is degrading.
-**Inventory Level Monitoring**: Warehouse teams track stock levels and turnover rates by product category, flagging categories trending towards stock-out or overstock.
-**Route and Volume Analysis**: Distribution planners visualise shipment volume and distance by region over time, informing decisions about depot placement and route consolidation.
+**Delivery Performance Tracking**: Logistics teams monitor on-time delivery rate and average transit time over rolling periods, identifying routes or carriers whose performance is degrading.  
+**Inventory Level Monitoring**: Warehouse teams track stock levels and turnover rates by product category, flagging categories trending towards stock-out or overstock.  
+**Route and Volume Analysis**: Distribution planners visualise shipment volume and distance by region over time, informing decisions about depot placement and route consolidation.  
 
 Every one of these examples follows the same underlying pattern demonstrated in this project: a recurring, messy operational data source; a defined pipeline that transforms it into a trustworthy metric layer; and an interactive, publicly or internally accessible interface that lets a non-technical stakeholder explore current and historical performance without needing to ask an analyst to pull a fresh report.
 
@@ -99,7 +101,7 @@ The application is publicly live at **[running-analytics.streamlit.app](https://
 
 The Overview page gives an at-a-glance summary across three time horizons — current month, rolling year, and all time — covering distance, average and maximum Run Quality, run count, average pace, and total time, alongside a Personal Bests and Favourite Runs summary.
 
-![overview_kpis](Overview KPIs.jpg)
+![overview_kpis](Overview_KPIs.jpg)
 
 A second tab, Recent Running Profile, narrows the focus to recent training load — past month and past year — including a distance-range breakdown and a long-run tracker showing how many runs have exceeded key distance thresholds.
 
@@ -109,33 +111,33 @@ A second tab, Recent Running Profile, narrows the focus to recent training load 
 
 The Distance page examines how run distance has evolved over the full seventeen-year history. The monthly distance trend, together with a four-month moving average, smooths out week-to-week noise and makes the longer-term training pattern — including a clear step-change in volume from 2012 onwards — much easier to read than the raw monthly figures alone.
 
-![monthly_distance_trend](https://marcgrover-datascience.github.io/running-analytics/monthly-distance-trend.png)
+![monthly_distance_trend](Monthly_Distance.jpg)
 
 A distance-range distribution view, filterable by year, shows the shape of training volume within a given year — in this case confirming that the 10–12km range is the most frequently run distance band in 2026.
 
-![run_distribution](https://marcgrover-datascience.github.io/running-analytics/run-distribution.png)
+![run_distribution](Run_Distribution.jpg)
 
 A year-by-distance-band heat map gives a compact, colour-encoded view of how the distance profile of training has shifted year on year — for example, the clear concentration of shorter runs in 2020, contrasted with a more even spread across longer distances in recent years.
 
-![distance_heatmap](https://marcgrover-datascience.github.io/running-analytics/distance-heatmap.png)
+![distance_heatmap](Distance_Heatmap.jpg)
 
 **Quality**:
 
 The Quality page tracks the custom Run Quality metric over time, again with both a monthly view and a four-month rolling average to separate genuine trend from short-term noise. The rolling average view in particular makes multi-year form cycles visible — periods of sustained improvement followed by plateaus or dips — in a way that would be very difficult to read from the raw monthly figures.
 
-![monthly_quality_trend](https://marcgrover-datascience.github.io/running-analytics/monthly-quality-trend.png)
+![monthly_quality_trend](Monthly_Quality.jpg)
 
 **Geography**:
 
 The Geography page breaks running activity down by location. The Ireland view shown below tracks run count and total distance by year for runs completed in Ireland, illustrating how the page supports geographic as well as purely time-based analysis of the underlying data.
 
-![ireland_runs](https://marcgrover-datascience.github.io/running-analytics/ireland-runs.png)
+![ireland_runs](Ireland.jpg)
 
 **Data Entry (local-only)**:
 
 The Log New Run form, visible only in the local development build, captures date, run type, location, distance, time, country, and family-run status for a new run, and feeds directly into the same transformation pipeline used for the historical dataset — so newly logged runs are immediately consistent with, and comparable against, seventeen years of prior history.
 
-![log_new_run](https://marcgrover-datascience.github.io/running-analytics/log-new-run.png)
+![log_new_run](Log_New_Run.jpg)
 
 Two further pages — Best Times and Races — are also live on the deployed application, covering personal-best progression across seven standard distances and race-specific performance respectively.
 
