@@ -99,11 +99,11 @@ The application is publicly live at **[running-analytics.streamlit.app](https://
 
 The Overview page gives an at-a-glance summary across three time horizons — current month, rolling year, and all time — covering distance, average and maximum Run Quality, run count, average pace, and total time, alongside a Personal Bests and Favourite Runs summary.
 
-![overview_kpis](/Overview KPIs.jpg)
+![overview_kpis](Overview KPIs.jpg)
 
 A second tab, Recent Running Profile, narrows the focus to recent training load — past month and past year — including a distance-range breakdown and a long-run tracker showing how many runs have exceeded key distance thresholds.
 
-![recent_running_profile](https://marcgrover-datascience.github.io/running-analytics/recent-running-profile.png)
+![recent_running_profile](Recent_Running_Profile.jpg)
 
 **Distance**:
 
