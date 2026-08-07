@@ -12,7 +12,7 @@ permalink: /running-analytics/
 
 ## Goals and objectives:
 
-The business objective
+The business objective - test
 
 ## Application:  
 
