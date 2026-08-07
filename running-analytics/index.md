@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Running Performance Analytics Dashboard
+title: Running Analytics Suite
 
 permalink: /running-analytics/
 
