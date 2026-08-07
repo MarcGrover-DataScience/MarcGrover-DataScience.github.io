@@ -12,7 +12,7 @@ permalink: /running-analytics/
 
 The other projects in this portfolio demonstrate applied machine learning and statistical analysis through static, notebook-style Seaborn and Matplotlib outputs. This project is deliberately different in kind rather than degree: its objective is to demonstrate interactive dashboard design and public application deployment — a distinct and equally business-critical analytics capability, and one that no other project in this portfolio currently covers.
 
-The dataset happens to be personal — seventeen years of self-logged running activity, comprising 3,559 individual runs recorded in an Excel workbook since 2009 — but the dataset is the vehicle, not the point. The same requirements-driven design process used here — turning a raw, messy, manually maintained spreadsheet into a validated data model, a repeatable transformation pipeline, and a live, multi-page analytical application — is directly transferable to the operational dashboards that underpin day-to-day decision-making in business: performance tracking, spend analytics, manufacturing monitoring, sales reporting, and similar recurring-metric use cases.
+The dataset happens to be personal — seventeen years of self-logged running activity, comprising over 3,500 individual runs recorded in an Excel workbook since 2009 (at the time of initial deployment) — but the dataset is the vehicle, not the point. The same requirements-driven design process used here — turning a raw, messy, manually maintained spreadsheet into a validated data model, a repeatable transformation pipeline, and a live, multi-page analytical application — is directly transferable to the operational dashboards that underpin day-to-day decision-making in business: performance tracking, spend analytics, manufacturing monitoring, sales reporting, and similar recurring-metric use cases.
 
 The specific objectives of the project are to:
 
@@ -73,25 +73,27 @@ A central piece of analytical work in this project is the design of a custom Run
 Run Quality = Running Speed (km/hr) / (−1.407 × LN(Run Distance) + 17.771)
 ```
 
-The denominator is a log-distance-normalised expected-maximum-pace model, derived from the runner's own historical performance curve, giving an expected achievable speed for any given distance. Run Quality then expresses actual performance as a percentage of that expectation, allowing a 5km run and a half-marathon to be compared on a like-for-like basis. This is the same class of problem faced constantly in business analytics — comparing performance fairly across units that differ in scale, whether that's stores of different footfall, machines of different throughput capacity, or sales territories of different size — and the solution follows the same principle: normalise against an expected baseline rather than comparing raw figures directly.
+The denominator is a log-distance-normalised expected-maximum-pace model, derived from the runner's own historical performance curve, giving an expected optimal achievable speed for any given distance - which was based on personal bests for standard race lengths as of 2020. Run Quality then expresses actual performance as a percentage of that expectation, allowing a 5km run and a half-marathon to be compared on a like-for-like basis. This is the same class of problem faced constantly in business analytics — comparing performance fairly across units that differ in scale, whether that's stores of different footfall, machines of different throughput capacity, or sales territories of different size — and the solution follows the same principle: normalise against an expected baseline rather than comparing raw figures directly.
 
 **Custom Metric Design — Form and Consistency**:
 
-Run Quality answers a per-run question: how good was this specific run against an expected baseline for its distance. It does not, on its own, answer a different and equally important question: how is training going over a period, and how stable is that performance from run to run. Two further derived metrics — Form and Consistency — were designed specifically to answer that period-level question, calculated across a set of runs (a calendar month, in the live application) rather than derived from any single run.
+**Run Quality** answers a per-run question: how good was this specific run against an expected baseline for its distance. It does not, on its own, answer a different and equally important question: how is training going over a period, and how stable is that performance from run to run. Two further derived metrics — Form and Consistency — were designed specifically to answer that period-level question, calculated across a set of runs (a calendar month, in the live application) rather than derived from any single run.
 
-Form rescales a period's mean Run Quality onto a more interpretable 0–10 scale. Mean Run Quality naturally clusters tightly — typically in a roughly 0.87–0.92 range — which makes small, genuinely meaningful shifts in form hard to read directly off the raw percentage. Form addresses this by anchoring to an empirically-derived floor and spreading the meaningful range across the full scale:
+**Form** rescales a period's mean Run Quality onto a more interpretable 0–10 scale. Mean **Run Quality** naturally clusters tightly — typically in a roughly 0.86–0.92 range — which makes small, genuinely meaningful shifts in form hard to read directly off the raw percentage. **Form** addresses this by anchoring to an empirically-derived floor and spreading the meaningful range across the full scale:
 
 ```
 Form = MIN(MAX(Average Run Quality − 0.82, 0), 0.1) × 100
 ```
 
-Consistency measures the spread of Run Quality across the individual runs within a period, using the coefficient of variation (standard deviation ÷ mean) of Run Quality — a distribution-shape measure that, unlike Run Quality itself, can only be calculated across multiple runs rather than one. The coefficient of variation is then bucketed into five qualitative bands (Very Low through Very High) rather than presented as a raw statistic, favouring interpretability for a non-technical dashboard user over statistical precision. A companion Form Difference figure — the change in Form from one period to the next — surfaces improving or declining periods directly, rather than requiring the reader to compare two numbers by eye.
+A companion **Form Difference** figure — the change in Form from one period to the next — surfaces improving or declining periods directly, rather than requiring the reader to compare two numbers by eye.
 
-Both metrics are deliberately scoped to a medium-term period. Over a single month, they capture a genuinely coherent "spell" of training — averaging out normal day-to-day and run-to-run noise while still describing one identifiable period of form. Applied over a much longer window — six months or a year — the same calculation becomes progressively less meaningful: it starts averaging across multiple genuinely different training phases (a base-building block, a taper, an injury layoff, a race build-up), and the resulting single figure no longer describes one coherent period a reader can reason about. This is a deliberate scope decision rather than a shortcoming discovered after the fact — Form and Consistency are period-level metrics, not all-time ones, and the application currently surfaces them at the monthly grain accordingly.
+**Consistency** measures the spread of Run Quality across the individual runs within a period, using the coefficient of variation (standard deviation ÷ mean) of Run Quality — a distribution-shape measure that, unlike Run Quality itself, can only be calculated across multiple runs rather than one. The coefficient of variation is then bucketed into five qualitative bands (Very Low through Very High) rather than presented as a raw statistic, favouring interpretability for a non-technical dashboard user over statistical precision. 
+
+Both metrics are deliberately scoped to a medium-term period. Over a single month, they capture a genuinely coherent "spell" of training — averaging out normal day-to-day and run-to-run noise while still describing one identifiable period of form. Applied over a much longer window — six months or a year — the same calculation becomes progressively less meaningful: it starts averaging across multiple genuinely different training phases (a base-building block, a taper, an injury layoff, a race build-up, natural seasonality), and the resulting single figure no longer describes one coherent period a reader can reason about. This is a deliberate scope decision rather than a shortcoming discovered after the fact — **Form** and **Consistency** are period-level metrics, not all-time ones, and the application currently surfaces them at the monthly grain accordingly.
 
 **Ingestion and Transformation Pipeline**:
 
-A Python/pandas ingestion script transforms the raw Excel source into a Parquet file, which serves as the application's single source of truth, alongside a formatted Excel export used as a human-readable backup and validation artefact. All calculation logic — including the Run Quality formula and other derived fields — lives in a single shared transformation module, used by both the ingestion script and the live application, so that a metric definition only ever exists in one place. Reference data such as valid run locations, countries, run types, and personal-best distances is held in a separate, version-controlled reference workbook, read directly by the application, so that dropdown lists and lookup values can be maintained without any code change.
+A Python/pandas ingestion script transforms the historical raw Excel source into a Parquet file, which serves as the application's single source of truth, alongside a formatted Excel export used as a human-readable backup and validation artefact. All calculation logic — including the Run Quality formula and other derived fields — lives in a single shared transformation module, used by both the ingestion script and the live application, so that a metric definition only ever exists in one place. Reference data such as valid run locations, countries, run types, and personal-best distances is held in a separate, version-controlled reference workbook, read directly by the application, so that dropdown lists and lookup values can be maintained without any code change.  The ingestion script was used prior to the initial release of the Analytics Suite, but no longer actively used as superceded by a new input mechanism, and all historical runs are logged in the Parquet file.
 
 **Ongoing Data Lifecycle**:
 
@@ -106,11 +108,11 @@ The application is built as a multi-page Streamlit app, with one page per analyt
 
 **Accessibility-Aware Design**:
 
-Two design choices were made deliberately to support accessible use of the dashboard, rather than as a pure aesthetic preference. First, both a dark and a light theme are explicitly defined, so that Streamlit's built-in theme toggle remains fully on-brand in either mode rather than defaulting to an unstyled light theme. Second, the colour palette (green, blue, and grey) was deliberately chosen to avoid the classic red-green colourblind failure case common in dashboard design. These choices support WCAG-aligned practices; a formal colourblind-simulator audit of the palette has not yet been carried out and is noted honestly as a Next Steps item rather than claimed as a completed compliance check.
+Two design choices were made deliberately to support accessible use of the dashboard, rather than as a pure aesthetic preference. First, both a dark and a light theme are explicitly defined, so that Streamlit's built-in theme toggle remains fully on-brand in either mode rather than defaulting to an unstyled light theme. Second, the colour palette (green, blue, and grey) was deliberately chosen to avoid the classic red-green colourblind failure case common in dashboard design, as well as red-green often being sub-consciously interpretted as bad-good. These choices support WCAG-aligned practices; a formal colourblind-simulator audit of the palette has not yet been carried out and is noted honestly as a Next Steps item rather than claimed as a completed compliance check.
 
 ## Results:
 
-The application is publicly live at **[running-analytics.streamlit.app](https://running-analytics.streamlit.app/)**, with six analytical pages plus a local-only data-entry form currently deployed.
+The application is publicly live at **[running-analytics.streamlit.app](https://running-analytics.streamlit.app/)**, with six analytical pages plus a local-only data-entry form currently deployed.  Not all of the visuals and functionality are explicitly stated in this section, and those selected represent a curated sample - the full suite of analytics can be viewed on the live application.
 
 **Overview**:
 
@@ -124,7 +126,7 @@ A second tab, Recent Running Profile, narrows the focus to recent training load 
 
 **Distance**:
 
-The Distance page examines how run distance has evolved over the full seventeen-year history. The monthly distance trend, together with a four-month moving average, smooths out week-to-week noise and makes the longer-term training pattern — including a clear step-change in volume from 2012 onwards — much easier to read than the raw monthly figures alone.
+The Distance page examines how run distance has evolved over the full seventeen-year history. The monthly distance trend, together with a four-month moving average, smooths out week-to-week noise and makes the longer-term training pattern and trends — including a clear step-change in volume from 2012 onwards — much easier to read than the raw monthly figures alone.
 
 ![monthly_distance_trend](Monthly_Distance.jpg)
 
@@ -138,13 +140,13 @@ A year-by-distance-band heat map gives a compact, colour-encoded view of how the
 
 **Quality**:
 
-The Quality page tracks the custom Run Quality metric over time, again with both a monthly view and a four-month rolling average to separate genuine trend from short-term noise. The rolling average view in particular makes multi-year form cycles visible — periods of sustained improvement followed by plateaus or dips — in a way that would be very difficult to read from the raw monthly figures.
+The Quality page tracks the custom Run Quality metric over time, again with both a monthly view and a four-month rolling average to separate genuine trend from short-term noise. The rolling average view in particular makes multi-year form cycles visible — periods of sustained improvement followed by plateaus or dips — in a way that would be very difficult to read from the raw monthly figures or individual runs.
 
 ![monthly_quality_trend](Monthly_Quality.jpg)
 
 **Geography**:
 
-The Geography page breaks running activity down by location. The Ireland view shown below tracks run count and total distance by year for runs completed in Ireland, illustrating how the page supports geographic as well as purely time-based analysis of the underlying data.
+The Geography page breaks running activity down by location. The Ireland view shown below tracks run count and total distance by year for runs completed in Ireland (selected due to usual long periods spent in that country), illustrating how the page supports geographic as well as purely time-based analysis of the underlying data.
 
 ![ireland_runs](Ireland.jpg)
 
@@ -154,7 +156,7 @@ The Log New Run form, visible only in the local development build, captures date
 
 ![log_new_run](Log_New_Run.jpg)
 
-Two further pages — Best Times and Races — are also live on the deployed application, covering personal-best progression across seven standard distances and race-specific performance respectively.
+Two further pages — **Best Times** and **Races** — are also live on the deployed application, covering personal-best progression across seven standard distances and race-specific performance respectively.
 
 ## Conclusions:
 
