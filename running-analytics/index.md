@@ -179,4 +179,4 @@ As a live, evolving application, the following enhancements form a natural roadm
 
 You can view the live application here: **[running-analytics.streamlit.app](https://running-analytics.streamlit.app/)**
 
-The full source code is publicly available on GitHub: *[link to be added]*
+The full source code is publicly available on GitHub: **[https://github.com/MarcGrover-DataScience/running-analytics](https://github.com/MarcGrover-DataScience/running-analytics)**
