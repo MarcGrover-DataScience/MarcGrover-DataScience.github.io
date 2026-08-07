@@ -19,7 +19,6 @@ The specific objectives of the project are to:
 - Design a proper data model from a genuinely messy, seventeen-year, manually maintained source file, including field-by-field retention and derivation logic rather than a superficial pass-through of the raw data.
 - Build a maintainable ingestion and transformation pipeline — not a one-off export — with a defined workflow for correcting historical records and a working data-entry mechanism for capturing new records going forward.
 - Design and derive a custom performance metric (Run Quality) that normalises pace by distance, so that performance can be compared meaningfully across runs of very different lengths.
-- Extend that per-run Run Quality metric into medium-term Form and Consistency measures, converting a period's average Run Quality into a more interpretable score and quantifying run-to-run variability within that period — answering a genuinely different question to Run Quality itself: not how good a single run was, but how training is going, and how stable that performance is, over a period such as a month.
 - Deploy a genuinely public, multi-page interactive application, end to end, from local development through version control to public cloud hosting.
 - Apply deliberate accessibility-aware design choices to the interface, rather than treating accessibility as an afterthought.
 
@@ -74,20 +73,6 @@ Run Quality = Running Speed (km/hr) / (−1.407 × LN(Run Distance) + 17.771)
 ```
 
 The denominator is a log-distance-normalised expected-maximum-pace model, derived from the runner's own historical performance curve, giving an expected achievable speed for any given distance. Run Quality then expresses actual performance as a percentage of that expectation, allowing a 5km run and a half-marathon to be compared on a like-for-like basis. This is the same class of problem faced constantly in business analytics — comparing performance fairly across units that differ in scale, whether that's stores of different footfall, machines of different throughput capacity, or sales territories of different size — and the solution follows the same principle: normalise against an expected baseline rather than comparing raw figures directly.
-
-**Custom Metric Design — Form and Consistency**:
-
-Run Quality answers a per-run question: how good was this specific run against an expected baseline for its distance. It does not, on its own, answer a different and equally important question: how is training going over a period, and how stable is that performance from run to run. Two further derived metrics — Form and Consistency — were designed specifically to answer that period-level question, calculated across a set of runs (a calendar month, in the live application) rather than derived from any single run.
-
-Form rescales a period's mean Run Quality onto a more interpretable 0–10 scale. Mean Run Quality naturally clusters tightly — typically in a roughly 0.87–0.92 range — which makes small, genuinely meaningful shifts in form hard to read directly off the raw percentage. Form addresses this by anchoring to an empirically-derived floor and spreading the meaningful range across the full scale:
-
-```
-Form = MIN(MAX(Average Run Quality − 0.82, 0), 0.1) × 100
-```
-
-Consistency measures the spread of Run Quality across the individual runs within a period, using the coefficient of variation (standard deviation ÷ mean) of Run Quality — a distribution-shape measure that, unlike Run Quality itself, can only be calculated across multiple runs rather than one. The coefficient of variation is then bucketed into five qualitative bands (Very Low through Very High) rather than presented as a raw statistic, favouring interpretability for a non-technical dashboard user over statistical precision. A companion Form Difference figure — the change in Form from one period to the next — surfaces improving or declining periods directly, rather than requiring the reader to compare two numbers by eye.
-
-Both metrics are deliberately scoped to a medium-term period. Over a single month, they capture a genuinely coherent "spell" of training — averaging out normal day-to-day and run-to-run noise while still describing one identifiable period of form. Applied over a much longer window — six months or a year — the same calculation becomes progressively less meaningful: it starts averaging across multiple genuinely different training phases (a base-building block, a taper, an injury layoff, a race build-up), and the resulting single figure no longer describes one coherent period a reader can reason about. This is a deliberate scope decision rather than a shortcoming discovered after the fact — Form and Consistency are period-level metrics, not all-time ones, and the application currently surfaces them at the monthly grain accordingly.
 
 **Ingestion and Transformation Pipeline**:
 
