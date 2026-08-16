@@ -57,6 +57,7 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
 * ### [Association Rule Mining](/association-rule/)
 * ### [Anomaly Detection (Isolation Forest)](/anomaly-detection/)
+* ### [Factor Analysis](/factor-analysis/)
 
 ## Causal & Experimental Analysis
 * ### [Causal Impact Analysis](/causal-impact-analysis/)
