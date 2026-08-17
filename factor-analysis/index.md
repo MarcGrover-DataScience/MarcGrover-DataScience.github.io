@@ -154,10 +154,6 @@ The five PAF factors were rotated using Promax. The resulting loading matrix is 
 
 Five clean, well-separated blocks of high loadings are visible, each corresponding exactly to one theorised trait. This is confirmed numerically by cross-tabulating each item's theorised trait against the rotated factor on which it loads most strongly:
 
-```
-dominant_factor Factor1 Factor2 Factor3 Factor4 Factor5
-trait
-```
 
 | Trait | Factor1 | Factor2 | Factor3 | Factor4 | Factor5 |
 |---|---|---|---|---|---|
@@ -179,22 +175,26 @@ All 50 items load most strongly onto the factor corresponding to their theorised
 
 **Communalities and Model Fit**
 
-Communality — the proportion of each item's variance explained by the five common factors — is summarised below, with the full distribution shown in the accompanying chart.
+Communality — the proportion of each item's variance explained by the five common factors — is shown in the accompanying chart for all 50 items.
 
 ![plot_04_communalities](plot_04_communalities.png)
 
-```
-count 50
-mean 0.454
-std 0.113
-min 0.151
-25% 0.385
-50% 0.451
-75% 0.537
-max 0.695
-```
+The descriptive statistics of these 50 individual communality values are as follows:
 
-Mean communality by trait ranged from 0.397 (Openness) to 0.512 (Extraversion), indicating Extraversion items are, on average, the most strongly explained by their common factor, while Openness items carry comparatively more item-specific variance. The five lowest-communality items were N4 (0.151), A10 (0.247), O9 (0.273), C8 (0.287), and A1 (0.287). Cross-referencing this list against the `item_loadings.csv` export shows these are the same items sitting closest to the 0.32 cross-loading threshold within their own trait block (for example, A10's dominant loading of 0.377 and A1's of 0.516 are both toward the lower end of their trait's loading range) — two independently-computed diagnostics, communality and loading strength, agreeing on the same weakest items is a useful internal consistency check, and identifies N4, A10, O9, C8, and A1 as the specific candidates a test-development team would prioritise for review or replacement.
+| Statistic | Communality |
+|---|---|
+| count | 50 |
+| mean | 0.454 |
+| std | 0.113 |
+| min | 0.151 |
+| 25% | 0.385 |
+| 50% | 0.451 |
+| 75% | 0.537 |
+| max | 0.695 |
+
+Mean communality by trait ranged from 0.397 (Openness) to 0.512 (Extraversion), indicating Extraversion items are, on average, the most strongly explained by their common factor, while Openness items carry comparatively more item-specific variance. The five lowest-communality items were N4 (0.151), A10 (0.247), O9 (0.273), C8 (0.287), and A1 (0.287). 
+
+Cross-referencing this list against the [item_loadings.csv](/item_loadings.csv) export shows these are broadly consistent with the items sitting closest to the 0.32 cross-loading threshold within their own trait block (for example, A10's dominant loading of 0.377 and A1's of 0.516 are both toward the lower end of their trait's loading range) — two independently-computed diagnostics, communality and loading strength, pointing toward a similar set of weaker items is a useful internal consistency check, and identifies N4, A10, O9, C8, and A1 as the specific candidates a test-development team would prioritise for review or replacement.
 
 Because rotation was oblique, the fitted model also produces a genuine factor correlation matrix — a diagnostic with no informative equivalent under PCA's orthogonal construction:
 
