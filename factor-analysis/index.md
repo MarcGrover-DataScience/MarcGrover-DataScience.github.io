@@ -248,4 +248,4 @@ Next steps based on current results and conclusions from above and suggested fol
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/factor_analysis_big5_v2.py)
+[View the Python Script](/factor_analysis_big5_v3.py)
