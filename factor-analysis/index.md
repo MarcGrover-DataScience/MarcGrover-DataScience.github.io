@@ -210,11 +210,29 @@ Because rotation was oblique, the fitted model also produces a genuine factor co
 
 The strongest inter-factor correlation is -0.279 between Extraversion and Neuroticism, followed by -0.266 between Neuroticism and Conscientiousness — both consistent in direction and rough magnitude with correlations reported in the wider personality psychology literature. No correlation exceeds 0.28 in absolute value, so while the factors are meaningfully related rather than fully independent, they remain clearly distinguishable constructs rather than redundant restatements of one another. This is precisely the justification, stated in Methodology, for choosing an oblique rotation over an orthogonal one: forcing these correlations to zero, as an orthogonal rotation would, would have discarded a real and interpretable feature of the data.
 
+**Business Insight and Factor Scoring**
 
+The dominant-loading assignment from the rotation stage maps cleanly and uniquely onto the five theorised traits, with no factor left unmapped or duplicated:
 
+* Factor1 -> Extraversion
+* Factor2 -> Neuroticism
+* Factor3 -> Conscientiousness
+* Factor4 -> Openness
+* Factor5 -> Agreeableness
 
+Standardised factor scores were computed for all 19,718 respondents, exported as a 1,000-row sample in `factor_scores_sample.csv` for reference. As expected of standardised scores, each factor has a mean of 0.000 and standard deviation of 1.000, with the full descriptive spread shown below:
 
+| Statistic | Extraversion | Neuroticism | Conscientiousness | Openness | Agreeableness |
+|---|---|---|---|---|---|
+| mean | -0.000 | 0.000 | -0.000 | 0.000 | -0.000 |
+| std | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| min | -2.651 | -2.643 | -3.396 | -4.670 | -4.458 |
+| 25% | -0.726 | -0.727 | -0.697 | -0.655 | -0.581 |
+| 50% | 0.011 | 0.006 | 0.016 | 0.071 | 0.123 |
+| 75% | 0.749 | 0.749 | 0.702 | 0.754 | 0.752 |
+| max | 2.555 | 2.625 | 2.743 | 2.308 | 1.970 |
 
+As a further validation check, the correlations among the exported factor scores themselves were computed directly from `factor_scores_sample.csv`: Extraversion and Neuroticism correlate at -0.312, closely matching the -0.279 figure from the model's own factor correlation matrix above, despite being calculated independently from a 1,000-row sample rather than the full 19,718-respondent model fit. This agreement between the model's internal factor correlation estimate and the empirical correlation of the scores it produces is a further indication that the fitted model is internally consistent, and that the exported factor scores are a faithful representation of the underlying five-factor structure — the specific artefact an HR-tech scoring pipeline would consume in place of the 50 raw item responses.
 
 
 
