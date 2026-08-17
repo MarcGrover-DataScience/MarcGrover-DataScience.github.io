@@ -116,7 +116,7 @@ Five distinct blocks of elevated within-trait correlation are visible along the 
 
 
 ```
-trait               mean   std
+Trait               Mean   Std
 Agreeableness       3.845  1.129
 Conscientiousness   3.347  1.190
 Extraversion        3.011  1.293
