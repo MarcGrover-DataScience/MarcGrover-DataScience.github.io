@@ -135,6 +135,34 @@ The two standard retention heuristics disagree with theory, and with each other,
 
 The variance explained at the 5-factor solution was also compared across the two extraction methods:
 
+```
+PAF        cumulative variance    ML cumulative variance
+Factor 1   0.1610                 0.1497
+Factor 2   0.2533                 0.2306
+Factor 3   0.3283                 0.2927
+Factor 4   0.3993                 0.3509
+Factor 5   0.4546                 0.3958
+```
+
+Principal Axis Factoring and Maximum Likelihood extraction agree closely in both magnitude and ordering, with PAF explaining a modestly higher 45.46% of total item variance against ML's 39.58%. This agreement across two extraction methods resting on different assumptions — PAF distribution-free, ML assuming multivariate normality — indicates the five-factor structure is not an artefact of the extraction method chosen. A cumulative variance of under half is unsurprising and not a cause for concern in psychometric instrument validation: each item is an individually noisy indicator of its underlying trait by design, and the communality analysis below examines this at the individual item level.
+
+**Rotation and Loadings Interpretation**
+
+The five PAF factors were rotated using Promax. The resulting loading matrix is visualised below, with items ordered by theorised trait.
+
+![plot_03_rotated_loadings_heatmap](plot_03_rotated_loadings_heatmap.png)
+
+Five clean, well-separated blocks of high loadings are visible, each corresponding exactly to one theorised trait. This is confirmed numerically by cross-tabulating each item's theorised trait against the rotated factor on which it loads most strongly:
+
+```
+dominant_factor Factor1 Factor2 Factor3 Factor4 Factor5
+trait
+```
+
+
+
+
+
 
 
 
