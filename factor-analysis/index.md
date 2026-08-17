@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Factor Analysis)
+title: Big Five Personality Test - IPIP (Factor Analysis)
 
 permalink: /factor-analysis/
 
