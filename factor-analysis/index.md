@@ -102,7 +102,28 @@ The final stage maps each empirical factor back to its corresponding trait name,
 
 ## Results:
 
-Results from the project related to the business objective.
+**Suitability Diagnostics**
+
+Before any factor was extracted, the correlation structure of the 50 items was confirmed as suitable for Factor Analysis. Bartlett's Test of Sphericity rejected the null hypothesis that the correlation matrix is an identity matrix decisively (chi-squared = 376,656.9, p < 0.0001), confirming that meaningful shared correlation exists among the items. The overall Kaiser-Meyer-Olkin (KMO) measure of sampling adequacy was 0.9099 — "marvellous" under Kaiser's own classification scheme (values above 0.9), and comfortably above the 0.8 threshold conventionally regarded as a strong basis for proceeding. Per-item KMO values ranged from 0.748 to 0.961, with the three lowest-scoring items — O8, O1, and O3, all Openness items — still within an acceptable range individually. Taken together, these diagnostics confirm the dataset is well suited to Factor Analysis, a precondition-checking step with no equivalent requirement in the PCA project.
+
+**Exploratory Data Analysis**
+
+The correlation heatmap below shows the pairwise correlation across all 50 items, ordered by theorised trait.
+
+![plot_01_correlation_heatmap](https://marcgrover-datascience.github.io/factor-analysis/plot_01_correlation_heatmap.png)
+
+Five distinct blocks of elevated within-trait correlation are visible along the diagonal, providing early visual confirmation that items belonging to the same theorised trait tend to correlate more strongly with one another than with items from other traits — precisely the pattern that motivates a latent-factor explanation. Mean item response and standard deviation, averaged within each trait's item block, were as follows:
+
+
+```
+trait               mean   std
+Agreeableness       3.845  1.129
+Conscientiousness   3.347  1.190
+Extraversion        3.011  1.293
+Neuroticism         3.097  1.270
+Openness            3.909  1.052
+```
+
 
 ## Conclusions:
 
