@@ -159,6 +159,58 @@ dominant_factor Factor1 Factor2 Factor3 Factor4 Factor5
 trait
 ```
 
+| Trait | Factor1 | Factor2 | Factor3 | Factor4 | Factor5 |
+|---|---|---|---|---|---|
+| Agreeableness (A) | 0 | 0 | 0 | 0 | 10 |
+| Conscientiousness (C) | 0 | 0 | 10 | 0 | 0 |
+| Extraversion (E) | 10 | 0 | 0 | 0 | 0 |
+| Neuroticism (N) | 0 | 10 | 0 | 0 | 0 |
+| Openness (O) | 0 | 0 | 0 | 10 | 0 |
+
+All 50 items load most strongly onto the factor corresponding to their theorised trait — **0 of 50 items misaligned**. Furthermore, no item exceeded the conventional 0.32 cross-loading threshold on a second factor: **0 items cross-loading**. This is a genuinely clean result for an assessment of this kind; item banks in practice frequently contain at least a handful of items that blur across constructs. The [item_loadings.csv](/item_loadings.csv) export contains the full 50 × 5 loading matrix underlying this analysis. The single highest-loading item for each trait illustrates how strongly the cleanest items anchor their factor:
+
+| Trait | Item | Rotated loading |
+|---|---|---|
+| Extraversion | E7 | 0.756 |
+| Neuroticism | N6 | 0.793 |
+| Conscientiousness | C9 | 0.707 |
+| Openness | O10 | 0.691 |
+| Agreeableness | A4 | 0.826 |
+
+**Communalities and Model Fit**
+
+Communality — the proportion of each item's variance explained by the five common factors — is summarised below, with the full distribution shown in the accompanying chart.
+
+![plot_04_communalities](plot_04_communalities.png)
+
+```
+count 50
+mean 0.454
+std 0.113
+min 0.151
+25% 0.385
+50% 0.451
+75% 0.537
+max 0.695
+```
+
+Mean communality by trait ranged from 0.397 (Openness) to 0.512 (Extraversion), indicating Extraversion items are, on average, the most strongly explained by their common factor, while Openness items carry comparatively more item-specific variance. The five lowest-communality items were N4 (0.151), A10 (0.247), O9 (0.273), C8 (0.287), and A1 (0.287). Cross-referencing this list against the `item_loadings.csv` export shows these are the same items sitting closest to the 0.32 cross-loading threshold within their own trait block (for example, A10's dominant loading of 0.377 and A1's of 0.516 are both toward the lower end of their trait's loading range) — two independently-computed diagnostics, communality and loading strength, agreeing on the same weakest items is a useful internal consistency check, and identifies N4, A10, O9, C8, and A1 as the specific candidates a test-development team would prioritise for review or replacement.
+
+Because rotation was oblique, the fitted model also produces a genuine factor correlation matrix — a diagnostic with no informative equivalent under PCA's orthogonal construction:
+
+| | Extraversion | Neuroticism | Conscientiousness | Openness | Agreeableness |
+|---|---|---|---|---|---|
+| **Extraversion** | 1.000 | -0.279 | 0.098 | 0.132 | 0.238 |
+| **Neuroticism** | -0.279 | 1.000 | -0.266 | -0.039 | -0.103 |
+| **Conscientiousness** | 0.098 | -0.266 | 1.000 | 0.093 | 0.197 |
+| **Openness** | 0.132 | -0.039 | 0.093 | 1.000 | 0.146 |
+| **Agreeableness** | 0.238 | -0.103 | 0.197 | 0.146 | 1.000 |
+
+![plot_05_factor_correlation_matrix](plot_05_factor_correlation_matrix.png)
+
+The strongest inter-factor correlation is -0.279 between Extraversion and Neuroticism, followed by -0.266 between Neuroticism and Conscientiousness — both consistent in direction and rough magnitude with correlations reported in the wider personality psychology literature. No correlation exceeds 0.28 in absolute value, so while the factors are meaningfully related rather than fully independent, they remain clearly distinguishable constructs rather than redundant restatements of one another. This is precisely the justification, stated in Methodology, for choosing an oblique rotation over an orthogonal one: forcing these correlations to zero, as an orthogonal rotation would, would have discarded a real and interpretable feature of the data.
+
+
 
 
 
@@ -178,4 +230,4 @@ Next steps based on current results and conclusions from above and suggested fol
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+[View the Python Script](/factor_analysis_big5_v2.py)
