@@ -118,34 +118,48 @@ Several principles shape good results communication. Conclusions should be direc
 
 In this portfolio, every project concludes with an explicit Results, Conclusions, and Next Steps section, structured to reflect exactly this approach. The framing deliberately moves from technical findings to business implications, ending with recommendations that a stakeholder could act on. This structure is intentional: it reflects the mindset that data science work is complete only when it is useful.
 
-## Portfolio Project Reference Table
+## The Workflow in Practice
 
-The table below maps each project in this portfolio to the primary workflow stages it demonstrates. This is intended as a navigational reference — a way to locate specific examples of each workflow stage in action, rather than a comprehensive checklist of every task performed in every project.
+The sections above describe each stage of the data science workflow as a general principle. The three examples below show what that principle looks like when applied to specific projects — tracing the workflow decisions made at each stage, where those decisions had real consequences for the analysis, and how they shaped the final recommendation. The projects are chosen to span different analytical contexts: a supervised classification problem, an unsupervised interpretability analysis, and a case where a structural data decision taken during exploratory analysis determined whether the model's results were meaningful at all.
 
-| Project | Problem Definition | Data Acquisition & Assessment | EDA | Data Preparation & Feature Engineering | Model Selection | ML Workflow | Evaluation & Interpretability | Results Communication |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| One-Sample T-Test | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| Paired Sample T-Test | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| One-Way ANOVA | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| Chi-Squared Goodness-of-Fit | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| A/B Testing | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| Multiple Linear Regression | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Logistic Regression | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ |
-| Decision Trees | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Random Forests | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Gradient Boosted Trees | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓✓ | ✓ |
-| K-Nearest Neighbours | ✓ | ✓ | ✓✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ |
-| Support Vector Machines | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ |
-| K-Means Clustering | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| PCA | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| Association Rule Mining | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| Anomaly Detection | ✓ | ✓ | ✓✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| ARIMA | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| LSTM Time Series | ✓ | ✓ | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ |
-| Causal Impact Analysis | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
-| Feedforward Neural Network | ✓ | ✓ | ✓ | ✓ | ✓ | ✓✓ | ✓ | ✓ |
-| Sentiment Analysis | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| SHAP | ✓ | | ✓ | | ✓ | | ✓✓ | ✓ |
-| Great Expectations | ✓ | ✓✓ | ✓ | | | | ✓ | ✓ |
+### Bank Customer Churn — Logistic Regression
 
-*✓✓ denotes a project where this stage is a primary focus rather than standard practice*
+The business question for this project was precise from the outset: which current bank customers are at risk of churning, and how can that prediction be used to focus retention activity? That framing — centred on a downstream commercial action rather than a modelling objective — shaped every subsequent decision in the workflow.
+
+The dataset acquired was the publicly available Bank Customer Churn dataset from Kaggle, containing 10,000 customer records across ten features and a binary churn target. Initial assessment immediately raised a structural issue: the Class Imbalance Ratio revealed that only 20.4% of customers had churned, producing a ratio of 0.26 between the minority and majority classes. This finding, surfaced before any modelling began, determined the entire evaluation strategy for the project. A model that predicted no-churn for every customer would achieve approximately 79.6% accuracy — a figure that is meaningless as a measure of genuine predictive performance. Accuracy alone was therefore discarded as a primary metric in favour of ROC-AUC, precision, recall, F1-score, and the Area Under the Precision-Recall Curve, which together provide a complete picture of how the model performs across both classes.
+
+The exploratory analysis that followed produced findings with direct business relevance. Churn rate varied markedly by number of products held, peaking sharply at three or more products — a counter-intuitive result that a simpler analysis might have missed. Churn by age rose steadily to a peak of approximately 72% at age 56 before declining, and German customers churned at roughly twice the rate of those in France and Spain. These patterns were not incidental to the modelling — they motivated the feature engineering that followed, in which categorical groupings for age and balance were constructed to give the model more structured representations of these relationships.
+
+The engineered model, incorporating the constructed features alongside the original variables, produced a measurable improvement in predictive performance over the baseline. The comparison between the two models — same dataset, same algorithm, different feature representations — provided direct empirical evidence of the value of deliberate feature construction, and grounded the final business recommendation in a model whose capabilities had been honestly tested and compared.
+
+The recommendation connected directly back to the opening business question: the model identifies specific at-risk customers whose profiles combine the age, geography, product count, and balance characteristics associated with elevated churn probability, enabling the retention team to intervene before those customers leave rather than responding after the fact.
+
+### Wine Quality Prediction — K-Nearest Neighbours
+
+This project illustrates the iterative nature of the workflow more clearly than almost any other in the portfolio — specifically, the way that exploratory analysis can force a structural revision to the problem before modelling begins, and why that revision is a mark of analytical rigour rather than a detour.
+
+The dataset is the UCI Red Wine Quality dataset, containing 1,599 observations rated on a quality scale of three to nine by human sensory panels. The initial approach to the target variable was to define three quality bands: Low (scores 3–4), Medium (scores 5–6), and High (scores 7–9). Exploratory analysis of the resulting class distribution immediately revealed a problem: under this definition, approximately 82% of observations fell into the Medium band. A classifier that predicted Medium for every observation — without consulting any feature data at all — would achieve around 82% accuracy. This is the naive classifier problem, and recognising it required returning to the target variable definition before any model was built.
+
+The solution was to reband: reassigning score 6 from Medium to High produced a substantially more balanced distribution — Low 4.6%, Medium 42.5%, High 52.9% — and reduced the naive baseline accuracy to approximately 52.9%. That revision is semantically defensible: a score of 6 on a sensory quality scale is above average and is reasonably grouped with scores 7 and 8 as collectively good-quality wine. But more importantly, it is analytically necessary. Without it, any accuracy figure reported for the model would be uninterpretable, because the threshold for genuine learning would be concealed rather than quantified. The decision to accept a lower headline accuracy in exchange for an honest baseline is the central analytical point of the project.
+
+With the target variable correctly defined, the workflow proceeded to feature scaling — a mandatory pre-processing step for KNN, since the algorithm computes Euclidean distances between observations and features on different numerical scales would otherwise dominate the distance calculation purely by virtue of their range. Hyperparameter selection identified K = 15 as the optimal neighbourhood size through systematic evaluation across K = 1 to K = 30, with training and test accuracy plotted across the full range to make the bias-variance trade-off visible. The final model achieved a test accuracy of 70.6% — a meaningful result, because the naive baseline of 52.9% provides an honest reference point against which that figure can be interpreted.
+
+The recommendation arising from the project was clear: chemical composition, particularly alcohol content, volatile acidity, and sulphates, carries learnable predictive signal about wine quality that is coherent with established domain knowledge. The model's feature importance rankings align with the chemical narrative, which means its outputs are not only accurate but explicable to a winemaker or quality manager — a property the project explicitly identified as relevant to any applied deployment of the results.
+
+### Breast Cancer Diagnostics — SHAP Interpretability
+
+The SHAP project occupies a different position in the workflow from the two projects above. There is no data acquisition stage, no feature engineering, and no model selection problem to solve. The analytical question is more targeted: given that a Random Forest classifier already achieves 95.61% test accuracy on the Wisconsin Breast Cancer Diagnostic dataset, does that performance figure alone constitute a sufficient basis for clinical deployment?
+
+The answer, developed through the project, is that it does not. A model achieving 95% accuracy on a held-out test set is necessary but not sufficient for a context in which its predictions inform clinical decisions about individual patients. A clinician who cannot understand why a model classified a specific tumour as malignant cannot meaningfully evaluate whether to act on that classification — and a model that cannot explain itself cannot be audited when its outputs are challenged. The problem definition for the SHAP project is therefore not "build a better model" but "make an existing model accountable."
+
+The SHAP analysis applied TreeSHAP to the Random Forest across its full test set of 114 observations, computing exact Shapley values for each of the 30 features and each individual prediction. The global analysis revealed a concentrated importance structure: five features — worst area, worst perimeter, worst concave points, mean concave points, and worst radius — account for 54.5% of the total mean absolute SHAP value across all 30 features. All five relate to the size and geometric irregularity of the tumour's worst-case cell nuclei, which is consistent with established clinical understanding of the difference between malignant and benign tissue. The model has not distributed its reliance arbitrarily — it has learned to weight the biologically significant measurements most heavily, and SHAP makes that learning explicit.
+
+Local waterfall plots for individual patient predictions demonstrated the practical value of observation-level explanation. For a high-confidence malignant classification, worst area and worst concave points were the dominant drivers, with SHAP contributions of 0.085 and 0.082 respectively against a baseline prediction of 0.376. For a high-confidence benign classification, the same features acted in the opposite direction — the same cell nucleus measurements that push strongly towards malignant in one patient push strongly towards benign in another, confirming that these features represent the primary axis of separation in the model's learned representation.
+
+The comparison between SHAP-derived rankings and native Random Forest feature importance produced a methodologically significant finding: the top five features are ranked identically by both methods, and the maximum rank discrepancy across the top ten is three positions. Native importance is computed on training data using mean impurity decrease and can be biased towards high-cardinality features; SHAP values are computed on the held-out test set and reflect genuine marginal contributions to individual predictions. The consistency between the two strengthens confidence in both: the features the model relies on most in training are genuinely the features that drive its predictions on unseen data.
+
+The recommendation connected this back to the original clinical framing. A Random Forest that achieves 95.61% accuracy and can explain its reasoning in terms of specific, biologically coherent cell nucleus measurements — with stable directional relationships, identifiable threshold effects, and observation-level prediction decompositions — is a fundamentally more deployable diagnostic tool than one that produces the same accuracy figure opaquely. Interpretability is not a supplement to performance in this context; it is a prerequisite for it.
+
+---
+
+Every project in this portfolio follows this same end-to-end approach. The three examples above illustrate how it plays out across different analytical contexts — from a data-driven revision to a target variable definition, to the selection of evaluation metrics appropriate to a class-imbalanced problem, to the transformation of a black-box accuracy figure into an auditable clinical decision-making tool.
