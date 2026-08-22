@@ -81,7 +81,8 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 ## Interactive Dashboards & Business Intelligence
 * ### [Running Performance Analytics Dashboard](/running-analytics/)
 
-<!-- * ### MLOps -->
+## MLOps & Deployment
+* ### [MLOps](/mlops/)
 
 
 ![logo](Data Scientist Logo_small.png)
