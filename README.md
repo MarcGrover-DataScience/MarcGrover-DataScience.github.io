@@ -82,7 +82,7 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Running Performance Analytics Dashboard](/running-analytics/)
 
 ## MLOps & Deployment
-* ### [MLOps](/mlops/)
+* ### [Model Drift Monitoring & Retraining (MLOps)](/mlops/)
 
 
 ![logo](Data Scientist Logo_small.png)
