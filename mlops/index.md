@@ -83,16 +83,56 @@ This project reuses the tuned XGBoost classifier and the Wisconsin Breast Cancer
 
 ## Results:
 
-Results from the project related to the business objective.
+### Reference model benchmark
+
+The reconstructed XGBoost model achieves a test accuracy of 95.61% and a ROC-AUC of 0.9947, confirming exact parity with the Gradient Boosted Trees project benchmark before any drift is introduced.
+
+### Detection: gradual vs. sudden drift
+
+![plot_01_scenario_a_monitoring_timeline](plot_01_scenario_a_monitoring_timeline.png)
+
+In Scenario A, the retrain trigger fires at batch 7 — but accuracy at that point is still 100%. Aggregate PSI has already climbed past the 0.20 alert threshold while performance shows no visible sign of a problem at all. This is the central finding of the gradual scenario: **distributional drift is detectable well before predictive performance visibly degrades.** Per-feature detail at the trigger batch shows PSI on its own had not yet crossed 0.20 for any individual feature (0.153, 0.106, and 0.164 respectively) — it was the KS test, significant on *worst area* (p = 0.010), that fired first. PSI and KS do not always agree at the margin, and reporting both rather than relying on either alone is precisely what caught this batch.
+
+![plot_02_scenario_b_monitoring_timeline](plot_02_scenario_b_monitoring_timeline.png)
+
+Scenario B tells a starkly different story. The instant the step-change shift is applied at batch 6, accuracy collapses from 100% to 72% in a single batch, and PSI leaps to values above 4.7 — roughly 25 times the alert threshold — with all three features individually significant on both PSI and KS (p < 10⁻²⁴ in every case). Notably, ROC-AUC barely moves even as accuracy collapses (it stays above 0.98 throughout): the model is still *ranking* patients correctly by risk, but its fixed 0.5 classification threshold has become miscalibrated under the shifted distribution — a finding that connects directly to the Threshold Optimisation idea already flagged as a Next Step in the Gradient Boosted Trees project.
+
+![plot_03_gradual_vs_sudden_comparison](plot_03_gradual_vs_sudden_comparison.png)
+
+Placed side by side, both scenarios happen to trigger a retrain decision at the same batch (7) — the two-consecutive-alert rule reacts with similar speed to both patterns. What differs is severity, not detection latency: the log-scale PSI comparison shows Scenario B's drift magnitude is more than an order of magnitude greater than Scenario A's at every batch from onset, and the accuracy panel shows this translates directly into a severe, immediate clinical impact for the sudden scenario versus a slow, comparatively mild decline for the gradual one.
+
+### Recovery after retraining
+
+![plot_04_retraining_recovery](plot_04_retraining_recovery.png)
+
+Across 5 further batches under continued drift, the retrained model recovers to 99.8% mean accuracy in both scenarios, while the original, un-retrained model remains degraded — averaging 94.4% in Scenario A and just 76.8% in Scenario B. The retrained models' accuracy on the original, undrifted held-out test set (98.25% for Scenario A, 99.12% for Scenario B) confirms the retraining strategy has not sacrificed general performance to adapt to the recent drifted window.
+
+![plot_05_confusion_matrix_comparison](plot_05_confusion_matrix_comparison.png)
+
+The pooled classification report across all 500 post-retrain observations makes the clinical stakes concrete. In Scenario B, the original model's recall on the malignant class falls to 63.2%, producing **116 false negatives** — 116 malignant tumours that would have been classified as benign, and never flagged for priority review. The retrained model, on the same 500 observations, produces zero false negatives and a recall of 100%. Scenario A shows the same pattern at smaller scale: 28 false negatives for the original model versus 1 for the retrained model. This is the single most important result in this project: a global accuracy figure understates the danger of an undetected sudden drift, because it does not distinguish between an error that delays an unnecessary follow-up and an error that misses a cancer diagnosis.
+
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+This project demonstrates that the question "how do we know when a deployed model is no longer trustworthy?" has a concrete, actionable answer — but the answer differs depending on how drift arrives. Against a slow, gradual drift, statistical monitoring provides genuine early warning: PSI and KS statistics breach alert thresholds while accuracy remains near-perfect, giving a real operational window to intervene before harm occurs. Against a sudden, step-change drift, that window essentially disappears — detection and severe performance degradation arrive in the same batch — which means the retraining response itself, not the warning time, becomes the primary safeguard.
+
+The finding that ROC-AUC remained high throughout Scenario B despite a severe accuracy collapse is a genuine and non-obvious result: it shows the model's underlying discriminative ability survived the drift even though its decision threshold did not, and it demonstrates precisely why monitoring a single metric is an insufficient strategy for a deployed classifier. Combining a distributional measure (PSI/KS) with multiple performance measures (accuracy, ROC-AUC, and — critically — recall on the clinically important class) provides a materially more complete picture than any one of them alone would.
+
+The retraining strategy — combining the original training data with recently drifted, labelled batches rather than replacing the training set outright — proved effective in both scenarios, recovering accuracy to within a fraction of a percentage point of the original benchmark while eliminating the false negatives that made the undetected drift dangerous in the first place. This directly fulfils the commitment stated in the [Data Science Workflow](https://marcgrover-datascience.github.io/data-science-workflow/) page: *"Where models are operationalised, monitoring measures are defined (performance, calibration, drift) and criteria set for retraining or review."* It also stands as the production-time counterpart to the [Great Expectations](https://marcgrover-datascience.github.io/great-expectations/) project's pipeline validation — that project catches malformed or corrupted data at ingestion, before it ever reaches a model; this one catches a model whose *valid*, well-formed incoming data has nonetheless drifted away from what it was trained to handle. Data quality and model quality are monitored at different points in the same pipeline, and both are necessary: clean data does not guarantee a trustworthy model, and a well-validated model does not stay trustworthy indefinitely.
+
 
 ## Next steps:  
 
-Next steps based on current results and conclusions from above and suggested follow-up actions, analysis etc.
+**Delayed and partial ground truth** — this simulation assumes true labels are available for every batch at the point performance is assessed. In a genuine clinical deployment, pathology-confirmed outcomes would arrive on a delay, and possibly not for every case. A production implementation would need to model this lag explicitly, and would likely need to rely more heavily on unsupervised distributional monitoring (PSI/KS) during the gap before labels arrive — precisely the early-warning role Scenario A demonstrates.
+
+**Automating the human-in-the-loop decision** — this project treats retraining as a deliberate, explicit step following a flagged alert. A mature production system would define escalation policies: which drift severities warrant automatic retraining, which require human sign-off (particularly relevant in a regulated clinical context), and how a retrained model would be validated and approved before replacing the live model — none of which this script attempts to represent.
+
+**Full MLOps infrastructure** — this project demonstrates the statistical and modelling logic of drift monitoring and retraining in a single script. It does not replicate a model registry for versioning and rollback, a CI/CD pipeline for automated retraining and deployment, container orchestration for serving, or a live monitoring dashboard with alerting integration (email, Slack, or a paging system) of the kind flagged as a future extension in the Great Expectations project. These are substantial engineering components in their own right, and their absence here is a genuine scope boundary rather than an oversight.
+
+**Calibration monitoring** — the finding that ROC-AUC remained stable while accuracy collapsed in Scenario B points to a specific, addressable gap: this project did not monitor prediction *calibration* (e.g. via a calibration curve or Brier score) as a distinct signal alongside drift and accuracy. A calibration-drift check would likely have flagged Scenario B's threshold miscalibration directly, independently of the PSI/KS features-based detection used here.
+
+**Drift severity calibration against real-world baselines** — the shift magnitudes used in this simulation (0.05–0.50 SD gradual, 1.5 SD sudden) were chosen to produce a clear demonstrative contrast rather than derived from any real clinical equipment-drift dataset. A genuine deployment would calibrate alert thresholds against the actual historical variability of its specific measurement pipeline, in the same spirit as the Great Expectations project's principle of deriving thresholds from observed data rather than arbitrary figures.
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+[View the Python Script](/MLOps_DriftMonitoring_v2.py)
