@@ -105,12 +105,11 @@ Placed side by side, both scenarios happen to trigger a retrain decision at the 
 
 ![plot_04_retraining_recovery](plot_04_retraining_recovery.png)
 
-Across 5 further batches under continued drift, the retrained model recovers to 99.8% mean accuracy in both scenarios, while the original, un-retrained model remains degraded — averaging 94.4% in Scenario A and just 76.8% in Scenario B. The retrained models' accuracy on the original, undrifted held-out test set (98.25% for Scenario A, 99.12% for Scenario B) confirms the retraining strategy has not sacrificed general performance to adapt to the recent drifted window.
+Across 5 further batches under continued drift, the retrained model recovers to 99.8% mean accuracy in both scenarios, while the original, un-retrained model remains degraded — averaging 91.8% in Scenario A and just 71.6% in Scenario B. The retrained models' accuracy on the original, undrifted held-out test set (99.12% for both Scenario A, and for Scenario B) confirms the retraining strategy has not sacrificed general performance to adapt to the recent drifted window.
 
 ![plot_05_confusion_matrix_comparison](plot_05_confusion_matrix_comparison.png)
 
-The pooled classification report across all 500 post-retrain observations makes the clinical stakes concrete. In Scenario B, the original model's recall on the malignant class falls to 63.2%, producing **116 false negatives** — 116 malignant tumours that would have been classified as benign, and never flagged for priority review. The retrained model, on the same 500 observations, produces zero false negatives and a recall of 100%. Scenario A shows the same pattern at smaller scale: 28 false negatives for the original model versus 1 for the retrained model. This is the single most important result in this project: a global accuracy figure understates the danger of an undetected sudden drift, because it does not distinguish between an error that delays an unnecessary follow-up and an error that misses a cancer diagnosis.
-
+The pooled classification report across all 500 post-retrain observations makes the clinical stakes concrete. In Scenario B, the original model's recall on the malignant class falls to 54.9%, producing **142 false negatives** — 142 malignant tumours that would have been classified as benign, and never flagged for priority review. The retrained model, on the same 500 observations, produces zero false negatives and a recall of 100%. Scenario A shows the same pattern at smaller scale: 41 false negatives for the original model versus 1 for the retrained model. This is the single most important result in this project: a global accuracy figure understates the danger of an undetected sudden drift, because it does not distinguish between an error that delays an unnecessary follow-up and an error that misses a cancer diagnosis.
 
 ## Conclusions:
 
