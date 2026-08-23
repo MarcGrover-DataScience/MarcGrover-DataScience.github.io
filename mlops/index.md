@@ -8,8 +8,6 @@ permalink: /mlops/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 Every other project in this portfolio ends at the same point: a model is trained, tuned, evaluated on a held-out test set, and the results are reported. The [Gradient Boosted Trees](https://marcgrover-datascience.github.io/gradient-boosted-trees/) project, for example, concludes with an XGBoost classifier achieving 95.61% test accuracy and a ROC-AUC of 0.9947 on the Wisconsin Breast Cancer Diagnostic dataset — a genuinely strong result, obtained through rigorous four-phase hyperparameter tuning. But a test-set score is a snapshot, not a guarantee. It says nothing about what happens after that model is deployed and starts making predictions on data the world keeps generating.
