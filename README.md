@@ -29,14 +29,14 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * ### [Two-Sample Independent T-Test](/2-sample-independent-t-test/)
 * ### [Paired Sample T-Test](/paired-sample-t-test/)
 * ### [One-Way ANOVA](/1-way-anova/)
-* ### [Two-Way ANOVA with replication](/2-way-anova-with-rep/)
-* ### [Two-Way ANOVA without replication](/2-way-anova-without-rep/)
-* ### [A/B Testing (Chi-squared test)](/ab-test/)
-* ### [Chi-squared goodness-of-fit test](/chi-squared/)
+* ### [Two-Way ANOVA With Replication](/2-way-anova-with-rep/)
+* ### [Two-Way ANOVA Without Replication](/2-way-anova-without-rep/)
+* ### [A/B Testing (Chi-squared Test)](/ab-test/)
+* ### [Chi-squared Goodness-Of-Fit Test](/chi-squared/)
 
 ## Regression & Predictive Modelling
-* ### [Multiple linear regression](/multi-linear-regression/)
-* ### [Logistic regression](/logistic-regression/)
+* ### [Multiple Linear Regression](/multi-linear-regression/)
+* ### [Logistic Regression](/logistic-regression/)
 
 ## Time-Series Analysis
 * ### [Moving Averages](/moving-averages/)
