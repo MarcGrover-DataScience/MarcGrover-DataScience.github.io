@@ -1,15 +1,12 @@
 # Marc Grover - Data Science & Advanced Analytics
-Hello, my name is Marc Grover. I hold a Master's degree in Mathematics and have built my career around working with data — extracting meaningful insights to support business decisions and delivering tangible business benefits for customers across a range of sectors.
 
-My focus is on the Machine Learning and Deep Learning dimensions of AI, underpinned by strong experience in Advanced Analytics.  I am passionate about applying these techniques to real-world problems, translating complex analysis into clear, actionable recommendations that drive business value.
+**Turning data into decisions.** I'm a mathematician (MA) who has built my career around working with data — extracting meaningful insights to support business decisions and delivering tangible business benefits for customers across a range of sectors — applying machine learning, deep learning and advanced analytics to realistic business problems — translating complex analysis into clear, actionable recommendations.
 
-This portfolio is designed to demonstrate the breadth and depth of my analytical skills — not just the techniques themselves, but, most importantly, how they apply to realistic business situations.  Each project is built around a fictional but plausible business scenario, showing how data-driven methods can answer real questions, generate insight, and support confident decision-making.
+This portfolio demonstrates both the breadth and depth of my analytical skills and, above all, how they apply in practice. Each project is built around a plausible business scenario and follows the full data science process — **EDA** → **data preparation** → **modelling** → **interpretation** → **conclusions** → **next steps**.
 
-The projects demonstrate the full data science process: exploratory data analysis (EDA), data preparation, modelling, interpretation, conclusions, and recommended next steps — reflecting how this work is done in practice.  The examples are intentionally kept accessible to keep the focus on the power, flexibility, and scalability of each approach, and how it can benefit organisations across many different contexts.
+All work is in Python — reflecting the language's central role in modern data science and demonstrating practical proficiency across key libraries for data manipulation, statistical analysis, machine learning, and deep learning — using public or synthetically generated data. None represents actual client work, but each reflects the rigour I bring to real engagements.
 
-The data used is either publicly available or synthetically generated. None of the projects represent actual client work, but they are grounded in the mindset and rigour I bring to real engagements.
-
-All projects are implemented in Python, reflecting the language's central role in modern data science and demonstrating practical proficiency across key libraries for data manipulation, statistical analysis, machine learning, and deep learning.
+Explore the sections below, or start with the _/data-science-workflow/_ and _/data-science-ethics/_ pages.
 
 ## Data Science Workflow
 
