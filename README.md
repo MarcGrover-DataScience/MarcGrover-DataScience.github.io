@@ -22,9 +22,9 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 
 
 ## Statistical Analysis & Hypothesis Testing  
-* ### [One-Sample T-Test](/1-sample-t-test/)
-* ### [Two-Sample Independent T-Test](/2-sample-independent-t-test/)
-* ### [Paired Sample T-Test](/paired-sample-t-test/)
+* [One-Sample T-Test](/1-sample-t-test/)
+* [Two-Sample Independent T-Test](/2-sample-independent-t-test/)
+* [Paired Sample T-Test](/paired-sample-t-test/)
 * ### [One-Way ANOVA](/1-way-anova/)
 * ### [Two-Way ANOVA With Replication](/2-way-anova-with-rep/)
 * ### [Two-Way ANOVA Without Replication](/2-way-anova-without-rep/)
