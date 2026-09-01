@@ -25,61 +25,61 @@ The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out th
 * [One-Sample T-Test](/1-sample-t-test/)
 * [Two-Sample Independent T-Test](/2-sample-independent-t-test/)
 * [Paired Sample T-Test](/paired-sample-t-test/)
-* ### [One-Way ANOVA](/1-way-anova/)
-* ### [Two-Way ANOVA With Replication](/2-way-anova-with-rep/)
-* ### [Two-Way ANOVA Without Replication](/2-way-anova-without-rep/)
-* ### [A/B Testing (Chi-squared Test)](/ab-test/)
-* ### [Chi-squared Goodness-Of-Fit Test](/chi-squared/)
+* [One-Way ANOVA](/1-way-anova/)
+* [Two-Way ANOVA With Replication](/2-way-anova-with-rep/)
+* [Two-Way ANOVA Without Replication](/2-way-anova-without-rep/)
+* [A/B Testing (Chi-squared Test)](/ab-test/)
+* [Chi-squared Goodness-Of-Fit Test](/chi-squared/)
 
 ## Regression & Predictive Modelling
-* ### [Multiple Linear Regression](/multi-linear-regression/)
-* ### [Logistic Regression](/logistic-regression/)
+* [Multiple Linear Regression](/multi-linear-regression/)
+* [Logistic Regression](/logistic-regression/)
 
 ## Time-Series Analysis
-* ### [Moving Averages](/moving-averages/)
-* ### [ARIMA](/arima/)
-<!-- * ### [LSTM Time Series (Deep Learning / Time Series Analysis)](/lstm-time-series/) -->
-<!-- * ### [Time Series Analysis - Using Prophet, Darts, sktime, tsfresh -->
+* [Moving Averages](/moving-averages/)
+* [ARIMA](/arima/)
+<!-- * [LSTM Time Series (Deep Learning / Time Series Analysis)](/lstm-time-series/) -->
+<!-- * [Time Series Analysis - Using Prophet, Darts, sktime, tsfresh -->
 
 ## Machine Learning — Supervised
-* ### [Decision Trees](/decision-trees/)
-* ### [Random Forests](/random-forest/)
-* ### [Gradient Boosted Trees](/gradient-boosted-trees/)
-* ### [Support Vector Machines (SVM)](/support-vector-machines/)
-* ### [K-Nearest Neighbours](/k-nearest-neighbours/)
-* ### [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
+* [Decision Trees](/decision-trees/)
+* [Random Forests](/random-forest/)
+* [Gradient Boosted Trees](/gradient-boosted-trees/)
+* [Support Vector Machines (SVM)](/support-vector-machines/)
+* [K-Nearest Neighbours](/k-nearest-neighbours/)
+* [Feedforward Neural Network (MLP)](/feedforward-neural-network/)
 
 ## Machine Learning — Unsupervised
-* ### [K-Means Clustering](/k-means-clustering/)
-* ### [Principal Component Analysis (PCA)](/principal-component-analysis/)
-* ### [Association Rule Mining](/association-rule/)
-* ### [Anomaly Detection (Isolation Forest)](/anomaly-detection/)
-* ### [Factor Analysis](/factor-analysis/)
+* [K-Means Clustering](/k-means-clustering/)
+* [Principal Component Analysis (PCA)](/principal-component-analysis/)
+* [Association Rule Mining](/association-rule/)
+* [Anomaly Detection (Isolation Forest)](/anomaly-detection/)
+* [Factor Analysis](/factor-analysis/)
 
 ## Causal & Experimental Analysis
-* ### [Causal Impact Analysis](/causal-impact-analysis/)
-  * ### [Causal Impact Analysis - Part 2](/causal-impact-analysis-2/)
+* [Causal Impact Analysis](/causal-impact-analysis/)
+  * [Causal Impact Analysis - Part 2](/causal-impact-analysis-2/)
 
 ## Deep Learning & NLP
-* ### [Zero-shot Classification](/zero-shot-classification/)
-* ### [Image Classification](/image-classification/)
-<!-- * ### [Sentiment Analysis (Transformers)](/sentiment_analysis/) -->
+* [Zero-shot Classification](/zero-shot-classification/)
+* [Image Classification](/image-classification/)
+<!-- * [Sentiment Analysis (Transformers)](/sentiment_analysis/) -->
 
 ## Model Interpretability & Explainability
-* ### [SHAP - SHapley Additive exPlanations](/shap/)
-* ### [LIME (Local Interpretable Model-Agnostic Explanations)](/lime/)
-* ### [Counterfactual Explanations](/counterfactual-explanations/)
-<!-- * ### Partial Dependence Plots -->
+* [SHAP - SHapley Additive exPlanations](/shap/)
+* [LIME (Local Interpretable Model-Agnostic Explanations)](/lime/)
+* [Counterfactual Explanations](/counterfactual-explanations/)
+<!-- * Partial Dependence Plots -->
 
 ## Data Quality & Validation
-* ### [Exploratory Data Analysis](/exploratory-data-analysis/)
-* ### [Great Expectations (Validation)](/great-expectations/)
+* [Exploratory Data Analysis](/exploratory-data-analysis/)
+* [Great Expectations (Validation)](/great-expectations/)
 
 ## Interactive Dashboards & Business Intelligence
-* ### [Running Performance Analytics Dashboard](/running-analytics/)
+* [Running Performance Analytics Dashboard](/running-analytics/)
 
 ## MLOps & Deployment
-* ### [Model Drift Monitoring & Retraining (MLOps)](/mlops/)
+* [Model Drift Monitoring & Retraining (MLOps)](/mlops/)
 
 
 ![logo](Data Scientist Logo_small.png)
