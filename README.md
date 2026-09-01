@@ -6,7 +6,7 @@ This portfolio demonstrates both the breadth and depth of my analytical skills a
 
 All work is in Python — reflecting the language's central role in modern data science and demonstrating practical proficiency across key libraries for data manipulation, statistical analysis, machine learning, and deep learning — using public or synthetically generated data. None represents actual client work, but each reflects the rigour I bring to real engagements.
 
-Explore the sections below, or start with the _/data-science-workflow/_ and _/data-science-ethics/_ pages.
+Explore the sections below, or start with the [Data Science Workflow](/data-science-workflow/) and [Ethics in Applied Data Science](/data-science-ethics/) pages.
 
 ## Data Science Workflow
 
