@@ -8,8 +8,6 @@ permalink: /paired-sample-t-test/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 For this portfolio project, the simulated business scenario concerns a fictional clinical sleep study involving 30 adult participants, with the goal of determining whether a structured sleep therapy intervention produces a statistically meaningful improvement in sleep duration.  A simple observation that average sleep hours increased after treatment would be insufficient for this purpose, as it cannot distinguish a genuine therapeutic effect from natural night-to-night variability in sleep patterns, regression to the mean, or the placebo effect.
