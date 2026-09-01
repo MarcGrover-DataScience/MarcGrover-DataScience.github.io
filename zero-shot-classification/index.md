@@ -8,8 +8,6 @@ permalink: /zero-shot-classification/
 
 ---
 
-# Project currently undergoing enhancements
-
 ## Goals and objectives:
 
 The business objective is to categorise each book in a bookstore's inventory to support physical shelf layout and to improve the customer experience on the bookstore's website. The originally specified categories were: Science Fiction, Romance, Mystery, Adventure, Fantasy, Historical, and Biography. As set out in the Methodology and Results sections below, analysis of the source data's genre tagging led to a justified revision of this scheme — a structural finding about the genre data itself, rather than a simplification of the original business requirement.
