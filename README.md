@@ -8,6 +8,16 @@ All work is in Python — reflecting the language's central role in modern data 
 
 Explore the sections below, or start with the [Data Science Workflow](/data-science-workflow/) and [Ethics in Applied Data Science](/data-science-ethics/) pages.
 
+## Featured Projects
+
+**Bank Customer Churn — Logistic Regression:** A precise retention question tackled end‑to‑end: honest handling of class imbalance, EDA‑driven feature engineering that measurably improved the model, and a recommendation that identifies at‑risk customers _before_ they leave.
+
+**Breast Cancer Classification — Support Vector Machines:** The final model in a four‑part series applying progressively stronger classifiers to a single benchmark dataset — from Decision Trees through Random Forests and Gradient Boosted Trees to an SVM achieving the series‑best 98.25% accuracy, demonstrating disciplined comparative benchmarking.
+
+**Model Interpretability — SHAP:** Moves beyond "how accurate?" to "can it be trusted?" — applying TreeSHAP to explain an existing high‑accuracy classifier at both global and individual‑prediction level, tied to clinically coherent features, so the model can be audited and deployed with confidence.
+
+**Model Drift Monitoring & Retraining — MLOps:** Picks up where most projects stop: with a model already deployed, it frames a clinical decision‑support scenario and demonstrates drift monitoring and retraining triggers — the production‑readiness dimension that turns a good model into a maintainable one.
+
 ## Data Science Workflow
 
 Underpinning every  project in this portfolio follows a consistent, end‑to‑end approach — from framing the business problem through exploratory analysis, modelling and evaluation, to clear conclusions and next steps — because process matters as much as any individual technique. The **[Data Science Workflow](/data-science-workflow/)** page sets this out in full and shows how each stage is applied in practice.
@@ -75,6 +85,20 @@ As models move into operational settings, technical accuracy alone is not enough
 
 ## MLOps & Deployment
 * [Model Drift Monitoring & Retraining (MLOps)](/mlops/)
+
+## Tools & Libraries
+
+All projects are built in Python, using the following core libraries across the data science lifecycle:
+
+* **Data manipulation & analysis:** pandas, NumPy
+* **Statistical modelling & inference:** statsmodels, SciPy
+* **Machine learning:** scikit‑learn, XGBoost
+* **Deep learning & NLP:** PyTorch / TensorFlow, Hugging Face Transformers
+* **Interpretability & explainability:** SHAP, LIME
+* **Data quality & validation:** Great Expectations
+* **Visualisation:** Matplotlib, seaborn
+
+The emphasis throughout is on applying these tools with rigour and clear business purpose, rather than on the tools themselves.
 
 
 ![logo](Data Scientist Logo_small.png)
