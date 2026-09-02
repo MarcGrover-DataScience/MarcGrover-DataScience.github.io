@@ -10,13 +10,13 @@ Explore the sections below, or start with the [Data Science Workflow](/data-scie
 
 ## Featured Projects
 
-**Bank Customer Churn — Logistic Regression:** A precise retention question tackled end‑to‑end: honest handling of class imbalance, EDA‑driven feature engineering that measurably improved the model, and a recommendation that identifies at‑risk customers _before_ they leave.
+**Bank Customer Churn — [Logistic Regression](/logistic-regression/):** A precise retention question tackled end‑to‑end: honest handling of class imbalance, EDA‑driven feature engineering that measurably improved the model, and a recommendation that identifies at‑risk customers _before_ they leave.
 
-**Breast Cancer Classification — Support Vector Machines:** The final model in a four‑part series applying progressively stronger classifiers to a single benchmark dataset — from Decision Trees through Random Forests and Gradient Boosted Trees to an SVM achieving the series‑best 98.25% accuracy, demonstrating disciplined comparative benchmarking.
+**Breast Cancer Classification — [Support Vector Machines](/support-vector-machines/):** The final model in a four‑part series applying progressively stronger classifiers to a single benchmark dataset — from Decision Trees through Random Forests and Gradient Boosted Trees to an SVM achieving the series‑best 98.25% accuracy, demonstrating disciplined comparative benchmarking.
 
-**Model Interpretability — SHAP:** Moves beyond "how accurate?" to "can it be trusted?" — applying TreeSHAP to explain an existing high‑accuracy classifier at both global and individual‑prediction level, tied to clinically coherent features, so the model can be audited and deployed with confidence.
+**Model Interpretability — [SHAP](/shap/):** Moves beyond "how accurate?" to "can it be trusted?" — applying TreeSHAP to explain an existing high‑accuracy classifier at both global and individual‑prediction level, tied to clinically coherent features, so the model can be audited and deployed with confidence.
 
-**Model Drift Monitoring & Retraining — MLOps:** Picks up where most projects stop: with a model already deployed, it frames a clinical decision‑support scenario and demonstrates drift monitoring and retraining triggers — the production‑readiness dimension that turns a good model into a maintainable one.
+**Model Drift Monitoring & Retraining — [MLOps](/mlops/):** Picks up where most projects stop: with a model already deployed, it frames a clinical decision‑support scenario and demonstrates drift monitoring and retraining triggers — the production‑readiness dimension that turns a good model into a maintainable one.
 
 ## Data Science Workflow
 
@@ -95,7 +95,7 @@ All projects are built in Python, using the following core libraries across the 
 * **Machine learning:** scikit‑learn, XGBoost
 * **Deep learning & NLP:** PyTorch / TensorFlow, Hugging Face Transformers
 * **Interpretability & explainability:** SHAP, LIME
-* **Data quality & validation:** Great Expectations
+* **Data quality & validation:** fg-data-profiling, Great Expectations
 * **Visualisation:** Matplotlib, seaborn
 
 The emphasis throughout is on applying these tools with rigour and clear business purpose, rather than on the tools themselves.
