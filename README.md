@@ -93,8 +93,10 @@ All projects are built in Python, using the following core libraries across the 
 * **Data manipulation & analysis:** pandas, NumPy
 * **Statistical modelling & inference:** statsmodels, SciPy
 * **Machine learning:** scikit‑learn, XGBoost
-* **Deep learning & NLP:** PyTorch / TensorFlow, Hugging Face Transformers
 * **Interpretability & explainability:** SHAP, LIME
+* **Deep learning & NLP:** PyTorch / TensorFlow, Hugging Face Transformers
+* **Association rule mining:** mlxtend
+* **Causal inference:** CausalImpact
 * **Data quality & validation:** fg-data-profiling, Great Expectations
 * **Visualisation:** Matplotlib, seaborn
 
