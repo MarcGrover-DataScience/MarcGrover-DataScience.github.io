@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Iris sepal petal lengths (Two-Sample Independent T-Test)
+title: Iris sepal lengths (Two-Sample Independent T-Test)
 
 permalink: /2-sample-independent-t-test/
 
@@ -10,11 +10,11 @@ permalink: /2-sample-independent-t-test/
 
 ## Goals and objectives:
 
-A commercial iris grower wishes to understand whether the growing conditions applied to two separate batches of Iris ensata plants (Group 1 and Group 2) have a measurable effect on sepal petal length. Plants with longer sepal petals command a higher market price, so identifying which growing conditions produce the greatest length is of direct commercial value to the business.
+A commercial iris grower wishes to understand whether the growing conditions applied to two separate batches of Iris ensata plants (Group 1 and Group 2) have a measurable effect on sepal length. Plants with longer sepal command a higher market price, so identifying which growing conditions produce the greatest length is of direct commercial value to the business.
 
-The analytical objective of this project is to determine whether the difference in mean sepal petal length observed between the two groups is statistically significant, or whether it could plausibly be explained by natural sampling variation. This project demonstrates how a Two-Sample Independent T-Test can be used to test this null hypothesis in a rigorous and reproducible way. The sample dataset comprises 50 sepal petal length measurements from each of the two groups of Iris ensata plants, giving a total of 100 observations.
+The analytical objective of this project is to determine whether the difference in mean sepal length observed between the two groups is statistically significant, or whether it could plausibly be explained by natural sampling variation. This project demonstrates how a Two-Sample Independent T-Test can be used to test this null hypothesis in a rigorous and reproducible way. The sample dataset comprises 50 sepal length measurements from each of the two groups of Iris ensata plants, giving a total of 100 observations.
 
-The test found statistically significant evidence that the mean sepal petal length of Group 2 is greater than that of Group 1 (p = 0.028, Cohen's d = 0.446). The growing condition applied to Group 2 therefore appears to produce longer sepal petals and may represent the preferred approach for the business going forward, subject to the limitations discussed in the Conclusions section.
+The test found statistically significant evidence that the mean sepal length of Group 2 is greater than that of Group 1 (p = 0.028, Cohen's d = 0.446). The growing condition applied to Group 2 therefore appears to produce longer sepal and may represent the preferred approach for the business going forward, subject to the limitations discussed in the Conclusions section.
 
 ## Application:  
 
@@ -49,8 +49,8 @@ The dataset is loaded from a locally stored Excel file (`Iris_ensata.xlsx`) usin
 
 The null and alternative hypotheses for this test are:
 
-* **H₀**: The mean sepal petal length of Iris ensata in Group 1 = the mean sepal petal length of Iris ensata in Group 2 (i.e. there is no statistically significant difference)
-* **H₁**: The mean sepal petal length of Iris ensata in Group 1 ≠ the mean sepal petal length of Iris ensata in Group 2 (i.e. a statistically significant difference exists)
+* **H₀**: The mean sepal length of Iris ensata in Group 1 = the mean sepal length of Iris ensata in Group 2 (i.e. there is no statistically significant difference)
+* **H₁**: The mean sepal length of Iris ensata in Group 1 ≠ the mean sepal length of Iris ensata in Group 2 (i.e. a statistically significant difference exists)
 
 The significance threshold is set at α = 0.05, representing a 95% confidence level. The assumption of independence of observations is accepted by design of the experiment — the two groups of plants were grown under separate conditions with no overlap between them.
 
@@ -84,17 +84,17 @@ A fourth chart is produced to directly visualise the core quantity of interest �
 
 ### Descriptive statistics:  
 
-Initially a histogram and KDE of the iris sepal petal lengths for each group of observations was created to visually inspect the distribution.
+Initially a histogram and KDE of the iris sepal lengths for each group of observations was created to visually inspect the distribution.
 
-![Histogram of petal length by group](2s_ttest_hist.png)
+![Histogram of sepal length by group](2s_ttest_hist.png)
 
 The histogram and KDE curves show that both groups follow an approximately symmetric, bell-shaped distribution with no obvious skew. The distributions overlap substantially, but the centre of Group 2's distribution sits visibly to the right of Group 1's, indicating a higher mean length. Both KDE curves are smooth and unimodal, providing initial visual support for the normality assumption that will be tested formally below.
 
 Boxplot and violin plots of the values for each group were also produced, to further understand the distributions.
 
-![Boxplot of petal length by group](2s_ttest_boxplot.png)
+![Boxplot of sepal length by group](2s_ttest_boxplot.png)
 
-![Violin plot of petal length by group](2s_ttest_violin.png)
+![Violin plot of sepal length by group](2s_ttest_violin.png)
 
 The boxplot confirms that neither group contains extreme outliers. Both interquartile ranges are compact and the whiskers are of proportionate length, with no individual observations plotted beyond the whisker boundaries. This confirms that no individual measurements would materially distort the t-statistic, and the outlier assumption of the Two-Sample T-Test is satisfied. The median line for Group 2 sits noticeably higher than that of Group 1, consistent with what the histogram suggested.
 
@@ -107,7 +107,7 @@ Ensata Group 1:  n=50, Mean=8.159cm, SD=0.381
 Ensata Group 2:  n=50, Mean=8.333cm, SD=0.401  
 Difference in Means:  0.174cm
 ```
-The mean sepal petal length of Group 2 is 0.174cm greater than that of Group 1. The standard deviations are similar in magnitude (0.381 and 0.401), suggesting comparable within-group 
+The mean sepal length of Group 2 is 0.174cm greater than that of Group 1. The standard deviations are similar in magnitude (0.381 and 0.401), suggesting comparable within-group 
 variability. The chart below visualises the mean and 95% confidence interval for each group, with individual data points overlaid.
 
 ![Mean sepal length with 95% confidence intervals](2s_ttest_mean_ci.png)
@@ -142,7 +142,7 @@ T-Statistic:  -2.2317
 P-Value:       0.0279
 ```
 
-As 0.0279 < 0.05 we reject the null hypothesis (H₀). The evidence supports the alternative hypothesis that the means of the two groups are statistically significantly different — the sepal petals from Group 2 are statistically significantly longer than those from Group 1.
+As 0.0279 < 0.05 we reject the null hypothesis (H₀). The evidence supports the alternative hypothesis that the means of the two groups are statistically significantly different — the sepals from Group 2 are statistically significantly longer than those from Group 1.
 
 To further understand the magnitude and precision of the difference, two additional measures are reported:
 
@@ -154,7 +154,7 @@ To further understand the magnitude and precision of the difference, two additio
 
 ### Statistical Interpretation
 
-The Two-Sample Independent T-Test provides strong statistical evidence that the mean sepal petal length of Iris ensata differs between the two growing conditions. The three key statistical outputs — the p-value, effect size, and confidence interval — each contribute different and complementary information to this conclusion, and should be read together rather than in isolation.
+The Two-Sample Independent T-Test provides strong statistical evidence that the mean sepal length of Iris ensata differs between the two growing conditions. The three key statistical outputs — the p-value, effect size, and confidence interval — each contribute different and complementary information to this conclusion, and should be read together rather than in isolation.
 
 The p-value of 0.0279 indicates that, under the assumption that H₀ is true (i.e. that the two groups have the same population mean), the probability of observing a difference in sample means as large as 0.174cm or larger is only 2.79%. This falls below the pre-specified significance threshold of α = 0.05, and so H₀ is rejected. The result is statistically significant.
 
@@ -164,7 +164,7 @@ Cohen's d of 0.4463 quantifies the magnitude of that difference in standardised 
 
 An important distinction is that statistical significance and practical significance are not equivalent, and both must be considered when drawing business conclusions.
 
-The test confirms that the difference in means is unlikely to be due to chance. However, the practical value of a 0.174cm difference in mean sepal length depends entirely on the commercial context. In this case, where the business objective is to maximise plant size in order to achieve higher sale prices, even a modest but consistent size advantage across a population of plants could accumulate into meaningful revenue — particularly at scale. A grower producing thousands of plants per season would see the 0.174cm mean advantage translate into a material shift in the proportion of plants meeting a premium size threshold. The growing conditions applied in Group 2 appear to produce longer sepal petals and should be considered as the preferred approach going forward, pending further investigation as described in the Next Steps below.
+The test confirms that the difference in means is unlikely to be due to chance. However, the practical value of a 0.174cm difference in mean sepal length depends entirely on the commercial context. In this case, where the business objective is to maximise plant size in order to achieve higher sale prices, even a modest but consistent size advantage across a population of plants could accumulate into meaningful revenue — particularly at scale. A grower producing thousands of plants per season would see the 0.174cm mean advantage translate into a material shift in the proportion of plants meeting a premium size threshold. The growing conditions applied in Group 2 appear to produce longer sepals and should be considered as the preferred approach going forward, pending further investigation as described in the Next Steps below.
 
 It should also be noted that the 95% confidence interval, spanning 0.019cm to 0.330cm, means the business cannot be certain the advantage is as large as 0.174cm — the true difference could be anywhere in that range. This uncertainty is a natural consequence of working with samples of n=50 per group, and should be acknowledged in any business decision based on this analysis.
 
@@ -174,7 +174,7 @@ Several limitations of this analysis should be considered when interpreting the 
 
 **Sample size:** With n=50 observations per group, the analysis is adequately powered for detecting a medium-sized effect, but the relatively modest sample size contributes to a wide confidence interval (0.311cm). Larger samples would narrow this interval and provide a more precise estimate of the true population difference. The current results should be treated as indicative rather than definitive.
 
-**Single measurement:** The analysis is based solely on sepal petal length. A comprehensive assessment of plant size and commercial value would also consider petal length, petal width, and sepal width. It is possible that the growing conditions benefit one measurement but not others, or that the overall morphological profile of the two groups differs in ways not captured by this single variable.
+**Single measurement:** The analysis is based solely on sepal length. A comprehensive assessment of plant size and commercial value would also consider petal length, petal width, and sepal width. It is possible that the growing conditions benefit one measurement but not others, or that the overall morphological profile of the two groups differs in ways not captured by this single variable.
 
 **Growing conditions not formally described:** The analysis treats the two groups as distinct experimental conditions, but the precise nature of those conditions is not specified in the dataset. Without a formal description of what differs between the conditions (e.g. soil composition, irrigation, light exposure, fertiliser type), it is not possible to attribute the observed difference to a specific causal factor. Additional experimental documentation would be required before any specific horticultural recommendation could be made with confidence.
 
@@ -186,7 +186,7 @@ Having concluded that the mean iris sepal length for group 2 is longer, with the
 
 Should additional growing conditions be tested, a natural methodological extension is the one-way ANOVA, which would allow simultaneous comparison of three or more group means without inflating the Type I error rate that multiple pairwise t-tests would introduce. This technique is covered elsewhere in this portfolio.
 
-A further consideration is the analysis of additional morphological measurements — petal length, petal width, sepal width — to determine whether the growing condition effect is consistent across all measurements, or specific to sepal petal length. A multivariate approach such as MANOVA could test whether the overall measurement profile differs between groups.
+A further consideration is the analysis of additional morphological measurements — petal length, petal width, sepal width — to determine whether the growing condition effect is consistent across all measurements, or specific to sepal length. A multivariate approach such as MANOVA could test whether the overall measurement profile differs between groups.
 
 The assumption of independence of observations was accepted by design. In a real experimental setting, confirming that plants in each group were genuinely independently assigned (e.g. via randomisation, not batch or greenhouse clustering) would be an important validation step. Clustered or nested designs would require mixed-effects models rather than a standard two-sample t-test.
 
