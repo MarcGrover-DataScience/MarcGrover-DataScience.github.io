@@ -10,16 +10,11 @@ Explore the sections below, or start with the [Data Science Workflow](/data-scie
 
 ## Data Science Workflow
 
-Underpinning every project in this portfolio is a consistent, end-to-end approach to data science — from defining the business problem and acquiring data, through exploratory analysis, modelling, and evaluation, to communicating conclusions and recommending next steps. Understanding this process is as important as mastering any individual technique; the best model built on a poorly framed question, or presented without context, delivers little business value. 
-
-The **[Data Science Workflow](/data-science-workflow/)** page sets out this approach in full, explaining each stage of the process and showing how the projects in this portfolio apply it in practice.
+Underpinning every  project in this portfolio follows a consistent, end‑to‑end approach — from framing the business problem through exploratory analysis, modelling and evaluation, to clear conclusions and next steps — because process matters as much as any individual technique. The **[Data Science Workflow](/data-science-workflow/)** page sets this out in full and shows how each stage is applied in practice.
 
 ## Responsible AI and Ethics in Applied Data Science
 
-As machine learning and statistical models move into operational settings — informing decisions in healthcare, finance, retail, and beyond — technical performance alone is not a sufficient measure of quality. A model that cannot be explained to a stakeholder, that produces systematically different outcomes for different groups, or that cannot be audited when a decision is challenged, is not ready for deployment regardless of its accuracy on a test set. Responsible data science requires that questions of fairness, transparency, interpretability, and accountability are treated as part of the problem, not as an afterthought to it. These considerations inform the approach taken across all projects in this portfolio.
-
-The **[Ethics in Applied Data Science](/data-science-ethics/)** page sets out these principles in full, examining each in turn and showing where they connect directly to the projects and methods demonstrated here.
-
+As models move into operational settings, technical accuracy alone is not enough — a model must also be fair, transparent, interpretable and accountable to be fit for deployment. The **[Ethics in Applied Data Science](/data-science-ethics/)** page examines each of these principles and shows where they connect directly to the projects and methods demonstrated here.
 
 ## Statistical Analysis & Hypothesis Testing  
 * [One-Sample T-Test](/1-sample-t-test/)
