@@ -96,7 +96,7 @@ All projects are built in Python, using the following core libraries across the 
 * **Interpretability & explainability:** SHAP, LIME
 * **Deep learning & NLP:** PyTorch, Hugging Face Transformers
 * **Association rule mining:** mlxtend
-* **Causal inference:** CausalImpact
+* **Causal inference:** CausalImpact, TensorFlow
 * **Data quality & validation:** fg-data-profiling, Great Expectations
 * **Visualisation:** Matplotlib, seaborn
 
