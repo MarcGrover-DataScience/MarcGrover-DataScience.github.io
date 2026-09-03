@@ -247,6 +247,12 @@ Advanced analytics and prediction models require continuous evolution to maximis
 * Test new features incrementally, measuring marginal performance gains
 * Balance the cost of data collection against predictive value improvements
 
+**Synthetic Minority Oversampling (SMOTE)**
+* The current model addresses class imbalance at the algorithm level (balanced class weights) and the evaluation level (CIR, AUPRC, ROC-AUC) — SMOTE would introduce a complementary data-level approach by generating synthetic minority-class (churn) samples rather than reweighting existing ones
+* Compare model performance using SMOTE-resampled training data against the current class-weighted approach, using AUPRC and F1-score as the primary comparison metrics given the class imbalance
+* Evaluate SMOTE variants (e.g., Borderline-SMOTE, SMOTE-ENN) that account for the density and noise characteristics of the churn class rather than uniform oversampling
+* Test whether SMOTE and class weighting in combination outperform either technique used alone
+
 ### Model Deployment and Ongoing Management:
 
 **Production Deployment**
