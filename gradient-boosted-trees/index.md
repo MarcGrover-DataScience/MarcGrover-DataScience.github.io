@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Breast Cancer Predictions (Gradient Boosted Trees)
+title: Breast Cancer Predictions (XGBoost Gradient Boosted Trees)
 
 permalink: /gradient-boosted-trees/
 
