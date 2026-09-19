@@ -39,6 +39,7 @@ As models move into operational settings, technical accuracy alone is not enough
 ## Regression & Predictive Modelling
 * [Multiple Linear Regression](/multi-linear-regression/)
 * [Logistic Regression](/logistic-regression/)
+* [Regularised Regression](/regularised-regression/)
 
 ## Time-Series Analysis
 * [Moving Averages](/moving-averages/)
