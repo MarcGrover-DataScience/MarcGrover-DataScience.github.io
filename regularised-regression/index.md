@@ -92,7 +92,11 @@ Coefficients from all four models are compared directly on the standardised scal
 
 ## Results:
 
-Results from the project related to the business objective.
+Target Variable Distribution
+
+SalePrice is meaningfully right-skewed in its raw form (skew = 1.744), reflecting a small number of high-value properties in the upper tail. A log transformation reduces this to near-zero skew (skew = -0.015), justifying its use as the modelling target for all four models in this comparison:
+
+
 
 ## Conclusions:
 
