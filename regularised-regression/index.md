@@ -157,7 +157,52 @@ The regularisation path traces how the 15 largest-magnitude Lasso coefficients c
 
 ![05_lasso_regularisation_path](05_lasso_regularisation_path.png)
 
+**Model Performance Comparison**
 
+```
+Model         Train R²   Test R²   Test RMSE    Test MAE    R² Gap
+OLS             0.9389    0.8542     $39,506     $14,993     0.0847
+Ridge           0.9267    0.9122     $31,388     $15,269     0.0145
+Lasso           0.9070    0.9119     $34,086     $16,271    -0.0050
+Elastic Net     0.9078    0.9147     $32,944     $16,251    -0.0069
+```
+
+All three regularised models outperform OLS on test R² by a wide margin, with Elastic Net achieving the best result (0.9147). Test RMSE falls from $39,506 (OLS) to between $31,388 (Ridge) and $34,086 (Lasso). Notably, Ridge, Lasso and Elastic Net all show a negative R² gap — test performance marginally exceeding training performance — the opposite pattern to OLS, and a direct quantitative confirmation that regularisation has eliminated the overfitting visible in the baseline:
+
+![06_test_rmse_comparison](06_test_rmse_comparison.png)
+
+**Cross-Validation Stability**
+
+10-fold cross-validation, run at each model's selected hyperparameters, addresses the stability half of the business question directly. Mean CV R² and its standard deviation across folds:
+
+```
+Model         Mean CV R²   Std Dev
+OLS              0.7809     0.1518
+Ridge            0.8585     0.0902
+Lasso            0.8662     0.0946
+Elastic Net      0.8682     0.0907
+```
+
+The standard deviation across folds falls by roughly 40% moving from OLS to any of the three regularised models. The boxplot below makes this concrete: one OLS fold returns an R² as low as approximately 0.55, a result driven by exactly the coefficient instability the coefficient comparison chart illustrates, while the regularised models' worst folds remain above 0.84:
+
+![07_cv_stability_boxplot](07_cv_stability_boxplot.png)
+
+**Robust vs Fragile Features**
+
+Comparing coefficients across all four models identifies which features carry signal that survives regardless of modelling approach, and which are artefacts of OLS's sensitivity to collinearity. 19 features retain a non-trivial coefficient (|coefficient| > 0.01) in all four models, headed by `Gr Liv Area`, `Overall Qual`, `Year Built`, `Overall Cond`, and `Total Bsmt SF` — a set that aligns closely with the strongest correlates identified in the initial EDA.
+
+By contrast, 43 features that OLS treats as meaningful are zeroed out entirely by Lasso, headed by the same sparsely populated dummy variables flagged in the coefficient comparison:
+
+```
+Feature               OLS       Ridge
+Misc Feature_None    0.448      0.012
+Misc Feature_Shed    0.423      0.017
+Roof Matl_CompShg    0.383      0.041
+Roof Matl_WdShake    0.183      0.017
+Misc Feature_Othr    0.095      0.010
+```
+
+Ridge's retained (if heavily shrunk) coefficients for these same features — an order of magnitude smaller than OLS's — corroborate the interpretation that OLS's estimates here are largely an artefact of small-sample categories rather than genuine pricing signal.
 
 ## Conclusions:
 
