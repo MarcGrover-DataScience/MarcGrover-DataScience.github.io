@@ -153,7 +153,9 @@ Restricting to the 20 features with the largest absolute OLS coefficient reveals
 
 **Regularisation Path**
 
+The regularisation path traces how the 15 largest-magnitude Lasso coefficients change as the penalty strength increases from 0.001 to 10. Most features shrink monotonically to zero as expected, with `Gr Liv Area` and `Overall Qual` persisting furthest into the path before being eliminated — consistent with the coefficient comparison above. `Overall Qual`'s path rises before falling as the penalty increases; this is expected, non-monotonic behaviour under correlated features rather than an anomaly — as competing correlated predictors are driven to zero, `Overall Qual` temporarily absorbs more of the explained variance before its own coefficient is eventually shrunk in turn:
 
+![05_lasso_regularisation_path](05_lasso_regularisation_path.png)
 
 
 
