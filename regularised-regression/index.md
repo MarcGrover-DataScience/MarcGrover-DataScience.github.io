@@ -189,7 +189,7 @@ The standard deviation across folds falls by roughly 40% moving from OLS to any 
 
 **Robust vs Fragile Features**
 
-Comparing coefficients across all four models identifies which features carry signal that survives regardless of modelling approach, and which are artefacts of OLS's sensitivity to collinearity. 19 features retain a non-trivial coefficient (|coefficient| > 0.01) in all four models, headed by `Gr Liv Area`, `Overall Qual`, `Year Built`, `Overall Cond`, and `Total Bsmt SF` — a set that aligns closely with the strongest correlates identified in the initial EDA.
+Comparing coefficients across all four models identifies which features carry signal that survives regardless of modelling approach, and which are artefacts of OLS's sensitivity to collinearity. 19 features retain a non-trivial coefficient - absolute value of the coefficient > 0.01 - in all four models, headed by `Gr Liv Area`, `Overall Qual`, `Year Built`, `Overall Cond`, and `Total Bsmt SF` — a set that aligns closely with the strongest correlates identified in the initial EDA.
 
 By contrast, 43 features that OLS treats as meaningful are zeroed out entirely by Lasso, headed by the same sparsely populated dummy variables flagged in the coefficient comparison:
 
