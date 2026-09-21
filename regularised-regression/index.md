@@ -104,6 +104,59 @@ Overall Qual shows the strongest linear relationship with SalePrice (r = 0.799),
 
 ![02_correlation_heatmap](02_correlation_heatmap.png)
 
+**Multicollinearity Assessment**
+
+VIF was calculated for the 35 numeric (non-dummy) predictors. The result is a clean bimodal split rather than a smooth distribution of elevated values. Eight features return a numerically unbounded VIF:
+
+```
+        Feature   VIF
+   BsmtFin SF 1   inf
+    Bsmt Unf SF   inf
+   BsmtFin SF 2   inf
+Low Qual Fin SF   inf
+     2nd Flr SF   inf
+     1st Flr SF   inf
+    Gr Liv Area   inf
+  Total Bsmt SF   inf
+```
+
+This is not merely high correlation — verified separately, `Total Bsmt SF = BsmtFin SF 1 + BsmtFin SF 2 + Bsmt Unf SF` and `Gr Liv Area = 1st Flr SF + 2nd Flr SF + Low Qual Fin SF` hold as exact arithmetic identities across all 2,930 rows, with zero discrepancy in either case. This makes the design matrix exactly rank-deficient for these eight columns, which is a more severe condition than the elevated-but-finite VIFs the Multiple Linear Regression project encountered (total_bill: 9.216, size: 9.271).
+
+No other numeric feature exceeds the conventional high-multicollinearity threshold of VIF > 10 — the remainder of the feature set sits comfortably below it, headed by Garage Cars (5.56) and Garage Area (5.29), both below the MLR project's own reported values. The chart below uses a log-scaled axis to display both extremes on one scale, with exactly-collinear features capped at 10⁶ for legibility and the MLR project's VIF = 10 threshold plotted as a reference line:
+
+![03_vif_multicollinearity](03_vif_multicollinearity.png)
+
+**Baseline OLS Performance**
+
+The OLS baseline, fitted on all 274 encoded features, achieves a training R² of 0.9389 (RMSE $16,671, MAE $11,572) but a materially lower test R² of 0.8542 (RMSE $39,506, MAE $14,993) — a train/test R² gap of 0.0847. This gap is the empirical signature of overfitting under high dimensionality and exact multicollinearity: the unpenalised model fits patterns in the training data, including noise attributable to the redundant feature groups identified above, that do not generalise to unseen properties.
+
+**Regularised Model Fitting**
+
+Ridge, Lasso, and Elastic Net were each tuned via cross-validated search over a shared grid of 100 penalty strengths and a shared 10-fold split. Ridge selected a comparatively strong penalty (α = 100.0), Lasso a much lighter one (α = 0.0051), and Elastic Net settled at α = 0.0464 with an l1_ratio of 0.10 — closer to Ridge-like behaviour than Lasso-like, consistent with a feature set where most collinearity is concentrated in a small number of exact identities rather than spread diffusely across many redundant features.
+
+The sparsity difference between the three penalty types is pronounced:
+
+```
+Model         Coefficients zeroed (of 274)
+Ridge         3
+Lasso         187
+Elastic Net   173
+```
+
+Ridge, true to its shrink-but-never-eliminate design, leaves all but 3 coefficients non-zero. Lasso and Elastic Net, by contrast, eliminate over two-thirds of the feature set outright. The first 15 features Lasso zeroes out include `Lot Frontage`, `Mas Vnr Area`, `BsmtFin SF 2`, `Bsmt Unf SF`, `1st Flr SF`, `2nd Flr SF`, and `Low Qual Fin SF` — notably, several of these are exactly the features implicated in the exact-collinearity finding above, indicating that Lasso is resolving the redundancy by discarding the components of `Total Bsmt SF` and `Gr Liv Area` in favour of the aggregate figures themselves.
+
+**Coefficient Comparison**
+
+Restricting to the 20 features with the largest absolute OLS coefficient reveals a striking pattern that the summary metrics alone do not: OLS assigns very large, unstable coefficients (up to ±0.45 on the standardised scale) to sparsely populated categorical dummies — rare `Roof Matl` categories and `Misc Feature` types — which all three regularised models shrink to near-zero. Meaningful, expected predictors such as `Gr Liv Area` and `Overall Qual` receive comparatively modest OLS coefficients (0.075 and 0.068 respectively) that Lasso and Elastic Net instead increase (to 0.119 and 0.103 for Lasso), redistributing explanatory weight away from the unstable rare-category dummies and toward the substantively meaningful, well-populated features:
+
+![04_coefficient_comparison](04_coefficient_comparison.png)
+
+**Regularisation Path**
+
+
+
+
+
 ## Conclusions:
 
 Conclusions from the project findings and results.
