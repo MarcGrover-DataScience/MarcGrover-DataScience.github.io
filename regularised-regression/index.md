@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Regularised Regression)
+title: House Price Predictions (Regularised Regression)
 
 permalink: /regularised-regression/
 
