@@ -128,7 +128,7 @@ No other numeric feature exceeds the conventional high-multicollinearity thresho
 
 **Baseline OLS Performance**
 
-The OLS baseline, fitted on all 274 encoded features, achieves a training R² of 0.9389 (RMSE $16,671, MAE $11,572) but a materially lower test R² of 0.8542 (RMSE $39,506, MAE $14,993) — a train/test R² gap of 0.0847. This gap is the empirical signature of overfitting under high dimensionality and exact multicollinearity: the unpenalised model fits patterns in the training data, including noise attributable to the redundant feature groups identified above, that do not generalise to unseen properties.
+The OLS baseline, fitted on all 274 encoded features, achieves a training R² of 0.9389 (RMSE \$16,671, MAE \$11,572) but a materially lower test R² of 0.8542 (RMSE \$39,506, MAE \$14,993) — a train/test R² gap of 0.0847. This gap is the empirical signature of overfitting under high dimensionality and exact multicollinearity: the unpenalised model fits patterns in the training data, including noise attributable to the redundant feature groups identified above, that do not generalise to unseen properties.
 
 **Regularised Model Fitting**
 
@@ -167,7 +167,7 @@ Lasso           0.9070    0.9119     $34,086     $16,271    -0.0050
 Elastic Net     0.9078    0.9147     $32,944     $16,251    -0.0069
 ```
 
-All three regularised models outperform OLS on test R² by a wide margin, with Elastic Net achieving the best result (0.9147). Test RMSE falls from $39,506 (OLS) to between $31,388 (Ridge) and $34,086 (Lasso). Notably, Ridge, Lasso and Elastic Net all show a negative R² gap — test performance marginally exceeding training performance — the opposite pattern to OLS, and a direct quantitative confirmation that regularisation has eliminated the overfitting visible in the baseline:
+All three regularised models outperform OLS on test R² by a wide margin, with Elastic Net achieving the best result (0.9147). Test RMSE falls from \$39,506 (OLS) to between \$31,388 (Ridge) and \$34,086 (Lasso). Notably, Ridge, Lasso and Elastic Net all show a negative R² gap — test performance marginally exceeding training performance — the opposite pattern to OLS, and a direct quantitative confirmation that regularisation has eliminated the overfitting visible in the baseline:
 
 ![06_test_rmse_comparison](06_test_rmse_comparison.png)
 
