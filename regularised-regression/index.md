@@ -122,7 +122,7 @@ Low Qual Fin SF   inf
 
 This is not merely high correlation — verified separately, `Total Bsmt SF = BsmtFin SF 1 + BsmtFin SF 2 + Bsmt Unf SF` and `Gr Liv Area = 1st Flr SF + 2nd Flr SF + Low Qual Fin SF` hold as exact arithmetic identities across all 2,930 rows, with zero discrepancy in either case. This makes the design matrix exactly rank-deficient for these eight columns, which is a more severe condition than the elevated-but-finite VIFs the Multiple Linear Regression project encountered (total_bill: 9.216, size: 9.271).
 
-No other numeric feature exceeds the conventional high-multicollinearity threshold of VIF > 10 — the remainder of the feature set sits comfortably below it, headed by Garage Cars (5.56) and Garage Area (5.29), both below the MLR project's own reported values. The chart below uses a log-scaled axis to display both extremes on one scale, with exactly-collinear features capped at 10⁶ for legibility and the MLR project's VIF = 10 threshold plotted as a reference line:
+No other numeric feature exceeds the conventional high-multicollinearity threshold of VIF > 10 — the remainder of the feature set sits comfortably below it, headed by `Garage Cars` (5.56) and `Garage Area` (5.29), both below the MLR project's own reported values. The chart below uses a log-scaled axis to display both extremes on one scale, with exactly-collinear features capped at 10⁶ for legibility and the MLR project's VIF = 10 threshold plotted as a reference line:
 
 ![03_vif_multicollinearity](03_vif_multicollinearity.png)
 
