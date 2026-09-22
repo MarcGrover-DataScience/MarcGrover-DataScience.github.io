@@ -100,7 +100,7 @@ SalePrice is meaningfully right-skewed in its raw form (skew = 1.744), reflectin
 
 **Correlation Analysis**
 
-Overall Qual shows the strongest linear relationship with SalePrice (r = 0.799), followed by Gr Liv Area (r = 0.707), Garage Cars (r = 0.648), Garage Area (r = 0.640), and Total Bsmt SF (r = 0.632). The correlation matrix below restricts to the 15 strongest numeric predictors for legibility and makes visible several pairs of features that move together closely — Garage Cars and Garage Area (r = 0.89), Total Bsmt SF and 1st Flr SF (r = 0.80), and Year Built and Garage Yr Blt (r = 0.83) — a preview of the multicollinearity formally assessed next:
+`Overall Qual` shows the strongest linear relationship with `SalePrice` (r = 0.799), followed by `Gr Liv Area` (r = 0.707), `Garage Cars` (r = 0.648), `Garage Area` (r = 0.640), and `Total Bsmt SF` (r = 0.632). The correlation matrix below restricts to the 15 strongest numeric predictors for legibility and makes visible several pairs of features that move together closely — `Garage Cars` and `Garage Area` (r = 0.89), `Total Bsmt SF` and `1st Flr SF` (r = 0.80), and `Year Built` and `Garage Yr Blt` (r = 0.83) — a preview of the multicollinearity formally assessed next:
 
 ![02_correlation_heatmap](02_correlation_heatmap.png)
 
