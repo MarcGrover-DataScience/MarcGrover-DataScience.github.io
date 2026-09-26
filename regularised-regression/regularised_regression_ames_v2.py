@@ -627,4 +627,4 @@ print(f"\nFeatures OLS treats as meaningful but Lasso zeroes out entirely "
       f"({fragile_mask.sum()} total, first 10):")
 print(fragile_features.head(10)[["Feature", "OLS", "Ridge"]].to_string(index=False))
 
-print("\nScript complete. Charts written to ./charts/")
+print("\nScript complete. Charts created")
