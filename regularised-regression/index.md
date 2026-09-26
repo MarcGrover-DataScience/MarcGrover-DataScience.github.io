@@ -92,19 +92,19 @@ Coefficients from all four models are compared directly on the standardised scal
 
 ## Results:
 
-**Target Variable Distribution**
+### Target Variable Distribution
 
 SalePrice is meaningfully right-skewed in its raw form (skew = 1.744), reflecting a small number of high-value properties in the upper tail. A log transformation reduces this to near-zero skew (skew = -0.015), justifying its use as the modelling target for all four models in this comparison:
 
 ![01_saleprice_distribution](01_saleprice_distribution.png)
 
-**Correlation Analysis**
+### Correlation Analysis
 
 `Overall Qual` shows the strongest linear relationship with `SalePrice` (r = 0.799), followed by `Gr Liv Area` (r = 0.707), `Garage Cars` (r = 0.648), `Garage Area` (r = 0.640), and `Total Bsmt SF` (r = 0.632). The correlation matrix below restricts to the 15 strongest numeric predictors for legibility and makes visible several pairs of features that move together closely — `Garage Cars` and `Garage Area` (r = 0.89), `Total Bsmt SF` and `1st Flr SF` (r = 0.80), and `Year Built` and `Garage Yr Blt` (r = 0.83) — a preview of the multicollinearity formally assessed next:
 
 ![02_correlation_heatmap](02_correlation_heatmap.png)
 
-**Multicollinearity Assessment**
+### Multicollinearity Assessment
 
 VIF was calculated for the 35 numeric (non-dummy) predictors. The result is a clean bimodal split rather than a smooth distribution of elevated values. Eight features return a numerically unbounded VIF:
 
@@ -126,11 +126,11 @@ No other numeric feature exceeds the conventional high-multicollinearity thresho
 
 ![03_vif_multicollinearity](03_vif_multicollinearity.png)
 
-**Baseline OLS Performance**
+### Baseline OLS Performance
 
 The OLS baseline, fitted on all 274 encoded features, achieves a training R² of 0.9389 (RMSE \$16,671, MAE \$11,572) but a materially lower test R² of 0.8542 (RMSE \$39,506, MAE \$14,993) — a train/test R² gap of 0.0847. This gap is the empirical signature of overfitting under high dimensionality and exact multicollinearity: the unpenalised model fits patterns in the training data, including noise attributable to the redundant feature groups identified above, that do not generalise to unseen properties.
 
-**Regularised Model Fitting**
+### Regularised Model Fitting
 
 Ridge, Lasso, and Elastic Net were each tuned via cross-validated search over a shared grid of 100 penalty strengths and a shared 10-fold split. Ridge selected a comparatively strong penalty (α = 100.0), Lasso a much lighter one (α = 0.0051), and Elastic Net settled at α = 0.0464 with an l1_ratio of 0.10 — closer to Ridge-like behaviour than Lasso-like, consistent with a feature set where most collinearity is concentrated in a small number of exact identities rather than spread diffusely across many redundant features.
 
@@ -145,19 +145,19 @@ Elastic Net   173
 
 Ridge, true to its shrink-but-never-eliminate design, leaves all but 3 coefficients non-zero. Lasso and Elastic Net, by contrast, eliminate over two-thirds of the feature set outright. The first 15 features Lasso zeroes out include `Lot Frontage`, `Mas Vnr Area`, `BsmtFin SF 2`, `Bsmt Unf SF`, `1st Flr SF`, `2nd Flr SF`, and `Low Qual Fin SF` — notably, several of these are exactly the features implicated in the exact-collinearity finding above, indicating that Lasso is resolving the redundancy by discarding the components of `Total Bsmt SF` and `Gr Liv Area` in favour of the aggregate figures themselves.
 
-**Coefficient Comparison**
+### Coefficient Comparison
 
 Restricting to the 20 features with the largest absolute OLS coefficient reveals a striking pattern that the summary metrics alone do not: OLS assigns very large, unstable coefficients (up to ±0.45 on the standardised scale) to sparsely populated categorical dummies — rare `Roof Matl` categories and `Misc Feature` types — which all three regularised models shrink to near-zero. Meaningful, expected predictors such as `Gr Liv Area` and `Overall Qual` receive comparatively modest OLS coefficients (0.075 and 0.068 respectively) that Lasso and Elastic Net instead increase (to 0.119 and 0.103 for Lasso), redistributing explanatory weight away from the unstable rare-category dummies and toward the substantively meaningful, well-populated features:
 
 ![04_coefficient_comparison](04_coefficient_comparison.png)
 
-**Regularisation Path**
+### Regularisation Path
 
 The regularisation path traces how the 15 largest-magnitude Lasso coefficients change as the penalty strength increases from 0.001 to 10. Most features shrink monotonically to zero as expected, with `Gr Liv Area` and `Overall Qual` persisting furthest into the path before being eliminated — consistent with the coefficient comparison above. `Overall Qual`'s path rises before falling as the penalty increases; this is expected, non-monotonic behaviour under correlated features rather than an anomaly — as competing correlated predictors are driven to zero, `Overall Qual` temporarily absorbs more of the explained variance before its own coefficient is eventually shrunk in turn:
 
 ![05_lasso_regularisation_path](05_lasso_regularisation_path.png)
 
-**Model Performance Comparison**
+### Model Performance Comparison
 
 ```
 Model         Train R²   Test R²   Test RMSE    Test MAE    R² Gap
@@ -167,11 +167,13 @@ Lasso           0.9070    0.9119     $34,086     $16,271    -0.0050
 Elastic Net     0.9078    0.9147     $32,944     $16,251    -0.0069
 ```
 
+One figure in this table runs counter to the overall pattern: OLS records the lowest test MAE ($14,993) despite the worst R² and RMSE. This is investigated fully in Conclusions, where it turns out to be a genuine and informative finding rather than an anomaly to set aside.
+
 All three regularised models outperform OLS on test R² by a wide margin, with Elastic Net achieving the best result (0.9147). Test RMSE falls from \$39,506 (OLS) to between \$31,388 (Ridge) and \$34,086 (Lasso). Notably, Ridge, Lasso and Elastic Net all show a negative R² gap — test performance marginally exceeding training performance — the opposite pattern to OLS, and a direct quantitative confirmation that regularisation has eliminated the overfitting visible in the baseline:
 
 ![06_test_rmse_comparison](06_test_rmse_comparison.png)
 
-**Cross-Validation Stability**
+### Cross-Validation Stability
 
 10-fold cross-validation, run at each model's selected hyperparameters, addresses the stability half of the business question directly. Mean CV R² and its standard deviation across folds:
 
@@ -187,7 +189,7 @@ The standard deviation across folds falls by roughly 40% moving from OLS to any 
 
 ![07_cv_stability_boxplot](07_cv_stability_boxplot.png)
 
-**Robust vs Fragile Features**
+### Robust vs Fragile Features
 
 Comparing coefficients across all four models identifies which features carry signal that survives regardless of modelling approach, and which are artefacts of OLS's sensitivity to collinearity. 19 features retain a non-trivial coefficient - absolute value of the coefficient > 0.01 - in all four models, headed by `Gr Liv Area`, `Overall Qual`, `Year Built`, `Overall Cond`, and `Total Bsmt SF` — a set that aligns closely with the strongest correlates identified in the initial EDA.
 
@@ -208,7 +210,7 @@ Ridge's retained (if heavily shrunk) coefficients for these same features — an
 
 This project set out to answer a specific business question: do Ridge, Lasso, and Elastic Net produce more stable, generalisable house price predictions than unpenalised OLS when the feature set is large and correlated, and which property characteristics carry genuinely independent pricing signal? The results answer both parts clearly. All three regularised models outperform OLS on test R² by a wide margin (0.912–0.915 versus 0.854), and — the more decision-relevant finding for a valuation team building a model they intend to trust — the standard deviation of cross-validation R² across ten folds falls from 0.152 for OLS to 0.090–0.095 for the regularised models. A decision-maker choosing between these models is not simply choosing the more accurate one; they are choosing the one whose accuracy they can rely on regardless of which properties happen to fall into a given batch of valuations.
 
-The VIF diagnostics produced a sharper finding than a typical multicollinearity check: eight features are not merely correlated but exactly collinear by construction (`Total Bsmt SF` and `Gr Liv Area` are literal sums of other retained features), giving those columns a numerically unbounded VIF. Critically, none of these eight features — nor any other feature in the 78-column set — was removed ahead of modelling. All four models, OLS included, were fitted on the identical, unreduced feature set. This was a deliberate choice, and the results justify it: it is precisely what makes visible how differently each method copes with the same problem. OLS has no mechanism to resolve the redundancy and its coefficient estimates for the implicated features become unstable; Lasso and Elastic Net resolve it themselves, mostly by zeroing out the component features in favour of the aggregate totals they sum to. Demonstrating that resolution was only possible because the redundancy was left in the data for the models to confront on their own terms, rather than removed by a human judgement call ahead of time.
+The VIF diagnostics produced a sharper finding than a typical multicollinearity check: eight features returned a numerically unbounded VIF, reflecting exact structural dependencies between features rather than merely strong correlation. Critically, none of these eight features — nor any other feature in the 78-column set — was removed ahead of modelling; all four models, OLS included, were fitted on the identical, unreduced feature set. This was a deliberate choice, and the results justify it: leaving the redundancy in place is precisely what makes visible how differently each method copes with the same problem. OLS has no mechanism to resolve it and its coefficient estimates become unstable; Lasso and Elastic Net resolve it themselves, at the feature-selection stage, without any judgement call from the analyst about which correlated feature to keep.
 
 A further finding worth stating plainly, because it complicated rather than confirmed the headline result: OLS achieves the lowest test MAE of the four models ($14,993), despite having the worst R² and RMSE. Investigating this rather than treating it as noise revealed a genuine and precise explanation. OLS's median absolute error is in fact the lowest of all four models — its typical, everyday prediction is the most accurate — but its single worst prediction misses by \$806,754, more than \$200,000 further out than any other model's worst miss on the same property. RMSE and R² are both built from squared errors, so a model's very worst mistakes dominate them disproportionately; MAE weights every error equally and is comparatively insensitive to a small number of extreme misses. Excluding just that one property from the test set was enough to make OLS the best-performing model on RMSE as well, ahead of Ridge. The two metrics were not in conflict; they were correctly measuring two different things, and neither told the full story on its own.
 
