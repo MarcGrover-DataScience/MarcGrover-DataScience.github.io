@@ -44,6 +44,7 @@ As models move into operational settings, technical accuracy alone is not enough
 ## Time-Series Analysis
 * [Moving Averages](/moving-averages/)
 * [ARIMA](/arima/)
+* [Seasonal Forecasting](/seasonal-forecasting/)
 <!-- * [LSTM Time Series (Deep Learning / Time Series Analysis)](/lstm-time-series/) -->
 <!-- * [Time Series Analysis - Using Prophet, Darts, sktime, tsfresh -->
 
