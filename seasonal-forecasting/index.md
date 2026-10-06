@@ -2,7 +2,7 @@
 
 layout: default
 
-title: Project (Technique)
+title: Seasonal Forecasting (Prophet)
 
 permalink: /seasonal-forecasting/
 
