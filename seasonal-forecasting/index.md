@@ -22,7 +22,29 @@ The analysis shows that Prophet, once its configuration is tuned on the training
 
 ## Application:  
 
-Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
+Prophet is an open-source forecasting procedure developed by Meta's Core Data Science team (Taylor and Letham, 2018). It fits an additive regression model, or a multiplicative one where seasonal swings grow with the level of the series, built from three components: a piecewise-linear trend whose slope is allowed to change at automatically selected changepoints; seasonal patterns of any period, represented as Fourier series (here weekly and annual); and holiday effects specified through an analyst-supplied calendar. External regressors can be added, the model is fitted by optimisation in Stan, and prediction intervals are simulated from the uncertainty in the trend. This structure suits series dominated by calendar effects, with strong weekly and annual cycles, public holidays and occasional trend changes. Its practical benefits are interpretability and control: each component can be plotted and explained to a non-technical stakeholder, missing observations are tolerated, and a domain expert can supply knowledge directly (a holiday calendar, a known level shift) instead of relying on the optimiser to discover it. Its limitation, visible in this project's residual diagnostics, is that it does not model short-run autocorrelation, so it is best matched to medium and long horizons rather than next-day forecasting.
+
+The business application of Prophet spans any domain where demand follows a calendar:
+
+⚡ **Energy and utilities:**
+
+**Forward procurement and demand forecasting**: as demonstrated in this project, retailers and traders forecast daily demand months ahead to set forward purchase volumes and hedging positions, where the weekly and annual cycles and holiday effects that Prophet isolates (a fall of 27 to 28% on Christmas Day) translate directly into volume decisions.  
+**Grid and capacity planning**: system operators use long-horizon demand forecasts to plan generation capacity, maintenance windows and reserve margins, where an interpretable decomposition into trend and seasonality helps explain to regulators and planners why forecast peak demand is rising or falling.
+
+🏥 **Healthcare:**
+
+**Emergency department attendance and bed occupancy**: hospitals forecast daily attendances, which follow weekly rhythms, winter pressures and bank-holiday effects, to set staffing rosters and bed capacity weeks in advance.  
+**Pharmacy and clinical supply demand**: seasonal illness and holiday opening patterns shape demand for medicines and consumables, and forecasts that reflect those calendars reduce both stock-outs and waste.
+
+🚆 **Transport and logistics**:
+
+**Passenger demand and capacity planning**: rail, bus and airline operators forecast ridership with commuting patterns by day of week, school-holiday peaks and public-holiday troughs, the same structure as the Air Passengers series revisited in this project, to schedule services and set fares.  
+**Parcel and freight volumes**: courier and logistics networks forecast daily volumes with sharp annual peaks, such as the run-up to Christmas, to plan vehicles, depot capacity and temporary staffing.
+
+🏨 **Hospitality and leisure**:
+
+**Occupancy and booking demand**: hotels forecast daily occupancy, shaped by weekends, school holidays and local events, which Prophet accommodates through custom holiday windows, to inform pricing and staffing.  
+**Visitor numbers for venues and attractions**: operators forecast footfall driven by weekends, holiday periods and the annual season to plan opening hours, staffing and capacity, where an explicit holiday calendar captures the days on which normal patterns break.
 
 
 ## Methodology:  
