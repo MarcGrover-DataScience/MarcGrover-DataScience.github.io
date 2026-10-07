@@ -128,7 +128,7 @@ No other numeric feature exceeds the conventional high-multicollinearity thresho
 
 ### Baseline OLS Performance
 
-The OLS baseline, fitted on all 274 encoded features, achieves a training R² of 0.9389 (RMSE \$16,671, MAE \$11,572) but a materially lower test R² of 0.8542 (RMSE \$39,506, MAE \$14,993) — a train/test R² gap of 0.0847. This gap is the empirical signature of overfitting under high dimensionality and exact multicollinearity: the unpenalised model fits patterns in the training data, including noise attributable to the redundant feature groups identified above, that do not generalise to unseen properties.
+The OLS baseline, fitted on all 274 encoded features, achieves a training R² of 0.9389 (RMSE &#36;16,671, MAE &#36;11,572) but a materially lower test R² of 0.8542 (RMSE &#36;39,506, MAE &#36;14,993) — a train/test R² gap of 0.0847. This gap is the empirical signature of overfitting under high dimensionality and exact multicollinearity: the unpenalised model fits patterns in the training data, including noise attributable to the redundant feature groups identified above, that do not generalise to unseen properties.
 
 ### Regularised Model Fitting
 
