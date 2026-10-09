@@ -94,6 +94,33 @@ Three baselines of increasing sophistication are fitted, so that Prophet is comp
 * **SARIMA (M0b)**. SARIMA(1,0,1)(0,1,1)₇ combines short-term dynamics with a seasonally differenced component for the weekly cycle. By design it has no annual cycle, no holidays and no handling of the level step: it shows what a standard single-period seasonal model achieves over a two-year horizon.
 * **SARIMAX (M0c)**. The same structure with regressors added: four pairs of annual Fourier terms (sine and cosine waves at the annual frequency and its first three harmonics, the standard way to represent a long seasonal cycle in an ARIMA-family model), a holiday indicator, a Christmas to New Year indicator and the level-step indicator. It therefore receives the same calendar information as Prophet, so any difference in results reflects the model and not the inputs. All of its regressors are deterministic calendar quantities, known at forecast time. SARIMAX is not covered elsewhere in this portfolio.
 
+### Prophet Model Specification
+
+Prophet decomposes the series into trend, seasonal, holiday and regressor components (see Application). The configuration used here has six elements.
+* **Trend**. Piecewise linear, with 25 candidate changepoints placed uniformly over the first _changepoint_range_ share of the history. A sparse (Laplace) prior, whose scale _changepoint_prior_scale_ controls how freely the slope may change, keeps most changepoints close to zero unless the data demand otherwise.
+* **Seasonality**. Weekly and annual, with the annual Fourier order and the additive or multiplicative mode tuned. Daily seasonality is switched off because it is meaningless for daily data.
+* **Holidays**. A table of 18 named holidays (288 dated rows): the nine national holidays, Easter Sunday and Whit Sunday, Reformationstag (a one-off national holiday on 31 October 2017, which falls in the test period only, so no effect can be learned for it), and six groups covering the Christmas to New Year period: Vor_Weihnachten (22 and 23 December), Heiligabend (24 December), Zwischen_den_Jahren (27 to 30 December), Silvester (31 December), Nach_Neujahr (2 and 3 January) and Anfang_Januar (4 to 6 January). Where two holidays coincide the first name is used, so their effects are not added together. Only national holidays are used, because regional holidays, which differ by federal state, cannot be separated in a national series; this is a stated limitation.
+* **Level-step regressor**. A binary indicator equal to 0 before 1 January 2014 and 1 afterwards, the year boundary lying inside the step window found in the exploratory analysis. Whether to offer it to Prophet is itself tested by cross-validation.
+* **Uncertainty**. 95% prediction intervals from 1,000 simulated draws, matching the interval width used in the ARIMA project.
+* **Estimation**. Maximum a posteriori optimisation, which is fast on a CPU and reproducible for a fixed random seed.
+
+### Hyperparameter Tuning by Walk-Forward Cross-Validation
+
+Prediction is only credible if the tuning that precedes it is, so hyperparameters are chosen by walk-forward cross-validation inside the training years only. Each fold fits a model on all data up to a forecast origin and forecasts the following 365 days, imitating the real task of forecasting a year ahead from "today", at nine different values of "today": origins 180 days apart, from 21 January 2011 to 31 December 2014, each with at least five years of history. No model ever sees data after its origin. Folds with origins before 2014 cannot see the level step in their history while their forecast year contains it, so every model fails on it alike; per-fold results are therefore reported alongside the average.
+The search covers every combination of four choices, 36 configurations in total, with the annual Fourier order held at Prophet's default of 10:
+* _changepoint_prior_scale_ in {0.01, 0.05, 0.2}, from a stiff to a flexible trend;
+* _changepoint_range_ in {0.8, 0.9, 0.95}, because the step lies about 85% of the way through the history, beyond the default of 0.8;
+* seasonality mode, additive or multiplicative;
+* whether the level-step regressor is offered or Prophet must cope with the step through its trend alone.
+A second pass then varies the annual Fourier order (6 and 15) around the best configuration, a greedy search that keeps the run time reasonable, giving 38 configurations in all. The configuration with the lowest MAPE averaged over all nine folds is selected. This rule was fixed before the test set was touched. An out-of-the-box Prophet (default settings and Prophet's built-in German holiday list) is also fitted as a reference, to show how much the tailored configuration adds.
+
+### Evaluation
+
+Each model is evaluated on the 731 held-out days using the same four headline metrics as the ARIMA project: MAE, RMSE, MAPE (the mean absolute error as a percentage of the actual value) and R² (one minus the ratio of the residual to the total sum of squares on the test set). Bias (forecast minus actual, so positive means over-forecasting) and the empirical coverage and mean width of the 95% prediction intervals are reported alongside them. Four further views answer the business question more directly:
+* **Horizon**. Errors are reported for horizon bands of 1 to 90, 91 to 365 and 366 to 731 days after the forecast origin. Because all bands come from a single origin, horizon is confounded with season (the first band is always January to March), so the bands are descriptive only. The cross-validated error by horizon, drawn from nine origins at different times of year, is the sounder evidence on how error grows with horizon.
+* **Holidays**. Error on holidays and Christmas to New Year days (45 of the 731 test days) is reported separately from ordinary days, since this is where calendar handling is tested.
+* **Procurement buffer**. A retailer that buys forward exactly the forecast volume is short on any day when demand exceeds it. The buffer is the 95th percentile of that shortfall, as a percentage of the forecast and in GWh/day: hold this much extra volume and demand exceeds the hedged amount on only one day in twenty. The risk is two-sided, because a model that over-forecasts needs a small buffer but leaves the retailer holding surplus volume, so the 95th percentile of over-forecast is reported beside it and the two are read together.
+* **Residual diagnostics**. In-sample residuals are examined with the Ljung-Box test at lags 7, 14 and 28 and an autocorrelation plot. The ARIMA project's residuals were close to white noise; Prophet has no mechanism for day-to-day dependence, so autocorrelated residuals are expected and reported as a limitation.
 
 
 
