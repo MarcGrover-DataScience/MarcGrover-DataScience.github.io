@@ -60,6 +60,35 @@ The business application of Prophet spans any domain where demand follows a cale
 
 The analysis is implemented in Python using pandas and NumPy for data handling, Prophet for the core forecasting models, statsmodels for the SARIMA, SARIMAX and ARIMA models and the residual diagnostics, SciPy for the Box-Cox transformation, the holidays package for the German public-holiday calendar, and seaborn and matplotlib for visualisation. The primary dataset is the Open Power System Data (OPSD) daily German electricity series, obtained from [github.com/jenfly/opsd](https://github.com/jenfly/opsd) (file opsd_germany_daily.csv), a daily extract of the OPSD time series data package published at [open-power-system-data.org](https://open-power-system-data.org/), which draws on the German transmission system operators and the ENTSO-E data portal. It contains 4,383 consecutive daily observations from 1 January 2006 to 31 December 2017 in four columns, all in GWh per day: Consumption (national electricity consumption), Wind and Solar (generation) and Wind+Solar (their sum). Consumption is complete. Wind generation starts on 1 January 2010 and solar generation on 1 January 2012, with 2 and 4 isolated missing days respectively after those dates. A second dataset, the Air Passengers series used in the [ARIMA](/arima/) project, supports the bridge analysis described at the end of this section.
 
+The workflow has seven stages:
+1. Validate the data.
+2. Split it chronologically into training and test periods.
+3. Explore the training years, with each finding tied to a modelling decision.
+4. Fit three classical baselines.
+5. Fit Prophet, with hyperparameters tuned by walk-forward cross-validation.
+6. Evaluate every model on the held-out test years and quantify how far the differences between models can be trusted.
+7. Run a controlled experiment on wind and solar generation, then repeat the Prophet versus ARIMA comparison on the Air Passengers series.
+
+### Data Validation
+
+Forecasting models fail quietly on faulty inputs: a duplicated or missing date shifts every seasonal pattern that follows it, so the data is validated before any modelling. Structural checks are treated as hard failures that stop the script: the expected columns must be present, with no duplicated dates, no gaps in the daily calendar and no non-positive consumption values. All passed. Softer findings are reported rather than treated as errors: the availability windows and gap days of the wind and solar series, which matter because Prophet cannot accept a missing value in a regressor; a consistency check that Wind+Solar equals Wind plus Solar wherever all three are present (maximum discrepancy 0.0000); and a plausibility screen on the five lowest-consumption days, all of which fall in 2009, four of them Easter or Whit holidays. In a production setting these checks would sit in a formal validation suite of the kind built in the [Great Expectations](/great-expectations/) project.
+
+### Chronological Train/Test Split
+
+The first ten years (2006 to 2015, 3,652 days) are used for training and tuning, and the final two (2016 to 2017, 731 days) are held out for testing. A random split would be wrong for a time series, because the model would train on days on either side of the ones it is tested on and overstate its accuracy. Two test years were chosen rather than one because they contain two complete annual cycles, a more reliable verdict than a single year of weather and calendar. The split is made before exploratory analysis, so that no decision about seasonality, holidays or regressors can be influenced by the test years: the exploratory stage uses the training years only, and the test set is first used in the final evaluation, after every model has been fully specified. Within the training period, the wind and solar series define two shorter windows: 2,189 days with wind (2010 to 2015) and 1,456 days with both wind and solar (2012 to 2015), after dropping the few days with a missing value.
+
+### Exploratory Analysis and the Decisions It Drove
+
+Exploratory analysis here has a methodological purpose: each finding determines a specific modelling decision.
+
+* Level shifts. Seasonality dominates a daily electricity series, so level changes are hard to see in the raw data. Each day is therefore compared with the same weekday 52 weeks earlier (a 364-day lag keeps the weekday aligned), which removes the seasonal pattern, so that a one-off step appears as a plateau of year-on-year change lasting about a year. Every stretch in which this change stays beyond ±5% for at least 45 days is listed, and the onset of the main step is located using regular days only, because the Christmas period distorts the comparison. This identified a persistent step of about +8.7% between 23 December 2013 and 14 January 2014, and a temporary shortfall of about 9% between May and October 2009. A candidate explanation for the step is a change in the source's coverage: the OPSD documentation describes a representativity factor for German load of 91% until 2014 and 97% since, which alone would lift reported values by about 6.6%. This is not confirmed, so the step is handled explicitly in the models, and the 2009 shortfall is carried through a sensitivity analysis (below) instead of being silently removed.
+* Seasonal profiles. Each day is expressed relative to the mean of its own calendar year, which removes year-to-year level differences (including the step) so that only the seasonal shape remains, using regular days only.
+* Holiday effects. The effect of a holiday is measured against what an ordinary day of the same weekday would have used, taken as the mean of the same weekday one to four weeks either side, using regular days only. This local baseline is unaffected by seasonality and by the level step. Easter Sunday and Whit Sunday are absent from the national holiday list but show clear dips against an ordinary Sunday, so they are added to the holiday calendar, and the Christmas to New Year period is split into groups of days with similar dips.
+* Additive or multiplicative seasonality. The size of the weekly and annual swings is measured year by year and compared with the year's level. With only ten annual points the evidence is weak and mixed, so the choice is left to cross-validation.
+* Wind and solar. Raw correlations with consumption mislead: solar peaks in summer, when demand is lowest, and both series grow with installed capacity rather than with demand. Each series and consumption are therefore first stripped of year level, weekday pattern and annual cycle (four pairs of Fourier terms), and the leftover residuals are correlated.
+
+
+
 ## Results:
 
 Results from the project related to the business objective.
