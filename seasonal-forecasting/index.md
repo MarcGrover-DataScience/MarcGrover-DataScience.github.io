@@ -113,7 +113,7 @@ The search covers every combination of four choices, 36 configurations in total,
 * _changepoint_range_ in {0.8, 0.9, 0.95}, because the step lies about 85% of the way through the history, beyond the default of 0.8;
 * seasonality mode, additive or multiplicative;
 * whether the level-step regressor is offered or Prophet must cope with the step through its trend alone.
-* 
+
 A second pass then varies the annual Fourier order (6 and 15) around the best configuration, a greedy search that keeps the run time reasonable, giving 38 configurations in all. The configuration with the lowest MAPE averaged over all nine folds is selected. This rule was fixed before the test set was touched. An out-of-the-box Prophet (default settings and Prophet's built-in German holiday list) is also fitted as a reference, to show how much the tailored configuration adds.
 
 ### Evaluation
@@ -172,9 +172,33 @@ Four safeguards limit the risk of fooling ourselves. The test set is first used 
 
 The results follow the order of the analysis and refer to the charts produced by the script, numbered 01 to 21. Unless stated otherwise, accuracy figures are for the 731-day held-out test set (2016 to 2017), forecast from a single origin at 31 December 2015, with MAE and RMSE in GWh/day.
 
-### Data and Exploratory Analysis (Charts 01 to 05)
+### Data and Exploratory Analysis
 
-The validation checks passed: 4,383 daily observations with no duplicated dates, no calendar gaps, no missing or non-positive consumption values, and a maximum discrepancy of 0.0000 between Wind+Solar and the sum of its parts. 01_data_overview.png shows the full series with the training and test periods shaded. Consumption rises and falls with a strong annual cycle, with winter peaks above 1,600 GWh/day, and the lowest day in the series is Easter Sunday 2009 at 842.4 GWh. The five lowest days all fall in 2009. Wind generation is available from 1 January 2010 (2 later gap days) and solar from 1 January 2012 (4 later gap days), which gives training windows of 2,189 and 1,456 days respectively. The test period has complete wind and solar values.
+The validation checks passed: 4,383 daily observations with no duplicated dates, no calendar gaps, no missing or non-positive consumption values, and a maximum discrepancy of 0.0000 between Wind+Solar and the sum of its parts. The Data Overview visual shows the full series with the training and test periods shaded. Consumption rises and falls with a strong annual cycle, with winter peaks above 1,600 GWh/day, and the lowest day in the series is Easter Sunday 2009 at 842.4 GWh. The five lowest days all fall in 2009. Wind generation is available from 1 January 2010 (2 later gap days) and solar from 1 January 2012 (4 later gap days), which gives training windows of 2,189 and 1,456 days respectively. The test period has complete wind and solar values.
+
+![01_data_overview](01_data_overview.png)
+
+The yearly level shift shows the level of the series. Annual mean consumption fell 7.0% in 2009 (to 1,259.6 GWh/day), drifted down to 1,269.4 in 2013, then jumped 8.8% to 1,381.3 in 2014 and stayed there (1,384.3 in 2015). Comparing each day with the same weekday 52 weeks earlier lists four sustained departures beyond ±5%. Only two are genuine events:
+
+* Mid-2009 shortfall: 18 May to 2 October 2009, averaging −9.1% for 138 days. The monthly comparison with 2008 is negative from January (−7.4%) through October (−5.0%), with April the worst month at −16.1%, before recovering to +1.6% in December. April is exaggerated because Easter fell on 12 April in 2009 and on 23 March in 2008.
+* The 2013/14 step: on regular days the year-on-year change is within ±2% up to 23 December 2013 and above +8% from 14 January 2014, so the step lies inside the Christmas period and cannot be dated to a single day. Mean consumption in the 52 weeks before the step was 1,270.6 GWh/day and 1,381.5 afterwards (+8.7%); six to eleven months later the year-on-year change settles at +7.2%.
+
+The other two departures are echoes: mid-2010 (+8.0%) is the 2009 shortfall dropping out of the comparison base, and late 2014 to early 2015 (+7.4%) is the step dropping out one year later. The step is close to the +6.6% that the documented change in the source's coverage (91% to 97%) would imply, but the explanation is not confirmed.
+
+![02_yearly_level_shift](02_yearly_level_shift.png)
+
+Seasonal profiles shows the seasonal shape on regular days relative to each year's mean. Consumption is 5 to 8% above the weekly average on weekdays (Monday +5.7%, Tuesday +7.5%, Wednesday +7.8%, Thursday +7.3%, Friday +5.3%) and well below it at the weekend (Saturday −10.2%, Sunday −17.3%). The annual cycle peaks in January (+9.4%) and troughs in August (−6.6%). The test of whether seasonal swings scale with the level of the series is mixed: weekly amplitude favours a multiplicative model (relative spread 0.031 against 0.038 in absolute terms, correlation with level +0.63), while annual amplitude favours an additive one (0.129 against 0.116, correlation −0.17). With ten annual points this has little power, so the choice was left to cross-validation.
+
+![03_seasonal_profiles](03_seasonal_profiles.png)
+
+The holiday effects charts quantify the holiday effects against a normal day of the same weekday. The national holidays reduce consumption by 16 to 28%: Christmas Day −28.2%, Boxing Day −26.9%, New Year's Day −26.7%, Whit Monday −26.6%, Easter Monday −25.9%, 1 May −22.3%, Ascension Day −22.2%, Good Friday −21.3% and German Unity Day −16.2%. Easter Sunday (−8.9%) and Whit Sunday (−7.1%) are not on the national holiday list but clearly differ from an ordinary Sunday, which is why they were added. The Christmas to New Year profile is not uniform: the dip begins around 20 December, reaches roughly 23% on Christmas Eve, 27 to 28% on 25 and 26 December, eases to about 16% between Christmas and New Year, deepens again on New Year's Eve and 1 January (the deepest point, −28.2%), and has largely recovered by 8 January.
+
+![04_holiday_effects](04_holiday_effects.png)
+
+Regressor correlation plots show why raw correlations with wind and solar mislead. Solar correlates −0.248 with consumption, but after removing year level, weekday pattern and annual cycle the correlation is only −0.070 (95% interval −0.120 to −0.018), so most of the raw relationship was the annual cycle. Wind goes from +0.097 to −0.061 (2010 to 2015 window) and from +0.088 to −0.093 (2012 to 2015 window). These adjusted correlations are small, although their intervals exclude zero, and the intervals are optimistic because daily residuals are autocorrelated. Wind output grew from 98.4 GWh/day in 2010 to 212.2 in 2015 (+116%, including a 51% rise in 2015 alone) and solar from 76.2 in 2012 to 95.6 in 2015, which is growth in installed capacity and not in demand.
+
+![05_regressor_correlation](05_regressor_correlation.png)
+
 
 ## Conclusions:
 
