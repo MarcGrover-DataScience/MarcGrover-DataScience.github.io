@@ -168,11 +168,13 @@ Every model is fitted on a CPU-only laptop. The random seed is fixed, Prophet's 
 
 Four safeguards limit the risk of fooling ourselves. The test set is first used only after every model has been fully specified. The primary Prophet configuration is chosen by a rule fixed in advance. Every later analysis (the 2009 masking, the alternative tuning rule, the regressor experiment and its reruns) is labelled as a sensitivity check or experiment and does not replace the primary model. And the hypotheses for the regressor experiment were recorded before it was run. This reflects the transparency and accountability commitments set out on the Ethics in [Applied Data Science](/data-science-ethics/) page, including the reporting of failures and null results as well as confirmatory ones.
 
-
-
 ## Results:
 
-Results from the project related to the business objective.
+The results follow the order of the analysis and refer to the charts produced by the script, numbered 01 to 21. Unless stated otherwise, accuracy figures are for the 731-day held-out test set (2016 to 2017), forecast from a single origin at 31 December 2015, with MAE and RMSE in GWh/day.
+
+### Data and Exploratory Analysis (Charts 01 to 05)
+
+The validation checks passed: 4,383 daily observations with no duplicated dates, no calendar gaps, no missing or non-positive consumption values, and a maximum discrepancy of 0.0000 between Wind+Solar and the sum of its parts. 01_data_overview.png shows the full series with the training and test periods shaded. Consumption rises and falls with a strong annual cycle, with winter peaks above 1,600 GWh/day, and the lowest day in the series is Easter Sunday 2009 at 842.4 GWh. The five lowest days all fall in 2009. Wind generation is available from 1 January 2010 (2 later gap days) and solar from 1 January 2012 (4 later gap days), which gives training windows of 2,189 and 1,456 days respectively. The test period has complete wind and solar values.
 
 ## Conclusions:
 
