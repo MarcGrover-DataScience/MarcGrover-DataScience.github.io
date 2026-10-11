@@ -227,6 +227,39 @@ The CV error by horizon visual shows the cross-validated error by forecast horiz
 
 ![08_cv_error_by_horizon](08_cv_error_by_horizon.png)
 
+### Prophet Components and Trend
+
+The Prohopet Components decomposes the tuned model (M1). The weekly effect puts Saturday about 11% and Sunday about 18% below the weekly average, close to the exploratory profile. The annual effect ranges from about −9% in August to about +10% in winter. The learned holiday effects reach 21 to 26% for the major holidays, about 16% for German Unity Day, about 12% for the days between Christmas and New Year and 4 to 7% for the smaller groups of days. The level-step regressor is learned as +7.96%, which sits between the settled year-on-year change (+7.2%) and the before-and-after comparison (+8.7%).
+
+![09_prophet_components](09_prophet_components.png)
+
+The Trend Changpoint plot shows the fitted trend. Of the 25 candidate changepoints, 23 carry a non-negligible slope change. The six largest are in 2006, late 2008, spring and summer 2009 (slope changes of +1.10 and +1.42 in scaled units), early 2010 and early 2013. The trend therefore follows the 2009 shortfall and the slow decline to 2013, and the step is carried by the regressor (the dashed line in the chart), which lifts the level by about 8% from 1 January 2014. The trend then drifts gently downward across the test period, by 5.8 GWh/day per year. The modelled level sits slightly above the 365-day mean of actual consumption because that mean includes holiday dips, which Prophet models separately.
+
+![10_trend_changepoints](10_trend_changepoints.png)
+
+### Test-Set Accuracy
+
+| Comparison | Difference in MAE (GWh/day) | 95% interval | Resamples where first is better |
+| :--- | :--- | :--- | :--- |
+| M1 against SARIMAX | −10.38 | −13.98 to −6.44 | 100% |
+| M1 against out-of-the-box Prophet | −8.77 | −16.03 to −2.11 | 99.45% |
+| M1 against seasonal naive | −15.48 | −21.89 to −7.58 | 100% |
+| SARIMAX against out-of-the-box Prophet | +1.61 | −8.48 to +10.93 | 42.05% |
+| M1 with 2009 masked against M1 | −0.03 | −0.37 to +0.24 | 63.05% |
+
+The tuned Prophet is better than every alternative by margins that exceed test-sample luck. SARIMAX and the out-of-the-box Prophet cannot be separated, which shows that the advantage comes from the tailored configuration and not from using Prophet as such. Masking the 2009 shortfall changes the test MAPE by 0.01 percentage points, so its influence on the point forecast is negligible (it does affect the interval width, which falls from 38.6% to 31.6% of the forecast).
+
+Calendar handling accounts for much of the gain. On ordinary days M1 has a MAPE of 2.04% (SARIMAX 2.64%, out-of-the-box Prophet 2.78%, seasonal naive 2.95%). On the 45 holiday and Christmas-window days its MAPE is 6.17%, against 8.87%, 7.17% and 11.89% for the same three models, and 13.74% for the weekly SARIMA. Every model is considerably less accurate on holidays than on ordinary days.
+
+Propher forecasting test shows the M1 forecast against the actuals. The forecast follows the weekly and annual cycles closely and reproduces the Christmas to New Year pattern, although it underestimates the recovery in early January. The 95% interval covers 98.4% of test days, well above its nominal level, because it is very wide, averaging 38.6% of the forecast and widening through 2017. Across the 731 days the 28-day average bias of M1 is generally small, while the weekly SARIMA drifts by up to about 200 GWh. All models under-forecast around the turn of 2016/17.
+
+By forecast horizon band (descriptive only, because every band comes from one origin and horizon is confounded with season), M1's MAPE is 2.23% for days 1 to 90, 2.09% for days 91 to 365 and 2.47% for days 366 to 731. The procurement buffer, the 95th percentile of the shortfall of the forecast against actual demand, is 4.82% of the forecast (75.6 GWh/day) in the first band, 3.99% (56.2 GWh/day) in the second and 5.71% (81.0 GWh/day) in the third, with the corresponding 95th percentile over-forecast at 3.79%, 3.64% and 2.73%. The out-of-the-box Prophet has smaller buffers (about 2.7 to 3.0%) only because it over-forecasts on average (bias +25.5 GWh/day, 95th percentile surplus 5.2 to 7.2%), which would leave a retailer holding unneeded volume. The cross-validated horizon figures from chart 08 (3.26% over 90 days and 4.18% over 365) are the sounder answer to the question about 90 and 365 days ahead, and they are higher than the test-set MAPE because their folds include the 2013/14 step, which no model could foresee.
+
+![11_prophet_forecast_test](11_prophet_forecast_test.png)
+
+Residual diagnostics shows the in-sample residuals of M1. They have a mean of −0.02 GWh and a standard deviation of 40.7 GWh, with a symmetric distribution and heavy tails (a few residuals reach ±300 GWh). They are strongly autocorrelated: lag 1 is 0.57 and lag 7 is 0.25, and the Ljung-Box statistics of 2,158.9, 2,311.6 and 2,340.6 at lags 7, 14 and 28 all have p-values of effectively zero. Unlike the near-white-noise residuals of the ARIMA project, Prophet's residuals retain day-to-day structure that the model does not capture.
+
+![12_residual_diagnostics](12_residual_diagnostics.png)
 
 
 
