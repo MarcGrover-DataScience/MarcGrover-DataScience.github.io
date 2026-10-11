@@ -91,7 +91,7 @@ Exploratory analysis here has a methodological purpose: each finding determines 
 
 Three baselines of increasing sophistication are fitted, so that Prophet is compared with the best classical alternative and not with a straw man. All three forecast the full 731 test days from a single origin at the end of 2015, just as the ARIMA project forecast its 29-month holdout.
 * **Seasonal naive (M0a)**. Each test day is forecast with the value from the same weekday in the most recent observed year. A 364-day lag keeps weekdays aligned; for the second forecast year the lag is 728 days, because 364 days back would fall inside the unknown test period.
-* **SARIMA (M0b)**. SARIMA(1,0,1)(0,1,1)₇ combines short-term dynamics with a seasonally differenced component for the weekly cycle. By design it has no annual cycle, no holidays and no handling of the level step: it shows what a standard single-period seasonal model achieves over a two-year horizon.
+* **SARIMA (M0b)**. SARIMA(1,0,1)(0,1,1) combines short-term dynamics with a seasonally differenced component for the weekly cycle. By design it has no annual cycle, no holidays and no handling of the level step: it shows what a standard single-period seasonal model achieves over a two-year horizon.
 * **SARIMAX (M0c)**. The same structure with regressors added: four pairs of annual Fourier terms (sine and cosine waves at the annual frequency and its first three harmonics, the standard way to represent a long seasonal cycle in an ARIMA-family model), a holiday indicator, a Christmas to New Year indicator and the level-step indicator. It therefore receives the same calendar information as Prophet, so any difference in results reflects the model and not the inputs. All of its regressors are deterministic calendar quantities, known at forecast time. SARIMAX is not covered elsewhere in this portfolio.
 
 ### Prophet Model Specification
@@ -180,8 +180,8 @@ The validation checks passed: 4,383 daily observations with no duplicated dates,
 
 The yearly level shift shows the level of the series. Annual mean consumption fell 7.0% in 2009 (to 1,259.6 GWh/day), drifted down to 1,269.4 in 2013, then jumped 8.8% to 1,381.3 in 2014 and stayed there (1,384.3 in 2015). Comparing each day with the same weekday 52 weeks earlier lists four sustained departures beyond ±5%. Only two are genuine events:
 
-* Mid-2009 shortfall: 18 May to 2 October 2009, averaging −9.1% for 138 days. The monthly comparison with 2008 is negative from January (−7.4%) through October (−5.0%), with April the worst month at −16.1%, before recovering to +1.6% in December. April is exaggerated because Easter fell on 12 April in 2009 and on 23 March in 2008.
-* The 2013/14 step: on regular days the year-on-year change is within ±2% up to 23 December 2013 and above +8% from 14 January 2014, so the step lies inside the Christmas period and cannot be dated to a single day. Mean consumption in the 52 weeks before the step was 1,270.6 GWh/day and 1,381.5 afterwards (+8.7%); six to eleven months later the year-on-year change settles at +7.2%.
+* **Mid-2009 shortfall**: 18 May to 2 October 2009, averaging −9.1% for 138 days. The monthly comparison with 2008 is negative from January (−7.4%) through October (−5.0%), with April the worst month at −16.1%, before recovering to +1.6% in December. April is exaggerated because Easter fell on 12 April in 2009 and on 23 March in 2008.
+* **The 2013/14 step**: on regular days the year-on-year change is within ±2% up to 23 December 2013 and above +8% from 14 January 2014, so the step lies inside the Christmas period and cannot be dated to a single day. Mean consumption in the 52 weeks before the step was 1,270.6 GWh/day and 1,381.5 afterwards (+8.7%); six to eleven months later the year-on-year change settles at +7.2%.
 
 The other two departures are echoes: mid-2010 (+8.0%) is the 2009 shortfall dropping out of the comparison base, and late 2014 to early 2015 (+7.4%) is the step dropping out one year later. The step is close to the +6.6% that the documented change in the source's coverage (91% to 97%) would imply, but the explanation is not confirmed.
 
@@ -198,6 +198,38 @@ The holiday effects charts quantify the holiday effects against a normal day of 
 Regressor correlation plots show why raw correlations with wind and solar mislead. Solar correlates −0.248 with consumption, but after removing year level, weekday pattern and annual cycle the correlation is only −0.070 (95% interval −0.120 to −0.018), so most of the raw relationship was the annual cycle. Wind goes from +0.097 to −0.061 (2010 to 2015 window) and from +0.088 to −0.093 (2012 to 2015 window). These adjusted correlations are small, although their intervals exclude zero, and the intervals are optimistic because daily residuals are autocorrelated. Wind output grew from 98.4 GWh/day in 2010 to 212.2 in 2015 (+116%, including a 51% rise in 2015 alone) and solar from 76.2 in 2012 to 95.6 in 2015, which is growth in installed capacity and not in demand.
 
 ![05_regressor_correlation](05_regressor_correlation.png)
+
+### Baseline Models
+
+The baseline forecasts compare the three baselines with the test data. The weekly SARIMA (M0b) settles into a flat weekly pattern around 1,340 GWh/day within about three months and misses the annual cycle entirely. The seasonal naive forecast (M0a) follows the annual cycle but mistimes the moving holidays: Easter 2016 fell on 27 March, so repeating the previous year's pattern puts the Easter dip in the wrong place. The SARIMAX (M0c) tracks the annual cycle and places the holiday dips correctly. Its estimated level step is +133.4 GWh/day, with a holiday effect of −197.0 GWh/day and a further Christmas-window effect of −160.0. Both ARIMA-family optimisers converged.
+
+![06_baseline_forecasts](06_baseline_forecasts.png)
+
+| Model | MAE | RMSE | MAPE (%) | R² | Bias | 95% interval coverage (%) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| M0a Seasonal naive | 46.98 | 81.09 | 3.50 | 0.75 | +1.93 | not applicable |
+| M0b SARIMA (weekly) | 87.03 | 115.55 | 6.20 | 0.49 | −44.32 | 93.43 |
+| M0c SARIMAX (Fourier, holidays, step) | 41.88 | 55.81 | 3.02 | 0.88 | −26.33 | 95.35 |
+
+**Prophet Tuning**
+
+The CV Tuning Results visual below shows the mean cross-validated MAPE for all 36 pass-one configurations and the annual Fourier order from the second pass. The best of the 38 configurations (mean MAPE 4.18%, MAE 54.8, RMSE 67.5) is a changepoint_prior_scale of 0.2, a changepoint_range of 0.8, multiplicative seasonality, the level-step regressor and a Fourier order of 15. The top six configurations lie within 4.18 to 4.26%, so the winner is only narrowly best. Averaging over the other choices shows which decisions matter:
+* **Level-step regressor**: by far the largest effect: 5.93% without it against 4.83% with it.
+* **Changepoint range**: wider is worse (0.8: 4.83%, 0.9: 5.30%, 0.95: 6.02%), the opposite of what the exploratory analysis suggested. The step is handled by the regressor, not by extending the range of the trend.
+* **Trend flexibility**: 0.01: 5.08%, 0.05: 5.26%, 0.2: 5.80% on average, although the best configurations use 0.2 or 0.05 once the regressor is present, so the averages mix good and bad combinations.
+* **Seasonality mode**: additive 5.44% against multiplicative 5.32%, a small difference.
+* **Fourier order**: 6, 10 and 15 give 4.20%, 4.19% and 4.18%, which is negligible.
+The two latest folds, the only ones able to show whether a configuration copes with the step, favour a different configuration (changepoint_prior_scale 0.05, last-two-fold MAPE 2.20 to 2.27% against 2.58 to 2.60%). That is examined as a sensitivity check below.
+
+![07_cv_tuning_results](07_cv_tuning_results.png)
+
+The CV error by horizon visual shows the cross-validated error by forecast horizon and by origin. The tuned model's MAPE is 3.26% over the first 90 days and 4.18% over a full year, against 3.77% and 5.43% for the out-of-the-box Prophet. At individual origins, the tuned model beats the default at all nine: 5.04 against 5.83% (January 2011), 5.90 against 6.02%, 3.31 against 3.58%, 2.85 against 2.97%, 3.93 against 4.61%, 7.70 against 8.15% (July 2013, whose forecast year contains the step), 3.70 against 9.18% (January 2014, just after the step), 2.69 against 3.43% and 2.50 against 5.10% (December 2014). The widest gaps are at the two origins immediately after the step, where the step regressor can be learned.
+
+![08_cv_error_by_horizon](08_cv_error_by_horizon.png)
+
+
+
+
 
 
 ## Conclusions:
