@@ -267,13 +267,21 @@ The experiment was run three times, as described in the Methodology. The first r
 
 _Primary run_ (shown in the following three charts). On the six-year window (2010 to 2015), adding wind (M2) changes MAE by −0.08 GWh/day against its matched baseline (interval −0.82 to +0.73). Placebo regressors, the rotated series described in the Methodology, change the MAE by between −0.31 and +0.28 (median +0.09), and 1 of 10 placebos did at least as well as the real wind series, so the real change lies inside the placebo range. The four-year models told a different story: the core model M1-W12 reached an MAE of 97.22, M2b 91.60 and M3 94.57, against about 31 for M1. The stability screen explains why. The fitted trends of the three four-year models drift by −60.8, −56.5 and −58.4 GWh/year across the test period, against −5.8 for M1 and well beyond the ±20 GWh/year limit. The apparent improvements from adding regressors to this unstable baseline (−5.62 and −2.65 GWh/day, intervals excluding zero) are therefore artefacts of the baseline's failure, and are excluded from the hypothesis verdicts. Only one comparison (M2 against M1-W10) is sound in this run, and it supports H1.
 
-13_regressor_coefficients.png shows the learned effect of a one-standard-deviation rise in each series (as a percentage of consumption) against the placebo effects: wind −0.21% (M2), −0.27% (M2b) and −0.31% (M3), and solar −0.54%.
+The Regression Coefficients plot shows the learned effect of a one-standard-deviation rise in each series (as a percentage of consumption) against the placebo effects: wind −0.21% (M2), −0.27% (M2b) and −0.31% (M3), and solar −0.54%.
 
-14_regressor_experiment_comparison.png shows the test MAE of each model and, as a forest plot, each paired comparison with its 95% bootstrap interval and the placebo changes. Comparisons that involve an unstable model are drawn in red.
+![13_regressor_coefficients](13_regressor_coefficients.png)
 
-15_residuals_vs_regressors.png gives an independent check, relating M1's test-period forecast errors to wind and solar after removing year level, weekday and annual cycle. For wind the adjusted correlation is +0.042 (interval −0.031 to +0.114), and the scatter is flat. For solar it is −0.179 (interval −0.248 to −0.108), with a slight downward slope, so higher solar output goes with somewhat lower actual consumption than M1 forecast. The relationship explains about 3% of the variance of M1's errors, and the interval is optimistic because daily errors are autocorrelated.
+The Regressor Experiment Comparison visual shows the test MAE of each model and, as a forest plot, each paired comparison with its 95% bootstrap interval and the placebo changes. Comparisons that involve an unstable model are drawn in red.
 
-Reruns (chart 17). 17_trend_instability_reruns.png compares the three runs. Reducing the changepoint_prior_scale to 0.05 improved the four-year core model (MAE 56.4 against 97.2) but its trend still drifted −31.9 GWh/year, beyond the limit, and the M2b and M3 models (MAE 54.1 and 61.0, drifts −29.8 and −34.9) remained unstable. Matching the changepoint range to each window removed the problem: the four-year models then score MAEs of 30.94 (M1-W12), 31.25 (M2b) and 30.90 (M3), with drifts of +1.4, +3.0 and +3.8 GWh/year, and the six-year models 30.04 (M1-W10) and 30.13 (M2) with drifts of −2.6 and −1.1. All six models in this run pass the stability screen, and M1, whose range already works out at 0.80, is unchanged. The cause of the instability was therefore the trend's final stretch of history, not the flexibility of the trend as such.
+![14_regressor_experiment_comparison](14_regressor_experiment_comparison.png)
+
+ The Residuals vs Regressors plots gives an independent check, relating M1's test-period forecast errors to wind and solar after removing year level, weekday and annual cycle. For wind the adjusted correlation is +0.042 (interval −0.031 to +0.114), and the scatter is flat. For solar it is −0.179 (interval −0.248 to −0.108), with a slight downward slope, so higher solar output goes with somewhat lower actual consumption than M1 forecast. The relationship explains about 3% of the variance of M1's errors, and the interval is optimistic because daily errors are autocorrelated.
+
+![15_residuals_vs_regressors](15_residuals_vs_regressors.png)
+
+The Trend Instability Reruns plots compares the three runs. Reducing the changepoint_prior_scale to 0.05 improved the four-year core model (MAE 56.4 against 97.2) but its trend still drifted −31.9 GWh/year, beyond the limit, and the M2b and M3 models (MAE 54.1 and 61.0, drifts −29.8 and −34.9) remained unstable. Matching the changepoint range to each window removed the problem: the four-year models then score MAEs of 30.94 (M1-W12), 31.25 (M2b) and 30.90 (M3), with drifts of +1.4, +3.0 and +3.8 GWh/year, and the six-year models 30.04 (M1-W10) and 30.13 (M2) with drifts of −2.6 and −1.1. All six models in this run pass the stability screen, and M1, whose range already works out at 0.80, is unchanged. The cause of the instability was therefore the trend's final stretch of history, not the flexibility of the trend as such.
+
+![17_trend_instability_reruns](17_trend_instability_reruns.png)
 
 | Comparison (matched-range run) | Change in MAE (GWh/day) | 95% interval | Placebo range for the change | Placebos at least as good |
 | :--- | :--- | :--- | :--- | :--- |
@@ -283,6 +291,47 @@ Reruns (chart 17). 17_trend_instability_reruns.png compares the three runs. Redu
 
 In the sound run, none of the three regressor comparisons shows an improvement: every 95% interval includes zero, and the real regressors are no better than 95% of the placebos in all three cases. H1 is supported: even with perfect knowledge of future wind and solar output, adding them does not improve the forecast by more than about 1 GWh/day (3% of the MAE).
 
+The Learned Regressor Effects against Placebo Effects plot repeats the coefficient comparison using this sound run. The learned effects are −0.220% (wind, M2), −0.272% (wind, M2b), −0.313% (wind, M3) and −0.542% (solar, M3). Against the placebo ranges, the M2b wind effect lies within the placebo range (−0.280 to +0.399), the M2 and M3 wind effects lie only just outside it (−0.180 and −0.276 are the most negative placebo values), and the solar effect lies outside (placebo range −0.363 to +0.442). With 10 placebo draws these are suggestive, not conclusive. A solar effect of −0.54% corresponds to only about 7 GWh/day for a one-standard-deviation rise, which is small beside an MAE of about 31 and consistent with the lack of any measurable gain in forecast accuracy.
+
+![18_regressor_coefficients_matched_range](18_regressor_coefficients_matched_range.png)
+
+For H2, the cost of a shorter history, the six-year window is not worse than the ten-year one (M1-W10 against M1: −1.46 GWh/day, interval −3.43 to +0.15; 96% of bootstrap resamples favour the shorter window) and neither is the four-year window (−0.56, interval −4.21 to +3.00). Adding the regressors on those windows leaves them equally close to M1 (M2: −1.37, M3: −0.60). H2 is not supported: nothing is lost by using the shorter window.
+
+The All Model Comparison plot ranks every model by test MAPE, using the matched-range versions of the shorter-window models. The Prophet models fitted on 4, 6 or 10 years, with or without regressors, all lie between 2.22 and 2.35% (MAE 30.0 to 31.5) and cannot be separated from one another. The fully tuned M1 (2.30%) and M1-s (2.29%) sit within this group. The sensitivity model tuned on the last two folds (M1-t) scores 2.40% (MAE 32.97), which is worse than M1 by 1.48 GWh/day (interval +0.42 to +2.59), so the selection rule fixed in advance was not beaten by the alternative. Behind this group come SARIMAX (3.02%), the out-of-the-box Prophet (3.05%), the seasonal naive forecast (3.50%) and the weekly SARIMA (6.20%).
+
+![16_model_comparison_all](16_model_comparison_all.png)
+
+### Air Passengers Bridge
+
+The re-run of the two ARIMA models reproduces the figures published on the ARIMA page exactly (ARIMA(12,1,12): MAE 32.34, R² 0.724, MAPE 6.96%; ARIMA(12,2,12) on Box-Cox data with lambda 0.045: MAE 14.89, R² 0.947, MAPE 3.46%), which confirms that the data and the 115/29 split are identical. Neither ARIMA optimiser fully converges. Cross-validation chose multiplicative seasonality, a changepoint_prior_scale of 0.05 and an annual Fourier order of 3 for the tuned Prophet (mean cross-validated MAPE 7.13%). On average, multiplicative configurations scored 7.66% against 9.15% for additive, and the two default configurations scored 7.25% (multiplicative) and 8.41% (additive).
+
+| Model | MAE | RMSE | MAPE (%) | R² | Bias | 95% interval coverage (%) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ARIMA(12,1,12), untransformed | 32.34 | 41.04 | 6.96 | 0.72 | −24.15 | 65.52 |
+| ARIMA(12,2,12), Box-Cox | 14.89 | 17.98 | 3.46 | 0.95 | +2.56 | 100.00 |
+| Prophet, additive (defaults) | 33.90 | 41.33 | 7.72 | 0.72 | +2.56 | 51.72 |
+| Prophet, multiplicative (defaults) | 18.82 | 23.31 | 4.15 | 0.91 | −7.90 | 62.07 |
+| Prophet, Box-Cox + additive | 24.01 | 29.82 | 5.14 | 0.85 | −13.26 | 82.76 |
+| Prophet, tuned by cross-validation | 16.17 | 19.93 | 3.95 | 0.93 | +4.23 | 72.41 |
+
+The six Air Passengers Forecast plots show the six forecasts against the same 29 test months, and 20_airpassengers_comparison.png compares their errors with the published ARIMA figure. 
+
+![19_airpassengers_forecast](19_airpassengers_forecast.png)
+
+Because there are only 29 test points, the paired block bootstrap (three-month blocks) is needed to judge the differences:
+
+| Comparison (first against second) | Difference in MAE (thousand passengers) | 95% interval |
+| :--- | :--- | :--- |
+| Prophet additive against ARIMA baseline | +1.57 | −14.16 to +12.35 |
+| Prophet multiplicative against Prophet additive | −15.08 | −20.90 to −7.93 |
+| Prophet tuned against ARIMA optimal | +1.28 | −2.18 to +7.16 |
+| Prophet tuned against Prophet multiplicative (defaults) | −2.65 | −9.12 to +3.41 |
+| Prophet Box-Cox against ARIMA optimal | +9.12 | +2.97 to +18.91 |
+| Prophet Box-Cox against Prophet multiplicative | +5.19 | +1.64 to +9.00 |
+
+Three findings emerge. First, handling seasonality that grows with the series is what matters: multiplicative seasonality improves Prophet's MAE by 15.1 thousand passengers over additive, mirroring the improvement the Box-Cox transformation gave ARIMA, and additive Prophet is no better than the untransformed ARIMA. Second, tuned Prophet (MAE 16.17) and the optimal ARIMA (14.89) cannot be told apart. Third, applying the same Box-Cox transformation to Prophet did not help: at default settings that variant is worse than both the optimal ARIMA and Prophet's own multiplicative mode, and it under-forecasts (bias −13.3); this variant was not tuned, and the reason was not investigated. The 95% intervals behave differently from the electricity models: Prophet's cover only 52 to 83% of the test months (72% for the tuned model), while the optimal ARIMA's cover 100% at an average width of 39% of the forecast.
+
+21_airpassengers_components.png shows the tuned Prophet's trend, which rises almost linearly from about 110 to 490 thousand passengers, and its annual seasonal effect. The effect is concentrated in summer: July and August are 23.8% above trend and June 10.1% above, while November (−15.4%), December (−12.9%), October (−10.7%) and January (−10.7%) are the lowest months, in line with the multiplicative decomposition on the ARIMA page (about +20% in July and August and about −10% in November and January).
 
 
 
