@@ -101,6 +101,7 @@ All projects are built in Python, using the following core libraries across the 
 * **Causal inference:** CausalImpact, TensorFlow
 * **Data quality & validation:** fg-data-profiling, Great Expectations
 * **Visualisation:** Matplotlib, seaborn
+* **Time-Series Analysis:** Prophet
 
 The emphasis throughout is on applying these tools with rigour and clear business purpose, rather than on the tools themselves.
 
