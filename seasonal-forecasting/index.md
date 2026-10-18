@@ -356,7 +356,34 @@ The prmiary conclusion is that a carefully configured Prophet model can forecast
 | Where does it struggle? | Holidays (error three times larger than on ordinary days), structural breaks in the data, and its own uncertainty ranges, which are unreliable. | Strong |
 | Does it beat ARIMA on the Air Passengers series? | No detectable difference. What mattered for both was allowing the seasonal swings to grow with the series. | Moderate: only 29 test months |
 
+**What this means for the procurement team**
 
+1. Plan purchases from the forecast, with a buffer. The tuned model gives a defensible base for forward volumes. On the test years, a buffer of about 4 to 6% above the forecast kept the shortfall within one day in twenty. Because 2016 and 2017 contained no break in the data, and error measured over a wider range of dates was larger, a cautious planner would hold more than this in uncertain periods.
+2. Give holidays extra attention. The model's error on holidays and the Christmas to New Year period was 6.2%, against 2.0% on ordinary days. These are the days when a forecast is most likely to be wrong and most worth a human review.
+3. Check the data before every forecast. The largest error in the whole project came from a shift in the recorded level of demand (+8.7% around the turn of 2013/14), possibly a change in the source's coverage. Forecasts made just before it missed by about 8% over the following year. Validating inputs and watching for changes in how the data is recorded is as important as the model itself.
+4. Do not pay for wind and solar data to forecast demand. They did not improve the forecasts even when supplied perfectly. That does not rule out their value for other decisions, such as modelling wholesale prices, which were not tested.
+5. Set risk limits from observed errors, not from the model's own uncertainty ranges. Prophet's built-in 95% ranges were far too wide for the electricity data (covering 98% of days, at about 39% of the forecast) and too narrow for Air Passengers (covering 52 to 83% of months). The buffer figures above come from the errors actually observed.
+6. Refresh the model regularly. It should be re-fitted at least annually, and whenever a break in the data is suspected.
+
+**What the project shows about the technique**
+
+Prophet's main business strength is that its forecasts can be explained. The model separates demand into a trend, a weekly pattern (Sundays about 18% below the weekly average), an annual pattern (about 9% below in August and 10% above in winter) and a separate effect for each holiday (Christmas Day about 26% below normal). A non-technical stakeholder can read each of these, challenge it and, if necessary, correct it with knowledge the data does not contain, such as a holiday calendar or a known change in how demand is recorded. It also runs in seconds on an ordinary laptop. Three cautions emerged:
+* Its settings are not portable. A setting that worked well on ten years of data made forecasts about three times worse on four years, because the model projected a trend that had only just started. The fix was simple once diagnosed, but only because the project checked for it.
+* It misses short-term momentum. Errors on one day carry over to the next, which Prophet does not capture, so it suits planning weeks to years ahead more than next-day forecasting.
+* Its uncertainty ranges cannot be taken at face value, as noted above.
+The project also shows how to judge such a model honestly. The test years were set aside before any decision was made, the hypotheses about wind and solar were written down before they were tested, and comparisons were checked against a noise floor so that small differences were not mistaken for real ones. Two results went against initial expectations (a wider trend-change range made forecasts worse, and wind and solar added nothing) and are reported as findings.
+
+**Limitations to keep in mind**
+
+* The headline accuracy comes from one forecast date and two years without a structural break, so it is better read as a best-case figure than a guarantee.
+* The retailer's demand is assumed to be proportional to national demand, and only national holidays are modelled, so regional holidays are not.
+* The 2013/14 shift and the 2009 shortfall are not explained with certainty. The 2009 shortfall made no difference to the forecasts.
+* The wind and solar results describe the best case, since the future values were given to the model.
+* The results are for one country's electricity data and one benchmark series. As elsewhere in this portfolio, the aim is not business-grade accuracy but a rigorous demonstration of method.
+
+**Connections to the rest of the portfolio**
+
+On the classic Air Passengers series from the ARIMA project, tuned Prophet (average error of 16.2 thousand passengers) and ARIMA (14.9) could not be told apart. The lesson is the same for both techniques: modelling the structure of the data, here seasonal swings that grow with the series, matters more than the choice of technique. The Moving Averages project described the past; this project forecast the future, judged on days the model had never seen. The validation of the inputs echoes the Great Expectations project, and the chronological testing and pre-stated hypotheses follow the Data Science Workflow page. Against the four pillars on the Ethics in Applied Data Science page: the model's components are readable (transparency and interpretability), failures and null results are reported (accountability), and fairness concerns are limited here because the data are national totals with no individuals in them.
 
 
 
