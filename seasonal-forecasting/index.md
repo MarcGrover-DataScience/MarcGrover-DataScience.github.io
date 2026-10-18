@@ -314,9 +314,13 @@ The re-run of the two ARIMA models reproduces the figures published on the ARIMA
 | Prophet, Box-Cox + additive | 24.01 | 29.82 | 5.14 | 0.85 | −13.26 | 82.76 |
 | Prophet, tuned by cross-validation | 16.17 | 19.93 | 3.95 | 0.93 | +4.23 | 72.41 |
 
-The six Air Passengers Forecast plots show the six forecasts against the same 29 test months, and 20_airpassengers_comparison.png compares their errors with the published ARIMA figure. 
+The six Air Passengers Forecast plots show the six forecasts against the same 29 test months. The Test-Set MAE and Test-Set MAPE charts and 20_airpassengers_comparison.png compares their errors with the published ARIMA figure. 
 
 ![19_airpassengers_forecast](19_airpassengers_forecast.png)
+
+The Test-Set MAE and Test-Set MAPE charts compare the errors of the four Prophet models with the published ARIMA figure.
+
+![20_airpassengers_comparison](20_airpassengers_comparison.png)
 
 Because there are only 29 test points, the paired block bootstrap (three-month blocks) is needed to judge the differences:
 
@@ -331,15 +335,33 @@ Because there are only 29 test points, the paired block bootstrap (three-month b
 
 Three findings emerge. First, handling seasonality that grows with the series is what matters: multiplicative seasonality improves Prophet's MAE by 15.1 thousand passengers over additive, mirroring the improvement the Box-Cox transformation gave ARIMA, and additive Prophet is no better than the untransformed ARIMA. Second, tuned Prophet (MAE 16.17) and the optimal ARIMA (14.89) cannot be told apart. Third, applying the same Box-Cox transformation to Prophet did not help: at default settings that variant is worse than both the optimal ARIMA and Prophet's own multiplicative mode, and it under-forecasts (bias −13.3); this variant was not tuned, and the reason was not investigated. The 95% intervals behave differently from the electricity models: Prophet's cover only 52 to 83% of the test months (72% for the tuned model), while the optimal ARIMA's cover 100% at an average width of 39% of the forecast.
 
-21_airpassengers_components.png shows the tuned Prophet's trend, which rises almost linearly from about 110 to 490 thousand passengers, and its annual seasonal effect. The effect is concentrated in summer: July and August are 23.8% above trend and June 10.1% above, while November (−15.4%), December (−12.9%), October (−10.7%) and January (−10.7%) are the lowest months, in line with the multiplicative decomposition on the ARIMA page (about +20% in July and August and about −10% in November and January).
+The trend and annual seasonality plots of the air passenger components show the tuned Prophet's trend, which rises almost linearly from about 110 to 490 thousand passengers, and its annual seasonal effect. The effect is concentrated in summer: July and August are 23.8% above trend and June 10.1% above, while November (−15.4%), December (−12.9%), October (−10.7%) and January (−10.7%) are the lowest months, in line with the multiplicative decomposition on the ARIMA page (about +20% in July and August and about −10% in November and January).
 
-
-
-
+![21_airpassengers_components](21_airpassengers_components.png)
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+The prmiary conclusion is that a carefully configured Prophet model can forecast German daily electricity demand well enough to support forward purchasing. On two years of data it had never seen, its forecasts were off by 2.3% on an average day (about 31 GWh on a typical day of about 1,380 GWh). Tested from nine different forecast dates, the average error was 3.3% over the first 90 days and 4.2% over a full year. Its error was about a quarter smaller than the best classical alternative given the same information, and a third smaller than simply repeating last year's pattern. For the energy retailer in the scenario, this means purchases can be planned against the forecast with a safety buffer of roughly 4 to 6% to cover all but about one day in twenty. The most important risk found was not the model but the data: a hidden shift of nearly 9% in the recorded level of demand at the turn of 2013/14, which no model could have anticipated.
+
+**Summary of conclusions**
+
+| Business question | Conclusion | Strength of evidence |
+| :--- | :--- | :--- |
+| How accurate are forecasts 90 and 365 days ahead? | About 3.3% average error over 90 days and 4.2% over a year, tested at nine forecast dates. On the two held-out years, a calmer period, 2.3%. | Strong |
+| How large a buffer should be held? | In the test years, a buffer of 4.0 to 5.7% above the forecast (56 to 81 GWh/day, depending on how far ahead) covered demand on 19 days in 20. Treat this as a minimum. | Moderate: one forecast date, no structural break in the period |
+| Is Prophet better than classical methods? | Yes, when tailored to the data: average error about 25% smaller than a classical seasonal model given the same calendar information. Used out of the box, it was no better. | Strong: the gap is larger than test-period luck |
+| What drives the accuracy? | Telling the model about holidays and about the 2013/14 break. Fine-tuning its internal settings mattered far less. | Strong |
+| Are wind and solar data worth acquiring for demand forecasts? | No. Even if their future values were known exactly, forecasts improved by no more than about 1 GWh/day (3% of the error). | Strong for 'no useful gain'; the small link between solar output and demand is only suggestive |
+| How much history is needed? | Six years performed as well as ten, and four years did too once the model was configured sensibly. | Moderate |
+| Where does it struggle? | Holidays (error three times larger than on ordinary days), structural breaks in the data, and its own uncertainty ranges, which are unreliable. | Strong |
+| Does it beat ARIMA on the Air Passengers series? | No detectable difference. What mattered for both was allowing the seasonal swings to grow with the series. | Moderate: only 29 test months |
+
+
+
+
+
+
+
 
 ## Next steps:  
 
