@@ -418,3 +418,12 @@ This project demonstrates a forecasting workflow on public data. A real deployme
 ## Python code:
 You can view the full Python script used for the analysis here: 
 [View the Python Script](/Prophet_Seasonal_Forecasting_OPSD_v6.py)
+
+## Data Source & Acknowledgments
+
+This project utilizes daily German electricity consumption, wind, and solar generation time-series data covering the years 2006 to 2017.
+
+* **Primary Source:** Open Power System Data (OPSD). *Data Package Time Series*.  
+  Website: [https://open-power-system-data.org/](https://open-power-system-data.org/)
+* **Repository:** Derived via the [jenfly/opsd](https://github.com/jenfly/opsd) GitHub repository.
+* **Licensing:** The underlying processing code is released under the **MIT License**, and the dataset is provided under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
