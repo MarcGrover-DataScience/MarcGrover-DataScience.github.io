@@ -341,13 +341,31 @@ The trend and annual seasonality plots of the air passenger components show the 
 
 ## Conclusions:
 
-The prmiary conclusion is that a carefully configured Prophet model can forecast German daily electricity demand well enough to support forward purchasing. On two years of data it had never seen, its forecasts were off by 2.3% on an average day (about 31 GWh on a typical day of about 1,380 GWh). Tested from nine different forecast dates, the average error was 3.3% over the first 90 days and 4.2% over a full year. Its error was about a quarter smaller than the best classical alternative given the same information, and a third smaller than simply repeating last year's pattern. For the energy retailer in the scenario, this means purchases can be planned against the forecast with a safety buffer of roughly 4 to 6% to cover all but about one day in twenty. The most important risk found was not the model but the data: a hidden shift of nearly 9% in the recorded level of demand at the turn of 2013/14, which no model could have anticipated.
+The prmiary conclusion is that a carefully configured Prophet model can forecast German daily electricity demand well enough to support forward purchasing. 
+
+On the two years it had never seen (2016 and 2017), its forecasts were off by 2.3% on an average day (about 31 GWh on a typical day of about 1,380 GWh). As a harder test, the approach was also tried from nine earlier forecast dates between 2011 and 2014, some with less history and some followed by the unforeseeable 2013/14 shift in the data. Averaged over these, the error was 3.3% over the first 90 days and 4.2% over a full year. Where the model had already seen the shift, the one-year error was 2.5 to 2.7%, in line with the 2.3% on the held-out years. Its error was about a quarter smaller than the best classical alternative given the same information, and a third smaller than simply repeating last year's pattern. 
+
+For the model run with an origin of July 2013, the forecast year contained the 2013/14 shift, which no model could have foreseen. The per-origin one-year errors show this, noting that the forecasts with earlier origin had less history:
+
+| Origin | One-year error |
+| :--- | :--- |
+| Jan 2011 | 5.04% |
+| Jul 2011 | 5.90% |
+| Jan 2012 | 3.31% |
+| Jul 2012 | 2.85% |
+| Jan 2013 | 3.93% |
+| Jul 2013 (shift inside forecast year) | 7.70% |
+| Jan 2014 (just after the shift) | 3.70% |
+| Jul 2014 (shift already seen) | 2.69% |
+| Dec 2014 (shift already seen) | 2.50% |
+
+For the energy retailer in the scenario, this means purchases can be planned against the forecast with a safety buffer of roughly 4 to 6% to cover all but about one day in twenty. The most important risk found was not the model but the data: a hidden shift of nearly 9% in the recorded level of demand at the turn of 2013/14, which no model could have anticipated.
 
 **Summary of conclusions**
 
 | Business question | Conclusion | Strength of evidence |
 | :--- | :--- | :--- |
-| How accurate are forecasts 90 and 365 days ahead? | About 3.3% average error over 90 days and 4.2% over a year, tested at nine forecast dates. On the two held-out years, a calmer period, 2.3%. | Strong |
+| How accurate are forecasts 90 and 365 days ahead? | About 2.3% average error on the two held-out years (a calm period). The harder test from nine earlier forecast dates gave 3.3% over 90 days and 4.2% over a year. The two dates after the 2013/14 shift gave 2.5 to 2.7% over a year. | Strong |
 | How large a buffer should be held? | In the test years, a buffer of 4.0 to 5.7% above the forecast (56 to 81 GWh/day, depending on how far ahead) covered demand on 19 days in 20. Treat this as a minimum. | Moderate: one forecast date, no structural break in the period |
 | Is Prophet better than classical methods? | Yes, when tailored to the data: average error about 25% smaller than a classical seasonal model given the same calendar information. Used out of the box, it was no better. | Strong: the gap is larger than test-period luck |
 | What drives the accuracy? | Telling the model about holidays and about the 2013/14 break. Fine-tuning its internal settings mattered far less. | Strong |
@@ -383,12 +401,7 @@ The project also shows how to judge such a model honestly. The test years were s
 
 **Connections to the rest of the portfolio**
 
-On the classic Air Passengers series from the ARIMA project, tuned Prophet (average error of 16.2 thousand passengers) and ARIMA (14.9) could not be told apart. The lesson is the same for both techniques: modelling the structure of the data, here seasonal swings that grow with the series, matters more than the choice of technique. The Moving Averages project described the past; this project forecast the future, judged on days the model had never seen. The validation of the inputs echoes the Great Expectations project, and the chronological testing and pre-stated hypotheses follow the Data Science Workflow page. Against the four pillars on the Ethics in Applied Data Science page: the model's components are readable (transparency and interpretability), failures and null results are reported (accountability), and fairness concerns are limited here because the data are national totals with no individuals in them.
-
-
-
-
-
+On the classic Air Passengers series from the [ARIMA](/arima/)  project, tuned Prophet (average error of 16.2 thousand passengers) and ARIMA (14.9) could not be told apart. The lesson is the same for both techniques: modelling the structure of the data, here seasonal swings that grow with the series, matters more than the choice of technique. The [Moving Averages](/moving-averages/) project described the past; this project forecast the future, judged on days the model had never seen. The validation of the inputs echoes the [Great Expectations](/great-expectations/) project, and the chronological testing and pre-stated hypotheses follow the [Data Science Workflow](/data-science-workflow/) page. Against the four pillars on the [Ethics in Applied Data Science](/data-science-ethics/) page: the model's components are readable (transparency and interpretability), failures and null results are reported (accountability), and fairness concerns are limited here because the data are national totals with no individuals in them.
 
 ## Next steps:  
 
