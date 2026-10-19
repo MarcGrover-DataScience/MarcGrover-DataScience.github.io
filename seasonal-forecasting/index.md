@@ -75,7 +75,9 @@ Forecasting models fail quietly on faulty inputs: a duplicated or missing date s
 
 ### Chronological Train/Test Split
 
-The first ten years (2006 to 2015, 3,652 days) are used for training and tuning, and the final two (2016 to 2017, 731 days) are held out for testing. A random split would be wrong for a time series, because the model would train on days on either side of the ones it is tested on and overstate its accuracy. Two test years were chosen rather than one because they contain two complete annual cycles, a more reliable verdict than a single year of weather and calendar. The split is made before exploratory analysis, so that no decision about seasonality, holidays or regressors can be influenced by the test years: the exploratory stage uses the training years only, and the test set is first used in the final evaluation, after every model has been fully specified. Within the training period, the wind and solar series define two shorter windows: 2,189 days with wind (2010 to 2015) and 1,456 days with both wind and solar (2012 to 2015), after dropping the few days with a missing value.
+The first ten years (2006 to 2015, 3,652 days) are used for training and tuning, and the final two (2016 to 2017, 731 days) are held out for testing. A random split would be wrong for a time series, because the model would train on days on either side of the ones it is tested on and overstate its accuracy. Two test years were chosen rather than one because they contain two complete annual cycles, a more reliable verdict than a single year of weather and calendar. The split is made before exploratory analysis, so that no decision about seasonality, holidays or regressors can be influenced by the test years: the exploratory stage uses the training years only, and the test set is first used only after the primary forecasting models and their selection rules have been fully specified. Subsequent analyses prompted by test-set diagnostics are explicitly labelled as sensitivity analyses or experiments and are not used to replace the primary model.
+
+Within the training period, the wind and solar series define two shorter windows: 2,189 days with wind (2010 to 2015) and 1,456 days with both wind and solar (2012 to 2015), after dropping the few days with a missing value.
 
 ### Exploratory Analysis and the Decisions It Drove
 
@@ -168,6 +170,27 @@ Every model is fitted on a CPU-only laptop. The random seed is fixed, Prophet's 
 
 Four safeguards limit the risk of fooling ourselves. The test set is first used only after every model has been fully specified. The primary Prophet configuration is chosen by a rule fixed in advance. Every later analysis (the 2009 masking, the alternative tuning rule, the regressor experiment and its reruns) is labelled as a sensitivity check or experiment and does not replace the primary model. And the hypotheses for the regressor experiment were recorded before it was run. This reflects the transparency and accountability commitments set out on the Ethics in [Applied Data Science](/data-science-ethics/) page, including the reporting of failures and null results as well as confirmatory ones.
 
+#### Model Reference
+
+The analysis uses several model variants for different purposes. The model labels used throughout the Results section are summarised below for reference. M0a to M0c are the classical baselines, M1 is the primary Prophet model, and the remaining M1 and M2/M3 variants are used for sensitivity checks and the wind and solar regressor experiment.
+
+| Label | Model / purpose |
+|---|---|
+| **M0a** | Seasonal naive baseline, using the corresponding weekday from the most recent observed year. |
+| **M0b** | Weekly SARIMA baseline, modelling short-term dynamics and weekly seasonality only. |
+| **M0c** | SARIMAX baseline, adding annual Fourier terms, holiday indicators and the 2013/14 level-step indicator. |
+| **M1** | Primary Prophet model, with configuration selected by walk-forward cross-validation on the full 2006 to 2015 training period. |
+| **M1-s** | Sensitivity version of M1 with the 2009 shortfall masked from the training data. |
+| **M1-t** | Sensitivity version of M1 using the alternative configuration favoured by the two latest cross-validation folds. |
+| **M1-W10** | Matched Prophet baseline trained on the shorter 2010 to 2015 wind-availability window, with no external regressors. |
+| **M1-W12** | Matched Prophet baseline trained on the shorter 2012 to 2015 wind-and-solar-availability window, with no external regressors. |
+| **M2** | Prophet with wind as an external regressor, trained on 2010 to 2015 and compared with M1-W10. |
+| **M2b** | Prophet with wind as an external regressor, trained on 2012 to 2015 and compared with M1-W12. |
+| **M3** | Prophet with wind and solar as external regressors, trained on 2012 to 2015 and compared with M1-W12. |
+
+These labels distinguish the primary forecasting model from the baselines, sensitivity analyses and controlled regressor experiments. The shorter-window models are compared only with baselines trained on the same period, so that the effect of adding wind or solar is not confounded with the amount of training history.
+
+
 ## Results:
 
 The results follow the order of the analysis and refer to the charts produced by the script, numbered 01 to 21. Unless stated otherwise, accuracy figures are for the 731-day held-out test set (2016 to 2017), forecast from a single origin at 31 December 2015, with MAE and RMSE in GWh/day.
@@ -191,7 +214,7 @@ The Seasonal Profiles plot shows the seasonal shape on regular days relative to 
 
 ![03_seasonal_profiles](03_seasonal_profiles.png)
 
-The holiday effects charts quantify the holiday effects against a normal day of the same weekday. The national holidays reduce consumption by 16 to 28%: Christmas Day −28.2%, Boxing Day −26.9%, New Year's Day −26.7%, Whit Monday −26.6%, Easter Monday −25.9%, 1 May −22.3%, Ascension Day −22.2%, Good Friday −21.3% and German Unity Day −16.2%. Easter Sunday (−8.9%) and Whit Sunday (−7.1%) are not on the national holiday list but clearly differ from an ordinary Sunday, which is why they were added. The Christmas to New Year profile is not uniform: the dip begins around 20 December, reaches roughly 23% on Christmas Eve, 27 to 28% on 25 and 26 December, eases to about 16% between Christmas and New Year, deepens again on New Year's Eve and 1 January (the deepest point, −28.2%), and has largely recovered by 8 January.
+The Holiday Effects charts quantify consumption changes on holidays relative to a normal day of the same weekday. The national holidays reduce consumption by 16 to 28%: Christmas Day −28.2%, Boxing Day −26.9%, New Year's Day −26.7%, Whit Monday −26.6%, Easter Monday −25.9%, 1 May −22.3%, Ascension Day −22.2%, Good Friday −21.3% and German Unity Day −16.2%. Easter Sunday (−8.9%) and Whit Sunday (−7.1%) are not on the national holiday list but clearly differ from an ordinary Sunday, which is why they were added. The Christmas to New Year profile is not uniform: the dip begins around 20 December, reaches roughly 23% on Christmas Eve, 27 to 28% on 25 and 26 December, eases to about 16% between Christmas and New Year, deepens again on New Year's Eve and 1 January (the deepest point, −28.2%), and has largely recovered by 8 January.
 
 ![04_holiday_effects](04_holiday_effects.png)
 
@@ -275,7 +298,7 @@ The Regressor Experiment Comparison visual shows the test MAE of each model and,
 
 ![14_regressor_experiment_comparison](14_regressor_experiment_comparison.png)
 
- The Residuals vs Regressors plots gives an independent check, relating M1's test-period forecast errors to wind and solar after removing year level, weekday and annual cycle. For wind the adjusted correlation is +0.042 (interval −0.031 to +0.114), and the scatter is flat. For solar it is −0.179 (interval −0.248 to −0.108), with a slight downward slope, so higher solar output goes with somewhat lower actual consumption than M1 forecast. The relationship explains about 3% of the variance of M1's errors, and the interval is optimistic because daily errors are autocorrelated.
+ The Residuals vs Regressors plots give an independent check, relating M1's test-period forecast errors to wind and solar after removing year level, weekday and annual cycle. For wind the adjusted correlation is +0.042 (interval −0.031 to +0.114), and the scatter is flat. For solar it is −0.179 (interval −0.248 to −0.108), with a slight downward slope, so higher solar output goes with somewhat lower actual consumption than M1 forecast. The relationship explains about 3% of the variance of M1's errors, and the interval is optimistic because daily errors are autocorrelated.
 
 ![15_residuals_vs_regressors](15_residuals_vs_regressors.png)
 
@@ -289,7 +312,9 @@ The Trend Instability Reruns plots compare the three runs. Reducing the changepo
 | M2b (+Wind) against M1-W12 | +0.30 | −0.39 to +1.05 | −0.20 to +1.59 | 80% |
 | M3 (+Wind +Solar) against M1-W12 | −0.05 | −0.99 to +0.93 | −0.16 to +1.72 | 80% |
 
-In the sound run, none of the three regressor comparisons shows an improvement: every 95% interval includes zero, and the real regressors are no better than 95% of the placebos in all three cases. H1 is supported: even with perfect knowledge of future wind and solar output, adding them does not improve the forecast by more than about 1 GWh/day (3% of the MAE).
+In the sound run, none of the three regressor comparisons shows an improvement: every 95% interval includes zero, and 80% to 90% of the placebo regressors performed at least as well as the corresponding real-regressor result.
+
+H1 is supported: even with perfect knowledge of future wind and solar output, adding them does not improve the forecast by more than about 1 GWh/day (3% of the MAE).
 
 The Learned Regressor Effects against Placebo Effects plot repeats the coefficient comparison using this sound run. The learned effects are −0.220% (wind, M2), −0.272% (wind, M2b), −0.313% (wind, M3) and −0.542% (solar, M3). Against the placebo ranges, the M2b wind effect lies within the placebo range (−0.280 to +0.399), the M2 and M3 wind effects lie only just outside it (−0.180 and −0.276 are the most negative placebo values), and the solar effect lies outside (placebo range −0.363 to +0.442). With 10 placebo draws these are suggestive, not conclusive. A solar effect of −0.54% corresponds to only about 7 GWh/day for a one-standard-deviation rise, which is small beside an MAE of about 31 and consistent with the lack of any measurable gain in forecast accuracy.
 
@@ -369,7 +394,7 @@ For the energy retailer in the scenario, this means purchases can be planned aga
 | How large a buffer should be held? | In the test years, a buffer of 4.0 to 5.7% above the forecast (56 to 81 GWh/day, depending on how far ahead) covered demand on 19 days in 20. Treat this as a minimum. | Moderate: one forecast date, no structural break in the period |
 | Is Prophet better than classical methods? | Yes, when tailored to the data: average error about 25% smaller than a classical seasonal model given the same calendar information. Used out of the box, it was no better. | Strong: the gap is larger than test-period luck |
 | What drives the accuracy? | Telling the model about holidays and about the 2013/14 break. Fine-tuning its internal settings mattered far less. | Strong |
-| Are wind and solar data worth acquiring for demand forecasts? | No. Even if their future values were known exactly, forecasts improved by no more than about 1 GWh/day (3% of the error). | Strong for 'no useful gain'; the small link between solar output and demand is only suggestive |
+| Are wind and solar data worth acquiring for demand forecasts? | No. Even if their future values were known exactly, forecasts improved by no more than about 1 GWh/day (3% of the error). | Strong within this dataset and experimental design for 'no useful gain'; the small link between solar output and demand is only suggestive |
 | How much history is needed? | Six years performed as well as ten, and four years did too once the model was configured sensibly. | Moderate |
 | Where does it struggle? | Holidays (error three times larger than on ordinary days), structural breaks in the data, and its own uncertainty ranges, which are unreliable. | Strong |
 | Does it beat ARIMA on the Air Passengers series? | No detectable difference. What mattered for both was allowing the seasonal swings to grow with the series. | Moderate: only 29 test months |
