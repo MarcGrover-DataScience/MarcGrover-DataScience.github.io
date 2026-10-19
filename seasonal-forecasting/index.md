@@ -187,7 +187,7 @@ The other two departures are echoes: mid-2010 (+8.0%) is the 2009 shortfall drop
 
 ![02_yearly_level_shift](02_yearly_level_shift.png)
 
-Seasonal profiles shows the seasonal shape on regular days relative to each year's mean. Consumption is 5 to 8% above the weekly average on weekdays (Monday +5.7%, Tuesday +7.5%, Wednesday +7.8%, Thursday +7.3%, Friday +5.3%) and well below it at the weekend (Saturday −10.2%, Sunday −17.3%). The annual cycle peaks in January (+9.4%) and troughs in August (−6.6%). The test of whether seasonal swings scale with the level of the series is mixed: weekly amplitude favours a multiplicative model (relative spread 0.031 against 0.038 in absolute terms, correlation with level +0.63), while annual amplitude favours an additive one (0.129 against 0.116, correlation −0.17). With ten annual points this has little power, so the choice was left to cross-validation.
+The Seasonal Profiles plot shows the seasonal shape on regular days relative to each year's mean. Consumption is 5 to 8% above the weekly average on weekdays (Monday +5.7%, Tuesday +7.5%, Wednesday +7.8%, Thursday +7.3%, Friday +5.3%) and well below it at the weekend (Saturday −10.2%, Sunday −17.3%). The annual cycle peaks in January (+9.4%) and troughs in August (−6.6%). The test of whether seasonal swings scale with the level of the series is mixed: weekly amplitude favours a multiplicative model (relative spread 0.031 against 0.038 in absolute terms, correlation with level +0.63), while annual amplitude favours an additive one (0.129 against 0.116, correlation −0.17). With ten annual points this has little power, so the choice was left to cross-validation.
 
 ![03_seasonal_profiles](03_seasonal_profiles.png)
 
@@ -229,7 +229,7 @@ The CV error by horizon visual shows the cross-validated error by forecast horiz
 
 ### Prophet Components and Trend
 
-The Prohopet Components decomposes the tuned model (M1). The weekly effect puts Saturday about 11% and Sunday about 18% below the weekly average, close to the exploratory profile. The annual effect ranges from about −9% in August to about +10% in winter. The learned holiday effects reach 21 to 26% for the major holidays, about 16% for German Unity Day, about 12% for the days between Christmas and New Year and 4 to 7% for the smaller groups of days. The level-step regressor is learned as +7.96%, which sits between the settled year-on-year change (+7.2%) and the before-and-after comparison (+8.7%).
+The Prophet Components plot decomposes the tuned model (M1). The weekly effect puts Saturday about 11% and Sunday about 18% below the weekly average, close to the exploratory profile. The annual effect ranges from about −9% in August to about +10% in winter. The learned holiday effects reach 21 to 26% for the major holidays, about 16% for German Unity Day, about 12% for the days between Christmas and New Year and 4 to 7% for the smaller groups of days. The level-step regressor is learned as +7.96%, which sits between the settled year-on-year change (+7.2%) and the before-and-after comparison (+8.7%).
 
 ![09_prophet_components](09_prophet_components.png)
 
@@ -251,13 +251,13 @@ The tuned Prophet is better than every alternative by margins that exceed test-s
 
 Calendar handling accounts for much of the gain. On ordinary days M1 has a MAPE of 2.04% (SARIMAX 2.64%, out-of-the-box Prophet 2.78%, seasonal naive 2.95%). On the 45 holiday and Christmas-window days its MAPE is 6.17%, against 8.87%, 7.17% and 11.89% for the same three models, and 13.74% for the weekly SARIMA. Every model is considerably less accurate on holidays than on ordinary days.
 
-Propher forecasting test shows the M1 forecast against the actuals. The forecast follows the weekly and annual cycles closely and reproduces the Christmas to New Year pattern, although it underestimates the recovery in early January. The 95% interval covers 98.4% of test days, well above its nominal level, because it is very wide, averaging 38.6% of the forecast and widening through 2017. Across the 731 days the 28-day average bias of M1 is generally small, while the weekly SARIMA drifts by up to about 200 GWh. All models under-forecast around the turn of 2016/17.
+The Prophet Forecasting Test shows the M1 forecast against the actuals. The forecast follows the weekly and annual cycles closely and reproduces the Christmas to New Year pattern, although it underestimates the recovery in early January. The 95% interval covers 98.4% of test days, well above its nominal level, because it is very wide, averaging 38.6% of the forecast and widening through 2017. Across the 731 days the 28-day average bias of M1 is generally small, while the weekly SARIMA drifts by up to about 200 GWh. All models under-forecast around the turn of 2016/17.
 
 By forecast horizon band (descriptive only, because every band comes from one origin and horizon is confounded with season), M1's MAPE is 2.23% for days 1 to 90, 2.09% for days 91 to 365 and 2.47% for days 366 to 731. The procurement buffer, the 95th percentile of the shortfall of the forecast against actual demand, is 4.82% of the forecast (75.6 GWh/day) in the first band, 3.99% (56.2 GWh/day) in the second and 5.71% (81.0 GWh/day) in the third, with the corresponding 95th percentile over-forecast at 3.79%, 3.64% and 2.73%. The out-of-the-box Prophet has smaller buffers (about 2.7 to 3.0%) only because it over-forecasts on average (bias +25.5 GWh/day, 95th percentile surplus 5.2 to 7.2%), which would leave a retailer holding unneeded volume. The cross-validated horizon figures (3.26% over 90 days and 4.18% over 365) are the sounder answer to the question about 90 and 365 days ahead, and they are higher than the test-set MAPE because their folds include the 2013/14 step, which no model could foresee.
 
 ![11_prophet_forecast_test](11_prophet_forecast_test.png)
 
-Residual diagnostics shows the in-sample residuals of M1. They have a mean of −0.02 GWh and a standard deviation of 40.7 GWh, with a symmetric distribution and heavy tails (a few residuals reach ±300 GWh). They are strongly autocorrelated: lag 1 is 0.57 and lag 7 is 0.25, and the Ljung-Box statistics of 2,158.9, 2,311.6 and 2,340.6 at lags 7, 14 and 28 all have p-values of effectively zero. Unlike the near-white-noise residuals of the ARIMA project, Prophet's residuals retain day-to-day structure that the model does not capture.
+The Residual Diagnostics plot shows the in-sample residuals of M1. They have a mean of −0.02 GWh and a standard deviation of 40.7 GWh, with a symmetric distribution and heavy tails (a few residuals reach ±300 GWh). They are strongly autocorrelated: lag 1 is 0.57 and lag 7 is 0.25, and the Ljung-Box statistics of 2,158.9, 2,311.6 and 2,340.6 at lags 7, 14 and 28 all have p-values of effectively zero. Unlike the near-white-noise residuals of the ARIMA project, Prophet's residuals retain day-to-day structure that the model does not capture.
 
 ![12_residual_diagnostics](12_residual_diagnostics.png)
 
@@ -279,7 +279,7 @@ The Regressor Experiment Comparison visual shows the test MAE of each model and,
 
 ![15_residuals_vs_regressors](15_residuals_vs_regressors.png)
 
-The Trend Instability Reruns plots compares the three runs. Reducing the changepoint_prior_scale to 0.05 improved the four-year core model (MAE 56.4 against 97.2) but its trend still drifted −31.9 GWh/year, beyond the limit, and the M2b and M3 models (MAE 54.1 and 61.0, drifts −29.8 and −34.9) remained unstable. Matching the changepoint range to each window removed the problem: the four-year models then score MAEs of 30.94 (M1-W12), 31.25 (M2b) and 30.90 (M3), with drifts of +1.4, +3.0 and +3.8 GWh/year, and the six-year models 30.04 (M1-W10) and 30.13 (M2) with drifts of −2.6 and −1.1. All six models in this run pass the stability screen, and M1, whose range already works out at 0.80, is unchanged. The cause of the instability was therefore the trend's final stretch of history, not the flexibility of the trend as such.
+The Trend Instability Reruns plots compare the three runs. Reducing the changepoint_prior_scale to 0.05 improved the four-year core model (MAE 56.4 against 97.2) but its trend still drifted −31.9 GWh/year, beyond the limit, and the M2b and M3 models (MAE 54.1 and 61.0, drifts −29.8 and −34.9) remained unstable. Matching the changepoint range to each window removed the problem: the four-year models then score MAEs of 30.94 (M1-W12), 31.25 (M2b) and 30.90 (M3), with drifts of +1.4, +3.0 and +3.8 GWh/year, and the six-year models 30.04 (M1-W10) and 30.13 (M2) with drifts of −2.6 and −1.1. All six models in this run pass the stability screen, and M1, whose range already works out at 0.80, is unchanged. The cause of the instability was therefore the trend's final stretch of history, not the flexibility of the trend as such.
 
 ![17_trend_instability_reruns](17_trend_instability_reruns.png)
 
@@ -314,7 +314,7 @@ The re-run of the two ARIMA models reproduces the figures published on the ARIMA
 | Prophet, Box-Cox + additive | 24.01 | 29.82 | 5.14 | 0.85 | −13.26 | 82.76 |
 | Prophet, tuned by cross-validation | 16.17 | 19.93 | 3.95 | 0.93 | +4.23 | 72.41 |
 
-The six Air Passengers Forecast plots show the six forecasts against the same 29 test months. The Test-Set MAE and Test-Set MAPE charts and 20_airpassengers_comparison.png compares their errors with the published ARIMA figure. 
+The six Air Passengers Forecast plots show the six forecasts against the same 29 test months. The Test-Set MAE and Test-Set MAPE charts and compare their errors with the published ARIMA figure. 
 
 ![19_airpassengers_forecast](19_airpassengers_forecast.png)
 
@@ -341,7 +341,7 @@ The trend and annual seasonality plots of the air passenger components show the 
 
 ## Conclusions:
 
-The prmiary conclusion is that a carefully configured Prophet model can forecast German daily electricity demand well enough to support forward purchasing. 
+The primary conclusion is that a carefully configured Prophet model can forecast German daily electricity demand well enough to support forward purchasing. 
 
 On the two years it had never seen (2016 and 2017), its forecasts were off by 2.3% on an average day (about 31 GWh on a typical day of about 1,380 GWh). As a harder test, the approach was also tried from nine earlier forecast dates between 2011 and 2014, some with less history and some followed by the unforeseeable 2013/14 shift in the data. Averaged over these, the error was 3.3% over the first 90 days and 4.2% over a full year. Where the model had already seen the shift, the one-year error was 2.5 to 2.7%, in line with the 2.3% on the held-out years. Its error was about a quarter smaller than the best classical alternative given the same information, and a third smaller than simply repeating last year's pattern. 
 
@@ -416,7 +416,7 @@ This project demonstrates a forecasting workflow on public data. A real deployme
 * **Combine models and capture short-term momentum**. Prophet does not capture the way one day's error carries into the next. A hybrid, in which a second model forecasts Prophet's remaining errors, or an average of Prophet and SARIMAX forecasts, could improve shorter horizons. This matters less for forward purchasing a quarter or a year ahead than for day-ahead decisions.
 
 ## Python code:
-You can view the full Python script used for the analysis here: 
+You can view the full Python script used for the analysis here:  
 [View the Python Script](/Prophet_Seasonal_Forecasting_OPSD_v6.py)
 
 ## Data Source & Acknowledgments
