@@ -8,9 +8,7 @@ permalink: /seasonal-forecasting/
 
 ---
 
-# This project is in development
-
-### Goals and objectives:
+## Goals and objectives:
   
 The business objective is to determine how accurately an energy retailer's procurement team can forecast daily electricity demand 90 and 365 days ahead, the horizons over which forward power purchases are planned, and how large a buffer it should hold against the forecast error that remains. A retailer that buys forward exactly the forecast volume is exposed when demand exceeds it, while over-buying creates surplus volume, so forecast accuracy translates directly into a procurement and risk-management decision.  
   
@@ -365,9 +363,9 @@ The trend and annual seasonality plots of the air passenger components show the 
 
 ## Conclusions:
 
-The primary conclusion is that a carefully configured Prophet model can forecast German daily electricity demand well enough to support forward purchasing. 
-
-On the two years it had never seen (2016 and 2017), its forecasts were off by 2.3% on an average day (about 31 GWh on a typical day of about 1,380 GWh). As a harder test, the approach was also tried from nine earlier forecast dates between 2011 and 2014, some with less history and some followed by the unforeseeable 2013/14 shift in the data. Averaged over these, the error was 3.3% over the first 90 days and 4.2% over a full year. Where the model had already seen the shift, the one-year error was 2.5 to 2.7%, in line with the 2.3% on the held-out years. Its error was about a quarter smaller than the best classical alternative given the same information, and a third smaller than simply repeating last year's pattern. 
+The primary conclusion is that a carefully configured Prophet model provides an effective basis for forecasting the German daily electricity series used in this project. On the 731 held-out days in 2016 and 2017, its forecasts have a MAPE of 2.30% and an MAE of 31.5 GWh/day. Across the more demanding walk-forward validation, which tests forecasts from nine earlier origins and includes the unforeseeable 2013/14 level shift, MAPE is 3.26% over the first 90 days and 4.18% over a full year. These cross-validated figures provide the stronger evidence for the original 90- and 365-day forecasting questions because they test the approach from multiple forecast origins rather than a single two-year holdout.
+  
+Prophet's advantage is not automatic. The tuned model reduces MAE by 10.4 GWh/day relative to the SARIMAX model given comparable calendar and level-step information, with a 95% paired block-bootstrap interval of 6.4 to 14.0 GWh/day. In contrast, SARIMAX and the out-of-the-box Prophet cannot be distinguished. The improvement therefore comes from configuring the model appropriately for the structure of this series, particularly its holiday effects and 2013/14 level shift, rather than simply choosing Prophet as the forecasting technique.
 
 For the model run with an origin of July 2013, the forecast year contained the 2013/14 shift, which no model could have foreseen. The per-origin one-year errors show this, noting that the forecasts with earlier origin had less history:
 
@@ -382,10 +380,8 @@ For the model run with an origin of July 2013, the forecast year contained the 2
 | Jan 2014 (just after the shift) | 3.70% |
 | Jul 2014 (shift already seen) | 2.69% |
 | Dec 2014 (shift already seen) | 2.50% |
-
-On the stable 2016–17 holdout period, a buffer of approximately 4–6% would have covered demand on about 19 days in 20. This should be treated as an empirical baseline rather than a guaranteed production buffer, because it does not capture structural-break risk.
-
-For the energy retailer in the scenario, this means purchases can be planned against the forecast with a safety buffer of roughly 4 to 6% to cover all but about one day in twenty. The most important risk found was not the model but the data: a hidden shift of nearly 9% in the recorded level of demand at the turn of 2013/14, which no model could have anticipated.
+  
+For the energy retailer in the scenario, the held-out period suggests a procurement buffer of approximately 4 to 6% above the forecast to limit demand exceeding the hedged amount to about one day in twenty. This is an empirical baseline rather than a guaranteed production buffer: 2016 and 2017 contained no comparable structural break, and the earlier cross-validation shows how sharply error can increase when the underlying data changes unexpectedly.
 
 **Summary of conclusions**
 
@@ -402,32 +398,29 @@ For the energy retailer in the scenario, this means purchases can be planned aga
 
 **What this means for the procurement team**
 
-1. Plan purchases from the forecast, with a buffer. The tuned model gives a defensible base for forward volumes. On the test years, a buffer of about 4 to 6% above the forecast kept the shortfall within one day in twenty. Because 2016 and 2017 contained no break in the data, and error measured over a wider range of dates was larger, a cautious planner would hold more than this in uncertain periods.
-2. Give holidays extra attention. The model's error on holidays and the Christmas to New Year period was 6.2%, against 2.0% on ordinary days. These are the days when a forecast is most likely to be wrong and most worth a human review.
-3. Check the data before every forecast. The largest error in the whole project came from a shift in the recorded level of demand (+8.7% around the turn of 2013/14), possibly a change in the source's coverage. Forecasts made just before it missed by about 8% over the following year. Validating inputs and watching for changes in how the data is recorded is as important as the model itself.
-4. Do not pay for wind and solar data to forecast demand. They did not improve the forecasts even when supplied perfectly. That does not rule out their value for other decisions, such as modelling wholesale prices, which were not tested.
-5. Set risk limits from observed errors, not from the model's own uncertainty ranges. Prophet's built-in 95% ranges were far too wide for the electricity data (covering 98% of days, at about 39% of the forecast) and too narrow for Air Passengers (covering 52 to 83% of months). The buffer figures above come from the errors actually observed.
-6. Refresh the model regularly. It should be re-fitted at least annually, and whenever a break in the data is suspected.
+- **Use the forecast as a planning baseline, not as a guaranteed demand figure.** The tuned model provides a credible basis for forward volumes, but the observed 4 to 6% buffer applies to the stable 2016–17 holdout period. Greater protection would be appropriate when structural change is suspected.
+- **Give holidays additional attention.** M1's MAPE rises from 2.04% on ordinary days to 6.17% on holidays and the Christmas to New Year period, making these dates particularly suitable for additional review.
+- **Monitor the input data as closely as the model.** The largest challenge in the project is the approximately 8.7% level shift around the turn of 2013/14. A change in the data-generating or reporting process can matter more than incremental model improvement.
+- **Do not acquire wind and solar generation data solely on the evidence of this demand-forecasting experiment.** Even when their future values are supplied perfectly, they provide no detectable improvement in forecast accuracy. This does not address their potential value for other applications, such as forecasting generation or wholesale prices.
+- **Base operational risk limits on observed forecast errors rather than Prophet's built-in uncertainty intervals.** The intervals are too wide for the electricity holdout and too narrow for much of the Air Passengers comparison, so their nominal 95% coverage should not be interpreted as a reliable operational limit.
 
 **What the project shows about the technique**
 
-Prophet's main business strength is that its forecasts can be explained. The model separates demand into a trend, a weekly pattern (Sundays about 18% below the weekly average), an annual pattern (about 9% below in August and 10% above in winter) and a separate effect for each holiday (Christmas Day about 26% below normal). A non-technical stakeholder can read each of these, challenge it and, if necessary, correct it with knowledge the data does not contain, such as a holiday calendar or a known change in how demand is recorded. It also runs in seconds on an ordinary laptop. Three cautions emerged:
-* Its settings are not portable. A setting that worked well on ten years of data made forecasts about three times worse on four years, because the model projected a trend that had only just started. The fix was simple once diagnosed, but only because the project checked for it.
-* It misses short-term momentum. Errors on one day carry over to the next, which Prophet does not capture, so it suits planning weeks to years ahead more than next-day forecasting.
-* Its uncertainty ranges cannot be taken at face value, as noted above.
-The project also shows how to judge such a model honestly. The test years were set aside before any decision was made, the hypotheses about wind and solar were written down before they were tested, and comparisons were checked against a noise floor so that small differences were not mistaken for real ones. Two results went against initial expectations (a wider trend-change range made forecasts worse, and wind and solar added nothing) and are reported as findings.
+Prophet's principal advantage in this application is interpretability. It separates the forecast into trend, weekly and annual seasonality, holidays and explicitly supplied regressors, allowing individual components to be inspected and related back to the structure of demand. The project also demonstrates three important limitations. First, configurations are not automatically portable between different amounts of training history: the four-year models initially produced unstable trend extrapolations until the changepoint range was adjusted. Second, significant short-run autocorrelation remains in the residuals, so in this project Prophet is better suited to the medium- and long-horizon planning problem than to next-day forecasting unless another short-term component is introduced. Third, its built-in uncertainty intervals require independent validation rather than being accepted at face value.
 
-**Limitations to keep in mind**
+More broadly, the analysis reinforces the importance of evaluating the forecasting process rather than selecting a model from a single accuracy figure. The chronological holdout, walk-forward validation, paired block bootstrap, matched regressor baselines, placebo tests and sensitivity analyses expose weaknesses that a single train/test comparison would miss. Several findings also run against the initial expectations, including the lack of forecasting value from wind and solar generation and the instability caused by transferring one Prophet configuration to a shorter training window. Retaining these results is part of the evidence rather than a failure of the analysis.
 
-* The headline accuracy comes from one forecast date and two years without a structural break, so it is better read as a best-case figure than a guarantee.
-* The retailer's demand is assumed to be proportional to national demand, and only national holidays are modelled, so regional holidays are not.
-* The 2013/14 shift and the 2009 shortfall are not explained with certainty. The 2009 shortfall made no difference to the forecasts.
-* The wind and solar results describe the best case, since the future values were given to the model.
-* The results are for one country's electricity data and one benchmark series. As elsewhere in this portfolio, the aim is not business-grade accuracy but a rigorous demonstration of method.
+**Limitations**
+
+- The headline holdout accuracy comes from one forecast origin and two years without a structural break, so it should not be interpreted as a guaranteed future error rate.
+- National electricity consumption is used as a proxy for the hypothetical retailer's demand, and only national holidays are modelled.
+- The cause of the 2013/14 level shift is not confirmed, while the 2009 shortfall remains unexplained; masking the latter has negligible effect on the primary point forecast.
+- The wind and solar experiment represents a best-case test because their future values are supplied to the models.
+- The conclusions are based on one national electricity dataset and one benchmark forecasting series rather than evidence that Prophet will perform similarly on other datasets.
 
 **Connections to the rest of the portfolio**
 
-On the classic Air Passengers series from the [ARIMA](/arima/)  project, tuned Prophet (average error of 16.2 thousand passengers) and ARIMA (14.9) could not be told apart. The lesson is the same for both techniques: modelling the structure of the data, here seasonal swings that grow with the series, matters more than the choice of technique. The [Moving Averages](/moving-averages/) project described the past; this project forecast the future, judged on days the model had never seen. The validation of the inputs echoes the [Great Expectations](/great-expectations/) project, and the chronological testing and pre-stated hypotheses follow the [Data Science Workflow](/data-science-workflow/) page. Against the four pillars on the [Ethics in Applied Data Science](/data-science-ethics/) page: the model's components are readable (transparency and interpretability), failures and null results are reported (accountability), and fairness concerns are limited here because the data are national totals with no individuals in them.
+This project extends the portfolio's earlier time-series work from description and classical forecasting into a more complex daily forecasting problem. The [Moving Averages](/moving-averages/) project characterises historical movement, while the [ARIMA](/arima/) project introduces out-of-sample forecasting and provides the Air Passengers benchmark reused here. The input validation follows the discipline demonstrated in the [Great Expectations](/great-expectations/) project, while the chronological testing, explicit separation of training and test data, and reporting of null and unexpected findings reflect the principles set out in the [Data Science Workflow](/data-science-workflow/) and [Ethics in Applied Data Science](/data-science-ethics/) pages.
 
 ## Next steps:  
 
