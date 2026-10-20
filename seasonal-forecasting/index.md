@@ -28,6 +28,8 @@ A paired block bootstrap puts the advantage over SARIMAX at 10.4 GWh/day (95% in
 
 Cross-validated error rises with horizon, from a MAPE of 3.26% over the first 90 days to 4.18% over a full year, a range that includes the 2013/14 level shift, which the earlier folds could not see coming. Wind and solar generation add nothing detectable even when their future values are supplied perfectly: the change in MAE is within about ±1 GWh/day and inside the noise floor set by placebo regressors. 
 
+These CV errors are deliberately harder benchmarks than the final 2016–17 holdout because some folds encounter the 2013/14 structural shift after the forecast origin.
+
 On the Air Passengers series, tuned Prophet (MAE 16.2) and ARIMA (14.9) cannot be told apart (difference +1.3, 95% interval −2.2 to +7.2), and in both techniques the decisive choice is how to handle seasonality that grows with the series: multiplicative rather than additive seasonality improves Prophet's MAE by 15.1 thousand passengers. As elsewhere in this portfolio, the purpose is not to demonstrate business-grade accuracy but to show a rigorous and honest forecasting workflow, in which the value lies in the methodology and the insight it produces.
 
 ## Application:  
@@ -101,7 +103,7 @@ Three baselines of increasing sophistication are fitted, so that Prophet is comp
 Prophet decomposes the series into trend, seasonal, holiday and regressor components (see Application). The configuration used here has six elements.
 * **Trend**. Piecewise linear, with 25 candidate changepoints placed uniformly over the first _changepoint_range_ share of the history. A sparse (Laplace) prior, whose scale _changepoint_prior_scale_ controls how freely the slope may change, keeps most changepoints close to zero unless the data demand otherwise.
 * **Seasonality**. Weekly and annual, with the annual Fourier order and the additive or multiplicative mode tuned. Daily seasonality is switched off because it is meaningless for daily data.
-* **Holidays**. A table of 18 named holidays (288 dated rows): the nine national holidays, Easter Sunday and Whit Sunday, Reformationstag (a one-off national holiday on 31 October 2017, which falls in the test period only, so no effect can be learned for it), and six groups covering the Christmas to New Year period: Vor_Weihnachten (22 and 23 December), Heiligabend (24 December), Zwischen_den_Jahren (27 to 30 December), Silvester (31 December), Nach_Neujahr (2 and 3 January) and Anfang_Januar (4 to 6 January). Where two holidays coincide the first name is used, so their effects are not added together. Only national holidays are used, because regional holidays, which differ by federal state, cannot be separated in a national series; this is a stated limitation.
+* **Holidays**. A table of 18 named holidays (288 dated rows): the nine national holidays, Easter Sunday and Whit Sunday, Reformationstag (a one-off national holiday on 31 October 2017, which falls in the test period only, so no effect can be learned for it.  It is retained in the calendar for completeness, but because no occurrence exists in the training data its inclusion cannot provide a learned holiday adjustment for the 2017 occurrence.), and six groups covering the Christmas to New Year period: Vor_Weihnachten (22 and 23 December), Heiligabend (24 December), Zwischen_den_Jahren (27 to 30 December), Silvester (31 December), Nach_Neujahr (2 and 3 January) and Anfang_Januar (4 to 6 January). Where two holidays coincide the first name is used, so their effects are not added together. Only national holidays are used, because regional holidays, which differ by federal state, cannot be separated in a national series; this is a stated limitation.
 * **Level-step regressor**. A binary indicator equal to 0 before 1 January 2014 and 1 afterwards, the year boundary lying inside the step window found in the exploratory analysis. Whether to offer it to Prophet is itself tested by cross-validation.
 * **Uncertainty**. 95% prediction intervals from 1,000 simulated draws, matching the interval width used in the ARIMA project.
 * **Estimation**. Maximum a posteriori optimisation, which is fast on a CPU and reproducible for a fixed random seed.
@@ -383,6 +385,8 @@ For the model run with an origin of July 2013, the forecast year contained the 2
 | Jan 2014 (just after the shift) | 3.70% |
 | Jul 2014 (shift already seen) | 2.69% |
 | Dec 2014 (shift already seen) | 2.50% |
+
+On the stable 2016–17 holdout period, a buffer of approximately 4–6% would have covered demand on about 19 days in 20. This should be treated as an empirical baseline rather than a guaranteed production buffer, because it does not capture structural-break risk.
 
 For the energy retailer in the scenario, this means purchases can be planned against the forecast with a safety buffer of roughly 4 to 6% to cover all but about one day in twenty. The most important risk found was not the model but the data: a hidden shift of nearly 9% in the recorded level of demand at the turn of 2013/14, which no model could have anticipated.
 
