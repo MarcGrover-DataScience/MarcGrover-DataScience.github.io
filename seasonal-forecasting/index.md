@@ -129,13 +129,13 @@ A lower MAE on one test set is not proof that one model is better: the 731 test 
 
 ### Sensitivity Analyses
 
-Two checks measure the influence of analyst choices rather than assuming it. First, the April to September 2009 shortfall is left in the primary model and also masked in a variant (183 days set to missing, which Prophet ignores), so its effect on the forecast is measured. Second, M1 was chosen by mean MAPE over all nine folds, but the two latest folds are the only ones able to show whether a configuration copes with the level step, and they favour a different configuration. That alternative is fitted as a clearly labelled sensitivity model; it is not a replacement for M1, because switching the selection rule after seeing test results would be a forking path.
+Two checks measure the influence of analyst choices rather than assuming it. First, the April to September 2009 shortfall is left in the primary model and also masked in a sensitivity variant, M1-s (183 days set to missing, which Prophet ignores), so its effect on the forecast is measured. Second, M1 was chosen by mean MAPE over all nine folds, but the two latest folds are the only ones able to show whether a configuration copes with the level step, and they favour a different configuration. That alternative, M1-t, is retained as a sensitivity model rather than replacing M1, because switching the selection rule after seeing test results would create a forking path.
 
 ### The Wind and Solar Regressor Experiment
 
 **Why wind and solar are kept out of the core model**. Prophet regressors must have known values at forecast time. A forecast made at the end of 2015 for 2016 and 2017 cannot know actual wind and solar output for those dates, so a model that uses them is no longer a genuine forecast. The physical link is also indirect (generation is not demand; both act as weak proxies for weather), both series grow with installed capacity rather than with demand, and using them shortens the training window to the years in which they exist. The experiment therefore asks a different question: even if their future values were supplied perfectly, would they improve the forecast? Any gain found is an upper bound on what a real forecaster could achieve.
 
-**Design**. Each regressor model is compared with a matched baseline: the same Prophet without regressors, trained on exactly the same shorter window. M2 adds wind (trained 2010 to 2015); M2b adds wind (2012 to 2015); and M3 adds wind and solar (2012 to 2015). The matched baselines are M1-W10 (no regressors, 2010 to 2015) and M1-W12 (no regressors, 2012 to 2015). All models keep the hyperparameters of the configuration under test, so the only thing that differs between a model and its baseline is the regressor. Prophet standardises each regressor, so its learned coefficient is the effect of a one-standard-deviation rise, reported as a percentage of consumption. Two hypotheses were recorded in the script before the experiment was run: H1, that wind and solar add no forecasting value beyond trend, seasonality and calendar effects, so each regressor model matches its baseline within the noise floor described next; and H2, that shortening the training window to use them costs more accuracy than they could win back.
+**Design**. Each regressor model is compared with a matched Prophet baseline trained on exactly the same window: M2 against M1-W10 (2010 to 2015), and M2b and M3 against M1-W12 (2012 to 2015). All models retain the hyperparameters of the configuration under test, so the regressor is the only difference within each matched comparison. Prophet standardises each regressor, so its learned coefficient is the effect of a one-standard-deviation rise, reported as a percentage of consumption. Two hypotheses were recorded in the script before the experiment was run: H1, that wind and solar add no forecasting value beyond trend, seasonality and calendar effects, so each regressor model matches its baseline within the noise floor described next; and H2, that shortening the training window to use them costs more accuracy than they could win back.
 
 **Placebo regressors: establishing a noise floor**. A change in test MAE of a few tenths of a GWh after adding wind is hard to interpret on its own. It might be a genuine gain, or it might be noise, because refitting a flexible model with any extra column nudges its trend and seasonal estimates slightly. The question "did wind help?" therefore needs a yardstick: how much does the error change when a regressor that cannot contain real information about demand is added in exactly the same way? Placebo regressors provide it, borrowing their logic from permutation tests in statistics and placebo tests in causal inference. One placebo _draw_ works as follows:
 
@@ -165,7 +165,7 @@ Four Prophet variants map onto the ARIMA project's story. Additive seasonality a
 
 Every model is fitted on a CPU-only laptop. The random seed is fixed, Prophet's interval sampling is reseeded for each model, and the cross-validation results are cached, so the first run takes tens of minutes (almost all in the several hundred Prophet fits of the tuning stage) and later runs take a few minutes. Results reproduced to about 0.1 GWh/day between two different machines for the stable models, while the unstable four-year models differed by a few GWh/day, itself a symptom of that instability.
 
-Four safeguards limit the risk of fooling ourselves. The test set is first used only after every model has been fully specified. The primary Prophet configuration is chosen by a rule fixed in advance. Every later analysis (the 2009 masking, the alternative tuning rule, the regressor experiment and its reruns) is labelled as a sensitivity check or experiment and does not replace the primary model. And the hypotheses for the regressor experiment were recorded before it was run. This reflects the transparency and accountability commitments set out on the Ethics in [Applied Data Science](/data-science-ethics/) page, including the reporting of failures and null results as well as confirmatory ones.
+Four safeguards limit the risk of fooling ourselves. The test set is first used only after the primary forecasting models and their selection rules have been fully specified, and the primary Prophet configuration is chosen by a rule fixed in advance. Later analyses prompted by test-set results, including the 2009 masking, alternative tuning rule and regressor-experiment reruns, are explicitly labelled as sensitivity analyses or experiments and do not replace the primary model. The hypotheses for the regressor experiment were also recorded before it was run. This reflects the transparency and accountability commitments set out on the [Ethics in Applied Data Science](/data-science-ethics/) page, including the reporting of failures and null results as well as confirmatory ones.
 
 #### Model Reference
 
@@ -367,19 +367,7 @@ The primary conclusion is that a carefully configured Prophet model provides an 
   
 Prophet's advantage is not automatic. The tuned model reduces MAE by 10.4 GWh/day relative to the SARIMAX model given comparable calendar and level-step information, with a 95% paired block-bootstrap interval of 6.4 to 14.0 GWh/day. In contrast, SARIMAX and the out-of-the-box Prophet cannot be distinguished. The improvement therefore comes from configuring the model appropriately for the structure of this series, particularly its holiday effects and 2013/14 level shift, rather than simply choosing Prophet as the forecasting technique.
 
-For the model run with an origin of July 2013, the forecast year contained the 2013/14 shift, which no model could have foreseen. The per-origin one-year errors show this, noting that the forecasts with earlier origin had less history:
-
-| Origin | One-year error |
-| :--- | :--- |
-| Jan 2011 | 5.04% |
-| Jul 2011 | 5.90% |
-| Jan 2012 | 3.31% |
-| Jul 2012 | 2.85% |
-| Jan 2013 | 3.93% |
-| Jul 2013 (shift inside forecast year) | 7.70% |
-| Jan 2014 (just after the shift) | 3.70% |
-| Jul 2014 (shift already seen) | 2.69% |
-| Dec 2014 (shift already seen) | 2.50% |
+Across the more demanding walk-forward validation... MAPE is 3.26% over the first 90 days and 4.18% over a full year.
   
 For the energy retailer in the scenario, the held-out period suggests a procurement buffer of approximately 4 to 6% above the forecast to limit demand exceeding the hedged amount to about one day in twenty. This is an empirical baseline rather than a guaranteed production buffer: 2016 and 2017 contained no comparable structural break, and the earlier cross-validation shows how sharply error can increase when the underlying data changes unexpectedly.
 
@@ -388,7 +376,7 @@ For the energy retailer in the scenario, the held-out period suggests a procurem
 | Business question | Conclusion | Strength of evidence |
 | :--- | :--- | :--- |
 | How accurate are forecasts 90 and 365 days ahead? | About 2.3% average error on the two held-out years (a calm period). The harder test from nine earlier forecast dates gave 3.3% over 90 days and 4.2% over a year. The two dates after the 2013/14 shift gave 2.5 to 2.7% over a year. | Strong |
-| How large a buffer should be held? | In the test years, a buffer of 4.0 to 5.7% above the forecast (56 to 81 GWh/day, depending on how far ahead) covered demand on 19 days in 20. Treat this as a minimum. | Moderate: one forecast date, no structural break in the period |
+| How large a buffer should be held? | In the test years, a buffer of 4.0 to 5.7% above the forecast (56 to 81 GWh/day, depending on horizon) covered demand on 19 days in 20. Treat this as an empirical baseline rather than a guaranteed production buffer. | Moderate: one forecast date, no structural break in the period |
 | Is Prophet better than classical methods? | Yes, when tailored to the data: average error about 25% smaller than a classical seasonal model given the same calendar information. Used out of the box, it was no better. | Strong: the gap is larger than test-period luck |
 | What drives the accuracy? | Telling the model about holidays and about the 2013/14 break. Fine-tuning its internal settings mattered far less. | Strong |
 | Are wind and solar data worth acquiring for demand forecasts? | No. Even if their future values were known exactly, forecasts improved by no more than about 1 GWh/day (3% of the error). | Strong within this dataset and experimental design for 'no useful gain'; the small link between solar output and demand is only suggestive |
