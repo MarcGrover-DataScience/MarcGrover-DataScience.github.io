@@ -98,7 +98,7 @@ Three baselines of increasing sophistication are fitted, so that Prophet is comp
 Prophet decomposes the series into trend, seasonal, holiday and regressor components (see Application). The configuration used here has six elements.
 * **Trend**. Piecewise linear, with 25 candidate changepoints placed uniformly over the first _changepoint_range_ share of the history. A sparse (Laplace) prior, whose scale _changepoint_prior_scale_ controls how freely the slope may change, keeps most changepoints close to zero unless the data demand otherwise.
 * **Seasonality**. Weekly and annual, with the annual Fourier order and the additive or multiplicative mode tuned. Daily seasonality is switched off because it is meaningless for daily data.
-* **Holidays**. A table of 18 named holidays (288 dated rows): the nine national holidays, Easter Sunday and Whit Sunday, Reformationstag (a one-off national holiday on 31 October 2017, which falls in the test period only, so no effect can be learned for it.  It is retained in the calendar for completeness, but because no occurrence exists in the training data its inclusion cannot provide a learned holiday adjustment for the 2017 occurrence.), and six groups covering the Christmas to New Year period: Vor_Weihnachten (22 and 23 December), Heiligabend (24 December), Zwischen_den_Jahren (27 to 30 December), Silvester (31 December), Nach_Neujahr (2 and 3 January) and Anfang_Januar (4 to 6 January). Where two holidays coincide the first name is used, so their effects are not added together. Only national holidays are used, because regional holidays, which differ by federal state, cannot be separated in a national series; this is a stated limitation.
+* **Holidays**. A table of 18 named holidays (288 dated rows): the nine national holidays, Easter Sunday and Whit Sunday, Reformationstag, and six groups covering the Christmas to New Year period: Vor_Weihnachten (22 and 23 December), Heiligabend (24 December), Zwischen_den_Jahren (27 to 30 December), Silvester (31 December), Nach_Neujahr (2 and 3 January) and Anfang_Januar (4 to 6 January). Reformationstag was a one-off national holiday on 31 October 2017 and occurs only in the test period, so no holiday effect can be learned for it from the training data; it is retained in the calendar for completeness. Where two holidays coincide, the first name is used so that their effects are not added together. Only national holidays are used because regional holidays, which differ by federal state, cannot be separated in a national series; this is a stated limitation.
 * **Level-step regressor**. A binary indicator equal to 0 before 1 January 2014 and 1 afterwards, the year boundary lying inside the step window found in the exploratory analysis. Whether to offer it to Prophet is itself tested by cross-validation.
 * **Uncertainty**. 95% prediction intervals from 1,000 simulated draws, matching the interval width used in the ARIMA project.
 * **Estimation**. Maximum a posteriori optimisation, which is fast on a CPU and reproducible for a fixed random seed.
@@ -336,11 +336,9 @@ The re-run of the two ARIMA models reproduces the figures published on the ARIMA
 | Prophet, Box-Cox + additive | 24.01 | 29.82 | 5.14 | 0.85 | −13.26 | 82.76 |
 | Prophet, tuned by cross-validation | 16.17 | 19.93 | 3.95 | 0.93 | +4.23 | 72.41 |
 
-The six Air Passengers Forecast plots show the six forecasts against the same 29 test months. The Test-Set MAE and Test-Set MAPE charts and compare their errors with the published ARIMA figure. 
+The six Air Passengers Forecast plots show the six forecasts against the same 29 test months. The comparison charts then show their test-set MAE and MAPE alongside the corresponding ARIMA results.
 
 ![19_airpassengers_forecast](19_airpassengers_forecast.png)
-
-The Test-Set MAE and Test-Set MAPE charts compare the errors of the four Prophet models with the published ARIMA figure.
 
 ![20_airpassengers_comparison](20_airpassengers_comparison.png)
 
