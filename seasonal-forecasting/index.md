@@ -365,7 +365,7 @@ The primary conclusion is that a carefully configured Prophet model provides an 
   
 Prophet's advantage is not automatic. The tuned model reduces MAE by 10.4 GWh/day relative to the SARIMAX model given comparable calendar and level-step information, with a 95% paired block-bootstrap interval of 6.4 to 14.0 GWh/day. In contrast, SARIMAX and the out-of-the-box Prophet cannot be distinguished. The improvement therefore comes from configuring the model appropriately for the structure of this series, particularly its holiday effects and 2013/14 level shift, rather than simply choosing Prophet as the forecasting technique.
 
-Across the more demanding walk-forward validation... MAPE is 3.26% over the first 90 days and 4.18% over a full year.
+Across the more demanding walk-forward validation MAPE is 3.26% over the first 90 days and 4.18% over a full year.
   
 For the energy retailer in the scenario, the held-out period suggests a procurement buffer of approximately 4 to 6% above the forecast to limit demand exceeding the hedged amount to about one day in twenty. This is an empirical baseline rather than a guaranteed production buffer: 2016 and 2017 contained no comparable structural break, and the earlier cross-validation shows how sharply error can increase when the underlying data changes unexpectedly.
 
