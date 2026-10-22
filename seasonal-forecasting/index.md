@@ -422,7 +422,7 @@ This project demonstrates a forecasting workflow on public data. A real deployme
 
 ## Python code:
 You can view the full Python script used for the analysis here:  
-[View the Python Script](/Prophet_Seasonal_Forecasting_OPSD_v6.py)
+[View the Python Script](/Prophet_Seasonal_Forecasting_OPSD_v7.py)
 
 ## Data Source & Acknowledgments
 

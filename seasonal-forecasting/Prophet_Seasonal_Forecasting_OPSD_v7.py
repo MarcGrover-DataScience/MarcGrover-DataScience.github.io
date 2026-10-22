@@ -13,7 +13,7 @@ Dataset            : Open Power System Data, daily German electricity
                      https://github.com/jenfly/opsd  (derived from the OPSD
                      time series package, https://open-power-system-data.org/)
 
-BUILD STATUS - CHECKPOINT C (baselines, core Prophet, regressor experiment)
+
     Section 1  Data loading and validation                  -> chart 01
     Section 2  Chronological train/test split
     Section 3  Exploratory analysis (training only)         -> charts 02-05
@@ -95,7 +95,7 @@ DATA_CACHE = BASE_DIR / "opsd_germany_daily.csv"  # local copy: one download onl
 TRAIN_START, TRAIN_END = "2006-01-01", "2015-12-31"
 TEST_START, TEST_END = "2016-01-01", "2017-12-31"
 
-# --- Modelling constants (Checkpoint B) --------------------------------------
+# --- Modelling constants -----------------------------------------------------
 RANDOM_SEED = 42
 # The level step found in the EDA lies between 23 Dec 2013 and 14 Jan 2014.
 # The year boundary falls inside that window, so it is used as the step date
@@ -110,7 +110,7 @@ CV_INITIAL_DAYS, CV_HORIZON_DAYS, CV_PERIOD_DAYS = 5 * 365, 365, 180
 # Set to True after changing the grid or any modelling assumption.
 FORCE_RETUNE = False
 HORIZON_BANDS = [("1-90 days", 1, 90), ("91-365 days", 91, 365), ("366-731 days", 366, 731)]
-# --- Regressor experiment and uncertainty (Checkpoint C) ----------------------
+# --- Regressor experiment and uncertainty -------------------------------------
 N_PLACEBOS = 10            # placebo regressors fitted per experiment (Section 8.3)
 BOOTSTRAP_BLOCK_DAYS = 28  # block length for the paired bootstrap (Section 4.4)
 N_BOOTSTRAP = 2000         # bootstrap resamples
@@ -183,7 +183,7 @@ df.index.freq = "D"  # a strictly regular daily index, confirmed by the checks a
 # --- 1.2 Availability of the regressors (soft findings) ----------------------
 # Wind and solar are not complete. Prophet refuses missing values in a
 # regressor, so the availability windows decide how much data the regressor
-# models in Checkpoint C can use.
+# models can use.
 wind_start = df["Wind"].first_valid_index()
 solar_start = df["Solar"].first_valid_index()
 solar_gap_days = df.loc[solar_start:, "Solar"].isna().sum()
@@ -297,7 +297,7 @@ assert len(train) + len(test) == len(df), "Split must cover every observation ex
 train_wind = train.loc[wind_start:, ["Consumption", "Wind"]].dropna()
 train_solar = train.loc[solar_start:, ["Consumption", "Wind", "Solar"]].dropna()
 
-# The regressor experiment in Checkpoint C supplies the ACTUAL test-period
+# The regressor experiment earlier in script supplies the ACTUAL test-period
 # wind and solar values (a perfect-foresight upper bound), so the test set
 # must be complete for both.
 test_regressors_complete = bool(test[["Wind", "Solar"]].notna().all().all())
@@ -568,7 +568,7 @@ holiday_summary["in_national_list"] = ~holiday_summary.index.isin(supplementary_
 print(holiday_summary.round(1).to_string())
 print("\n  Ostersonntag and Pfingstsonntag are absent from the national holiday list but show")
 print("  clear dips against an ordinary Sunday, so they are carried into the Prophet holiday")
-print("  calendar in Checkpoint B as custom holidays.")
+print("  calendar as custom holidays.")
 holiday_summary.round(2).to_csv(OUTPUT_DIR / "table_holiday_effects.csv")
 
 # Christmas-New Year profile: 20 December to 8 January in each winter that
@@ -713,7 +713,7 @@ fig.tight_layout()
 save_figure(fig, "05_regressor_correlation.png")
 
 # =============================================================================
-# FINDINGS CARRIED FORWARD TO MODELLING (CHECKPOINT B)
+# FINDINGS CARRIED FORWARD TO MODELLING
 # =============================================================================
 # Three findings from the EDA change how Prophet has to be configured.
 print_section("FINDINGS CARRIED FORWARD TO MODELLING")
@@ -1995,7 +1995,7 @@ ax.set_title("All models on the 2016-2017 test set (hatched: perfect-foresight r
 fig.tight_layout()
 save_figure(fig, "16_model_comparison_all.png")
 
-# print_section("CHECKPOINT C COMPLETE")
+# print_section("SECTION COMPLETE")
 # print(f"  Charts 13-17 and the tables are in: {OUTPUT_DIR}")
 
 
@@ -2342,5 +2342,5 @@ axes[1].set_title("Annual seasonality")
 fig.tight_layout()
 save_figure(fig, "21_airpassengers_components.png")
 
-print_section("CHECKPOINT D COMPLETE")
+print_section("SCRIPT COMPLETE")
 print(f"  Charts 18-21 and the tables are in: {OUTPUT_DIR}")
