@@ -156,11 +156,11 @@ The textbook 95% t-interval for the mean was <span>$</span>11,115 to <span>$</sp
 
 | Method | Interval | Width | Lower arm / upper arm |
 | :--- | :--- | :--- | :--- |
-| Percentile | $11,267 to $15,934 | $4,667 | $2,255 / $2,412 |
-| Basic | $11,111 to $15,777 | $4,667 | $2,412 / $2,255 |
-| BCa | $11,353 to $16,066 | $4,712 | $2,169 / $2,543 |
-| Studentised | $11,355 to $16,230 | $4,874 | $2,167 / $2,708 |
-| t-interval | $11,115 to $15,929 | $4,814 | $2,407 / $2,407 |
+| Percentile | <span>$</span>11,267 to <span>$</span>15,934 | $4,667 | $2,255 / $2,412 |
+| Basic | <span>$</span>11,111 to <span>$</span>15,777 | $4,667 | $2,412 / $2,255 |
+| BCa | <span>$</span>11,353 to <span>$</span>16,066 | $4,712 | $2,169 / $2,543 |
+| Studentised | <span>$</span>11,355 to <span>$</span>16,230 | $4,874 | $2,167 / $2,708 |
+| t-interval | <span>$</span>11,115 to <span>$</span>15,929 | $4,814 | $2,407 / $2,407 |
 
 All five methods contain the population mean of <span>$</span>13,279 and agree within about 4% in width. The bootstrap intervals lean slightly to the right (BCa and studentised have longer upper arms), as expected for skewed data, but at n = 100 the difference from the t-interval is small.
 
@@ -170,24 +170,28 @@ These are the statistics with no convenient textbook interval. Percentile, basic
 
 | Statistic | Population value | Pilot estimate | Percentile | BCa | Basic |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Median charge | $9,386 | $9,890 | $7,691 to $11,601 | $7,691 to $11,587 | $8,179 to $12,089 |
+| Median charge | $9,386 | $9,890 | <span>$</span>7,691 to <span>$</span>11,601 | <span>$</span>7,691 to <span>$</span>11,587 | <span>$</span>8,179 to <span>$</span>12,089 |
 | Smoker : non-smoker ratio | 3.80 | 4.02 | 3.33 to 4.85 | 3.33 to 4.85 | 3.18 to 4.70 |
-| 90th percentile | $34,833 | $33,837 | $23,332 to $43,254 | $23,745 to $43,921 | $24,420 to $44,342 |
+| 90th percentile | $34,833 | $33,837 | <span>$</span>23,332 to <span>$</span>43,254 | <span>$</span>23,745 to <span>$</span>43,921 | $24,420 to <span>$</span>44,342 |
 
 All 14 intervals in this analysis, across all statistics and methods, contain their population values. This is one pilot, and it should be read as an illustration, not as evidence that the intervals are reliable. Part B addresses reliability.
 
 Several features are worth noting:
 
 * **The ratio interval leans right**. Its upper arm (0.84) is longer than its lower arm (0.69), consistent with a ratio's skewed sampling behaviour, and percentile and BCa agree.  
-* **The median interval leans the other way**. Its percentile lower arm (<span>$</span>2,199) is longer than its upper arm ($1,711).  
-* **The 90th percentile is by far the most uncertain**. Its percentile interval is $19,922 wide, about 59% of the estimate, against 34% for the mean.  
-* **Basic is the mirror image of percentile**. Its arms are swapped, which places the median interval at $8,179 to $12,089 against $7,691 to $11,601.  
-
-
-
-
+* **The median interval leans the other way**. Its percentile lower arm (<span>$</span>2,199) is longer than its upper arm (<span>$</span>1,711).  
+* **The 90th percentile is by far the most uncertain**. Its percentile interval is <span>$</span>19,922 wide, about 59% of the estimate, against 34% for the mean.  
+* **Basic is the mirror image of percentile**. Its arms are swapped, which places the median interval at <span>$</span>8,179 to <span>$</span>12,089 against <span>$</span>7,691 to <span>$</span>11,601.  
 
 ![03_bootstrap_distributions](03_bootstrap_distributions.png)
+
+_Figure 3. Bootstrap distributions (B = 9,999) for the median, ratio and 90th percentile from the pilot, with the percentile interval shaded, BCa endpoints dotted, the pilot estimate dashed and the population value in red. The ratio's distribution is smooth and right-skewed; the median and 90th percentile are visibly lumpy, built from only a handful of distinct values._
+
+
+
+
+
+
 
 ![04_interval_comparison](04_interval_comparison.png)
 
