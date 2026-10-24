@@ -88,40 +88,43 @@ The analysis uses the **Medical Cost Personal Dataset** (insurance.csv), availab
 
 **The "known population" device**. A real pilot never reveals the true answer, so it cannot show whether an interval was right. To get around this, the full cleaned dataset is treated as a known population, with true values for the mean (<span>$</span>13,279.12), median (<span>$</span>9,386.16), smoker-to-non-smoker ratio of mean charges (3.80) and 90th percentile (<span>$</span>34,832.74). This is a finite dataset, not a true infinite population, so the values are "truths" for the exercise only.
 
-The pilot. One simple random sample of 100 policyholders was drawn without replacement, with a fixed seed. It was not stratified, because a real pilot could not guarantee how many smokers it would recruit. It contained 22 smokers.
+**The pilot**. One simple random sample of 100 policyholders was drawn without replacement, with a fixed seed. It was not stratified, because a real pilot could not guarantee how many smokers it would recruit. It contained 22 smokers.
 
-Interval methods. For each statistic, 95% intervals were built by:
+**Interval methods**. For each statistic, 95% intervals were built by:
 
-the percentile method (the middle 95% of the bootstrap distribution);
-the basic (reverse-percentile) method;
-BCa (bias-corrected and accelerated), which adjusts for bias and skewness;
-the studentised (bootstrap-t) method, for the mean only, since it needs a standard error for every resample and a nested bootstrap for the other statistics was not worth the cost;
-a standard t-interval for the mean as a textbook baseline.
-Key methodological decisions
-Stratified resampling for the ratio. Smokers and non-smokers were resampled separately, which holds group sizes fixed. Plain resampling would sometimes draw very few or zero smokers, adding noise the real pilot did not have.
-B = 9,999 resamples for the pilot, 999 for the simulation. With B + 1 = 10,000, the 2.5% and 97.5% cut-points fall exactly on whole order statistics, and tail percentiles need many resamples to be stable. The simulation builds hundreds of thousands of intervals, so it uses 999 (with the same property) to stay within CPU limits.
-Independent random streams. Each stage draws from its own seeded stream, so changing one stage cannot silently alter another's results.
-Validation of the implementation. The mean and median intervals were checked against scipy.stats.bootstrap. Endpoints agree to within 0.1–2.6% of interval width, which is the size of difference expected from Monte Carlo noise alone.
-Reporting asymmetry. Each interval's lower and upper arms are reported separately, since the t-interval's symmetry is exactly the assumption the bootstrap relaxes.
-Is the pilot big enough? (pilot-size sweep)
+* the percentile method (the middle 95% of the bootstrap distribution);  
+* the basic (reverse-percentile) method;  
+* BCa (bias-corrected and accelerated), which adjusts for bias and skewness;  
+* the studentised (bootstrap-t) method, for the mean only, since it needs a standard error for every resample and a nested bootstrap for the other statistics was not worth the cost;  
+* a standard t-interval for the mean as a textbook baseline.
+
+### Key methodological decisions
+
+* **Stratified resampling for the ratio.** Smokers and non-smokers were resampled separately, which holds group sizes fixed. Plain resampling would sometimes draw very few or zero smokers, adding noise the real pilot did not have.
+* **B = 9,999 resamples for the pilot, 999 for the simulation.** With B + 1 = 10,000, the 2.5% and 97.5% cut-points fall exactly on whole order statistics, and tail percentiles need many resamples to be stable. The simulation builds hundreds of thousands of intervals, so it uses 999 (with the same property) to stay within CPU limits.
+* **Independent random streams.** Each stage draws from its own seeded stream, so changing one stage cannot silently alter another's results.
+* **Validation of the implementation.** The mean and median intervals were checked against scipy.stats.bootstrap. Endpoints agree to within 0.1–2.6% of interval width, which is the size of difference expected from Monte Carlo noise alone.
+* **Reporting asymmetry.** Each interval's lower and upper arms are reported separately, since the t-interval's symmetry is exactly the assumption the bootstrap relaxes.
+
+### Is the pilot big enough? (pilot-size sweep)
 
 To answer the practical question, 200 independent pilots were drawn at each of n = 50, 100 and 200. Each statistic's percentile interval (B = 999) was recorded as a width relative to the population value, with the median across the 200 pilots reported so one lucky or unlucky draw cannot dominate. Because samples come from only 1,337 rows, the bootstrap ignores a finite-population effect that matters slightly at n = 200 (15% of the data), which makes those intervals a little too wide.
 
-Part B: coverage simulation
+### Part B: coverage simulation
 
-A single pilot cannot show whether a method is reliable, so Part B repeats the exercise on distributions where the truth is known exactly. Data was generated from four settings: Normal(0, 1), Lognormal(0, 1), Lognormal(0, 1.5) and Uniform(0, 1), with the statistics being the mean and median for the first three and the sample maximum for the Uniform. Each setting was run at n = 10, 20, 50, 100 and 200, with 1,000 replications per setting and 999 resamples each.
+A single pilot cannot show whether a method is reliable, so Part B repeats the exercise on distributions where the truth is known exactly. Data was generated from four settings: Normal(0, 1), Lognormal(0, 1), Lognormal(0, 1.5) and Uniform(0, 1), with the statistics being the mean and median for the first three and the sample maximum for the Uniform. Each setting was run at n = 10, 20, 50, 100 and 200, with **1,000 replications** per setting and 999 resamples each.
 
-Empirical coverage is the share of replications in which the interval contained the truth, compared with the nominal 95%. With 1,000 replications, the Monte Carlo standard error is about 0.7 percentage points, so differences smaller than roughly ±1.4 points are indistinguishable from chance. The simulation also records which side misses fall on, as a method can be acceptable overall yet badly one-sided.
+**Empirical coverage** is the share of replications in which the interval contained the truth, compared with the nominal 95%. With 1,000 replications, the Monte Carlo standard error is about 0.7 percentage points, so differences smaller than roughly ±1.4 points are indistinguishable from chance. The simulation also records which side misses fall on, as a method can be acceptable overall yet badly one-sided.
 
-The lognormal settings are deliberately much more extreme than the insurance data. Their theoretical skewness is about 6.2 and 33.5, against 1.5 for the charges, so they act as a stress test rather than a mirror of Part A. The Lognormal(1.5) setting was added in a second version of the script, placed last in the run order so the original three settings reproduce the first version's results exactly.
+The lognormal settings are deliberately **much more extreme than the insurance data**. Their theoretical skewness is about 6.2 and 33.5, against 1.5 for the charges, so they act as a stress test rather than a mirror of Part A. The Lognormal(1.5) setting was added in a second version of the script, placed last in the run order so the original three settings reproduce the first version's results exactly.
 
-Transparency and ethics
+### Transparency and ethics
 
 In line with the commitments on the Ethics in Applied Data Science page, the project states its limits plainly:
 
-the data is simulated and its meaning is partly ambiguous, as set out above;
-a single pilot's result, however tidy, is an anecdote, not evidence of coverage;
-smoking status is a sensitive rating factor in pricing, and the ratio computed here illustrates the technique, not a recommended premium loading. Real use of such a factor would be shaped by regulation and fairness considerations beyond this project.
+* the data is simulated and its meaning is partly ambiguous, as set out above;  
+* a single pilot's result, however tidy, is an anecdote, not evidence of coverage;  
+* smoking status is a sensitive rating factor in pricing, and the ratio computed here illustrates the technique, not a recommended premium loading. Real use of such a factor would be shaped by regulation and fairness considerations beyond this project.  
 
 All code is seeded and reproducible, and the full scripts are shown in the Code section.
 
