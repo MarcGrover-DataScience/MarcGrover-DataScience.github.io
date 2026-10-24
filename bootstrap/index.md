@@ -130,7 +130,16 @@ All code is seeded and reproducible, and the full scripts are shown in the Code 
 
 ## Results:
 
-Results from the project related to the business objective.
+The results come in two parts. Part A applies bootstrap intervals to a single pilot of 100 policyholders. Part B tests how often each interval method contains the truth across thousands of simulated samples.
+
+
+
+
+
+
+
+
+
 
 ## Conclusions:
 
