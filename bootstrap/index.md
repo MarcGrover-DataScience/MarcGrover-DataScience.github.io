@@ -74,19 +74,19 @@ Details of how this is applicable to multiple industries to solve business probl
 
 The analysis uses the **Medical Cost Personal Dataset** (insurance.csv), available at https://www.kaggle.com/datasets/mirichoi0218/insurance. It holds 1,338 rows and seven columns: age, sex, BMI, number of children, smoker status, US region and charges. There are no missing values.
 
-**What charges represents, and what it doesn't.** The dataset's own documentation describes charges only as "individual medical costs billed by health insurance". That wording is ambiguous: it does not say whether the figure is a claim payout, an amount billed, or something closer to a premium, and the data carries no claim dates, deductibles or co-payments. The data offers some clues. Charges rise sharply with smoking, age and BMI, as medical costs do. Every one of the 1,337 records is positive, with a minimum of $1,121.87 and no zeros, which real claims data would not look like, since many policyholders claim nothing in a given year. This project therefore treats charges as annual medical cost per policyholder, and makes no claim that these are payouts.
+**What charges represents, and what it doesn't.** The dataset's own documentation describes charges only as "individual medical costs billed by health insurance". That wording is ambiguous: it does not say whether the figure is a claim payout, an amount billed, or something closer to a premium, and the data carries no claim dates, deductibles or co-payments. The data offers some clues. Charges rise sharply with smoking, age and BMI, as medical costs do. Every one of the 1,337 records is positive, with a minimum of <span>$</span>1,121.87 and no zeros, which real claims data would not look like, since many policyholders claim nothing in a given year. This project therefore treats charges as annual medical cost per policyholder, and makes no claim that these are payouts.
 
 **The data is simulated.** The dataset is described as synthetic, generated from US Census Bureau demographic statistics for use in a machine-learning textbook, not drawn from real insurance records. Nothing here is evidence about real premiums or real people. The business scenario is a framing device for demonstrating the technique, and the write-up treats it as such.
 
 ### Known features of the data:
 
 * **One exact duplicate row**, identical in all seven columns including charges to four decimal places, which makes coincidence very unlikely. It was removed, leaving 1,337 rows. One row in 1,338 changes nothing material, but the decision is recorded rather than hidden.  
-* **Skewed charges**: skewness 1.51 overall, with a mean of $13,279 well above the median of $9,386.  
+* **Skewed charges**: skewness 1.51 overall, with a mean of <span>$</span>13,279 well above the median of <span>$</span>9,386.  
 * **A mixture, not a single skewed shape**. Skewness comes almost entirely from the 1,063 non-smokers (1.54), while the 274 smokers (20.5% of the data) are close to symmetric (0.13) and cost far more on average. Chart 01 shows the combined distribution and chart 02 splits it by smoker status.
 
 ### Analytical design
 
-The "known population" device. A real pilot never reveals the true answer, so it cannot show whether an interval was right. To get around this, the full cleaned dataset is treated as a known population, with true values for the mean ($13,279.12), median ($9,386.16), smoker-to-non-smoker ratio of mean charges (3.80) and 90th percentile ($34,832.74). This is a finite dataset, not a true infinite population, so the values are "truths" for the exercise only.
+**The "known population" device**. A real pilot never reveals the true answer, so it cannot show whether an interval was right. To get around this, the full cleaned dataset is treated as a known population, with true values for the mean (<span>$</span>13,279.12), median (<span>$</span>9,386.16), smoker-to-non-smoker ratio of mean charges (3.80) and 90th percentile (<span>$</span>34,832.74). This is a finite dataset, not a true infinite population, so the values are "truths" for the exercise only.
 
 The pilot. One simple random sample of 100 policyholders was drawn without replacement, with a fixed seed. It was not stratified, because a real pilot could not guarantee how many smokers it would recruit. It contained 22 smokers.
 
