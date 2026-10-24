@@ -40,6 +40,32 @@ The value of the project lies in the method and the honest account of its limits
 
 ## Application:  
 
+**The technique.** The bootstrap estimates the uncertainty of a statistic by treating the sample as a stand-in for the population. It repeatedly resamples the observed data with replacement, recomputes the statistic each time, and reads the spread of those recomputed values as a measure of how much the statistic would vary from sample to sample. Different ways of turning that spread into a confidence interval give the percentile, basic, BCa and studentised methods compared in this project.
+
+**When it is used.** It earns its place when:
+
+the statistic has no convenient formula, such as a median, percentile, ratio or a model's performance metric;
+the data is skewed or the sample is too small to trust normal approximations;
+or an analyst simply needs a method that works the same way for any statistic, so that one tool covers many questions.
+
+Its main benefits are generality, minimal distributional assumptions, and the fact that it can be implemented in a few lines and run cheaply on a standard laptop. Its main limitations are that it is only as good as the sample, can under-cover badly in small or heavily skewed samples, and fails outright for some statistics, such as the sample maximum. Part B examines each of these.
+
+This approach is applicable across many sectors and scenarios. Practical examples showing where this provides clear business value include:
+
+🏦 **Insurance and finance**  
+Actuaries and risk teams need uncertainty ranges for tail quantities such as value-at-risk and large-loss thresholds, and for loss ratios between segments. These are exactly the median-, ratio- and percentile-type statistics studied here, usually estimated from limited claims history.  
+
+🏥 **Healthcare and clinical research**  
+Hospital costs and lengths of stay are strongly skewed, so a t-interval on the mean cost can be unreliable in small trials. Bootstrap intervals for mean or median cost differences between treatments support health-economic evaluations of whether a new treatment is worth its price.
+
+🚆 **Operations and logistics**  
+Service-level agreements are typically phrased as percentiles ("90% of deliveries within X hours"). A bootstrap interval around a delivery-time percentile shows whether an observed result is comfortably inside the target or merely lucky.
+
+🛍️ **Retail and machine learning**  
+Revenue per customer is skewed, so experiment teams often bootstrap differences in medians or trimmed means rather than relying on normal approximations. The same resampling idea underlies bagging in the Random Forest project, and bootstrapping the held-out test set gives an interval around metrics such as accuracy, where the point estimate alone (for example, 95.61% on 114 observations) conveys little about how much to trust it.
+
+Relationship to existing portfolio pages. The One-Sample T-Test page relies on the Central Limit Theorem at n = 150, and the A/B Testing page uses normal-approximation intervals for conversion rates. The bootstrap is the natural alternative when those assumptions are doubtful: skewed continuous outcomes, small samples, or statistics beyond the mean.
+
 Details of how this is applicable to multiple industries to solve business problems, generate insight and provide tangible business benefits. 
 
 
