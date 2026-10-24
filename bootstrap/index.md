@@ -139,9 +139,11 @@ The results come in two parts. Part A applies bootstrap intervals to a single pi
 After removing one duplicate record, the 1,337 policyholders have a mean annual charge of <span>$</span>13,279 and a median of <span>$</span>9,386, with overall skewness of 1.51. The skew is concentrated in the non-smokers (skewness 1.54, 1,063 policyholders), while the 274 smokers are close to symmetric (0.13) and far more expensive. Mean charges are <span>$</span>32,050 for smokers and <span>$</span>8,434 for non-smokers, a ratio of 3.80.
 
 ![01_charges_distribution](01_charges_distribution.png)
+
 _Figure 1. Distribution of annual charges on a linear scale (left) and a log scale (right), with the mean and median marked. The mean sits well above the median, and the log scale does not produce a single clean bell, reflecting the mixture of two groups._
 
 ![02_charges_by_smoker](02_charges_by_smoker.png)
+
 _Figure 2. Charges by smoker status, with individual policyholders overlaid and group means marked. The ratio of means is 3.80._
 
 **The pilot sample**
@@ -174,7 +176,12 @@ These are the statistics with no convenient textbook interval. Percentile, basic
 
 All 14 intervals in this analysis, across all statistics and methods, contain their population values. This is one pilot, and it should be read as an illustration, not as evidence that the intervals are reliable. Part B addresses reliability.
 
+Several features are worth noting:
 
+* **The ratio interval leans right**. Its upper arm (0.84) is longer than its lower arm (0.69), consistent with a ratio's skewed sampling behaviour, and percentile and BCa agree.  
+* **The median interval leans the other way**. Its percentile lower arm (<span>$</span>2,199) is longer than its upper arm ($1,711).  
+* **The 90th percentile is by far the most uncertain**. Its percentile interval is $19,922 wide, about 59% of the estimate, against 34% for the mean.  
+* **Basic is the mirror image of percentile**. Its arms are swapped, which places the median interval at $8,179 to $12,089 against $7,691 to $11,601.  
 
 
 
