@@ -138,11 +138,11 @@ The results come in two parts. Part A applies bootstrap intervals to a single pi
 
 After removing one duplicate record, the 1,337 policyholders have a mean annual charge of <span>$</span>13,279 and a median of <span>$</span>9,386, with overall skewness of 1.51. The skew is concentrated in the non-smokers (skewness 1.54, 1,063 policyholders), while the 274 smokers are close to symmetric (0.13) and far more expensive. Mean charges are <span>$</span>32,050 for smokers and <span>$</span>8,434 for non-smokers, a ratio of 3.80.
 
-![01_charges_distribution](01_charges_distribution.png)
+![01_charges_distribution](01_charges_distribution.png)  
 
 _Figure 1. Distribution of annual charges on a linear scale (left) and a log scale (right), with the mean and median marked. The mean sits well above the median, and the log scale does not produce a single clean bell, reflecting the mixture of two groups._
 
-![02_charges_by_smoker](02_charges_by_smoker.png)
+![02_charges_by_smoker](02_charges_by_smoker.png)  
 
 _Figure 2. Charges by smoker status, with individual policyholders overlaid and group means marked. The ratio of means is 3.80._
 
@@ -183,17 +183,20 @@ Several features are worth noting:
 * **The 90th percentile is by far the most uncertain**. Its percentile interval is <span>$</span>19,922 wide, about 59% of the estimate, against 34% for the mean.  
 * **Basic is the mirror image of percentile**. Its arms are swapped, which places the median interval at <span>$</span>8,179 to <span>$</span>12,089 against <span>$</span>7,691 to <span>$</span>11,601.  
 
-![03_bootstrap_distributions](03_bootstrap_distributions.png)
+![03_bootstrap_distributions](03_bootstrap_distributions.png)  
 
 _Figure 3. Bootstrap distributions (B = 9,999) for the median, ratio and 90th percentile from the pilot, with the percentile interval shaded, BCa endpoints dotted, the pilot estimate dashed and the population value in red. The ratio's distribution is smooth and right-skewed; the median and 90th percentile are visibly lumpy, built from only a handful of distinct values._
 
+The lumpiness in Figure 3 is a genuine property, not a plotting artefact. A bootstrap median or percentile can only take values that already appear in the sample, so with n = 100 the resampled distribution has a small number of spikes. This is also why the percentile and BCa lower endpoints for the median are identical ($7,691.32).
+
+![04_interval_comparison](04_interval_comparison.png)  
+
+_Figure 4. All methods for all four statistics, shown against the population value (red line). Dots mark the pilot estimates. The t-interval appears for the mean only; studentised is available for the mean only._
 
 
 
 
 
-
-![04_interval_comparison](04_interval_comparison.png)
 
 ![05_pilot_size_sweep](05_pilot_size_sweep.png)
 
