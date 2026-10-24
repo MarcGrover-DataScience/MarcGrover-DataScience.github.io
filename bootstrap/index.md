@@ -132,9 +132,52 @@ All code is seeded and reproducible, and the full scripts are shown in the Code 
 
 The results come in two parts. Part A applies bootstrap intervals to a single pilot of 100 policyholders. Part B tests how often each interval method contains the truth across thousands of simulated samples.
 
+### Part A: the pricing pilot
+
+**The data**
+
+After removing one duplicate record, the 1,337 policyholders have a mean annual charge of $13,279 and a median of $9,386, with overall skewness of 1.51. The skew is concentrated in the non-smokers (skewness 1.54, 1,063 policyholders), while the 274 smokers are close to symmetric (0.13) and far more expensive. Mean charges are $32,050 for smokers and $8,434 for non-smokers, a ratio of 3.80.
+
+![01_charges_distribution](01_charges_distribution.png)
+_Figure 1. Distribution of annual charges on a linear scale (left) and a log scale (right), with the mean and median marked. The mean sits well above the median, and the log scale does not produce a single clean bell, reflecting the mixture of two groups._
+
+![02_charges_by_smoker](02_charges_by_smoker.png)
+_Figure 2. Charges by smoker status, with individual policyholders overlaid and group means marked. The ratio of means is 3.80._
+
+**The pilot sample**
+
+The pilot of 100 policyholders was drawn at random and contained 22 smokers (22%), close to the population share of 20.5%. Its estimates were a mean of $13,522, a median of $9,890, a smoker-to-non-smoker ratio of 4.02 and a 90th percentile of $33,837. The population values are $13,279, $9,386, 3.80 and $34,833.
+
+**The mean: t-interval against bootstrap**
+
+The textbook 95% t-interval for the mean was $11,115 to $15,929 (width $4,814), symmetric about the estimate with arms of $2,407 each. The bootstrap intervals (B = 9,999) were close to it:
+
+| Method | Interval | Width | Lower arm / upper arm |
+| :--- | :--- | :--- | :--- |
+| Percentile | $11,267 to $15,934 | $4,667 | $2,255 / $2,412 |
+| Basic | $11,111 to $15,777 | $4,667 | $2,412 / $2,255 |
+| BCa | $11,353 to $16,066 | $4,712 | $2,169 / $2,543 |
+| Studentised | $11,355 to $16,230 | $4,874 | $2,167 / $2,708 |
+| t-interval | $11,115 to $15,929 | $4,814 | $2,407 / $2,407 |
+
+All five methods contain the population mean of $13,279 and agree within about 4% in width. The bootstrap intervals lean slightly to the right (BCa and studentised have longer upper arms), as expected for skewed data, but at n = 100 the difference from the t-interval is small.
 
 
 
+
+
+
+![03_bootstrap_distributions](03_bootstrap_distributions.png)
+
+![04_interval_comparison](04_interval_comparison.png)
+
+![05_pilot_size_sweep](05_pilot_size_sweep.png)
+
+![06_coverage_by_scenario](06_coverage_by_scenario.png)
+
+![07_width_and_tail_misses](07_width_and_tail_misses.png)
+
+![08_bootstrap_max_failure](08_bootstrap_max_failure.png)
 
 
 
