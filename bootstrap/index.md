@@ -82,7 +82,7 @@ The analysis uses the **Medical Cost Personal Dataset** (insurance.csv), availab
 
 * **One exact duplicate row**, identical in all seven columns including charges to four decimal places, which makes coincidence very unlikely. It was removed, leaving 1,337 rows. One row in 1,338 changes nothing material, but the decision is recorded rather than hidden.  
 * **Skewed charges**: skewness 1.51 overall, with a mean of <span>$</span>13,279 well above the median of <span>$</span>9,386.  
-* **A mixture, not a single skewed shape**. Skewness comes almost entirely from the 1,063 non-smokers (1.54), while the 274 smokers (20.5% of the data) are close to symmetric (0.13) and cost far more on average. Chart 01 shows the combined distribution and chart 02 splits it by smoker status.
+* **A mixture, not a single skewed shape**. Skewness comes almost entirely from the 1,063 non-smokers (1.54), while the 274 smokers (20.5% of the data) are close to symmetric (0.13) and cost far more on average. Figure 1 shows the combined distribution and Figure 2 splits it by smoker status.
 
 ### Analytical design
 
@@ -92,11 +92,11 @@ The analysis uses the **Medical Cost Personal Dataset** (insurance.csv), availab
 
 **Interval methods**. For each statistic, 95% intervals were built by:
 
-* the percentile method (the middle 95% of the bootstrap distribution);  
-* the basic (reverse-percentile) method;  
-* BCa (bias-corrected and accelerated), which adjusts for bias and skewness;  
-* the studentised (bootstrap-t) method, for the mean only, since it needs a standard error for every resample and a nested bootstrap for the other statistics was not worth the cost;  
-* a standard t-interval for the mean as a textbook baseline.
+* the **percentile** method (the middle 95% of the bootstrap distribution);  
+* the **basic** (reverse-percentile) method;  
+* **BCa** (bias-corrected and accelerated), which adjusts for bias and skewness;  
+* the **studentised** (bootstrap-t) method, for the mean only, since it needs a standard error for every resample and a nested bootstrap for the other statistics was not worth the cost;  
+* a standard **t-interval** for the mean as a textbook baseline.
 
 ### Key methodological decisions
 
@@ -162,7 +162,7 @@ The textbook 95% t-interval for the mean was <span>$</span>11,115 to <span>$</sp
 | Studentised | <span>$</span>11,355 to <span>$</span>16,230 | $4,874 | $2,167 / $2,708 |
 | t-interval | <span>$</span>11,115 to <span>$</span>15,929 | $4,814 | $2,407 / $2,407 |
 
-All five methods contain the population mean of <span>$</span>13,279 and agree within about 4% in width. The bootstrap intervals lean slightly to the right (BCa and studentised have longer upper arms), as expected for skewed data, but at n = 100 the difference from the t-interval is small.
+All five methods contain the population mean of <span>$</span>13,279 and agree within about 4% in width. The bootstrap intervals lean slightly to the right (BCa and studentised have longer upper arms), as expected for skewed data, but at n = 100 the difference from the t-interval is small.  
 
 **The median, ratio and 90th percentile**
 
@@ -187,29 +187,79 @@ Several features are worth noting:
 
 _Figure 3. Bootstrap distributions (B = 9,999) for the median, ratio and 90th percentile from the pilot, with the percentile interval shaded, BCa endpoints dotted, the pilot estimate dashed and the population value in red. The ratio's distribution is smooth and right-skewed; the median and 90th percentile are visibly lumpy, built from only a handful of distinct values._
 
-The lumpiness in Figure 3 is a genuine property, not a plotting artefact. A bootstrap median or percentile can only take values that already appear in the sample, so with n = 100 the resampled distribution has a small number of spikes. This is also why the percentile and BCa lower endpoints for the median are identical ($7,691.32).
+The lumpiness in Figure 3 is a genuine property, not a plotting artefact. A bootstrap median or percentile can only take values that already appear in the sample, so with n = 100 the resampled distribution has a small number of spikes. This is also why the percentile and BCa lower endpoints for the median are identical (<span>$</span>7,691.32).
 
 ![04_interval_comparison](04_interval_comparison.png)  
 
 _Figure 4. All methods for all four statistics, shown against the population value (red line). Dots mark the pilot estimates. The t-interval appears for the mean only; studentised is available for the mean only._
 
+**Checking the implementation**
 
+The mean and median intervals were compared with those from scipy.stats.bootstrap. The largest endpoint difference was 2.6% of the interval width (the mean’s BCa interval), and the others were 0.1% to 0.8%. Because the two implementations use different random streams, differences of this size are what Monte Carlo noise alone would produce.
 
+**Is the pilot big enough?**
 
+Drawing 200 independent pilots at each of n = 50, 100 and 200, the median 95% interval width, as a percentage of the population value, was:
 
+| Statistic | n = 50 | n = 100 | n = 200 | Reduction, n = 50 to 200 |
+| :--- | :--- | :--- | :--- | :--- |
+| Mean charge | 49.5% | 35.6% | 24.7% | 2.0× |
+| Median charge | 56.6% | 40.1% | 29.1% | 1.9× |
+| Smoker : non-smoker ratio | 61.2% | 44.1% | 30.9% | 2.0× |
+| 90th percentile | 61.4% | 50.5% | 39.2% | 1.6× |
+
+Quadrupling the pilot from 50 to 200 halves the interval for the mean, median and ratio, which is the 1/√n rate. The 90th percentile improves only by a factor of about 1.6, so it narrows more slowly than the others. Even at n = 200, its typical interval is 39% of the value, wider than the ratio’s at 31%.
 
 ![05_pilot_size_sweep](05_pilot_size_sweep.png)
 
+_Figure 5. Median relative interval width against pilot size (log-log axes), with a 1/√n reference line anchored on the mean at n = 50. The mean follows the reference; the 90th percentile falls away from it._
+
+### Part B: how often can the intervals be trusted?
+
+Each setting used 1,000 simulated samples at each of five sample sizes (n = 10 to 200), with 999 resamples per interval. A coverage figure within about ±1.4 points of 95% is indistinguishable from chance.
+
+**Coverage**
+
 ![06_coverage_by_scenario](06_coverage_by_scenario.png)
+
+_Figure 6. Empirical coverage of nominal 95% intervals by sample size and method, across seven settings. The dashed line is 95% and the grey band is the Monte Carlo margin._
+
+**Normal data (the well-behaved baseline)**. For the mean, coverage at n = 10 was 89.9% to 90.6% for percentile, basic and BCa, rising to 93.4% to 94.8% from n = 20. The studentised interval was at or near nominal throughout (93.8% to 95.8%). For the median, percentile and BCa held between 94.0% and 95.7% at every size, while basic fell to 82.7% at n = 10 and was still only 89.9% at n = 200.
+
+**Skewed data, Lognormal(0, 1), mean**. Coverage was clearly below nominal at small n: 81.0% (percentile), 82.7% (BCa) and 77.9% (basic) at n = 10. It improved with sample size but had not recovered at n = 200 (91.7%, 91.4% and 91.0%). The studentised interval stayed closest, at 90.3% to 93.3%, but never reached 95%.
+
+**Skewed data, Lognormal(0, 1), median**. Percentile and BCa were reliable (93.3% to 94.6%). Basic was poor at 78.4% to 87.9%.
+
+**Heavier skew, Lognormal(0, 1.5), mean**. Every method fell well short of nominal, and none reached 95%:
+
+| Method | n = 10 | n = 50 | n = 200 |
+| :--- | :--- | :--- | :--- |
+| Studentised | 86.0% | 89.7% | 90.9% |
+| BCa | 73.5% | 85.8% | 88.1% |
+| Percentile | 68.2% | 82.5% | 87.8% |
+| Basic | 62.6% | 78.0% | 85.9% |
+
+The medians in this setting behaved as in the milder case: percentile and BCa covered 92.6% to 95.8%, and basic covered 75.3% to 89.0%.
+
+**The sample maximum**. Percentile and BCa coverage was exactly 0.0% at every sample size. Basic covered 84.7% to 88.8%, still well short of 95%.
+
+**Interval width and direction of error**
 
 ![07_width_and_tail_misses](07_width_and_tail_misses.png)
 
+_Figure 7. Left: average interval width for the Lognormal(0, 1) mean. Middle and right: at n = 20, the share of intervals lying entirely below the true mean (purple) or entirely above it (brown), for the two lognormal settings. The dashed line is the ideal 2.5% per tail._
+
+The studentised interval’s better coverage has a cost. For the Lognormal(0, 1) mean at n = 10, its average width was 4.77, against 2.16 for BCa and 1.90 for percentile and basic. By n = 200 the widths converge (0.64 against 0.58 to 0.61).
+
+The misses are strongly one-sided. At n = 20 for Lognormal(0, 1), basic intervals lay entirely below the true mean 15.6% of the time and never above it; BCa missed low 9.3% and high 2.8%. For Lognormal(0, 1.5) the imbalance is larger: basic missed low 31.0%, percentile 24.8%, BCa 20.1% and studentised 12.1%, against an ideal of 2.5%. Samples from heavy-tailed data rarely contain the extreme values that dominate the true mean, so the resulting intervals tend to sit below it.
+
+**Why the bootstrap fails for the maximum**
+
 ![08_bootstrap_max_failure](08_bootstrap_max_failure.png)
 
+_Figure 8. Bootstrap distribution of the maximum for one Uniform(0, 1) sample of n = 50. The true maximum is 1 (red); the sample maximum is 0.996 (dashed). 63.0% of resamples simply reproduce the sample maximum, against a theoretical 63.6%._
 
-
-
-
+A bootstrap resample can only contain values already in the sample, so the resampled maximum can never exceed the sample maximum, which itself always falls short of the true maximum of 1. In the example shown, 63.0% of 20,000 resamples return exactly the sample maximum, against a theoretical 1 − (1 − 1/n)ⁿ = 63.6%. This is why percentile and BCa coverage is 0%: no interval they produce can reach the truth.
 
 ## Conclusions:
 
