@@ -263,7 +263,36 @@ A bootstrap resample can only contain values already in the sample, so the resam
 
 ## Conclusions:
 
-Conclusions from the project findings and results.
+**What the pilot tells the pricing team**
+
+The pilot gives the head of underwriting usable answers to two of the three questions, and an honest “not yet” on the third.
+
+* **Typical charge**. The median is estimated at <span>$</span>9,890, with a plausible range of roughly <span>$</span>7,700 to <span>$</span>11,600. A base premium can be anchored there, with a margin of around ±20% in mind.
+* **Smoker loading**. The ratio of mean charges is estimated at 4.02, with a plausible range of 3.33 to 4.85, against a population value of 3.80. That range is wide enough to matter: it spans loadings that would be priced quite differently. It is driven by the pilot containing only 22 smokers, so the smaller group is where extra recruitment would help most. (That is reasoning from how the ratio is built, not something this project tested.)
+* **Reinsurance threshold**. The 90th percentile is estimated at <span>$</span>33,837, but its interval runs from about <span>$</span>23,300 to <span>$</span>43,300, roughly 59% of the estimate. Quadrupling the pilot from 50 to 200 narrows it only by a factor of about 1.6, against 2.0 for the other statistics, and the typical interval at n = 200 is still 39% of the value. A stop-loss threshold should not be fixed from a pilot of this size, and more data helps less here than it does elsewhere.
+
+The decision-maker’s practical answer to “is the pilot big enough?” is therefore: enough to set a base premium and to bracket the smoker loading, not enough to set a reinsurance threshold.
+
+**Where Part A sits relative to Part B**
+
+Part B’s most striking results concern skewed means, but they should not be carried over to Part A uncritically. The lognormal settings have theoretical skewness of about 6.2 and 33.5; the insurance charges have 1.5. The nearest Part B regime to the pilot is the well-behaved one, where mean intervals reached 93% to 95% coverage by n = 50 to 100, and that is consistent with what Part A showed: the t-interval and the bootstrap intervals for the mean agreed to within about 4% in width. For the mean of this dataset at n = 100, the bootstrap added little over the textbook interval. That is a finding in its own right, and it is a reminder that the bootstrap earns its place through statistics without a convenient formula, not through the mean.
+
+Equally, Part B did not test the ratio or the 90th percentile, so it cannot certify those intervals. What it does offer is structural evidence. The median and 90th-percentile bootstrap distributions in Part A were lumpy, and Part B showed that basic intervals fail for medians for exactly that reason. The sample-maximum failure is the extreme case of the same mechanism. My expectation, which this project did not test, is that the 90th percentile sits closer to that extreme than the median does and deserves more suspicion; that is a hypothesis to test, not a conclusion.
+
+**Which method to use**
+
+Taking the evidence at face value:
+
+| Situation | Evidence | Practical guidance |
+| :--- | :--- | :--- |
+| Median | Percentile and BCa covered 93% to 96% in every setting; basic covered 75% to 90%. | Use percentile or BCa. Avoid basic. |
+| Mean, mild skew, n of 50 or more | Percentile, BCa and studentised all within a few points of nominal, and close to the t-interval. | Any will do; the t-interval is adequate. |
+| Mean, strong skew | Every method under-covered; studentised was closest (86% to 91% in the heaviest case) but never reached 95%, and at n = 10 it was more than twice as wide as percentile. | Prefer studentised, but expect it to fall short, and treat small samples from heavy-tailed data with real caution. |
+| Extremes such as the maximum | Percentile and BCa covered 0% at every size. | Do not use the bootstrap. |
+| Basic interval in general | Worst or equal-worst in every setting with skew or discreteness. | Not a sensible default. |
+
+BCa and percentile were close throughout. BCa gave a modest improvement for skewed means (73.5% against 68.2% at n = 10 in the heaviest case), but not enough to fix the underlying problem.
+
 
 ## Next steps:  
 
