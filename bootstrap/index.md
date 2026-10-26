@@ -293,7 +293,7 @@ BCa and percentile were close throughout. BCa gave a modest improvement for skew
 
 **What this demonstrates about the technique**
 
-1.** A bootstrap interval is a claim to be tested, not a guarantee**. “95%” describes the method’s intent, and Part B shows that actual coverage ranged from 0% to 96% depending on the statistic, the distribution and the sample size.
+1. **A bootstrap interval is a claim to be tested, not a guarantee**. “95%” describes the method’s intent, and Part B shows that actual coverage ranged from 0% to 96% depending on the statistic, the distribution and the sample size.
 2. **The bootstrap’s strength is generality**. One resampling engine produced intervals for a mean, median, ratio and percentile in a few lines of NumPy, on a CPU-only laptop, with no distributional formulae. That is what justified it here despite its limits.
 3. **Its weaknesses are predictable**. Small samples, strong skew, discreteness and extreme statistics are where it struggles, and each was visible in this project’s outputs.
 4. **A single result proves nothing**. Every one of the 14 pilot intervals contained its population value, which reads well but was one draw. Only the simulation could say how often that happens.
