@@ -267,7 +267,7 @@ A bootstrap resample can only contain values already in the sample, so the resam
 
 The pilot gives the head of underwriting usable answers to two of the three questions, and an honest “not yet” on the third.
 
-* **Typical charge**. The median is estimated at <span>$</span>9,890, with a plausible range of roughly <span>$</span>7,700 to <span>$</span>11,600. A base premium can be anchored there, with a margin of around ±20% in mind.
+* **Typical charge**. The median is estimated at <span>$</span>9,890, with a plausible range of roughly <span>$</span>7,700 to <span>$</span>11,600. A base premium can be anchored there, with a margin of around −22%/+17% in mind.
 * **Smoker loading**. The ratio of mean charges is estimated at 4.02, with a plausible range of 3.33 to 4.85, against a population value of 3.80. That range is wide enough to matter: it spans loadings that would be priced quite differently. It is driven by the pilot containing only 22 smokers, so the smaller group is where extra recruitment would help most. (That is reasoning from how the ratio is built, not something this project tested.)
 * **Reinsurance threshold**. The 90th percentile is estimated at <span>$</span>33,837, but its interval runs from about <span>$</span>23,300 to <span>$</span>43,300, roughly 59% of the estimate. Quadrupling the pilot from 50 to 200 narrows it only by a factor of about 1.6, against 2.0 for the other statistics, and the typical interval at n = 200 is still 39% of the value. A stop-loss threshold should not be fixed from a pilot of this size, and more data helps less here than it does elsewhere.
 
@@ -283,7 +283,7 @@ Equally, Part B did not test the ratio or the 90th percentile, so it cannot cert
 
 Taking the evidence at face value:
 
-| Situation | Evidence | Practical guidance |
+| Situation | Evidence | Indicative practical guidance |
 | :--- | :--- | :--- |
 | Median | Percentile and BCa covered 93% to 96% in every setting; basic covered 75% to 90%. | Use percentile or BCa. Avoid basic. |
 | Mean, mild skew, n of 50 or more | Percentile, BCa and studentised all within a few points of nominal, and close to the t-interval. | Any will do; the t-interval is adequate. |
@@ -293,11 +293,71 @@ Taking the evidence at face value:
 
 BCa and percentile were close throughout. BCa gave a modest improvement for skewed means (73.5% against 68.2% at n = 10 in the heaviest case), but not enough to fix the underlying problem.
 
+**What this demonstrates about the technique**
+
+1.** A bootstrap interval is a claim to be tested, not a guarantee**. “95%” describes the method’s intent, and Part B shows that actual coverage ranged from 0% to 96% depending on the statistic, the distribution and the sample size.
+2. **The bootstrap’s strength is generality**. One resampling engine produced intervals for a mean, median, ratio and percentile in a few lines of NumPy, on a CPU-only laptop, with no distributional formulae. That is what justified it here despite its limits.
+3. **Its weaknesses are predictable**. Small samples, strong skew, discreteness and extreme statistics are where it struggles, and each was visible in this project’s outputs.
+4. **A single result proves nothing**. Every one of the 14 pilot intervals contained its population value, which reads well but was one draw. Only the simulation could say how often that happens.
+
+**Limits of these conclusions**
+
+The data is simulated and its meaning only partly documented, so none of the figures are pricing evidence. Part B tested two skew levels, one confidence level and independent data, and with 1,000 replications per setting differences under about 1.4 points are noise. These are the boundaries within which the guidance above should be read.
+
+The project’s value, in line with the portfolio’s performance framing, lies in the method and in an honest account of when it can be relied on, not in any particular interval.
+
+**Links to other portfolio pages**
+
+* The **One-Sample T-Test** page relies on the Central Limit Theorem at n = 150. Part B suggests that this is comfortable for roughly normal or mildly skewed data, and that it weakens as skew increases (the mean's coverage is 91% to 92% at n = 200 for Lognormal(0, 1) - percentile 91.7%, BCa 91.4%, basic 91.0%, studentised 92.0%).
+* The **A/B Testing** page uses normal-approximation intervals for conversion rates. The bootstrap is the natural alternative for skewed continuous outcomes such as revenue per user.
+* The **Ethics in Applied Data Science** page commits to stating limitations plainly. This page applies that by flagging the simulated data, the ambiguity in charges, the single-draw caveat and the unsuitability of the smoker ratio as a real premium loading.
 
 ## Next steps:  
 
-Next steps based on current results and conclusions from above and suggested follow-up actions, analysis etc.
+The extensions below are in rough order of how much they would strengthen this project, and each is scoped to what could realistically be added.
+
+### Test the intervals that Part A actually used
+
+Part B established coverage for the mean, the median and the maximum, but **not for the smoker ratio or the 90th percentile**, the two quantities the pricing team cares most about. The most direct next step is to repeat Part B’s logic using the insurance dataset itself as the population: draw thousands of pilots of n = 100, build each interval method for every statistic, and count how often the population value is contained. This would turn Part A’s single-draw anecdote into a measured coverage rate, and it would test the suspicion raised in Conclusions that the 90th percentile deserves more caution than the median. It is also computationally modest, since it reuses the existing engine. The caveat is that sampling without replacement from 1,337 rows means a finite-population effect that grows with n, so the simulation would be most trustworthy at pilot sizes well under about 10% of the data.
+
+### Address the failures Part B exposed
+
+* **Smoothed bootstrap for medians and percentiles**. Part A showed lumpy bootstrap distributions and Part B showed basic intervals failing for medians. Adding a small amount of random noise to each resample (a “smoothed” bootstrap) is a known remedy for discreteness, and its effect on coverage could be measured with the existing simulation.
+* **Transformations for skewed means**. Bootstrapping the mean on a log scale and transforming back is a common alternative to studentising. It would be interesting to see whether it closes the gap in the Lognormal(0, 1.5) setting, where every method fell short.
+* **Alternatives for extremes**. For the maximum, the standard fixes are an m-out-of-n bootstrap (resampling fewer than n observations) or modelling the tail directly. For the 90th percentile and reinsurance thresholds, tail-modelling with extreme-value methods such as the generalised Pareto distribution is the usual actuarial route, and would make an instructive comparison with the bootstrap.
+
+### Widen the simulation
+
+Part B tested two skew levels, one confidence level (95%), independent observations and equal treatment of both tails. Natural additions are other confidence levels and one-sided intervals (a reinsurance threshold is often a one-sided question), more skew levels, and **dependent data**. Real claims data often violates independence, for instance through repeated years for the same policyholder, and would need a **block bootstrap** that resamples chunks of observations instead of single ones. That belongs naturally with the time-series projects, since the same idea underpins bootstrapping for ARIMA and moving-average residuals.
+
+### Plan the pilot, not just analyse it
+
+The sweep in Part A shows how interval width falls with pilot size, but it was run after a pilot existed. A forward-looking version would ask: given a target interval width for the smoker ratio, how many smokers must a pilot recruit? Because the ratio’s precision depends on the smaller group, the answer would probably involve targeting the number of smokers, not the total sample. That is a sample-size-planning question that sits beside the power calculations in the hypothesis-testing pages.
+
+### Reuse the technique elsewhere in the portfolio
+
+* **Test-set metrics**. Bootstrapping a held-out test set gives an interval around a metric such as the Random Forest’s 95.61% accuracy on 114 observations, showing how much that single number should be trusted.
+* **Regression**. Bootstrapped coefficient and prediction intervals could complement the Multiple Linear Regression page, and would be a natural companion to the regularised-regression page, where standard errors are not straightforward.
+* **Hypothesis tests**. Permutation tests are the resampling counterpart for testing differences, and would complete the picture alongside the t-tests and the A/B page.
+
+### What this project cannot replicate
+
+This project is a methodology demonstration, and several things a real pricing exercise would involve are beyond it:
+
+* **Real data**. The charges are simulated from census demographics. Real claims data contains many policyholders with zero claims, very large individual losses, claims that develop over time, policy terms that vary and costs that drift with inflation, none of which appear here.
+* **The meaning of the variable**. The dataset does not settle whether charges is cost, billing or premium. A real project would establish this before any modelling.
+* **Actuarial and regulatory context**. Premium loadings and rating factors such as smoking status are shaped by actuarial credibility standards, regulation and fairness requirements. A real extension would involve a review of whether using such a factor is permissible and proportionate, and the ethics commitments on the Ethics in Applied Data Science page would need to be applied far more concretely than a demonstration allows.
+* **Production infrastructure**. There is no data pipeline, versioned inputs, monitoring or sign-off process here. A real deployment would need those, and would need to decide how often intervals are refreshed as the pilot grows.
+* **Decision context**. The project reports intervals; it does not model what a wrong premium or threshold costs the business. A real extension would link interval width to financial consequences so the team could decide how much additional data is worth buying.
 
 ## Python code:
-You can view the full Python script used for the analysis here: 
-[View the Python Script](/t.py)
+
+The project uses two scripts, each producing its own numbered charts and summary CSVs. Both run on a CPU-only laptop and use fixed random seeds, so every run reproduces the figures quoted on this page.
+
+**Part A: the pricing pilot.** This script loads and validates the insurance data, draws the pilot sample of 100 policyholders, and builds t-interval and bootstrap intervals (percentile, basic, BCa and studentised) for the mean, median, smoker ratio and 90th percentile. It also cross-checks the results against `scipy.stats.bootstrap` and runs the pilot-size sweep. It requires `insurance.csv` in the same folder, produces figures 1 to 5, and runs in a few seconds.
+
+[View the Python Script for Part A](/bootstrap_pricing_pilot.py)
+
+**Part B: the coverage simulation.** This script generates samples from Normal, Lognormal (two skew levels) and Uniform distributions with known true values, builds each type of interval for every sample, and records how often the truth is contained. It needs no data file, produces figures 6 to 8, and runs in under a minute on a standard laptop (R = 1,000 replications, B = 999 resamples).
+
+[View the Python Script for Part B](/bootstrap_simulation_v2.py)
