@@ -35,7 +35,7 @@ As models move into operational settings, technical accuracy alone is not enough
 * [Two-Way ANOVA Without Replication](/2-way-anova-without-rep/)
 * [A/B Testing (Chi-squared Test)](/ab-test/)
 * [Chi-squared Goodness-Of-Fit Test](/chi-squared/)
-* [Bootstrap](/bootstrap-confidence-intervals/)
+* [Bootstrap Confidence Intervals](/bootstrap-confidence-intervals/)
 
 ## Regression & Predictive Modelling
 * [Multiple Linear Regression](/multi-linear-regression/)
