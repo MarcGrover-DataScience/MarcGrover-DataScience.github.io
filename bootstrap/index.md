@@ -8,8 +8,6 @@ permalink: /bootstrap-confidence-intervals/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 **The business problem.** A regional health insurer is preparing to launch a new product. Before committing, the pricing team has gathered a small pilot sample of 100 policyholders and their annual charges. The head of underwriting must set three numbers from it:
