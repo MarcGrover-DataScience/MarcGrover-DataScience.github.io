@@ -210,4 +210,4 @@ The current dataset of 210 observations is modest. Collecting additional samples
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
-[View the Python Script](/K-Mean_Clustering_v2.py)
+[View the Python Script](/K-Mean_Clustering_v3.py)
