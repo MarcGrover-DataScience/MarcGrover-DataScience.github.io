@@ -156,7 +156,7 @@ Finally, the contingency table below compares the K-Means cluster assignments di
 
 ![kmeans-contingency](kmeans-contingency.png)
 
-The diagonal of the contingency table confirms strong alignment between clusters and true varieties for all three groups, with the off-diagonal counts concentrated between the two most morphologically similar varieties. This pattern is consistent with the natural overlap in the feature space observed in the PCA scatter plots and is expected given that K-Means had no label information during training.
+K-Means assigns cluster identifiers arbitrarily, so each variety has been matched to its best-fitting cluster using the Hungarian algorithm, with the columns reordered so that the matched pairs sit on the diagonal. On this basis 193 of 210 observations (91.90%) fall in the cluster matched to their variety, and 17 (8.10%) are misassigned. All of the errors involve true class 0: six of its observations fall in cluster 0 and two in cluster 1, while five class 1 and four class 2 observations are absorbed into cluster 2, the cluster matched to class 0. No observations of classes 1 and 2 are confused with each other.
 
 ## Conclusions:
 
