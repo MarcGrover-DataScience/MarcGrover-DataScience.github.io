@@ -180,7 +180,7 @@ The analysis has established a strong unsupervised baseline and identified clear
 
 ### Transition to Supervised Learning
 
-The most impactful next step is to leverage the available variety labels directly. The ~8% misassignment rate observed here represents an upper bound on the difficulty of the classification problem — supervised methods, which learn decision boundaries from labelled examples, should substantially outperform unsupervised clustering on this dataset. Recommended algorithms include:
+The most impactful next step is to leverage the available variety labels directly. The ~8% misassignment rate observed here represents an upper bound on the difficulty of the classification problem — supervised methods, which learn decision boundaries from labelled examples, should outperform unsupervised clustering on this dataset and close part of the remaining 8.10% gap. Recommended algorithms include: 
 
 * **Random Forest** — handles non-linear boundaries and provides feature importance rankings, directly addressing the question of which geometric properties are most discriminatory
 * **Support Vector Machine (SVM)** — well-suited to finding complex decision boundaries in cases of partial class overlap, as observed here
