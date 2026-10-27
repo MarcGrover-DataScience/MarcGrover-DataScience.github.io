@@ -128,8 +128,8 @@ Because the true variety labels were withheld from the model but are available f
 ```
 Metric                       Value     Interpretation
 Adjusted Rand Index (ARI)    0.773     Very good agreement with true labels
-Homogeneity                  0.728     ~73% of clusters contain single-variety members
-Completeness                 0.728     ~73% of variety members assigned to same cluster
+Homogeneity                  0.728     clusters are largely drawn from a single variety (1.0 = perfectly pure)
+Completeness                 0.728     varieties largely fall within a single cluster (1.0 = perfectly complete)
 V-Measure                    0.728     Balanced harmonic mean of above two scores
 ```
 
@@ -148,7 +148,7 @@ The scatter plots below show the K-Means cluster assignments and the true variet
 ![kmeans-pca](kmeans-pca.png)
 ![kmeans-truth](kmeans-truth.png)
 
-The two plots are visually similar, with three broadly coherent groupings apparent in both. The primary discrepancies occur at the cluster boundaries — particularly between the two groups that overlap most in the centre of the PCA space — which is consistent with the boundary cases identified in the per-sample silhouette plot and the ~27% of observations not perfectly assigned by the extrinsic metrics.
+The two plots are visually similar, with three broadly coherent groupings apparent in both. The primary discrepancies occur at the cluster boundaries — particularly between the two groups that overlap most in the centre of the PCA space — which is consistent with the boundary cases identified in the per-sample silhouette plot and 8.10% (17 of 210) of observations are misassigned once clusters are matched to varieties.
 
 ### Cluster-to-Variety Mapping
 
@@ -166,9 +166,9 @@ The K-Means clustering analysis successfully recovered the underlying variety st
 
 **Cluster structure is physically interpretable**. The centroid profiles reveal three geometrically distinct groups: one characterised by large seed dimensions, one by smaller dimensions, and one by intermediate size with elevated asymmetry. These profiles map naturally onto the known morphological differences between the Kama, Rosa, and Canadian varieties, confirming that the clustering has captured meaningful structure rather than noise.
 
-**Performance is strong for an unsupervised approach**. An Adjusted Rand Index of 0.773 — accounting for chance agreement — indicates that the geometric features carry substantial discriminatory information. Homogeneity and Completeness scores of 0.728 are balanced, confirming that the model neither systematically splits true varieties across clusters nor conflates distinct varieties into one.
+**Performance is strong for an unsupervised approach**. The 91.10% matching agreement, and an Adjusted Rand Index (ARI) of 0.773 — accounting for chance agreement — indicates that the geometric features carry substantial discriminatory information. Homogeneity and Completeness scores of 0.728 are balanced, confirming that the model neither systematically splits true varieties across clusters nor conflates distinct varieties into one.
 
-**The ~27% misassignment rate reflects genuine feature overlap, not model failure**. The per-sample silhouette plot shows that two of the three clusters are well-separated, with consistently high silhouette coefficients across their members. The third cluster accounts for the majority of boundary cases — an observation reinforced by the PCA scatter plots and the contingency table, where off-diagonal counts are concentrated between the two most morphologically similar varieties. This is a property of the data, not an artefact of the method.
+**The 8.10% misassignment rate reflects genuine feature overlap, not model failure**. The per-sample silhouette plot shows that two of the three clusters are well-separated, with consistently high silhouette coefficients across their members. The third cluster accounts for the majority of boundary cases — an observation reinforced by the PCA scatter plots and the contingency table, where off-diagonal counts are concentrated between the two most morphologically similar varieties. This is a property of the data, not an artefact of the method.
 
 **Known limitations** of this analysis are that K-Means assumes spherical, similarly-sized clusters, which may not fully reflect the geometry of these varieties in feature space. Additionally, the strong correlations between size-related features (area, perimeter, kernel length, kernel width) mean these dimensions collectively carry disproportionate weight in the Euclidean distance calculation — a factor that could be addressed through feature selection or dimensionality reduction prior to clustering in future work.
 
@@ -180,7 +180,7 @@ The analysis has established a strong unsupervised baseline and identified clear
 
 ### Transition to Supervised Learning
 
-The most impactful next step is to leverage the available variety labels directly. The ~27% misassignment rate observed here represents an upper bound on the difficulty of the classification problem — supervised methods, which learn decision boundaries from labelled examples, should substantially outperform unsupervised clustering on this dataset. Recommended algorithms include:
+The most impactful next step is to leverage the available variety labels directly. The ~8% misassignment rate observed here represents an upper bound on the difficulty of the classification problem — supervised methods, which learn decision boundaries from labelled examples, should substantially outperform unsupervised clustering on this dataset. Recommended algorithms include:
 
 * **Random Forest** — handles non-linear boundaries and provides feature importance rankings, directly addressing the question of which geometric properties are most discriminatory
 * **Support Vector Machine (SVM)** — well-suited to finding complex decision boundaries in cases of partial class overlap, as observed here
