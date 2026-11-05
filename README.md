@@ -63,6 +63,7 @@ As models move into operational settings, technical accuracy alone is not enough
 * [Association Rule Mining](/association-rule/)
 * [Anomaly Detection (Isolation Forest)](/anomaly-detection/)
 * [Factor Analysis](/factor-analysis/)
+* [DBSCAN and Gaussian Mixture Models](/dbscan-gaussian/)
 
 ## Causal & Experimental Analysis
 * [Causal Impact Analysis](/causal-impact-analysis/)
