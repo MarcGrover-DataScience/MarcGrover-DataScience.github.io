@@ -166,7 +166,7 @@ The K-Means clustering analysis successfully recovered the underlying variety st
 
 **Cluster structure is physically interpretable**. The centroid profiles reveal three geometrically distinct groups: one characterised by large seed dimensions, one by smaller dimensions, and one by intermediate size with elevated asymmetry. These profiles map naturally onto the known morphological differences between the Kama, Rosa, and Canadian varieties, confirming that the clustering has captured meaningful structure rather than noise.
 
-**Performance is strong for an unsupervised approach**. The 91.10% matching agreement, and an Adjusted Rand Index (ARI) of 0.773 — accounting for chance agreement — indicates that the geometric features carry substantial discriminatory information. Homogeneity and Completeness scores of 0.728 are balanced, confirming that the model neither systematically splits true varieties across clusters nor conflates distinct varieties into one.
+**Performance is strong for an unsupervised approach**. The 91.90% matching agreement, and an Adjusted Rand Index (ARI) of 0.773 — accounting for chance agreement — indicates that the geometric features carry substantial discriminatory information. Homogeneity and Completeness scores of 0.728 are balanced, confirming that the model neither systematically splits true varieties across clusters nor conflates distinct varieties into one.
 
 **The 8.10% misassignment rate reflects genuine feature overlap, not model failure**. The per-sample silhouette plot shows that two of the three clusters are well-separated, with consistently high silhouette coefficients across their members. The third cluster accounts for the majority of boundary cases — an observation reinforced by the PCA scatter plots and the contingency table, where off-diagonal counts are concentrated between the two most morphologically similar varieties. This is a property of the data, not an artefact of the method.
 
@@ -180,7 +180,7 @@ The analysis has established a strong unsupervised baseline and identified clear
 
 ### Transition to Supervised Learning
 
-The most impactful next step is to leverage the available variety labels directly. The ~8% misassignment rate observed here represents an upper bound on the difficulty of the classification problem — supervised methods, which learn decision boundaries from labelled examples, should outperform unsupervised clustering on this dataset and close part of the remaining 8.10% gap. Recommended algorithms include: 
+The most impactful next step is to leverage the available variety labels directly. The ~8% misassignment rate observed here indicates limited headroom — supervised methods, which learn decision boundaries from labelled examples, should outperform unsupervised clustering on this dataset and close part of the remaining 8.10% gap. Recommended algorithms include: 
 
 * **Random Forest** — handles non-linear boundaries and provides feature importance rankings, directly addressing the question of which geometric properties are most discriminatory
 * **Support Vector Machine (SVM)** — well-suited to finding complex decision boundaries in cases of partial class overlap, as observed here
