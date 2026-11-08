@@ -123,10 +123,79 @@ Two caveats shape how results should be read. Only injury collisions reported to
 
 All random processes use fixed seeds, so every figure reproduces exactly, and the full analysis runs on a CPU-only laptop in a few minutes.
 
-
 ## Results:
 
-Results from the project related to the business objective.
+**Synthetic Benchmark: Where Each Method's Assumptions Hold and Fail**
+
+K-Means and GMM were given the true number of clusters on each dataset, so the differences below reflect assumptions about shape, density and noise rather than a poor choice of K.
+
+| Dataset | K-Means ARI (silhouette) | GMM ARI (silhouette) | DBSCAN ARI (silhouette) | DBSCAN noise |
+|---|---|---|---|---|
+| Moons | 0.48 (0.49) | 0.51 (0.49) | **0.93** (0.39) | 3.5% |
+| Anisotropic blobs | 0.56 (0.51) | **1.00** (0.45) | 0.96 (0.47) | 2.9% |
+| Varied-density blobs | 0.81 (0.63) | **0.97** (0.60) | 0.55 (0.64) | 4.7% |
+| Blobs with noise | 0.84 (0.67) | 0.84 (0.60) | **0.96** (0.77) | 10.3% |
+
+![02_synthetic_method_comparison](02_synthetic_method_comparison.png)
+
+_Figure 1: Each method on each dataset (02_synthetic_method_comparison.png)._ Each method wins where its assumptions hold and fails where they do not.
+
+* **Moons.** K-Means and GMM cut each crescent into compact halves (ARI 0.48 and 0.51), while DBSCAN follows the crescents (ARI 0.93), labelling 3.5% of points on their edges as noise.
+* **Anisotropic blobs.** K-Means, which implicitly assumes equal spherical variance, mixes the stretched clusters (ARI 0.56). GMM's full covariance recovers them exactly (ARI 1.00), and DBSCAN comes close (0.96).
+* **Varied-density blobs.** GMM is best (0.97) and K-Means reasonable (0.81). DBSCAN finds only two clusters (ARI 0.55), merging the diffuse cluster with a neighbouring tight one, because no single `eps` suits both densities.
+* **Blobs with noise.** K-Means and GMM must place every point in a cluster, and both reach 0.84. DBSCAN reaches 0.96 and labels 10.3% of points as noise against a true 10%.
+
+![03_synthetic_ari_vs_silhouette](03_synthetic_ari_vs_silhouette.png)
+
+_Figure 2: Adjusted Rand Index (left) beside silhouette score (right) (03_synthetic_ari_vs_silhouette.png)._ The silhouette, which needs no labels, often ranks methods in the opposite order to the truth. On the moons it prefers K-Means and GMM (0.49) to DBSCAN (0.39) although DBSCAN recovers the structure and they do not. On the anisotropic blobs it gives K-Means the highest score (0.51) and GMM, which is perfect, the lowest (0.45). On the varied-density blobs DBSCAN scores highest (0.64) while merging two clusters. The silhouette for DBSCAN also excludes noise points, which flatters it on the noisy dataset (0.77). Intrinsic scores reward compact shapes, which is why the collision analysis later is judged on out-of-time performance instead.
+
+**Choosing Parameters Without Labels**
+
+Real hotspot data has no true labels, so each method's selection rule was tested where the truth is known.
+
+| Dataset | True K | K-Means K (silhouette) | GMM by BIC (components, covariance) | DBSCAN settings with ARI ≥ 0.8 |
+|---|---|---|---|---|
+| Moons | 2 | 2 | 8, full | 14 of 24 (58.3%) |
+| Anisotropic blobs | 3 | 2 | 3, tied | 10 of 24 (41.7%) |
+| Varied-density blobs | 3 | 3 | 3, diagonal | 8 of 24 (33.3%) |
+| Blobs with noise | 3 | 2 | 5, diagonal | 21 of 24 (87.5%) |
+
+* **K-Means (silhouette).** The maximum silhouette recovers the true K on two of four datasets and picks K = 2 on the anisotropic and noisy blobs, where the truth is 3.
+* **GMM (BIC).** BIC recovers three components on the anisotropic and varied-density blobs and correctly chooses tied covariance for the anisotropic blobs, which share one covariance because a single linear transform created them. On the moons it chooses eight components to tile the crescents with Gaussians, and on the noisy blobs five (AIC chooses seven), because extra components absorb the background noise. BIC counts Gaussians, not natural clusters.
+* **DBSCAN (k-distance knee).** The knee `eps` (0.13, 0.16, 0.21 and 0.12 in standardised units) recovers the structure on three of the four datasets (ARI 0.93 to 0.96) and fails on the varied-density blobs (0.55).
+
+![07_dbscan_sensitivity](07_dbscan_sensitivity.png)
+
+_Figure 3: DBSCAN's ARI (top) and number of clusters found (bottom) across `eps` multiples and `min_samples` (07_dbscan_sensitivity.png)._ The result depends heavily on the settings. On the moons it is largely stable at and above the knee `eps` (ARI 0.72 to 1.00 for `min_samples` of 10 or more) but fragments into around 30 clusters at half the knee value with `min_samples` of 5 or 10. On the anisotropic blobs it collapses to one or two clusters at 1.5 times the knee value or more. On the noisy blobs it holds across almost the whole grid. On the varied-density blobs only some of the larger `min_samples` settings (15 to 20) recover three clusters (ARI 0.83 to 0.88), and a label-free rule would not reveal which. No selection rule is reliable enough to be trusted blindly, which is why the Kent analysis reports results across a range of `eps` values.
+
+**Wheat Seeds: Comparison with the K-Means Project**
+
+The same preprocessing, seed and settings as the [K-Means Clustering](/k-means-clustering/) project reproduce its results exactly: ARI 0.773, silhouette 0.40 and 91.90% matched agreement with the true varieties.
+
+| Method | Clusters | ARI | Matched agreement | Silhouette |
+|---|---|---|---|---|
+| K-Means (K = 3) | 3 | 0.773 | 91.90% | 0.40 |
+| GMM, full covariance (K = 3) | 3 | 0.723 | 89.52% | 0.36 |
+| GMM, **tied** covariance (K = 3) | 3 | **0.890** | **96.19%** | 0.38 |
+| GMM, diagonal covariance (K = 3) | 3 | 0.679 | 87.62% | 0.37 |
+| GMM, spherical covariance (K = 3) | 3 | 0.758 | 91.43% | 0.40 |
+| GMM selected by BIC (full, K = 4) | 4 | 0.610 | 74.76% | 0.28 |
+| DBSCAN at the knee `eps` (1.51, `min_samples` 14) | 1 | 0.000 | 33.33% | not defined |
+| DBSCAN, best of the grid (uses the labels) | 2 | 0.388 | 56.19% | 0.47 |
+
+![08_wheat_pca_comparison](08_wheat_pca_comparison.png)
+
+_Figure 4: The seeds in the first two principal components (89.0% of variance) coloured by true variety and by each method (08_wheat_pca_comparison.png)._ The varieties overlap, with no visible gaps between them.
+
+![09_wheat_contingency_tables](09_wheat_contingency_tables.png)
+
+_Figure 5: Contingency tables of true variety against matched cluster for K-Means, two GMMs and DBSCAN (09_wheat_contingency_tables.png)._ K-Means places 193 of 210 seeds correctly. GMM with tied covariance places 202, recovering one variety perfectly (70 of 70) and misassigning eight seeds. GMM with full covariance places 188. DBSCAN puts 208 seeds in a single cluster and labels two as noise.
+
+* **GMM helps only with the right covariance structure.** Tied covariance, one shared shape for all three varieties, raises agreement from 91.90% to 96.19% over K-Means. Full covariance does worse (89.52%), because it estimates 28 covariance parameters per component from only 70 seeds each. This fits the varieties differing mainly in position and size rather than in shape.
+* **Label-free selection chose the wrong model.** BIC selects full covariance with four components (74.76% agreement), rewarding likelihood fit rather than recovery of the varieties, as it did on the synthetic moons and noisy blobs.
+* **DBSCAN fails here, as its assumptions predict.** At the knee `eps` it finds a single cluster, and even the best grid setting, chosen using the labels, reaches only 56.19%. The varieties overlap with no low-density gaps to separate them, which makes this a useful example of when not to use DBSCAN.
+* **Intrinsic scores barely separate the methods.** Silhouette values for the three-cluster models range only from 0.36 to 0.40, while agreement with the true varieties ranges from 87.62% to 96.19%.
+
 
 ## Conclusions:
 
