@@ -138,7 +138,9 @@ K-Means and GMM were given the true number of clusters on each dataset, so the d
 
 ![02_synthetic_method_comparison](02_synthetic_method_comparison.png)
 
-_Figure 1: Each method on each dataset (02_synthetic_method_comparison.png)._ Each method wins where its assumptions hold and fails where they do not.
+_Figure 1: Each method on each dataset_ 
+
+Each method wins where its assumptions hold and fails where they do not.
 
 * **Moons.** K-Means and GMM cut each crescent into compact halves (ARI 0.48 and 0.51), while DBSCAN follows the crescents (ARI 0.93), labelling 3.5% of points on their edges as noise.
 * **Anisotropic blobs.** K-Means, which implicitly assumes equal spherical variance, mixes the stretched clusters (ARI 0.56). GMM's full covariance recovers them exactly (ARI 1.00), and DBSCAN comes close (0.96).
@@ -147,7 +149,9 @@ _Figure 1: Each method on each dataset (02_synthetic_method_comparison.png)._ Ea
 
 ![03_synthetic_ari_vs_silhouette](03_synthetic_ari_vs_silhouette.png)
 
-_Figure 2: Adjusted Rand Index (left) beside silhouette score (right) (03_synthetic_ari_vs_silhouette.png)._ The silhouette, which needs no labels, often ranks methods in the opposite order to the truth. On the moons it prefers K-Means and GMM (0.49) to DBSCAN (0.39) although DBSCAN recovers the structure and they do not. On the anisotropic blobs it gives K-Means the highest score (0.51) and GMM, which is perfect, the lowest (0.45). On the varied-density blobs DBSCAN scores highest (0.64) while merging two clusters. The silhouette for DBSCAN also excludes noise points, which flatters it on the noisy dataset (0.77). Intrinsic scores reward compact shapes, which is why the collision analysis later is judged on out-of-time performance instead.
+_Figure 2: Adjusted Rand Index (left) beside silhouette score (right)_ 
+
+The silhouette, which needs no labels, often ranks methods in the opposite order to the truth. On the moons it prefers K-Means and GMM (0.49) to DBSCAN (0.39) although DBSCAN recovers the structure and they do not. On the anisotropic blobs it gives K-Means the highest score (0.51) and GMM, which is perfect, the lowest (0.45). On the varied-density blobs DBSCAN scores highest (0.64) while merging two clusters. The silhouette for DBSCAN also excludes noise points, which flatters it on the noisy dataset (0.77). Intrinsic scores reward compact shapes, which is why the collision analysis later is judged on out-of-time performance instead.
 
 **Choosing Parameters Without Labels**
 
@@ -166,7 +170,9 @@ Real hotspot data has no true labels, so each method's selection rule was tested
 
 ![07_dbscan_sensitivity](07_dbscan_sensitivity.png)
 
-_Figure 3: DBSCAN's ARI (top) and number of clusters found (bottom) across `eps` multiples and `min_samples` (07_dbscan_sensitivity.png)._ The result depends heavily on the settings. On the moons it is largely stable at and above the knee `eps` (ARI 0.72 to 1.00 for `min_samples` of 10 or more) but fragments into around 30 clusters at half the knee value with `min_samples` of 5 or 10. On the anisotropic blobs it collapses to one or two clusters at 1.5 times the knee value or more. On the noisy blobs it holds across almost the whole grid. On the varied-density blobs only some of the larger `min_samples` settings (15 to 20) recover three clusters (ARI 0.83 to 0.88), and a label-free rule would not reveal which. No selection rule is reliable enough to be trusted blindly, which is why the Kent analysis reports results across a range of `eps` values.
+_Figure 3: DBSCAN's ARI (top) and number of clusters found (bottom) across `eps` multiples and `min_samples`_ 
+
+The result depends heavily on the settings. On the moons it is largely stable at and above the knee `eps` (ARI 0.72 to 1.00 for `min_samples` of 10 or more) but fragments into around 30 clusters at half the knee value with `min_samples` of 5 or 10. On the anisotropic blobs it collapses to one or two clusters at 1.5 times the knee value or more. On the noisy blobs it holds across almost the whole grid. On the varied-density blobs only some of the larger `min_samples` settings (15 to 20) recover three clusters (ARI 0.83 to 0.88), and a label-free rule would not reveal which. No selection rule is reliable enough to be trusted blindly, which is why the Kent analysis reports results across a range of `eps` values.
 
 **Wheat Seeds: Comparison with the K-Means Project**
 
@@ -185,11 +191,15 @@ The same preprocessing, seed and settings as the [K-Means Clustering](/k-means-c
 
 ![08_wheat_pca_comparison](08_wheat_pca_comparison.png)
 
-_Figure 4: The seeds in the first two principal components (89.0% of variance) coloured by true variety and by each method (08_wheat_pca_comparison.png)._ The varieties overlap, with no visible gaps between them.
+_Figure 4: The seeds in the first two principal components (89.0% of variance) coloured by true variety and by each method_ 
+
+The varieties overlap, with no visible gaps between them.
 
 ![09_wheat_contingency_tables](09_wheat_contingency_tables.png)
 
-_Figure 5: Contingency tables of true variety against matched cluster for K-Means, two GMMs and DBSCAN (09_wheat_contingency_tables.png)._ K-Means places 193 of 210 seeds correctly. GMM with tied covariance places 202, recovering one variety perfectly (70 of 70) and misassigning eight seeds. GMM with full covariance places 188. DBSCAN puts 208 seeds in a single cluster and labels two as noise.
+_Figure 5: Contingency tables of true variety against matched cluster for K-Means, two GMMs and DBSCAN_ 
+
+K-Means places 193 of 210 seeds correctly. GMM with tied covariance places 202, recovering one variety perfectly (70 of 70) and misassigning eight seeds. GMM with full covariance places 188. DBSCAN puts 208 seeds in a single cluster and labels two as noise.
 
 * **GMM helps only with the right covariance structure.** Tied covariance, one shared shape for all three varieties, raises agreement from 91.90% to 96.19% over K-Means. Full covariance does worse (89.52%), because it estimates 28 covariance parameters per component from only 70 seeds each. This fits the varieties differing mainly in position and size rather than in shape.
 * **Label-free selection chose the wrong model.** BIC selects full covariance with four components (74.76% agreement), rewarding likelihood fit rather than recovery of the varieties, as it did on the synthetic moons and noisy blobs.
@@ -202,7 +212,9 @@ Kent recorded 3,896 injury collisions in 2023: 44 fatal, 785 serious and 3,067 s
 
 ![12_kent_collisions_map](12_kent_collisions_map.png)
 
-_Figure 6: All 2023 collisions by severity (12_kent_collisions_map.png)._ The map shows what makes the data awkward for K-Means: dense concentrations in the towns, long thin lines along the main roads, and a scatter of isolated collisions across the rural roads, with no natural number of clusters.
+_Figure 6: All 2023 collisions by severity_ 
+
+The map shows what makes the data awkward for K-Means: dense concentrations in the towns, long thin lines along the main roads, and a scatter of isolated collisions across the rural roads, with no natural number of clusters.
 
 **Choosing DBSCAN's Scale**
 
@@ -210,7 +222,9 @@ DBSCAN was fitted across nine `eps` values (100 to 1,000 m) and five `min_sample
 
 ![13_kent_dbscan_diagnostics](13_kent_dbscan_diagnostics.png)
 
-_Figure 7: The k-distance curve (left) and the number of hotspots, noise share and largest hotspot radius across the grid (13_kent_dbscan_diagnostics.png)._ The knee of the k-distance curve sits at 1,745 m, more than ten times the `eps` eventually chosen for the Site tier. This is the varied-density weakness from the synthetic benchmark appearing on real data: a single global distance tuned to the sparse rural roads would merge entire towns. The grid shows the consequence directly. At `min_samples` of 10, raising `eps` from 400 m to 500 m takes the largest hotspot's radius from 1,803 m to 2,731 m, and by 750 m it reaches 6,548 m.
+_Figure 7: The k-distance curve (left) and the number of hotspots, noise share and largest hotspot radius across the grid_ 
+
+The knee of the k-distance curve sits at 1,745 m, more than ten times the `eps` eventually chosen for the Site tier. This is the varied-density weakness from the synthetic benchmark appearing on real data: a single global distance tuned to the sparse rural roads would merge entire towns. The grid shows the consequence directly. At `min_samples` of 10, raising `eps` from 400 m to 500 m takes the largest hotspot's radius from 1,803 m to 2,731 m, and by 750 m it reaches 6,548 m.
 
 The **Site** tier is the grid setting that places the most collisions inside hotspots among those where no hotspot has a radius above 750 m. The best-covering setting that passes is 150 m with `min_samples` 5, followed by 100 m with 5 (6.0% of collisions in hotspots) and 200 m with 10 (5.2%). At that `min_samples`, moving to 200 m raises the number of hotspots from 72 to 91 but the largest radius from 406 m to 974 m, which breaches the guard. Two further tiers are carried forward so that results can be compared across scales.
 
@@ -222,7 +236,9 @@ The **Site** tier is the grid setting that places the most collisions inside hot
 
 ![18_kent_dbscan_tiers](18_kent_dbscan_tiers.png)
 
-_Figure 8: The three DBSCAN tiers mapped (18_kent_dbscan_tiers.png)._ The Site hotspots are small and numerous. The Strict tier keeps only the densest handful, mostly around the Medway towns and north-west Kent. The Area tier covers more collisions, but its hotspots are town-sized clusters with a median radius of 688 m and a largest of 2,731 m, which is an area to be investigated rather than a site.
+_Figure 8: The three DBSCAN tiers mapped_ 
+
+The Site hotspots are small and numerous. The Strict tier keeps only the densest handful, mostly around the Medway towns and north-west Kent. The Area tier covers more collisions, but its hotspots are town-sized clusters with a median radius of 688 m and a largest of 2,731 m, which is an area to be investigated rather than a site.
 
 **The Three Methods at Matched Granularity**
 
@@ -230,7 +246,9 @@ K-Means and GMM were given as many clusters as the Site tier found (K = 72), and
 
 ![14_kent_method_maps](14_kent_method_maps.png)
 
-_Figure 9: K-Means (K = 72), GMM with full covariance (K = 72) and the DBSCAN Site tier (14_kent_method_maps.png)._ K-Means and GMM partition the whole county, so every collision, including the isolated ones on quiet roads, is assigned to a region, with a median of 38.5 and 42 collisions per region. DBSCAN flags 13.8% of collisions in 72 hotspots with a median of just 6, and labels the other 86.2% as noise. GMM's full covariance lets some of its regions stretch along roads, where K-Means' cells are rounder, but it still tiles the county rather than isolating hotspots.
+_Figure 9: K-Means (K = 72), GMM with full covariance (K = 72) and the DBSCAN Site tier_ 
+
+K-Means and GMM partition the whole county, so every collision, including the isolated ones on quiet roads, is assigned to a region, with a median of 38.5 and 42 collisions per region. DBSCAN flags 13.8% of collisions in 72 hotspots with a median of just 6, and labels the other 86.2% as noise. GMM's full covariance lets some of its regions stretch along roads, where K-Means' cells are rounder, but it still tiles the county rather than isolating hotspots.
 
 Other fit-year findings:
 
