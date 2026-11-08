@@ -196,6 +196,69 @@ _Figure 5: Contingency tables of true variety against matched cluster for K-Mean
 * **DBSCAN fails here, as its assumptions predict.** At the knee `eps` it finds a single cluster, and even the best grid setting, chosen using the labels, reaches only 56.19%. The varieties overlap with no low-density gaps to separate them, which makes this a useful example of when not to use DBSCAN.
 * **Intrinsic scores barely separate the methods.** Silhouette values for the three-cluster models range only from 0.36 to 0.40, while agreement with the true varieties ranges from 87.62% to 96.19%.
 
+**Kent Collisions: The Fit Year (2023)**
+
+Kent recorded 3,896 injury collisions in 2023: 44 fatal, 785 serious and 3,067 slight, so 21.3% were fatal or serious (KSI). Every collision has a valid location, and only 0.5% share an exact location with another.
+
+![12_kent_collisions_map](12_kent_collisions_map.png)
+
+_Figure 6: All 2023 collisions by severity (12_kent_collisions_map.png)._ The map shows what makes the data awkward for K-Means: dense concentrations in the towns, long thin lines along the main roads, and a scatter of isolated collisions across the rural roads, with no natural number of clusters.
+
+**Choosing DBSCAN's Scale**
+
+DBSCAN was fitted across nine `eps` values (100 to 1,000 m) and five `min_samples` values (5 to 20), recording for each the number of hotspots, the share of collisions labelled noise and the radius of the largest hotspot.
+
+![13_kent_dbscan_diagnostics](13_kent_dbscan_diagnostics.png)
+
+_Figure 7: The k-distance curve (left) and the number of hotspots, noise share and largest hotspot radius across the grid (13_kent_dbscan_diagnostics.png)._ The knee of the k-distance curve sits at 1,745 m, more than ten times the `eps` eventually chosen for the Site tier. This is the varied-density weakness from the synthetic benchmark appearing on real data: a single global distance tuned to the sparse rural roads would merge entire towns. The grid shows the consequence directly. At `min_samples` of 10, raising `eps` from 400 m to 500 m takes the largest hotspot's radius from 1,803 m to 2,731 m, and by 750 m it reaches 6,548 m.
+
+The **Site** tier is the grid setting that places the most collisions inside hotspots among those where no hotspot has a radius above 750 m. The best-covering setting that passes is 150 m with `min_samples` 5, followed by 100 m with 5 (6.0% of collisions in hotspots) and 200 m with 10 (5.2%). At that `min_samples`, moving to 200 m raises the number of hotspots from 72 to 91 but the largest radius from 406 m to 974 m, which breaches the guard. Two further tiers are carried forward so that results can be compared across scales.
+
+| Tier | `eps` | `min_samples` | Hotspots | Collisions in hotspots | Median hotspot size | Median radius | Largest radius |
+|---|---|---|---|---|---|---|---|
+| **Site** | 150 m | 5 | 72 | 13.8% | 6 | 136 m | 406 m |
+| Strict site | 200 m | 10 | 15 | 5.2% | 12 | 220 m | 396 m |
+| Area | 500 m | 10 | 48 | 34.9% | 17.5 | 688 m | 2,731 m |
+
+![18_kent_dbscan_tiers](18_kent_dbscan_tiers.png)
+
+_Figure 8: The three DBSCAN tiers mapped (18_kent_dbscan_tiers.png)._ The Site hotspots are small and numerous. The Strict tier keeps only the densest handful, mostly around the Medway towns and north-west Kent. The Area tier covers more collisions, but its hotspots are town-sized clusters with a median radius of 688 m and a largest of 2,731 m, which is an area to be investigated rather than a site.
+
+**The Three Methods at Matched Granularity**
+
+K-Means and GMM were given as many clusters as the Site tier found (K = 72), and also K = 200.
+
+![14_kent_method_maps](14_kent_method_maps.png)
+
+_Figure 9: K-Means (K = 72), GMM with full covariance (K = 72) and the DBSCAN Site tier (14_kent_method_maps.png)._ K-Means and GMM partition the whole county, so every collision, including the isolated ones on quiet roads, is assigned to a region, with a median of 38.5 and 42 collisions per region. DBSCAN flags 13.8% of collisions in 72 hotspots with a median of just 6, and labels the other 86.2% as noise. GMM's full covariance lets some of its regions stretch along roads, where K-Means' cells are rounder, but it still tiles the county rather than isolating hotspots.
+
+Other fit-year findings:
+
+* **GMM model selection.** BIC is almost flat between 30 and 60 components (lowest at 60) and rises beyond, so K = 72 sits just above the plateau and K = 200 well above it. As on the synthetic data, BIC identifies a good density model rather than a number of hotspots.
+* **GMM's soft membership.** At K = 72, 20.7% of collisions have a highest membership probability below 80%. These boundary cases lie where neighbouring components overlap, and the probabilities describe which region a collision belongs to, not whether it is a hotspot.
+* **Silhouette.** K-Means scores 0.44 at both K = 72 and K = 200, and GMM 0.31 and 0.35. DBSCAN's 0.78 for the Site tier is computed on the 13.8% of collisions inside hotspots only, so it cannot be compared, as the synthetic benchmark showed.
+
+**What the Site Hotspots Look Like**
+
+| Hotspot | Grid ref. | Collisions | KSI | Urban | Radius |
+|---|---|---|---|---|---|
+| #26 | TQ 7567 | 32 | 18.8% | 100% | 406 m |
+| #15 | TQ 7369 | 24 | 20.8% | 100% | 358 m |
+| #9 | TQ 6473 | 21 | 9.5% | 100% | 368 m |
+| #41 | TQ 7667 | 15 | 13.3% | 100% | 305 m |
+| #3 | TQ 7571 | 12 | 16.7% | 8.3% | 171 m |
+| #7 | TQ 7467 | 12 | 25.0% | 100% | 220 m |
+| #24 | TQ 5839 | 12 | 16.7% | 91.7% | 247 m |
+| #1 | TQ 5473 | 11 | 27.3% | 100% | 118 m |
+| #36 | TQ 5575 | 11 | 0.0% | 18.2% | 269 m |
+| #51 | TQ 7462 | 10 | 40.0% | 100% | 188 m |
+
+_Table: the ten largest Site hotspots (overall 2023 KSI share 21.3%)._
+
+* **They are small.** The largest hotspot holds 32 collisions (0.8% of the year's total), and the median holds 6. This is a short list of specific places, not a map of the county's collision problem.
+* **Volume and severity differ.** Seven of the ten largest hotspots have a KSI share below the county's 21.3%, and the highest (#51, 40%) rests on four collisions out of ten. Ranking sites by collision count and by severity gives different priorities, and with counts this small the percentages are noisy.
+* **They sit mostly in urban areas, but not only there.** Eight of the ten are over 90% urban, while two (#3 and #36) are largely non-urban. From the grid references, the largest concentrations lie around the Medway towns and in Dartford and Gravesend in the north-west, with further single hotspots near Maidstone, Sittingbourne, Canterbury, Thanet, Folkestone and Tunbridge Wells. Much of the rural south and west contains few or none. DBSCAN, with one density threshold, finds the places where collisions are densest, which means sparsely populated areas are under-represented by construction. This is the geographic fairness consideration raised on the [Ethics in Applied Data Science](/data-science-ethics/) page.
+
 
 ## Conclusions:
 
