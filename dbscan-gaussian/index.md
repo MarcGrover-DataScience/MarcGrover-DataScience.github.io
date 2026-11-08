@@ -277,6 +277,89 @@ _Table: the ten largest Site hotspots (overall 2023 KSI share 21.3%)._
 * **Volume and severity differ.** Seven of the ten largest hotspots have a KSI share below the county's 21.3%, and the highest (#51, 40%) rests on four collisions out of ten. Ranking sites by collision count and by severity gives different priorities, and with counts this small the percentages are noisy.
 * **They sit mostly in urban areas, but not only there.** Eight of the ten are over 90% urban, while two (#3 and #36) are largely non-urban. From the grid references, the largest concentrations lie around the Medway towns and in Dartford and Gravesend in the north-west, with further single hotspots near Maidstone, Sittingbourne, Canterbury, Thanet, Folkestone and Tunbridge Wells. Much of the rural south and west contains few or none. DBSCAN, with one density threshold, finds the places where collisions are densest, which means sparsely populated areas are under-represented by construction. This is the geographic fairness consideration raised on the [Ethics in Applied Data Science](/data-science-ethics/) page.
 
+**Out-of-Time Validation: 2023 Hotspots Against 2024 Collisions**
+
+Each method flagged ground using 2023 data alone, and the share of the 3,344 collisions in 2024 falling inside that ground was measured. The *collision-affected area*, everywhere within 150 m of any 2023 collision, covers 191.7 km². Because 51.8% of 2024 collisions (48.5% of fatal and serious ones) lie inside it, this is the most that any zone drawn from 2023 data inside that area can capture, and it is why random placement (shown as "lift") is a weak baseline. The DBSCAN Site tier's zone covers 12.1 km², 6.3% of the collision-affected area, so every method was given that much ground. Further budgets of 5% and 10% were also tested.
+
+| Method (12.1 km² flagged) | All 2024 collisions captured (95% interval) | Lift | Fatal/serious captured (95% interval) |
+|---|---|---|---|
+| **DBSCAN Site (150 m, 5)** | **10.5%** (9.4 to 11.5) | 3.19 | **7.7%** (6.1 to 9.4) |
+| GMM, K = 200 | 9.6% (8.6 to 10.6) | 2.92 | 4.0% (2.7 to 5.3) |
+| DBSCAN Area (500 m, 10) | 8.6% (7.6 to 9.6) | 2.63 | 6.2% (4.8 to 7.8) |
+| Grid 500 m ranked by count | 8.5% (7.5 to 9.4) | 2.63 | 4.6% (3.3 to 6.0) |
+| GMM, K = 72 | 7.8% (7.0 to 8.7) | 2.39 | 3.4% (2.2 to 4.7) |
+| K-Means, K = 200 | 7.8% (6.9 to 8.7) | 2.37 | 3.3% (2.2 to 4.5) |
+| K-Means, K = 72 | 7.1% (6.2 to 8.0) | 2.17 | 3.6% (2.5 to 4.9) |
+
+_Table: capture at equal area. The all-collision columns rank clusters by collision density, and the fatal/serious column ranks them by fatal-or-serious density. The Strict tier (200 m, 10) flags only 2.1% of the area and so is excluded from the comparison; it captures 4.5% (3.8 to 5.2) with the highest lift of any method (4.22)._
+
+![19_capture_all_collisions](19_capture_all_collisions.png)
+
+_Figure 10: Share of 2024 collisions captured against area flagged, ranked by collision density_ 
+
+The DBSCAN Site curve sits at or near the top across the range it covers, with GMM at K = 200 closest. K-Means is lowest, and all methods beat random placement. The Site curve stops at 6.3% because the tier has no more hotspots to flag.
+
+**Differences Between Methods**
+
+Paired bootstrap intervals show which gaps are larger than chance. At the Site-zone area, DBSCAN Site captures more than the grid by **+1.9 percentage points** (95% interval +1.1 to +2.8), K-Means at K = 200 by +2.7 (+1.7 to +3.8), GMM at K = 72 by +2.6 (+1.5 to +3.8) and the Area tier by +1.8 (+1.0 to +2.9). The exception is **GMM at K = 200, where the gap is +0.9 (−0.1 to +2.0) and could be chance**. The 5% budget gives the same pattern: Site captures 8.9% (8.0 to 9.9) against 7.5% (6.6 to 8.4) for the grid (+1.4, +0.5 to +2.3), and again cannot be separated from GMM at K = 200 (8.1%, +0.8, −0.1 to +1.8). The advantage over the grid is real but modest, and a GMM with many components is a serious competitor on collision count.
+
+**Fatal and Serious Collisions**
+
+![20_capture_ksi](20_capture_ksi.png)
+
+_Figure 11: Share of 2024 fatal and serious collisions captured against area flagged, ranked by fatal-or-serious density_ 
+
+This is where DBSCAN Site separates clearly. At the Site-zone area it captures **7.7%** of 2024 fatal and serious collisions (6.1 to 9.4), against 4.6% (3.3 to 6.0) for the grid, 4.0% for GMM at K = 200 and 3.3% for K-Means at K = 200. The gaps are +3.1 points against the grid (+1.4 to +4.9) and +3.7 against GMM at K = 200 (+2.0 to +5.6). Only the Area tier comes close (6.2%), and the gap to Site (+1.5, −0.6 to +3.5) is within chance. A likely reason is that ranking by severity density can order DBSCAN's tight clusters by how severe they are, whereas the large regions of K-Means and GMM dilute severe collisions among many slight ones.
+
+Severity enrichment tells a more cautious story. Captured collisions had a lower fatal-or-serious share than the 2024 county figure of 28.0% in 47 of the 48 method and budget comparisons (the Site tier's share is 73% of the county's, about 20%). The places flagged from 2023 data therefore did not show the county-wide rise in the fatal-or-serious share, which is consistent with hotspots identifying where collisions cluster rather than where they are most severe.
+
+**Stability Across the eps Range**
+
+![21_dbscan_eps_stability](21_dbscan_eps_stability.png)
+
+_Figure 12: DBSCAN capture against area for each eps value, at min_samples of 5 (left) and 10 (right)_ 
+
+The result does not depend on one lucky setting. Site-scale settings (100 to 300 m with `min_samples` of 5) sit at or above the grid benchmark across most of the range, while the 500 m settings fall to or below it. Settings that find few or small hotspots (a small `eps` with a larger `min_samples`) flag little ground, so their curves end early.
+
+**Persistence and Regression to the Mean**
+
+![22_hotspot_persistence](22_hotspot_persistence.png)
+
+_Figure 13: Collisions in each Site hotspot's footprint in 2023 against 2024_ 
+
+The Site zone contained 14.5% of 2023 collisions (566) but only 10.5% of 2024 collisions (350). The ratio, or **retention**, is 0.72 (95% interval 0.64 to 0.81): roughly three-quarters of the apparent concentration persisted, and the remainder is consistent with regression to the mean, the tendency of places chosen for unusually high counts to fall back. Only 22% of the 72 hotspots had at least the 2024 count that falling county volume alone would predict, and three had no collisions at all. The two largest, around grid references TQ 7567 and TQ 7369, fell from 33 to 23 and from 26 to 15, while the hotspot at TQ 5575 rose from 11 to 17. Retention was 0.80 (0.65 to 0.98) for the Strict tier and 0.72 (0.67 to 0.78) for the Area tier, so the intervals overlap and there is no evidence that it depends on scale.
+
+![23_site_zone_capture_map](23_site_zone_capture_map.png)
+
+_Figure 14: 2024 collisions inside (red) and outside (grey) the 2023 Site zone_ 
+
+The 350 collisions captured are concentrated in the same north-western and Medway areas as the 2023 hotspots, with a scatter elsewhere. Most 2024 collisions, 89.5%, fall outside the zone.
+
+**Where the Site Tier Stops**
+
+The Site tier is a short list, not a complete map. At a 10% budget it cannot use the extra ground (it has only 6.3% to give), so others overtake it: GMM at K = 200 captures 13.1% (11.9 to 14.2), the grid 12.4% (11.2 to 13.5), the Area tier 12.1% (11.0 to 13.2) and K-Means at K = 200 11.6%, all above the Site tier's 10.5%. On fatal and serious collisions the Area tier reaches 8.1% (6.5 to 9.9) at that budget, overlapping the Site tier's 7.7%. A larger budget therefore needs a coarser tier or a method that flags more ground, at the cost of precision.
+
+**Replication on 2022 Hotspots Against 2023 Collisions**
+
+The whole procedure, including selecting the Site tier, was repeated one year earlier.
+
+| | 2023 to 2024 | 2022 to 2023 |
+|---|---|---|
+| Site tier selected | 150 m, 5 | 150 m, 5 |
+| Hotspots / collisions inside them | 72 / 13.8% | 78 / 14.6% |
+| Site zone | 12.1 km² (6.3%) | 13.3 km² (6.8%) |
+| k-distance knee | 1,745 m | 2,380 m |
+| Fatal/serious share, fit year to test year | 21.3% to 28.0% | 18.8% to 21.3% |
+| All collisions: Site / grid | 10.5% / 8.5% | 11.0% / 8.4% |
+| Site minus grid | +1.9 (+1.1 to +2.8) | +2.6 (+1.6 to +3.5) |
+| Site minus GMM, K = 200 | +0.9 (−0.1 to +2.0) | +2.3 (+1.4 to +3.2) |
+| Fatal/serious: Site / grid | 7.7% / 4.6% | 8.7% / 5.9% |
+| Site minus grid | +3.1 (+1.4 to +4.9) | +2.8 (+0.7 to +4.8) |
+| Site minus GMM, K = 200 | +3.7 (+2.0 to +5.6) | +5.2 (+3.1 to +7.4) |
+| Retention | 0.72 (0.64 to 0.81) | 0.72 (0.64 to 0.82) |
+
+The same setting was chosen, DBSCAN Site came out first in both pairs, and retention was identical, so the result is not specific to one pair of years. The order of the other methods is less stable: K-Means at K = 200 captured 8.8% in the replication, level with GMM at K = 200 (8.7%) and above the grid (8.4%). The one difference is that DBSCAN Site's lead over GMM at K = 200 on all collisions is clearly positive in the replication (+2.3) but not in the primary pair (+0.9), which is why that comparison is best described as small and uncertain. The severity shift also appears in both pairs: serious collisions rose 12.9% from 2022 to 2023 and 13.9% from 2023 to 2024, while slight collisions fell 5.2% and 21.5%.
+
 
 ## Conclusions:
 
