@@ -8,30 +8,21 @@ permalink: /dbscan-gaussian/
 
 ---
 
-# This project is in development
-
 ## Goals and objectives:
 
 The business objective is to show how density-based and model-based clustering can help a county highway authority decide where to concentrate a limited road-safety budget, and, just as importantly, to show when a simpler method such as K-Means is the wrong tool for the job.
 
 A highway authority has a fixed annual budget for engineering interventions: junction redesign, speed management, signing and lining, anti-skid surfacing. It cannot investigate every location where a collision has been recorded, so it needs a short list of places to examine first. The data available is a year of police-reported injury collisions, each with a map location and a severity (fatal, serious or slight). This project uses the 3,896 collisions recorded in Kent in 2023 to find hotspots, and then asks whether those hotspots still concentrate collisions in 2024 (3,344 collisions), which is when the same authority would actually be spending the budget.
 
-The [K-Means Clustering](/k-means-clustering/) project was previously the only clustering method in this portfolio, and collision locations are exactly the kind of data that stretches its assumptions. K-Means expects compact, roughly spherical clusters, forces every observation into a cluster, and needs K to be chosen in advance. Collisions cluster around junctions and along roads rather than in round blobs, many collisions are isolated events on quiet roads that belong to no hotspot at all, and there is no natural number of hotspots to specify. Two alternatives relax these assumptions in different ways:
+The [K-Means Clustering](/k-means-clustering/) project was previously the only clustering method in this portfolio, and collision locations are exactly the kind of data that stretches its assumptions. K-Means expects compact, roughly spherical clusters, forces every observation into a cluster, and needs K to be chosen in advance. Collisions cluster around junctions and along roads rather than in round blobs, many collisions are isolated events on quiet roads that belong to no hotspot at all, and there is no natural number of hotspots to specify. Two alternatives, Gaussian Mixture Models (GMM) and DBSCAN (both described under Application), relax these assumptions: GMM allows elliptical clusters and soft membership, while DBSCAN finds clusters of any shape and labels sparse points as noise. The analysis asks three questions:
 
-* **Gaussian Mixture Models (GMM)** allow clusters of different sizes, elliptical shapes and orientations, and give each observation a probability of belonging to each cluster rather than a single hard assignment. They still assign every observation to a cluster and still need the number of components to be chosen.
-* **DBSCAN** defines clusters as regions of high point density. It needs no K, finds clusters of arbitrary shape, and labels points in sparse regions as noise rather than forcing them into a cluster, but it relies on a single density threshold for the whole dataset.
-
-The analysis is structured around three questions:
-
-* **Where do each method's assumptions hold, and where do they fail?** A synthetic benchmark of four small datasets with known structure (interleaved crescents, stretched ellipses, clusters of very different density, and clusters buried in background noise) isolates what each method assumes, using the true labels to score each one. GMM and DBSCAN are then run on the Wheat Seeds data from the K-Means project, allowing a like-for-like comparison with its Adjusted Rand Index of 0.773 and its 91.90% agreement with the true varieties.
-* **How are each method's parameters chosen without labels, and how far can those rules be trusted?** Real hotspot data has no true labels to tune against. The silhouette score (K-Means), BIC and AIC (GMM) and the k-distance curve with a sensitivity grid (DBSCAN) are each audited on the synthetic data, where the right answer is known, before being applied to the collision data.
-* **Do the hotspots found in one year still capture collisions in the next, for the same amount of ground to investigate?** This is the question the highway authority actually cares about. It is answered with an out-of-time test: each method flags locations using 2023 data alone, every method is given the same area to flag, and the share of 2024 collisions falling inside the flagged ground is measured and compared with a practitioner benchmark (a simple grid of 500 m squares ranked by collision count). Bootstrap resampling quantifies how much of any difference could be chance, and the whole procedure is repeated on an earlier pair of years to check that the result is not specific to one year.
-
-Two design choices follow from the [Data Science Workflow](/data-science-workflow/) page. First, the out-of-time success measure was agreed at the scoping stage, before any model was fitted to the collision data, to avoid selecting a metric after the fact that favours a preferred method. Second, because collision hotspots have no ground-truth labels, and because intrinsic scores such as the silhouette reward compact shapes rather than useful ones, the models are judged on held-out data from a later period. This mirrors the time-ordered splits that the Workflow page uses for time-dependent problems.
+* **Where do each method's assumptions hold, and where do they fail?** A synthetic benchmark with known structure scores each method against the truth, and the methods are then compared with K-Means on the Wheat Seeds data from the K-Means project (ARI 0.773, 91.90% agreement).
+* **How are each method's parameters chosen without labels, and how far can those rules be trusted?** Real hotspot data has no labels to tune against, so the selection rules for each method are audited on the synthetic data first.
+* **Do hotspots found in one year still capture collisions in the next, for the same amount of ground?** This is the question the authority cares about. Each method flags ground using 2023 data alone, and the share of 2024 collisions falling inside it is measured against a simple grid benchmark. The success measure was agreed before any model was fitted, and the evaluation is time-ordered, as the [Data Science Workflow](/data-science-workflow/) page prescribes for time-dependent problems. Intrinsic scores such as the silhouette reward compact shapes rather than useful ones.
 
 A decision-maker would use the results in three ways: to draw up a ranked short list of candidate sites for detailed collision-record review and site visits; to judge how much of the county's collision problem a hotspot approach can realistically cover for a given amount of ground; and to choose between methods on evidence about next year rather than on how tidy this year's clusters look.
 
-The framing also raises questions that go beyond the model, and the [Ethics in Applied Data Science](/data-science-ethics/) page provides the context for them. A hotspot list directs scarce attention, so there is an accountability question about what happens to the places it leaves out: a collision labelled as noise is not a safe location, only an isolated one. Ranking sites by collision count and ranking them by the number of fatal and serious collisions can give different priorities, and choosing between them is a value judgement that should be made explicitly. A single density threshold may also favour dense urban areas over rural ones, which makes the geography of the results a fairness consideration in its own right. The project therefore examines where the hotspots fall, evaluates severity separately from volume, and reports its limitations, including a change in the severity mix of the data between years, alongside its positive findings.
+The framing also raises questions beyond the model, and the [Ethics in Applied Data Science](/data-science-ethics/) page provides the context. A hotspot list directs scarce attention, so there is an accountability question about the places it leaves out: a collision labelled as noise is isolated, not safe. Ranking by collision count and by fatal-and-serious count can give different priorities, and a single density threshold may favour dense urban areas, so the project examines where the hotspots fall, evaluates severity separately and reports its limitations.
 
 As with the rest of this portfolio, the aim is not to produce an operational hotspot list or to achieve business-grade predictive performance. The effects measured here are modest, and the value of the project lies in the methodology: how to choose and defend a clustering method for spatial data, and how honestly to measure whether it worked.
 
@@ -114,12 +105,9 @@ Two caveats shape how results should be read. Only injury collisions reported to
 
 * **Coordinates in metres, unscaled.** Standardising would stretch the two axes unequally and make `eps` meaningless as a distance. In metres, `eps` has a physical meaning that can be reasoned about.
 * **A size guard on hotspot radius.** An earlier guard limited the largest hotspot's share of all collisions, but a 243-collision conurbation with a 2.7 km radius passed it. A physical radius is the better test, because the authority investigates sites and road sections that an engineer can survey, not whole towns. The k-distance knee is reported for reference only, since a single global knee reflects the sparse rural roads rather than site-scale density.
-* **Three DBSCAN scales.** Results depend on scale, so Site, Strict site and Area are all carried through validation rather than hiding the choice behind one setting.
-* **Matched K, plus K = 200.** DBSCAN needs no K, so giving K-Means and GMM its cluster count is generous to them, and K = 200 tests whether a finer partition helps.
 * **Equal area, not equal clusters.** The methods produce very different numbers and sizes of cluster, while area is what the authority actually spends investigating. The same footprint rule is applied to every method.
 * **Out-of-time capture rather than silhouette.** The synthetic benchmark shows the silhouette rewarding compact shapes over correct structure, so hotspots are judged on whether they predict next year's collisions.
 * **Ranking by density, and by severity separately.** Density measures how strongly collisions concentrate per unit of ground. Ranking by collision count and by KSI count can give different priorities, so both are reported.
-* **A simple benchmark and explicit uncertainty.** Clustering must beat the simplest practitioner method to justify its added complexity, and the bootstrap prevents small differences being over-read.
 
 All random processes use fixed seeds, so every figure reproduces exactly, and the full analysis runs on a CPU-only laptop in a few minutes.
 
@@ -140,12 +128,7 @@ K-Means and GMM were given the true number of clusters on each dataset, so the d
 
 _Figure 1: Each method on each dataset_ 
 
-Each method wins where its assumptions hold and fails where they do not.
-
-* **Moons.** K-Means and GMM cut each crescent into compact halves (ARI 0.48 and 0.51), while DBSCAN follows the crescents (ARI 0.93), labelling 3.5% of points on their edges as noise.
-* **Anisotropic blobs.** K-Means, which implicitly assumes equal spherical variance, mixes the stretched clusters (ARI 0.56). GMM's full covariance recovers them exactly (ARI 1.00), and DBSCAN comes close (0.96).
-* **Varied-density blobs.** GMM is best (0.97) and K-Means reasonable (0.81). DBSCAN finds only two clusters (ARI 0.55), merging the diffuse cluster with a neighbouring tight one, because no single `eps` suits both densities.
-* **Blobs with noise.** K-Means and GMM must place every point in a cluster, and both reach 0.84. DBSCAN reaches 0.96 and labels 10.3% of points as noise against a true 10%.
+Each method wins where its assumptions hold and fails where they do not. K-Means and GMM cut the moons into compact halves (ARI 0.48 and 0.51), where DBSCAN follows the crescents (0.93). GMM's full covariance recovers the stretched blobs exactly (1.00) while K-Means mixes them (0.56). On the varied-density blobs DBSCAN merges the diffuse cluster with a tight neighbour (0.55), because no single `eps` suits both densities. On the noisy blobs K-Means and GMM must place every point in a cluster (0.84), whereas DBSCAN (0.96) labels 10.3% of points as noise against a true 10%.
 
 ![03_synthetic_ari_vs_silhouette](03_synthetic_ari_vs_silhouette.png)
 
@@ -164,15 +147,13 @@ Real hotspot data has no true labels, so each method's selection rule was tested
 | Varied-density blobs | 3 | 3 | 3, diagonal | 8 of 24 (33.3%) |
 | Blobs with noise | 3 | 2 | 5, diagonal | 21 of 24 (87.5%) |
 
-* **K-Means (silhouette).** The maximum silhouette recovers the true K on two of four datasets and picks K = 2 on the anisotropic and noisy blobs, where the truth is 3.
-* **GMM (BIC).** BIC recovers three components on the anisotropic and varied-density blobs and correctly chooses tied covariance for the anisotropic blobs, which share one covariance because a single linear transform created them. On the moons it chooses eight components to tile the crescents with Gaussians, and on the noisy blobs five (AIC chooses seven), because extra components absorb the background noise. BIC counts Gaussians, not natural clusters.
-* **DBSCAN (k-distance knee).** The knee `eps` (0.13, 0.16, 0.21 and 0.12 in standardised units) recovers the structure on three of the four datasets (ARI 0.93 to 0.96) and fails on the varied-density blobs (0.55).
+K-Means' maximum silhouette recovers the true K on two of four datasets. BIC recovers three components on the two blob datasets with the right covariance type for the anisotropic blobs (tied, since a single transform created them), but it counts Gaussians rather than natural clusters: it chooses eight components for the moons and five for the noisy blobs, where extra components absorb the noise. DBSCAN's k-distance knee `eps` (0.12 to 0.21 in standardised units) recovers the structure on three of four datasets (ARI 0.93 to 0.96) and fails on the varied-density blobs (0.55).
 
 ![07_dbscan_sensitivity](07_dbscan_sensitivity.png)
 
 _Figure 3: DBSCAN's ARI (top) and number of clusters found (bottom) across `eps` multiples and `min_samples`_ 
 
-The result depends heavily on the settings. On the moons it is largely stable at and above the knee `eps` (ARI 0.72 to 1.00 for `min_samples` of 10 or more) but fragments into around 30 clusters at half the knee value with `min_samples` of 5 or 10. On the anisotropic blobs it collapses to one or two clusters at 1.5 times the knee value or more. On the noisy blobs it holds across almost the whole grid. On the varied-density blobs only some of the larger `min_samples` settings (15 to 20) recover three clusters (ARI 0.83 to 0.88), and a label-free rule would not reveal which. No selection rule is reliable enough to be trusted blindly, which is why the Kent analysis reports results across a range of `eps` values.
+The result depends heavily on the settings. On the moons it is largely stable at and above the knee `eps` but fragments into around 30 clusters at half that value (for `min_samples` of 5 or 10). On the anisotropic blobs it collapses to one or two clusters at 1.5 times the knee value or more, and on the noisy blobs it holds across almost the whole grid. Only some larger `min_samples` settings recover three clusters on the varied-density blobs (ARI 0.83 to 0.88), and a label-free rule would not reveal which. No selection rule is reliable enough to trust blindly, so the Kent analysis reports results at three DBSCAN scales.
 
 **Wheat Seeds: Comparison with the K-Means Project**
 
@@ -199,12 +180,11 @@ The varieties overlap, with no visible gaps between them.
 
 _Figure 5: Contingency tables of true variety against matched cluster for K-Means, two GMMs and DBSCAN_ 
 
-K-Means places 193 of 210 seeds correctly. GMM with tied covariance places 202, recovering one variety perfectly (70 of 70) and misassigning eight seeds. GMM with full covariance places 188. DBSCAN puts 208 seeds in a single cluster and labels two as noise.
+GMM with tied covariance recovers one variety perfectly (70 of 70) and misassigns eight seeds in all, while DBSCAN puts 208 seeds in a single cluster.
 
-* **GMM helps only with the right covariance structure.** Tied covariance, one shared shape for all three varieties, raises agreement from 91.90% to 96.19% over K-Means. Full covariance does worse (89.52%), because it estimates 28 covariance parameters per component from only 70 seeds each. This fits the varieties differing mainly in position and size rather than in shape.
-* **Label-free selection chose the wrong model.** BIC selects full covariance with four components (74.76% agreement), rewarding likelihood fit rather than recovery of the varieties, as it did on the synthetic moons and noisy blobs.
-* **DBSCAN fails here, as its assumptions predict.** At the knee `eps` it finds a single cluster, and even the best grid setting, chosen using the labels, reaches only 56.19%. The varieties overlap with no low-density gaps to separate them, which makes this a useful example of when not to use DBSCAN.
-* **Intrinsic scores barely separate the methods.** Silhouette values for the three-cluster models range only from 0.36 to 0.40, while agreement with the true varieties ranges from 87.62% to 96.19%.
+* **GMM helps only with the right covariance structure.** Tied covariance, one shared shape for all three varieties, raises agreement from 91.90% to 96.19%, while full covariance does worse (89.52%) because it estimates 28 covariance parameters per component from only 70 seeds each.
+* **Label-free selection chose the wrong model.** BIC selects full covariance with four components (74.76% agreement), rewarding likelihood fit rather than recovery of the varieties.
+* **DBSCAN fails here, as its assumptions predict.** The varieties overlap with no low-density gaps, so DBSCAN finds one cluster at the knee `eps` and reaches only 56.19% even at the best grid setting, chosen using the labels.
 
 **Kent Collisions: The Fit Year (2023)**
 
@@ -250,11 +230,7 @@ _Figure 9: K-Means (K = 72), GMM with full covariance (K = 72) and the DBSCAN Si
 
 K-Means and GMM partition the whole county, so every collision, including the isolated ones on quiet roads, is assigned to a region, with a median of 38.5 and 42 collisions per region. DBSCAN flags 13.8% of collisions in 72 hotspots with a median of just 6, and labels the other 86.2% as noise. GMM's full covariance lets some of its regions stretch along roads, where K-Means' cells are rounder, but it still tiles the county rather than isolating hotspots.
 
-Other fit-year findings:
-
-* **GMM model selection.** BIC is almost flat between 30 and 60 components (lowest at 60) and rises beyond, so K = 72 sits just above the plateau and K = 200 well above it. As on the synthetic data, BIC identifies a good density model rather than a number of hotspots.
-* **GMM's soft membership.** At K = 72, 20.7% of collisions have a highest membership probability below 80%. These boundary cases lie where neighbouring components overlap, and the probabilities describe which region a collision belongs to, not whether it is a hotspot.
-* **Silhouette.** K-Means scores 0.44 at both K = 72 and K = 200, and GMM 0.31 and 0.35. DBSCAN's 0.78 for the Site tier is computed on the 13.8% of collisions inside hotspots only, so it cannot be compared, as the synthetic benchmark showed.
+BIC for the GMM is almost flat between 30 and 60 components (lowest at 60) and rises beyond, so K = 72 sits just above the plateau and K = 200 well above it. As on the synthetic data, BIC identifies a good density model rather than a number of hotspots.
 
 **What the Site Hotspots Look Like**
 
@@ -266,16 +242,12 @@ Other fit-year findings:
 | #41 | TQ 7667 | 15 | 13.3% | 100% | 305 m |
 | #3 | TQ 7571 | 12 | 16.7% | 8.3% | 171 m |
 | #7 | TQ 7467 | 12 | 25.0% | 100% | 220 m |
-| #24 | TQ 5839 | 12 | 16.7% | 91.7% | 247 m |
-| #1 | TQ 5473 | 11 | 27.3% | 100% | 118 m |
-| #36 | TQ 5575 | 11 | 0.0% | 18.2% | 269 m |
-| #51 | TQ 7462 | 10 | 40.0% | 100% | 188 m |
 
-_Table: the ten largest Site hotspots (overall 2023 KSI share 21.3%)._
+_Table: the six largest Site hotspots (overall 2023 KSI share 21.3%)._
 
-* **They are small.** The largest hotspot holds 32 collisions (0.8% of the year's total), and the median holds 6. This is a short list of specific places, not a map of the county's collision problem.
-* **Volume and severity differ.** Seven of the ten largest hotspots have a KSI share below the county's 21.3%, and the highest (#51, 40%) rests on four collisions out of ten. Ranking sites by collision count and by severity gives different priorities, and with counts this small the percentages are noisy.
-* **They sit mostly in urban areas, but not only there.** Eight of the ten are over 90% urban, while two (#3 and #36) are largely non-urban. From the grid references, the largest concentrations lie around the Medway towns and in Dartford and Gravesend in the north-west, with further single hotspots near Maidstone, Sittingbourne, Canterbury, Thanet, Folkestone and Tunbridge Wells. Much of the rural south and west contains few or none. DBSCAN, with one density threshold, finds the places where collisions are densest, which means sparsely populated areas are under-represented by construction. This is the geographic fairness consideration raised on the [Ethics in Applied Data Science](/data-science-ethics/) page.
+* **They are small.** The largest hotspot holds 32 collisions (0.8% of the year's total) and the median holds 6, so this is a short list of specific places, not a map of the county's collision problem.
+* **Volume and severity differ.** Five of the six hotspots shown have a KSI share below the county's 21.3%, so ranking sites by collision count and by severity gives different priorities. With counts this small the percentages are noisy: a 40% share can rest on four collisions.
+* **They sit mostly in urban areas, but not only there.** Five of the six are entirely urban, while #3 is largely non-urban. From the grid references the largest concentrations lie around the Medway towns and in Dartford and Gravesend, with further single hotspots near Maidstone, Sittingbourne, Canterbury, Thanet, Folkestone and Tunbridge Wells, while much of the rural south and west contains few or none. A single density threshold finds where collisions are densest, so sparsely populated areas are under-represented by construction. This is the geographic fairness consideration raised on the [Ethics in Applied Data Science](/data-science-ethics/) page.
 
 **Out-of-Time Validation: 2023 Hotspots Against 2024 Collisions**
 
@@ -297,11 +269,11 @@ _Table: capture at equal area. The all-collision columns rank clusters by collis
 
 _Figure 10: Share of 2024 collisions captured against area flagged, ranked by collision density_ 
 
-The DBSCAN Site curve sits at or near the top across the range it covers, with GMM at K = 200 closest. K-Means is lowest, and all methods beat random placement. The Site curve stops at 6.3% because the tier has no more hotspots to flag.
+The DBSCAN Site curve sits at or near the top across the range it covers, with GMM at K = 200 closest. K-Means is lowest, and all methods beat random placement. The Site curve stops at 6.3% because the tier has no more hotspots to flag, so at a 10% budget others overtake it: GMM at K = 200 captures 13.1% (11.9 to 14.2), the grid 12.4% (11.2 to 13.5) and the Area tier 12.1% (11.0 to 13.2), against the Site tier's 10.5%. On fatal and serious collisions the Area tier reaches 8.1% (6.5 to 9.9) at that budget, overlapping the Site tier's 7.7%. A larger budget therefore needs a coarser tier or a method that flags more ground, at the cost of precision.
 
 **Differences Between Methods**
 
-Paired bootstrap intervals show which gaps are larger than chance. At the Site-zone area, DBSCAN Site captures more than the grid by **+1.9 percentage points** (95% interval +1.1 to +2.8), K-Means at K = 200 by +2.7 (+1.7 to +3.8), GMM at K = 72 by +2.6 (+1.5 to +3.8) and the Area tier by +1.8 (+1.0 to +2.9). The exception is **GMM at K = 200, where the gap is +0.9 (−0.1 to +2.0) and could be chance**. The 5% budget gives the same pattern: Site captures 8.9% (8.0 to 9.9) against 7.5% (6.6 to 8.4) for the grid (+1.4, +0.5 to +2.3), and again cannot be separated from GMM at K = 200 (8.1%, +0.8, −0.1 to +1.8). The advantage over the grid is real but modest, and a GMM with many components is a serious competitor on collision count.
+Paired bootstrap intervals show which gaps are larger than chance. At the Site-zone area, DBSCAN Site captures more than the grid by **+1.9 percentage points** (95% interval +1.1 to +2.8), but the gap to **GMM at K = 200 is +0.9 (−0.1 to +2.0) and could be chance**. The 5% budget gives the same pattern: Site captures 8.9% (8.0 to 9.9) against 7.5% (6.6 to 8.4) for the grid (+1.4, +0.5 to +2.3), and again cannot be separated from GMM at K = 200 (+0.8, −0.1 to +1.8). The advantage over the grid is real but modest, and a GMM with many components is a serious competitor on collision count. The result is also not an accident of one setting: across `eps` values from 100 to 500 m, site-scale DBSCAN curves sit at or above the grid benchmark across most of the range, while the 500 m settings fall to or below it (`21_dbscan_eps_stability.png` in the repository).
 
 **Fatal and Serious Collisions**
 
@@ -313,31 +285,19 @@ This is where DBSCAN Site separates clearly. At the Site-zone area it captures *
 
 Severity enrichment tells a more cautious story. Captured collisions had a lower fatal-or-serious share than the 2024 county figure of 28.0% in 47 of the 48 method and budget comparisons (the Site tier's share is 73% of the county's, about 20%). The places flagged from 2023 data therefore did not show the county-wide rise in the fatal-or-serious share, which is consistent with hotspots identifying where collisions cluster rather than where they are most severe.
 
-**Stability Across the eps Range**
-
-![21_dbscan_eps_stability](21_dbscan_eps_stability.png)
-
-_Figure 12: DBSCAN capture against area for each eps value, at min_samples of 5 (left) and 10 (right)_ 
-
-The result does not depend on one lucky setting. Site-scale settings (100 to 300 m with `min_samples` of 5) sit at or above the grid benchmark across most of the range, while the 500 m settings fall to or below it. Settings that find few or small hotspots (a small `eps` with a larger `min_samples`) flag little ground, so their curves end early.
-
 **Persistence and Regression to the Mean**
 
 ![22_hotspot_persistence](22_hotspot_persistence.png)
 
-_Figure 13: Collisions in each Site hotspot's footprint in 2023 against 2024_ 
+_Figure 12: Collisions in each Site hotspot's footprint in 2023 against 2024_ 
 
 The Site zone contained 14.5% of 2023 collisions (566) but only 10.5% of 2024 collisions (350). The ratio, or **retention**, is 0.72 (95% interval 0.64 to 0.81): roughly three-quarters of the apparent concentration persisted, and the remainder is consistent with regression to the mean, the tendency of places chosen for unusually high counts to fall back. Only 22% of the 72 hotspots had at least the 2024 count that falling county volume alone would predict, and three had no collisions at all. The two largest, around grid references TQ 7567 and TQ 7369, fell from 33 to 23 and from 26 to 15, while the hotspot at TQ 5575 rose from 11 to 17. Retention was 0.80 (0.65 to 0.98) for the Strict tier and 0.72 (0.67 to 0.78) for the Area tier, so the intervals overlap and there is no evidence that it depends on scale.
 
 ![23_site_zone_capture_map](23_site_zone_capture_map.png)
 
-_Figure 14: 2024 collisions inside (red) and outside (grey) the 2023 Site zone_ 
+_Figure 13: 2024 collisions inside (red) and outside (grey) the 2023 Site zone_ 
 
 The 350 collisions captured are concentrated in the same north-western and Medway areas as the 2023 hotspots, with a scatter elsewhere. Most 2024 collisions, 89.5%, fall outside the zone.
-
-**Where the Site Tier Stops**
-
-The Site tier is a short list, not a complete map. At a 10% budget it cannot use the extra ground (it has only 6.3% to give), so others overtake it: GMM at K = 200 captures 13.1% (11.9 to 14.2), the grid 12.4% (11.2 to 13.5), the Area tier 12.1% (11.0 to 13.2) and K-Means at K = 200 11.6%, all above the Site tier's 10.5%. On fatal and serious collisions the Area tier reaches 8.1% (6.5 to 9.9) at that budget, overlapping the Site tier's 7.7%. A larger budget therefore needs a coarser tier or a method that flags more ground, at the cost of precision.
 
 **Replication on 2022 Hotspots Against 2023 Collisions**
 
@@ -348,8 +308,6 @@ The whole procedure, including selecting the Site tier, was repeated one year ea
 | Site tier selected | 150 m, 5 | 150 m, 5 |
 | Hotspots / collisions inside them | 72 / 13.8% | 78 / 14.6% |
 | Site zone | 12.1 km² (6.3%) | 13.3 km² (6.8%) |
-| k-distance knee | 1,745 m | 2,380 m |
-| Fatal/serious share, fit year to test year | 21.3% to 28.0% | 18.8% to 21.3% |
 | All collisions: Site / grid | 10.5% / 8.5% | 11.0% / 8.4% |
 | Site minus grid | +1.9 (+1.1 to +2.8) | +2.6 (+1.6 to +3.5) |
 | Site minus GMM, K = 200 | +0.9 (−0.1 to +2.0) | +2.3 (+1.4 to +3.2) |
@@ -358,7 +316,7 @@ The whole procedure, including selecting the Site tier, was repeated one year ea
 | Site minus GMM, K = 200 | +3.7 (+2.0 to +5.6) | +5.2 (+3.1 to +7.4) |
 | Retention | 0.72 (0.64 to 0.81) | 0.72 (0.64 to 0.82) |
 
-The same setting was chosen, DBSCAN Site came out first in both pairs, and retention was identical, so the result is not specific to one pair of years. The order of the other methods is less stable: K-Means at K = 200 captured 8.8% in the replication, level with GMM at K = 200 (8.7%) and above the grid (8.4%). The one difference is that DBSCAN Site's lead over GMM at K = 200 on all collisions is clearly positive in the replication (+2.3) but not in the primary pair (+0.9), which is why that comparison is best described as small and uncertain. The severity shift also appears in both pairs: serious collisions rose 12.9% from 2022 to 2023 and 13.9% from 2023 to 2024, while slight collisions fell 5.2% and 21.5%.
+The same setting was chosen, DBSCAN Site came out first in both pairs, and retention was identical, so the result is not specific to one pair of years. The order of the other methods is less stable: K-Means at K = 200 captured 8.8% in the replication, level with GMM at K = 200 (8.7%) and above the grid (8.4%). The one difference is that DBSCAN Site's lead over GMM at K = 200 on all collisions is clearly positive in the replication (+2.3) but not in the primary pair (+0.9), which is why that comparison is best described as small and uncertain.
 
 ## Conclusions:
 
@@ -366,22 +324,22 @@ This project set out to show how density-based and model-based clustering can he
 
 **A short list, with realistic expectations.** For the decision-maker, the output is a triage list of specific places to investigate, not a forecast. About three-quarters of the apparent concentration persisted into the next year (retention 0.72), so hotspots chosen from a single year should be checked against further years before money is committed. Just as importantly, 89.5% of 2024 collisions fell outside the flagged ground. Hotspot treatment addresses a minority of the problem, and the diffuse remainder needs network-wide measures.
 
-**Method choice should follow the structure of the data.** On the synthetic benchmark each method won where its assumptions held, and K-Means was never the best of the three on any of the four datasets. On the Kent collisions it captured least, or close to least, at equal area (7.1% at K = 72 and 7.8% at K = 200). The Wheat Seeds bridge is a useful counter-example, though: there K-Means (91.90% agreement with the true varieties, as on the [K-Means Clustering](/k-means-clustering/) page) beat a full-covariance GMM and was beaten only by a GMM with one shared covariance (96.19%), while DBSCAN failed because the varieties overlap with no low-density gaps. No method is best in general, and a flexible model can overfit as easily as a rigid one.
+**Method choice should follow the structure of the data.** On the synthetic benchmark K-Means was never the best of the three methods, and on the Kent collisions it captured least, or close to least, at equal area (7.1% at K = 72 and 7.8% at K = 200). Yet on the Wheat Seeds data, where the varieties overlap, K-Means (91.90% agreement, as on the [K-Means Clustering](/k-means-clustering/) page) beat a full-covariance GMM, and only a GMM with one shared covariance did better (96.19%). No method is best in general, and a flexible model can overfit as easily as a rigid one.
 
-**Validation matters more than any single score.** Silhouette ranked methods in the opposite order to the truth on several synthetic datasets, BIC chose the number of Gaussians rather than the number of clusters, and the k-distance knee (1,745 m on Kent) sat more than ten times higher than a site-scale `eps`. The decisive evidence was the out-of-time test, with success defined before modelling began, as the [Data Science Workflow](/data-science-workflow/) page prescribes. It also showed that results depend on scale: the 500 m "Area" tier produced town-sized clusters of up to 2.7 km radius that are areas to study rather than sites to fix.
+**Validation matters more than any single score.** Silhouette, BIC and the k-distance knee each misled on some data, and the knee on Kent (1,745 m) sat more than ten times above a site-scale `eps`, so the decisive evidence was the out-of-time test, with success defined before modelling began, as the [Data Science Workflow](/data-science-workflow/) page prescribes. Results also depend on scale: the 500 m "Area" tier produced town-sized clusters of up to 2.7 km radius.
 
 **The best method depends on what the authority values.** DBSCAN's clearest advantage is on severity, where it captured about 70% more fatal and serious collisions than the grid for the same ground (7.7% against 4.6%). On collision count alone a Gaussian mixture with 200 components was statistically indistinguishable in the primary pair. Beyond the Site tier's 6.3% of the collision-affected area the tier has nothing more to flag, and the grid and the GMM capture more. Whether to prioritise volume or severity, and how far to extend the list, are value judgements that should be made explicitly. This is the accountability point raised on the [Ethics in Applied Data Science](/data-science-ethics/) page.
 
-**Fairness and transparency.** A collision labelled as noise is isolated, not safe. DBSCAN's single density threshold places its hotspots where collisions are densest, so much of the rural south and west of the county has few or none, and a list built this way should be accompanied by a plan for the places it omits. The negative and ambiguous results (the GMM comparison, the Site tier's ceiling, the below-1 severity enrichment) are reported alongside the positive ones for the same reason. DBSCAN's noise label is also different in kind from the anomaly score in the [Anomaly Detection](/anomaly-detection/) project: it falls out of density rather than being tuned against a cost of errors.
+**Fairness and transparency.** A collision labelled as noise is isolated, not safe. DBSCAN's single density threshold places its hotspots where collisions are densest, so much of the rural south and west of the county has few or none, and a list built this way should be accompanied by a plan for the places it omits. The negative and ambiguous results (the GMM comparison, the Site tier's ceiling, the below-1 severity enrichment) are reported alongside the positive ones for the same reason.
 
 **Limitations.** The analysis covers one county and two year pairs, and the data records only police-reported injury collisions. The fatal-or-serious share rose from 18.8% (2022) to 21.3% (2023) and 28.0% (2024), which may reflect changes in recording practice that the data cannot reveal. The analysis uses location only: without traffic volumes or road characteristics, hotspots show where collisions occur, not where the risk per vehicle is highest. The 150 m footprint, the 750 m radius guard and the use of density as the ranking are judgement calls. The bootstrap treats collisions as independent, although several can arise from a single incident, so the intervals may be slightly narrow. There is no formal evaluation by area type, and the synthetic benchmark is small and two-dimensional. As elsewhere in this portfolio, the aim was never business-grade performance. The value lies in the methodology: choosing a clustering method for the structure of the data, and measuring honestly whether it worked.
 
 
 ## Next steps:
 
-With any analysis it is important to assess how the method can evolve to support the business decision and yield tangible benefits. This project is a static analysis of two years of public data, and the extensions below indicate what a real deployment would involve.
+This project is a static analysis of two years of public data, and the extensions below indicate what a real deployment would involve.
 
-**Add exposure and context.** Collision counts say where collisions happen, not where the risk is highest. Joining traffic flow data (for example from the Department for Transport's road traffic statistics), road type and speed limits would allow collisions per vehicle-kilometre to be compared, separating busy but safe roads from quiet but dangerous ones.
+**Add exposure and context.** Collision counts say where collisions happen, not where the risk is highest. Joining traffic flow data (for example from the Department for Transport's road traffic statistics), road type and speed limits would allow collisions per vehicle-kilometre to be compared, and official cost-of-casualty values would let rankings reflect the economic case for intervention, with the weighting stated openly.
 
 **Correct for regression to the mean properly.** Retention of 0.72 shows that single-year hotspots overstate the problem. Road-safety practice uses several years of data and empirical Bayes methods, which shrink each site's count towards what similar sites would be expected to record, to separate lasting hazards from chance clusters. Combining that with the clustering here would give a more defensible ranking.
 
@@ -389,10 +347,7 @@ With any analysis it is important to assess how the method can evolve to support
 
 **Respect the road network.** Collisions happen on roads, but straight-line distance links points on different roads and across junctions. Snapping collisions to a road network and clustering along it, using open road network data, would give hotspots that correspond to road sections an engineer can actually treat.
 
-**Weight by severity and cost.** Ranking by fatal-or-serious density is a coarse version of the weighting a real authority would use. Official cost-of-casualty values could be applied so that rankings reflect the economic case for intervention, with the weighting stated openly.
-
 **From prediction to intervention.** Capturing next year's collisions measures prediction, not whether treating a site would reduce them. A real programme would need before-and-after evaluation of interventions with comparison sites, engineering feasibility, budgets and stakeholder sign-off, none of which this analysis can replicate. In production the annual data release would feed a scheduled pipeline, with monitoring for changes in density and severity mix such as the shift seen here, and a named owner accountable for the list and for what it leaves out.
-
 
 ## Python code:
 You can view the full Python script used for the analysis here: 
